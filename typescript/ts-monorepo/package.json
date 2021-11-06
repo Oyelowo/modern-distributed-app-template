@@ -1,0 +1,19 @@
+{
+  "name": "ts-yarn-workspace-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Oyelowo",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "shared",
+    "backend",
+    "frontend-main"
+  ],
+  "scripts": {
+    "backend": "yarn workspace backend",
+    "frontend-main:dev": "yarn workspace frontend-main dev",
+    "shared": "yarn workspace shared",
+    "compile:packages": "yarn workspace shared compile"
+  }
+}
