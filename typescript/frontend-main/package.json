@@ -1,5 +1,5 @@
 {
-  "name": "@oyelowo/frontend-main",
+  "name": "frontend-main",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,8 +10,7 @@
   "dependencies": {
     "next": "12.0.3",
     "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "common": "*"
+    "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/node": "16.11.6",

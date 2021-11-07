@@ -16,9 +16,5 @@
     "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
-      "paths": {
-      "@oyelowo/shared/*": ["./shared/src/*"],
-      "@oyelowo/shared": ["./shared/src"],
-    },
+  "exclude": ["node_modules"]
 }
