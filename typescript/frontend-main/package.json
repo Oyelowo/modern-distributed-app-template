@@ -2,10 +2,10 @@
   "name": "frontend-main",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "../copy-packages.sh && next dev",
+    "build": "../copy-packages.sh && next build",
+    "start": "../copy-packages.sh && next start",
+    "lint": "../copy-packages.sh && next lint"
   },
   "dependencies": {
     "next": "12.0.3",
