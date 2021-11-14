@@ -11,6 +11,7 @@
     "test": "lerna run test",
     "prepare": "npm run compile",
     "start:web": "npm run dev --workspace @oyelowo/frontend-main",
+    "start:lib:story": "npm run storybook --workspace @oyelowo/lib-core",
     "start:mobile": "npm run start --workspace @oyelowo/mobile-main",
     "start:mobile:android": "npm run android --workspace @oyelowo/mobile-main",
     "start:mobile:ios": "npm run ios --workspace @oyelowo/mobile-main",

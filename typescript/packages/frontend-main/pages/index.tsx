@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { getLowo, TextField } from "@oyelowo/lib-core";
+import { getLowo, CardTailWindExample, TextField } from "@oyelowo/lib-core";
 
 const Home: NextPage = () => {
   return (
@@ -15,6 +15,7 @@ const Home: NextPage = () => {
       <main>
         another name {getLowo()}
         Home of grind!
+        <CardTailWindExample />
         <TextField label="Oyelowo" description="The sweet field" errorMessage="Bad error" />
       </main>
 
