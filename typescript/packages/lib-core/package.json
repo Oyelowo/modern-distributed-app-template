@@ -1,5 +1,5 @@
 {
-  "name": "@oyelowo/web-main",
+  "name": "@oyelowo/lib-core",
   "version": "1.0.0",
   "main": "lib/index.js",
   "private": true,
