@@ -93,10 +93,10 @@ Exec `npm install`. After successful running, all dependencies included from eac
 
 ## Dependencies across packages
 
-In this example, the `x-cli` package depends on another package, `x-core`. So to execute (or test) `x-cli`, `x-core` packages should be installed.
-But in development the `x-core` package is not published so you can't install it.
+In this example, the `frontend-main` package depends on another package, `libraries-core`. So to execute (or test) `frontend-main`, `libraries-core` packages should be installed.
+But in development the `libraries-core` package is not published so you can't install it.
 
-For example, `packages/x-cli/src/main.spec.ts` is a test code for `main.ts`, which depends on `packages/x-core/src/index.ts` .
+For example, `packages/frontend-main/src/main.spec.ts` is a test code for `main.ts`, which depends on `packages/libraries-core/src/index.ts` .
 
 ```ts
 /* packages/frontend-main/pages/index.ts.*/
@@ -110,7 +110,7 @@ export async function main() {
 }
 ```
 
-So we need to link `x-core` package from `x-cli` to execute the `x-cli` 's test.
+So we need to link `libraries-core` package from `frontend-main` to execute the `frontend-main` 's test.
 
 Workspaces feature of npm also solves this problem. `npm i` creates sim-links of each package into the top-level `node_modules` dir.
 
@@ -118,7 +118,7 @@ Workspaces feature of npm also solves this problem. `npm i` creates sim-links of
 
 As mentioned above, npm cli resolves dependencies across packages. It's enough for "runtime". However considering TypeScript sources, in other words "static", it's not.
 
-We need to tell "x-cli package depends on x-core" to TypeScript compiler. TypeScript provides much useful feature to do this, ["Project References"](https://www.typescriptlang.org/docs/handbook/project-references.html).
+We need to tell "frontend-main package depends on libraries-core" to TypeScript compiler. TypeScript provides much useful feature to do this, ["Project References"](https://www.typescriptlang.org/docs/handbook/project-references.html).
 
 First, you add `composite: true` to project-root tsconfig.json to use project references feature.
 
@@ -155,7 +155,7 @@ And create a project which depends on all packages:
 
 {
   "files": [],
-  "references": [{ "path": "packages/x-core" }, { "path": "packages/x-cli" }]
+  "references": [{ "path": "packages/libraries-core" }, { "path": "packages/frontend-main" }]
 }
 ```
 

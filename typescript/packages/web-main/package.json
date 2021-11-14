@@ -1,15 +1,16 @@
 {
-  "name": "@oyelowo/frontend-main",
+  "name": "@oyelowo/web-main",
+  "version": "1.0.0",
+  "main": "lib/index.js",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "compile": "tsc"
   },
   "dependencies": {
-    "@oyelowo/libraries-core": "^1.0.0",
-    "@oyelowo/web-main": "^1.0.0",
     "next": "12.0.3",
     "react": "17.0.2",
     "react-dom": "17.0.2"
@@ -17,11 +18,8 @@
   "devDependencies": {
     "@types/node": "16.11.7",
     "@types/react": "17.0.34",
-    "autoprefixer": "^10.4.0",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.3",
-    "postcss": "^8.3.11",
-    "tailwindcss": "^2.2.19",
     "typescript": "4.4.4"
   }
 }
