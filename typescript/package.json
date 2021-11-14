@@ -15,7 +15,8 @@
     "start:mobile": "npm run start --workspace @oyelowo/mobile-main",
     "start:mobile:android": "npm run android --workspace @oyelowo/mobile-main",
     "start:mobile:ios": "npm run ios --workspace @oyelowo/mobile-main",
-    "start:mobile:web": "npm run web --workspace @oyelowo/mobile-main"
+    "start:mobile:web": "npm run web --workspace @oyelowo/mobile-main",
+    "clean:node_modules": "find . -name \"node_modules\" -type d -exec rm -rf '{}' +"
   },
   "devDependencies": {
     "lerna": "4.0.0",
