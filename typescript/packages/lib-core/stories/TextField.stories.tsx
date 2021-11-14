@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof TextField> = args => <TextField {...args} 
 export const TextFieldi= Template.bind({});
 TextFieldi.args = {
   label: "Oyelowo",
-  description: "The sweet guy",
-  errorMessage: "Don't hurn me"
+  description: "The calm guy",
+  errorMessage: "Don't hurt me"
 };
 

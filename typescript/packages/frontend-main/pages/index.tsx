@@ -1,10 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { awesomeFn, TextField } from "@oyelowo/libraries-core";
-import { HelloWorld } from "@oyelowo/libraries-core";
-import { CardTailWindExample } from "@oyelowo/libraries-core";
-import { getLowo } from "@oyelowo/web-main";
+// import { getLowo } from "@oyelowo/web-main";
 
 const Home: NextPage = () => {
   return (
@@ -16,11 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1>{awesomeFn()}: Oyelowo</h1>
-        another name {getLowo()}
-        Home of grind!
-        <CardTailWindExample />
-        <TextField label="Oyelowo" description="The sweet field" errorMessage="Bad error" />
+
       </main>
 
       <footer>
