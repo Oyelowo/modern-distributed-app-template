@@ -8,7 +8,7 @@ type ITextFieldProps = {
 };
 
 export function TextField(props: ITextFieldProps) {
-  let { label } = props;
+  let { label, description, errorMessage } = props;
   let ref = useRef<HTMLInputElement | null>(null);
   let { labelProps, inputProps, descriptionProps, errorMessageProps } = useTextField(props, ref);
 
@@ -22,12 +22,12 @@ export function TextField(props: ITextFieldProps) {
     >
       <label {...labelProps}>{label}</label>
       <input style={{ color: "black" }} {...(inputProps as InputHTMLAttributes<HTMLInputElement>)} ref={ref} />
-      {props.description && (
+      {description && (
         <div {...descriptionProps} style={{ fontSize: 12 }}>
-          {props.description}
+          {description}
         </div>
       )}
-      {props.errorMessage && (
+      {errorMessage && (
         <div {...errorMessageProps} style={{ color: "red", fontSize: 12 }}>
           {props.errorMessage}
         </div>
