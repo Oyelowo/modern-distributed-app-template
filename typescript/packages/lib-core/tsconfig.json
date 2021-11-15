@@ -16,6 +16,6 @@
     "rootDir": ".",
     "outDir": "lib",
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "types"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "**/*.test.tsx", "**/*.stories.tsx"]
 }
