@@ -16,6 +16,7 @@
     "incremental": true,
     "rootDir": ".",
     "outDir": "lib",
+    "types": ["types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "**/*.test.tsx", "**/*.stories.tsx"]
