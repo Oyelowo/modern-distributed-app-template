@@ -15,9 +15,9 @@
     "jsx": "react-jsx",
     "incremental": true,
     "rootDir": ".",
-    "outDir": "lib",
-    "types": ["types"]
+    "outDir": "lib"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*.test.tsx", "**/*.stories.tsx"]
+  "exclude": ["node_modules", "**/*.test.tsx", "**/*.stories.tsx", "lib"],
+  "types": ["types"]
 }
