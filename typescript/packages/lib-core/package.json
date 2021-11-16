@@ -60,6 +60,7 @@
     "twin.macro": "^2.8.1",
     "@emotion/babel-preset-css-prop": "11.2.0",
     "babel-plugin-twin": "^1.0.2",
-    "react-is": "^17.0.2"
+    "react-is": "^17.0.2",
+    "@emotion/babel-plugin-jsx-pragmatic": "^0.1.5"
   }
 }
