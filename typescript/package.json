@@ -26,5 +26,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@emotion/react": "^11.6.0"
+  }
 }
