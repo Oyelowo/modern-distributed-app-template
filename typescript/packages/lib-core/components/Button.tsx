@@ -1,46 +1,33 @@
-import React from 'react';
-export interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void;
+import tw, { styled, css, theme } from "twin.macro";
+
+interface ButtonProps {
+  variant?: "primary" | "secondary";
+  isSmall?: boolean;
 }
 
-/**
- * Primary UI component for user interaction
- */
-export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
-  ...props
-}: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
-      {...props}
-    >
-      {label}
-    </button>
-  );
-};
+export const Button = styled.button(({ variant, isSmall }: ButtonProps) => [
+  // The common button styles added with the tw import
+  tw`px-8 py-2 rounded focus:outline-none transform duration-75`,
+
+  // Use the variant grouping feature to add variants to multiple classes
+  tw`hocus:(scale-105 text-yellow-400)`,
+
+  // Use props to conditionally style your components
+  variant === "primary" && tw`bg-black text-white border-black`,
+
+  // Combine regular css with tailwind classes within backticks
+  variant === "secondary" && [
+    css`
+      box-shadow: 0 0.1em 0 0 rgba(0, 0, 0, 0.25);
+    `,
+    tw`border-2 border-yellow-600`,
+  ],
+
+  // Conditional props can be used
+  isSmall ? tw`text-sm` : tw`text-lg`,
+
+  // The theme import can supply values from your tailwind.config.js
+  css`
+    color: ${theme`colors.indigo`};
+  `,
+]);

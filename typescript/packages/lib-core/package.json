@@ -54,13 +54,8 @@
     "typescript": "4.4.4",
     "prettier": "^2.3.1",
     "babel-plugin-macros": "^3.1.0",
-    "@babel/preset-react": "^7.16.0",
-    "@babel/preset-typescript": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
     "twin.macro": "^2.8.1",
-    "@emotion/babel-preset-css-prop": "11.2.0",
-    "babel-plugin-twin": "^1.0.2",
-    "react-is": "^17.0.2",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.1.5"
   }
 }
