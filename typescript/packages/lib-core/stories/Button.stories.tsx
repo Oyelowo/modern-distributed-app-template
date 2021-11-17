@@ -1,15 +1,15 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 
-import { Button } from '../components/Button';
+import { Button } from "../components/Button";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/Button',
-  component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
+    title: "Example/Button",
+    component: Button,
+    // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+    argTypes: {
+        backgroundColor: { control: "color" },
+    },
 } as ComponentMeta<typeof Button>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
@@ -18,24 +18,24 @@ const Template: ComponentStory<typeof Button> = (args) => <Button {...args}>Do i
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Primary.args = {
-  variant: "primary",
-  isSmall: true,
+    variant: "primary",
+    isSmall: true,
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  variant: "secondary",
-  isSmall: false,
+    variant: "secondary",
+    isSmall: false,
 };
 
 export const Large = Template.bind({});
 Large.args = {
-  variant: "primary",
-  isSmall: false,
+    variant: "primary",
+    isSmall: false,
 };
 
 export const Small = Template.bind({});
 Small.args = {
-  variant: "secondary",
-  isSmall: true,
+    variant: "secondary",
+    isSmall: true,
 };
