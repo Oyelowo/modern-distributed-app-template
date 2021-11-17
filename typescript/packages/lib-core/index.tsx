@@ -1,5 +1,5 @@
 export function getLowo() {
-    return "Oyelowo L'uomo Universale!";
+  return "Oyelowo L'uomo Universale!";
 }
 
 export * from "./components/CardTailWindExample";

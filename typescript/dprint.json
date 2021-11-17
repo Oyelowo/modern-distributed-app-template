@@ -1,20 +1,12 @@
 {
   "incremental": true,
-  "typescript": {
-  },
-  "json": {
-  },
-  "markdown": {
-  },
-  "toml": {
-  },
-  "dockerfile": {
-  },
+  "typescript": {},
+  "json": {},
+  "markdown": {},
+  "toml": {},
+  "dockerfile": {},
   "includes": ["**/*.{ts,tsx,js,jsx,cjs,mjs,json,md,toml,dockerfile}"],
-  "excludes": [
-    "**/node_modules",
-    "**/*-lock.json"
-  ],
+  "excludes": ["**/node_modules", "**/*-lock.json"],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.59.2.wasm",
     "https://plugins.dprint.dev/json-0.13.2.wasm",

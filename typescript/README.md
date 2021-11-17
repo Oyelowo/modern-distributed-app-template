@@ -26,7 +26,7 @@ This repository explains how to create monorepos project using npm and TypeScrip
 Put each package under the `packages` directory.
 
 ```
-❯ tree -I "node_modules"                        
+❯ tree -I "node_modules"
 .
 .
 ├── node_modules/
@@ -104,9 +104,9 @@ For example, `packages/frontend-main/src/main.spec.ts` is a test code for `main.
 import { awesomeFn } from "@oyelowo/libraries-core";
 
 export async function main() {
-    // dependencies across child packages
-    const hello = await awesomeFn();
-    return hello;
+  // dependencies across child packages
+  const hello = await awesomeFn();
+  return hello;
 }
 ```
 

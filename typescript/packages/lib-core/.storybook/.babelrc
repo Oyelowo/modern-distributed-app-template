@@ -1,5 +1,3 @@
-
-   
 {
   "presets": [
     [
@@ -28,7 +26,6 @@
       {
         "pragma": "__cssprop",
         "pragmaFrag": "React.Fragment"
-
       }
     ]
   ]

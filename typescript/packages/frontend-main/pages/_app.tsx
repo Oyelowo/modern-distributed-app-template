@@ -3,10 +3,10 @@ import { GlobalStyles } from "twin.macro";
 import "../styles/globals.css";
 
 const App = ({ Component, pageProps }: AppProps) => (
-    <div>
-        <GlobalStyles />
-        <Component {...pageProps} />
-    </div>
+  <div>
+    <GlobalStyles />
+    <Component {...pageProps} />
+  </div>
 );
 
 export default App;
