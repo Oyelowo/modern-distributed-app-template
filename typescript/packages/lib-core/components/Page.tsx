@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Header } from "./Header";
 
 export interface PageProps {
@@ -11,7 +9,12 @@ export interface PageProps {
 
 export const Page = ({ user, onLogin, onLogout, onCreateAccount }: PageProps) => (
     <article>
-        <Header user={user} onLogin={onLogin} onLogout={onLogout} onCreateAccount={onCreateAccount} />
+        <Header
+            user={user}
+            onLogin={onLogin}
+            onLogout={onLogout}
+            onCreateAccount={onCreateAccount}
+        />
 
         <section>
             <h2>Pages in Storybook</h2>
