@@ -7,7 +7,7 @@ interface ButtonProps {
 
 export const Button = styled.button(({ variant, isSmall }: ButtonProps) => [
   // The common button styles added with the tw import
-  tw`px-8 py-2 rounded focus:outline-none transform duration-75`,
+  tw`px-8 py-2 rounded focus:outline-none transform duration-75 border-2 border-red-400`,
 
   // Use the variant grouping feature to add variants to multiple classes
   tw`hocus:(scale-105 text-yellow-400)`,
@@ -53,4 +53,4 @@ const stylesBase = css`
   }
 `;
 
-export default stylesBase;
+export default Button;

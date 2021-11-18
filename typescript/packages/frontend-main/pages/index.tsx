@@ -1,8 +1,8 @@
+import "twin.macro";
 import { CardTailWindExample, getLowo, TextField } from "@oyelowo/lib-core";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import "twin.macro";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
@@ -16,12 +16,15 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        another name {getLowo()}
+        another name {getLowo()} <br />
         Home of grind!
-        <TextField label="Oyelowo" description="The sweet field" errorMessage="Bad error" />
+        <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
         <CardTailWindExample />
-        Separate
-        <Input />
+        <div tw="text-blue-600">
+          Separate
+          <Input />
+          Enter
+        </div>
       </main>
 
       <footer>
