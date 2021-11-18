@@ -11,7 +11,7 @@
     ]
   ],
   "plugins": [
-    "babel-plugin-transform-inline-environment-variables",
+    // "babel-plugin-transform-inline-environment-variables",
     "babel-plugin-macros",
     [
       "@emotion/babel-plugin-jsx-pragmatic",
