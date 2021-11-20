@@ -1,6 +1,10 @@
 {
   "name": "npm-ts-workspaces-example",
   "private": true,
+  "engines": {
+    "npm": "8.1.2",
+    "node": "17.1.0"
+  },
   "scripts": {
     "clean": "rimraf \"packages/**/lib\" \"packages/**/*.tsbuildinfo\"",
     "compile": "npm run clean && tsc -b tsconfig.build.json",
