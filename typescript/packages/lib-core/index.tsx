@@ -6,3 +6,5 @@ export function getLowo() {
 export * from "./components/CardTailWindExample";
 export * from "./components/HelloWorld";
 export * from "./components/TextField";
+export * from "./components/Page";
+export * from "./components/Button";
