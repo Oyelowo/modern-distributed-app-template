@@ -2,7 +2,7 @@ import "twin.macro";
 
 export const CardTailWindExample = () => {
   return (
-    <div tw="fixed inset-0 flex items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:items-start sm:justify-end">
+    <div tw="inset-0 flex items-end justify-center pointer-events-none sm:p-6 sm:items-start sm:justify-end">
       <div tw="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto">
         <div tw="rounded-lg overflow-hidden">
           <div tw="p-4">
