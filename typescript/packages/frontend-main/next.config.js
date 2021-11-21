@@ -6,4 +6,7 @@ module.exports = {
     config.resolve.fallback = { fs: false, module: false, path: false , os: false};
     return config;
   },
+  experimental: {
+    externalDir: true
+  }
 };
