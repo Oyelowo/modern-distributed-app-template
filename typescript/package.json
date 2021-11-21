@@ -12,6 +12,8 @@
     "lint": "npm run format:check",
     "test": "lerna run test",
     "prepare": "npm run compile",
+    "build:web": "npm run build --workspace @oyelowo/frontend-main",
+    "start:web:production": "npm run start --workspace @oyelowo/frontend-main",
     "start:web": "npm run dev --workspace @oyelowo/frontend-main",
     "start:lib:story": "npm run storybook --workspace @oyelowo/lib-core",
     "start:mobile": "npm run start --workspace @oyelowo/mobile-main",
