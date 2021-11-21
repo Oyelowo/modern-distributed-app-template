@@ -1,5 +1,6 @@
 import "twin.macro";
-import { CardTailWindExample, getLowo, TextField } from "@oyelowo/lib-core";
+import { getLowo, TextField } from "@oyelowo/lib-core";
+import { CardTailWindExample  } from "@oyelowo/lib-core/components/CardTailWindExample";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
