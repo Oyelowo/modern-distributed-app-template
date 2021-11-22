@@ -5,6 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Bars from "../charts/echarts/Bars";
 import Link from "next/link";
+import Box from "../3D/Box";
 import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
 
@@ -26,6 +27,7 @@ const Home: NextPage = () => {
           <a tw="text-gray-50">Link to charts</a>
         </Link>
         <ReactEcharts />
+        <Box />
         <MyD3Charts />
         Home of grind!
         <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
