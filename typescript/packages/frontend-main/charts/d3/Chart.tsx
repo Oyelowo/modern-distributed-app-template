@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleTime } from "d3-scale";
 import React, { FC } from "react";
-import { animated, useSpring } from "react-spring";
+import { animated, useSpring } from "@react-spring/web";
 
 const { extent, line } = d3;
 interface Datum {
