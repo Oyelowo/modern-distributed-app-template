@@ -1,7 +1,7 @@
 import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/lib-core";
 import { EChartsOption } from "echarts";
 import React, { useEffect, useState } from "react";
-import Bars, { ReactECharts, useChart } from "./Bars";
+import Bars, { ReactEChart, useChart } from "./Bars";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -66,33 +66,7 @@ const ReactEcharts = () => {
       another name {getLowo()} <br />
       Home of grind!
       {ReactCharts}
-      <ReactECharts
-        style={{ height: 500 }}
-        theme="dark"
-        settings={{}}
-        option={{
-          title: {
-            text: "Simple Bar Chart",
-          },
-          tooltip: {},
-          legend: {
-            data: ["sales"],
-            top: 20,
-            left: 12,
-          },
-          xAxis: {
-            data: ["Helsinki", "Vantaa", "Espoo", "Ontario", "Canada", "Finland"],
-          },
-          yAxis: {},
-          series: [
-            {
-              name: "My hoods",
-              type: "bar",
-              data: [5, 20, 36, 10, 10, 20],
-            },
-          ],
-        }}
-      />
+
       <div tw="text-blue-600">Separate Enter</div>
     </main>
   );

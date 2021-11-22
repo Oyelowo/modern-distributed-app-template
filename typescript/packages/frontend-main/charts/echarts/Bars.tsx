@@ -54,7 +54,7 @@ export function useChart({ option, style, settings, loading, theme="dark" }: Rea
   };
 }
 
-export function ReactECharts({ option, style, settings, loading, theme = "dark" }: ReactEChartsProps): JSX.Element {
+export function ReactEChart({ option, style, settings, loading, theme = "dark" }: ReactEChartsProps): JSX.Element {
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -97,44 +97,5 @@ export function ReactECharts({ option, style, settings, loading, theme = "dark" 
   return <div ref={chartRef} style={{ width: "100%", height: 500, ...style }} />;
 }
 
-const Bars = () => {
-  // const [chartRef, setChartRef] = useState();
-  const chartRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!chartRef.current) {
-      return;
-    }
-    const myChart = init(chartRef.current);
-
-    // Specify the configuration items and data for the chart
-    const option = {
-      title: {
-        text: "ECharts Getting Started Example",
-      },
-      tooltip: {},
-      legend: {
-        data: ["sales"],
-      },
-      xAxis: {
-        data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
-      },
-      yAxis: {},
-      series: [
-        {
-          name: "sales",
-          type: "bar",
-          data: [5, 20, 36, 10, 10, 20],
-        },
-      ],
-    };
-
-    // Display the chart using the configuration items and data just specified.
-    myChart.setOption(option);
-  }, []);
-  // Initialize the echarts instance based on the prepared dom
-
-  return <div ref={chartRef} style={{ width: "100%", height: "500px" }} />;
-};
-
-export default Bars;
+export default ReactEChart;

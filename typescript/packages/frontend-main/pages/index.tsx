@@ -8,6 +8,7 @@ import Link from "next/link";
 import Box from "../3D/Box";
 import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
+import ReactEChart from "../charts/echarts/Bars";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
@@ -29,6 +30,33 @@ const Home: NextPage = () => {
         <ReactEcharts />
         <Box />
         <MyD3Charts />
+        <ReactEChart
+          style={{ height: 500 }}
+          theme="dark"
+          settings={{}}
+          option={{
+            title: {
+              text: "Simple Bar Chart",
+            },
+            tooltip: {},
+            legend: {
+              data: ["sales"],
+              top: 20,
+              left: 12,
+            },
+            xAxis: {
+              data: ["Helsinki", "Vantaa", "Espoo", "Ontario", "Canada", "Finland"],
+            },
+            yAxis: {},
+            series: [
+              {
+                name: "My hoods",
+                type: "bar",
+                data: [5, 20, 36, 10, 10, 20],
+              },
+            ],
+          }}
+        />
         Home of grind!
         <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
         <CardTailWindExample />
