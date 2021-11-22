@@ -1,7 +1,7 @@
 import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/lib-core";
 import { EChartsOption } from "echarts";
 import React, { useEffect, useState } from "react";
-import Bars, { ReactECharts, useChart } from "../charts/echarts/Bars";
+import Bars, { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -16,7 +16,7 @@ const dataset = {
     ["Service Mesh", 366],
   ],
 };
-const pieOption: EChartsOption = {
+const pieOption: ECOption = {
   title: {
     text: "Pie of pier",
   },
@@ -33,7 +33,7 @@ const pieOption: EChartsOption = {
     },
   ],
 };
-const barOption: EChartsOption = {
+const barOption: ECOption = {
   dataset: [dataset],
   xAxis: {
     type: "category",
@@ -66,7 +66,7 @@ const Hello = () => {
       another name {getLowo()} <br />
       Home of grind!
       {ReactCharts}
-      <ReactECharts
+      <ReactEChartCustom
         style={{ height: 500 }}
         theme="dark"
         settings={{}}

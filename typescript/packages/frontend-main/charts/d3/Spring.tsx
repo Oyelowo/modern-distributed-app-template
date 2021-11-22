@@ -1,5 +1,5 @@
 import React from "react";
-import { animated, interpolate, useSpring } from "@react-spring/web";
+import { animated, interpolate, useSpring } from "react-spring";
 const Spring = () => {
   const { o, xyz, color, a, b, c } = useSpring({
     from: { o: 0, xyz: [0, 0, 0], a: 0, b: 0, c: 0, color: "red" },

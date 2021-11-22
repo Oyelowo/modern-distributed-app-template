@@ -16,7 +16,7 @@ const Somethings = () => {
 export default Somethings;
 
 export const stuffState = atom<string[]>({
-  key: "stuff",
+  key: "stuff2",
   default: [],
 });
 

@@ -3,16 +3,31 @@ import { getLowo, TextField, CardTailWindExample } from "@oyelowo/lib-core";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Bars from "../charts/echarts/Bars";
+import Bars, { useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
 import Box from "../3D/Box";
 import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
-import ReactEChart from "../charts/echarts/Bars";
+import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
+
+// import { useStockCandleCharts } from "../charts/echarts/TradingChart";
+import { tradingChartOption } from "../charts/echarts/StockChartTA";
+import { taChartOption } from "../charts/echarts/TAChart";
+import { multiChartOptions } from "../charts/echarts/chartMulti";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const Home: NextPage = () => {
+  // const {ReactCharts: CandleStickChart, chart} = useStockCandleCharts();
+  const { ReactCharts: CandleChart1 } = useChart({
+    option: tradingChartOption,
+  });
+  const { ReactCharts: TAChart } = useChart({
+    option: taChartOption,
+  });
+  const { ReactCharts: MultiChart } = useChart({
+    option: multiChartOptions,
+  });
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -27,10 +42,15 @@ const Home: NextPage = () => {
         <Link href="/hello">
           <a tw="text-gray-50">Link to charts</a>
         </Link>
-        <ReactEcharts />
+        <div tw="height[500px]">
+          <ReactEcharts />
+        </div>
+        <div tw="height[700px]">{TAChart}</div>
         <Box />
+        <div tw="height[700px]">{MultiChart}</div>
+        <div tw="height[700px]">{CandleChart1}</div>
         <MyD3Charts />
-        <ReactEChart
+        <ReactEChartCustom
           style={{ height: 500 }}
           theme="dark"
           settings={{}}
