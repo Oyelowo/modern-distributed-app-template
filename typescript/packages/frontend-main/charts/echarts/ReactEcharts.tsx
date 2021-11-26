@@ -18,6 +18,7 @@ const dataset = {
 
 // const pieOption: EChartsOption = {
 const pieOption: ECOption = {
+  backgroundColor: "#19232d",
   title: {
     text: "Pie of pier",
   },
@@ -36,6 +37,7 @@ const pieOption: ECOption = {
 };
 
 const barOption: ECOption = {
+  backgroundColor: "#19232d",
   dataset: [dataset],
   xAxis: {
     type: "category",

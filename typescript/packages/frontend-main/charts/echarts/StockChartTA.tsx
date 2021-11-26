@@ -29,6 +29,7 @@ const dates = rawData.map(function (item) {
 const data = rawData.map(item => [+item[1], +item[2], +item[5], +item[6]]);
 
 export const tradingChartOption: ECOption = {
+  backgroundColor: "#19232d",
   legend: {
     data: ["K", "MA5", "MA10", "MA20", "MA30"],
     inactiveColor: "#777",

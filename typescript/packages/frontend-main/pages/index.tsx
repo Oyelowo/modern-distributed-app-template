@@ -49,34 +49,7 @@ const Home: NextPage = () => {
         <Box />
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
-        <MyD3Charts />
-        <ReactEChartCustom
-          style={{ height: 500 }}
-          theme="dark"
-          settings={{}}
-          option={{
-            title: {
-              text: "Simple Bar Chart",
-            },
-            tooltip: {},
-            legend: {
-              data: ["sales"],
-              top: 20,
-              left: 12,
-            },
-            xAxis: {
-              data: ["Helsinki", "Vantaa", "Espoo", "Ontario", "Canada", "Finland"],
-            },
-            yAxis: {},
-            series: [
-              {
-                name: "My hoods",
-                type: "bar",
-                data: [5, 20, 36, 10, 10, 20],
-              },
-            ],
-          }}
-        />
+
         Home of grind!
         <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
         <CardTailWindExample />

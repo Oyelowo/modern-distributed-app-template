@@ -410,10 +410,10 @@ function calculateMA(dayCount: number) {
 }
 
 export const taChartOption: ECOption = {
+  backgroundColor: "#19232d",
   title: {
     text: "Oyelowo.com",
     left: 0,
-    
   },
   tooltip: {
     trigger: "axis",
@@ -462,18 +462,39 @@ export const taChartOption: ECOption = {
       splitNumber: 20,
       min: "dataMin",
       max: "dataMax",
+      // axisPointer: {
+      //   handle: {
+      //     show: true,
+      //     margin: 30,
+      //     color: "#FD1050",
+      //   },
+      // },
     },
     {
       type: "category",
       gridIndex: 1,
       data: data.times,
       axisLabel: { show: false },
+      // axisPointer: {
+      //   handle: {
+      //     show: true,
+      //     margin: 30,
+      //     color: "#FD1050",
+      //   },
+      // },
     },
     {
       type: "category",
       gridIndex: 2,
       data: data.times,
       axisLabel: { show: false },
+      // axisPointer: {
+      //   handle: {
+      //     show: true,
+      //     margin: 30,
+      //     color: "#FD1050",
+      //   },
+      // },
     },
   ],
   yAxis: [
@@ -545,10 +566,10 @@ export const taChartOption: ECOption = {
       type: "candlestick",
       data: data.datas,
       itemStyle: {
-        color: "#ef232a",
-        color0: "#14b143",
-        borderColor: "#ef232a",
-        borderColor0: "#14b143",
+        color: "#FD1050",
+        color0: "#0CF49B",
+        borderColor: "#FD1050",
+        borderColor0: "#0CF49B",
       },
       markArea: {
         silent: true,
@@ -622,9 +643,9 @@ export const taChartOption: ECOption = {
         color: params => {
           let colorList;
           if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
-            colorList = "#ef232a";
+            colorList = "#FD1050";
           } else {
-            colorList = "#14b143";
+            colorList = "#0CF49B";
           }
           return colorList;
         },
@@ -640,9 +661,9 @@ export const taChartOption: ECOption = {
         color: params => {
           let colorList;
           if (params.data >= 0) {
-            colorList = "#ef232a";
+            colorList = "#FD1050";
           } else {
-            colorList = "#14b143";
+            colorList = "#0CF49B";
           }
           return colorList;
         },
