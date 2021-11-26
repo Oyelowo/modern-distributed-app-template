@@ -45,7 +45,7 @@ const Home: NextPage = () => {
         <div tw="height[500px]">
           <ReactEcharts />
         </div>
-        <div tw="height[700px]">{TAChart}</div>
+        <div tw="height[96vh] width[100vw] m-auto">{TAChart}</div>
         <Box />
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>

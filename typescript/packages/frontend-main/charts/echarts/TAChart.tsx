@@ -413,6 +413,7 @@ export const taChartOption: ECOption = {
   title: {
     text: "Oyelowo.com",
     left: 0,
+    
   },
   tooltip: {
     trigger: "axis",
@@ -457,7 +458,7 @@ export const taChartOption: ECOption = {
       scale: true,
       boundaryGap: [0, 1], // Cross-check
       axisLine: { onZero: false },
-      splitLine: { show: false },
+      splitLine: { show: true },
       splitNumber: 20,
       min: "dataMin",
       max: "dataMax",
