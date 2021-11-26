@@ -1,12 +1,8 @@
-import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 // import { init, getInstanceByDom, ECharts, SetOptionOpts, EChartsOption } from "echarts";
 
 // Tree-shakeable approach. //
-// Import the echarts core module, which provides the necessary interfaces for using echarts.
-// import * as echarts from 'echarts/core';
 import * as echarts from "echarts/core";
-
-// import { init, getInstanceByDom, ECharts, SetOptionOpts, use } from "echarts";
 import {
   BarChart,
   BarSeriesOption,
@@ -19,8 +15,6 @@ import {
   LineChart,
 } from "echarts/charts";
 
-// Import the tooltip, title, rectangular coordinate system, dataset and transform components
-// all suffixed with Component
 import {
   TitleComponent,
   TooltipComponent,
@@ -44,14 +38,10 @@ import {
   MarkLineComponent,
   MarkPointComponent,
 } from "echarts/components";
-// import * as Compo from "echarts/components";
-// Features like Universal Transition and Label Layout
+
 import { LabelLayout, UniversalTransition } from "echarts/features";
-// Import the Canvas renderer
-// Note that introducing the CanvasRenderer or SVGRenderer is a required step
 import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
 
-// import { EChartsOption } from "echarts";
 
 // Register the required components
 const chartComponentsInUse = [
@@ -106,11 +96,11 @@ export function useChart({ option, style, settings, loading, theme = "dark" }: R
   const chartRef = useRef<HTMLDivElement>(null);
   const [chart, setChart] = useState<echarts.ECharts>();
   
-  useLayoutEffect(() => {
+  useEffect(() => {
     echarts.use(chartComponentsInUse);
   }, []);
   
-  useLayoutEffect(() => {
+  useEffect(() => {
     // Initialize chart
     let chart: echarts.ECharts | undefined;
     if (chartRef.current !== null) {
