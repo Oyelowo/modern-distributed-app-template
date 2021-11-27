@@ -14,6 +14,7 @@ import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
 import { tradingChartOption } from "../charts/echarts/StockChartTA";
 import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
+import { useCandleChart } from "../charts/echarts/useCandleChart";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
@@ -22,9 +23,10 @@ const Home: NextPage = () => {
   const { ReactCharts: CandleChart1 } = useChart({
     option: tradingChartOption,
   });
-  const { ReactCharts: TAChart } = useChart({
-    option: taChartOption,
-  });
+  // const { ReactCharts: TAChart } = useChart({
+  //   option: taChartOption,
+  // });
+  const { CandleStickCharts } = useCandleChart();
   const { ReactCharts: MultiChart } = useChart({
     option: multiChartOptions,
   });
@@ -45,11 +47,11 @@ const Home: NextPage = () => {
         <div tw="height[500px]">
           <ReactEcharts />
         </div>
-        <div tw="height[96vh] width[100vw] m-auto">{TAChart}</div>
+        <div tw="height[96vh] width[100vw] m-auto">{CandleStickCharts}</div>
+        {/* <div tw="height[96vh] width[100vw] m-auto">{TAChart}</div> */}
         <Box />
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
-
         Home of grind!
         <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
         <CardTailWindExample />
