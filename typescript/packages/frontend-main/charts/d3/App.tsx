@@ -3,9 +3,7 @@ import * as d3 from "d3";
 import React, { StrictMode, useEffect, useState } from "react";
 
 import { animated, useSpring } from "@react-spring/web";
-import { RecoilRoot } from "recoil";
 import LineChart from "./LineChart/LineChart";
-import { useStuff } from "./recoil/Somethings";
 import VoronoiHoverTracker from "./Voronoi/Voronoi";
 import styled from "@emotion/styled";
 
@@ -18,37 +16,34 @@ const Divi = styled.div({
 const MyD3Charts = (): JSX.Element => {
   return (
     <StrictMode>
-      <RecoilRoot>
-        <div
-          style={{
-            display: "grid",
-            justifyItems: "center",
-            alignItems: "center",
-          }}
+      <div
+        style={{
+          display: "grid",
+          justifyItems: "center",
+          alignItems: "center",
+        }}
+      >
+        <p
+          css={css({
+            color: "blue",
+          })}
         >
-          <p
-            css={css({
-              color: "blue",
-            })}
-          >
-            this
-          </p>
-          <Divi>Tool tip hovering with Voronoi Polygon</Divi>
-          <VoronoiHoverTracker />
-          <SpringPlay />
-  {/*         <Somethings />
+          this
+        </p>
+        <Divi>Tool tip hovering with Voronoi Polygon</Divi>
+        <VoronoiHoverTracker />
+        <SpringPlay />
+        {/*         <Somethings />
           <Gesture />
           <Spring />
           <Chart /> */}
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <RandomCompo />
-          <LineChart />
-        </div>
-      </RecoilRoot>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <LineChart />
+      </div>
     </StrictMode>
   );
 };
@@ -84,41 +79,3 @@ export const SpringPlay = () => {
     </animated.svg>
   );
 };
-
-export const RandomCompo = () => {
-  const [value, setValue] = useState("");
-  const { addName } = useStuff(value);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
-
-  const addSome = () => {
-    addName();
-    setValue("");
-  };
-
-  useEffect(() => {
-    const click = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case "enter":
-          addSome();
-          break;
-        default:
-          break;
-      }
-    };
-    document.addEventListener("keydown", click);
-    return () => {
-      document.removeEventListener("keydown", click);
-    };
-  });
-
-  console.log("renders");
-  return (
-    <div>
-      <input type="text" value={value} onChange={handleChange} name="" id="" />
-      <button onClick={addSome}>Add name</button>
-    </div>
-  );
-};
-
-export const useEvent = (event: DocumentEventMap) => {};

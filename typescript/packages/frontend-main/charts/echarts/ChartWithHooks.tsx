@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 // import { init, getInstanceByDom, ECharts, SetOptionOpts, EChartsOption } from "echarts";
 
 // Tree-shakeable approach. //
-import * as echarts from "echarts/core";
+import { init, use, ECharts, ComposeOption, SetOptionOpts, getInstanceByDom } from "echarts/core";
 import {
   BarChart,
   BarSeriesOption,
@@ -22,7 +22,6 @@ import {
   DatasetComponent,
   TransformComponent,
   TitleComponentOption,
-  DatasetComponentOption,
   GridComponentOption,
   TooltipComponentOption,
   DataZoomComponent,
@@ -41,7 +40,6 @@ import {
 
 import { LabelLayout, UniversalTransition } from "echarts/features";
 import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
-
 
 // Register the required components
 const chartComponentsInUse = [
@@ -74,7 +72,7 @@ const chartComponentsInUse = [
 ];
 
 // Combine an Option type with only required components and charts via ComposeOption
-export type ECOption = echarts.ComposeOption<
+export type ECOption = ComposeOption<
   | BarSeriesOption
   | PieSeriesOption
   | LineSeriesOption
@@ -87,24 +85,24 @@ export type ECOption = echarts.ComposeOption<
 export interface ReactEChartsProps {
   option: ECOption /* You may also just use the minimal type: EChartsOption */;
   style?: CSSProperties;
-  settings?: echarts.SetOptionOpts;
+  settings?: SetOptionOpts;
   loading?: boolean;
   theme?: "light" | "dark";
 }
 
 export function useChart({ option, style, settings, loading, theme = "dark" }: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [chart, setChart] = useState<echarts.ECharts>();
-  
+  const [chart, setChart] = useState<ECharts>();
+
   useEffect(() => {
-    echarts.use(chartComponentsInUse);
+    use(chartComponentsInUse);
   }, []);
-  
+
   useEffect(() => {
     // Initialize chart
-    let chart: echarts.ECharts | undefined;
+    let chart: ECharts | undefined;
     if (chartRef.current !== null) {
-      chart = echarts.init(chartRef.current, theme);
+      chart = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {
       //   console.log(params);
@@ -154,7 +152,7 @@ export function useChart({ option, style, settings, loading, theme = "dark" }: R
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = echarts.getInstanceByDom(chartRef.current);
+      const chart = getInstanceByDom(chartRef.current);
       chart?.setOption(option, settings);
     }
   }, [option, settings, theme]); // Whenever theme changes we need to add option and setting due to it being deleted in cleanup function
@@ -162,7 +160,7 @@ export function useChart({ option, style, settings, loading, theme = "dark" }: R
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = echarts.getInstanceByDom(chartRef.current);
+      const chart = getInstanceByDom(chartRef.current);
       loading === true ? chart?.showLoading() : chart?.hideLoading();
     }
   }, [loading, theme]);
@@ -184,9 +182,9 @@ export function ReactEChartCustom({
 
   useEffect(() => {
     // Initialize chart
-    let chart: echarts.ECharts | undefined;
+    let chart: ECharts | undefined;
     if (chartRef.current !== null) {
-      chart = echarts.init(chartRef.current, theme);
+      chart = init(chartRef.current, theme);
     }
 
     // Add chart resize listener
@@ -206,7 +204,7 @@ export function ReactEChartCustom({
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = echarts.getInstanceByDom(chartRef.current);
+      const chart = getInstanceByDom(chartRef.current);
       chart?.setOption(option, settings);
     }
   }, [option, settings, theme]); // Whenever theme changes we need to add option and setting due to it being deleted in cleanup function
@@ -214,7 +212,7 @@ export function ReactEChartCustom({
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = echarts.getInstanceByDom(chartRef.current);
+      const chart = getInstanceByDom(chartRef.current);
       loading === true ? chart?.showLoading() : chart?.hideLoading();
     }
   }, [loading, theme]);

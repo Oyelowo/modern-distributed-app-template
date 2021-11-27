@@ -1,42 +1,26 @@
 
+import { useAtom } from "jotai";
 import React from "react";
 import MyD3Charts from "../charts/d3/App";
+import Somethings, { timeAtom } from "../charts/d3/jotai/Somethings";
 import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
 
 const Charts = () => {
+  const [names, setStuff] = useAtom(timeAtom);
   return (
     <div>
-      <ReactEcharts />
+      <Somethings />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
 
+      <button onClick={() => setStuff(prev => [...prev, new Date().toISOString()])}>Add Time</button>
       <MyD3Charts />
-      <ReactEChartCustom
-        style={{ height: 500 }}
-        theme="dark"
-        settings={{}}
-        option={{
-          title: {
-            text: "Simple Bar Chart",
-          },
-          tooltip: {},
-          legend: {
-            data: ["sales"],
-            top: 20,
-            left: 12,
-          },
-          xAxis: {
-            data: ["Helsinki", "Vantaa", "Espoo", "Ontario", "Canada", "Finland"],
-          },
-          yAxis: {},
-          series: [
-            {
-              name: "My hoods",
-              type: "bar",
-              data: [5, 20, 36, 10, 10, 20],
-            },
-          ],
-        }}
-      />
     </div>
   );
 };
