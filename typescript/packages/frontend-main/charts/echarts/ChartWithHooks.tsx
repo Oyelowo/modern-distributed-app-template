@@ -105,6 +105,35 @@ export function useChart({ option, style, settings, loading, theme = "dark" }: R
     let chart: echarts.ECharts | undefined;
     if (chartRef.current !== null) {
       chart = echarts.init(chartRef.current, theme);
+
+      // chart.on("legendselectchanged", function (params) {
+      //   console.log(params);
+      //   if (params.name === "lineData") {
+      //     selectGraph(params);
+
+      //     unselectGrap(params);
+      //   }
+      // });
+
+      // function selectGraph(params) {
+      //   chart.dispatchAction({
+      //     type: "legendSelect",
+      //     // legend name
+      //     name: params.name,
+      //   });
+      // }
+
+      // function unselectGrap(params) {
+      //   for (const legend in params.selected) {
+      //     if (legend !== params.name) {
+      //       chart.dispatchAction({
+      //         type: "legendUnSelect",
+      //         // legend name
+      //         name: legend,
+      //       });
+      //     }
+      //   }
+      // }
       setChart(chart);
     }
 

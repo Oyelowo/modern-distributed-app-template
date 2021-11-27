@@ -29,9 +29,13 @@ const pieOption: ECOption = {
       type: "pie",
       // associate the series to be animated by id
       id: "Score",
-      radius: [0, "50%"],
+      radius: [20, "50%"],
       universalTransition: true,
       animationDurationUpdate: 1000,
+      itemStyle: {
+        borderRadius: 7,
+        borderWidth: 2,
+      },
     },
   ],
 };

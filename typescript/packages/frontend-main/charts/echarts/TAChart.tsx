@@ -1,5 +1,6 @@
 //数据模型 time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
 
+import { graphic } from "echarts/core";
 import { ECOption } from "./ChartWithHooks";
 
 //['2015-10-19',18.56,18.25,18.19,18.56,55.00,0,-0.00,0.08,0.09]
@@ -310,6 +311,7 @@ const data = splitData([
 function splitData(rawData: Array<[string, number, number, number, number, number, number, number, number, number]>) {
   const datas = [];
   const times = [];
+  const opens = [];
   const vols = [];
   const macds = [];
   const difs = [];
@@ -317,18 +319,20 @@ function splitData(rawData: Array<[string, number, number, number, number, numbe
   for (let i = 0; i < rawData.length; i++) {
     datas.push(rawData[i]);
     times.push(rawData[i].splice(0, 1)[0]);
+    opens.push(rawData[i][1]);
     vols.push(rawData[i][4]);
     macds.push(rawData[i][6]);
     difs.push(rawData[i][7]);
     deas.push(rawData[i][8]);
   }
   return {
-    datas: datas,
-    times: times,
-    vols: vols,
-    macds: macds,
-    difs: difs,
-    deas: deas,
+    datas,
+    opens,
+    times,
+    vols,
+    macds,
+    difs,
+    deas,
   };
 }
 
@@ -412,8 +416,9 @@ function calculateMA(dayCount: number) {
 export const taChartOption: ECOption = {
   backgroundColor: "#19232d",
   title: {
-    text: "Oyelowo.com",
-    left: 0,
+    //text: "Oyelowo.com",
+    //top: -20
+    //left: 0,
   },
   tooltip: {
     trigger: "axis",
@@ -594,6 +599,37 @@ export const taChartOption: ECOption = {
         symbol: ["circle", "none"],
       },
     },
+    // {
+    //   name: "LineData",
+    //   type: "line",
+    //   symbol: "none",
+    //   sampling: "lttb",
+    //   itemStyle: {
+    //     color: "rgb(255, 70, 131)",
+    //   },
+    //   areaStyle: {
+    //     color: new graphic.LinearGradient(
+    //       0,
+    //       0,
+    //       0,
+    //       1,
+    //       [
+    //         {
+    //           offset: 0,
+    //           color: "rgba(0,179,244,0.3)",
+    //         },
+    //         {
+    //           offset: 1,
+    //           color: "rgba(0,179,244,0)",
+    //         },
+    //       ],
+    //       false,
+    //     ),
+    //     shadowColor: "rgba(0,179,244, 0.9)",
+    //     shadowBlur: 20,
+    //   },
+    //   data: data.opens,
+    // },
     {
       name: "MA5",
       type: "line",
