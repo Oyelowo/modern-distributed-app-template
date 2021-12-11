@@ -1,4 +1,4 @@
-import { getLowo, useInterval } from "ui";
+import { getLowo, useInterval } from "@oyelowo/ui";
 import { useState } from "react";
 import { ECOption, useChart } from "./ChartWithHooks";
 

@@ -1,4 +1,4 @@
-import { Button, CardTailWindExample } from "ui";
+import { Button, CardTailWindExample } from "@oyelowo/ui";
 
 export default function Docs() {
   return (

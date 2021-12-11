@@ -1,4 +1,4 @@
-export const Button = () => {
+export const ButtonBoop = () => {
   return <button>Boop</button>;
 };
 
