@@ -1,0 +1,40 @@
+FROM node:17.0.0-alpine AS sourcer
+RUN apk update
+WORKDIR /app
+COPY . .
+# Copies the root and all workspaces `package.json` to /json perserving their parent directories structure
+RUN mkdir /json && find . -type f -name package.json -not -path '*/node_modules/*' | xargs -i cp --parents {} /json
+
+FROM node:17.0.0-alpine AS installer
+RUN apk update
+WORKDIR /app
+COPY --from=sourcer /app/package-lock.json .
+COPY --from=sourcer /json .
+RUN npm clean-install --production
+
+FROM node AS builder
+
+WORKDIR /app
+COPY --from=installer /app .
+COPY --from=sourcer /app .
+RUN npm i -D turbo
+RUN npm run build -- --scope=web --includeDependencies
+
+
+FROM node:17.0.0-alpine AS web
+WORKDIR /app
+ENV NODE_ENV=production
+RUN npm install next
+RUN npm install @emotion/server
+RUN npm install @emotion/css
+RUN npm install @emotion/react
+RUN npm install @emotion/styled
+COPY --from=builder ./app/apps/web/package*.json ./
+COPY --from=builder ./app/apps/web/.next ./.next
+COPY --from=builder ./app/apps/web/public ./public
+
+EXPOSE 3000
+
+COPY --from=installer ./app/node_modules/.bin/next /bin/.
+
+CMD npm start
