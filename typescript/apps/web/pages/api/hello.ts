@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { getLowo } from "@oyelowo/lib-core";
+import { getLowo } from "@oyelowo/ui";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {

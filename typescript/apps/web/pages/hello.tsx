@@ -1,4 +1,4 @@
-import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/lib-core";
+import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/ui";
 import { EChartsOption } from "echarts";
 import React, { useEffect, useState } from "react";
 import Bars, { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";

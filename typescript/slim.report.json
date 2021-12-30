@@ -1,0 +1,429 @@
+{
+  "version": "1.0",
+  "engine": "darwin|Transformer|1.37.3|latest|latest",
+  "containerized": false,
+  "host_distro": {
+    "name": "",
+    "version": "",
+    "display_name": "other"
+  },
+  "type": "build",
+  "state": "done",
+  "target_reference": "oyelowo/web-all2",
+  "system": {
+    "type": "Linux",
+    "release": "5.10.76-linuxkit",
+    "distro": {
+      "name": "Debian GNU/Linux",
+      "version": "11",
+      "display_name": "Debian GNU/Linux 11 (bullseye)"
+    }
+  },
+  "source_image": {
+    "identity": {
+      "id": "sha256:9baf062c728f6ba9e78eb63b337bc79fbcf596442644958f857677ddb79c3181",
+      "tags": [
+        "latest"
+      ],
+      "names": [
+        "oyelowo/web-all2:latest"
+      ]
+    },
+    "size": 1987269791,
+    "size_human": "2.0 GB",
+    "create_time": "2021-12-30T14:50:20Z",
+    "docker_version": "",
+    "architecture": "amd64",
+    "exposed_ports": [
+      "3000/tcp"
+    ],
+    "os": "linux",
+    "env_vars": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "NODE_VERSION=17.1.0",
+      "YARN_VERSION=1.22.15",
+      "NODE_ENV=production"
+    ],
+    "container_entry": {
+      "exe_path": ""
+    }
+  },
+  "minified_image_size": 96164609,
+  "minified_image_size_human": "96 MB",
+  "minified_image": "oyelowo/web-all2.slim",
+  "minified_image_has_data": true,
+  "minified_by": 20.665292685794626,
+  "artifact_location": "/tmp/docker-slim-state/.docker-slim-state/images/9baf062c728f6ba9e78eb63b337bc79fbcf596442644958f857677ddb79c3181/artifacts",
+  "container_report_name": "creport.json",
+  "seccomp_profile_name": "oyelowo-web-all2-seccomp.json",
+  "apparmor_profile_name": "oyelowo-web-all2-apparmor-profile",
+  "image_stack": [
+    {
+      "is_top_image": true,
+      "id": "sha256:9baf062c728f6ba9e78eb63b337bc79fbcf596442644958f857677ddb79c3181",
+      "full_name": "oyelowo/web-all2:latest",
+      "repo_name": "oyelowo/web-all2",
+      "version_tag": "latest",
+      "raw_tags": [
+        "oyelowo/web-all2:latest"
+      ],
+      "create_time": "2021-12-30T14:50:20Z",
+      "new_size": 1987269791,
+      "new_size_human": "2.0 GB",
+      "instructions": [
+        {
+          "type": "ADD",
+          "time": "2021-11-17T02:20:30Z",
+          "is_nop": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 123887369,
+          "size_human": "124 MB",
+          "params": "file:5259fc086e8295ddbf02e48abef38e9bf93a183079d3631aa7a59306b7f2f9df in /",
+          "command_snippet": "ADD file:5259fc086e8295ddbf02e48abef38e9bf93...",
+          "command_all": "ADD file:5259fc086e8295ddbf02e48abef38e9bf93a183079d3631aa7a59306b7f2f9df /",
+          "target": "/",
+          "source_type": "file"
+        },
+        {
+          "type": "CMD",
+          "time": "2021-11-17T02:20:31Z",
+          "is_nop": true,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "[\"bash\"]\n",
+          "command_snippet": "CMD [\"bash\"]\n",
+          "command_all": "CMD [\"bash\"]\n"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T03:14:11Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 10685363,
+          "size_human": "11 MB",
+          "command_snippet": "RUN set -eux; \tapt-get update; \tapt-get inst...",
+          "command_all": "RUN set -eux; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tca-certificates \t\tcurl \t\tnetbase \t\twget \t; \trm -rf /var/lib/apt/lists/*",
+          "system_commands": [
+            "set -eux",
+            "apt-get update",
+            "apt-get install -y --no-install-recommends ca-certificates curl netbase wget",
+            "rm -rf /var/lib/apt/lists/*"
+          ]
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T03:14:17Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 18947631,
+          "size_human": "19 MB",
+          "command_snippet": "RUN set -ex; \tif ! command -v gpg > /dev/nul...",
+          "command_all": "RUN set -ex; \tif ! command -v gpg > /dev/null; then \t\tapt-get update; \t\tapt-get install -y --no-install-recommends \t\t\tgnupg \t\t\tdirmngr \t\t; \t\trm -rf /var/lib/apt/lists/*; \tfi",
+          "system_commands": [
+            "set -ex",
+            "if ! command -v gpg > /dev/null",
+            "then apt-get update",
+            "apt-get install -y --no-install-recommends gnupg dirmngr",
+            "rm -rf /var/lib/apt/lists/*",
+            "fi"
+          ]
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T03:14:35Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 151937750,
+          "size_human": "152 MB",
+          "command_snippet": "RUN apt-get update && \\\n\tapt-get install -y ...",
+          "command_all": "RUN apt-get update && \\\n\tapt-get install -y --no-install-recommends \t\tgit \t\tmercurial \t\topenssh-client \t\tsubversion \t\t\t\tprocps && \\\n\trm -rf /var/lib/apt/lists/*",
+          "system_commands": [
+            "apt-get update",
+            "apt-get install -y --no-install-recommends git mercurial openssh-client subversion procps",
+            "rm -rf /var/lib/apt/lists/*"
+          ]
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T03:15:30Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 528355839,
+          "size_human": "528 MB",
+          "command_snippet": "RUN set -ex; \tapt-get update; \tapt-get insta...",
+          "command_all": "RUN set -ex; \tapt-get update; \tapt-get install -y --no-install-recommends \t\tautoconf \t\tautomake \t\tbzip2 \t\tdpkg-dev \t\tfile \t\tg++ \t\tgcc \t\timagemagick \t\tlibbz2-dev \t\tlibc6-dev \t\tlibcurl4-openssl-dev \t\tlibdb-dev \t\tlibevent-dev \t\tlibffi-dev \t\tlibgdbm-dev \t\tlibglib2.0-dev \t\tlibgmp-dev \t\tlibjpeg-dev \t\tlibkrb5-dev \t\tliblzma-dev \t\tlibmagickcore-dev \t\tlibmagickwand-dev \t\tlibmaxminddb-dev \t\tlibncurses5-dev \t\tlibncursesw5-dev \t\tlibpng-dev \t\tlibpq-dev \t\tlibreadline-dev \t\tlibsqlite3-dev \t\tlibssl-dev \t\tlibtool \t\tlibwebp-dev \t\tlibxml2-dev \t\tlibxslt-dev \t\tlibyaml-dev \t\tmake \t\tpatch \t\tunzip \t\txz-utils \t\tzlib1g-dev \t\t\t\t$( \t\t\tif apt-cache show 'default-libmysqlclient-dev' 2>/dev/null | grep -q '^Version:'; then \t\t\t\techo 'default-libmysqlclient-dev'; \t\t\telse \t\t\t\techo 'libmysqlclient-dev'; \t\t\tfi \t\t) \t; \trm -rf /var/lib/apt/lists/*",
+          "system_commands": [
+            "set -ex",
+            "apt-get update",
+            "apt-get install -y --no-install-recommends autoconf automake bzip2 dpkg-dev file g++ gcc imagemagick libbz2-dev libc6-dev libcurl4-openssl-dev libdb-dev libevent-dev libffi-dev libgdbm-dev libglib2.0-dev libgmp-dev libjpeg-dev libkrb5-dev liblzma-dev libmagickcore-dev libmagickwand-dev libmaxminddb-dev libncurses5-dev libncursesw5-dev libpng-dev libpq-dev libreadline-dev libsqlite3-dev libssl-dev libtool libwebp-dev libxml2-dev libxslt-dev libyaml-dev make patch unzip xz-utils zlib1g-dev $( if apt-cache show 'default-libmysqlclient-dev' 2>/dev/null | grep -q '^Version:'",
+            "then echo 'default-libmysqlclient-dev'",
+            "else echo 'libmysqlclient-dev'",
+            "fi )",
+            "rm -rf /var/lib/apt/lists/*"
+          ]
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T09:54:39Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 333524,
+          "size_human": "334 kB",
+          "command_snippet": "RUN groupadd --gid 1000 node && \\\n\tuseradd -...",
+          "command_all": "RUN groupadd --gid 1000 node && \\\n\tuseradd --uid 1000 --gid node --shell /bin/bash --create-home node",
+          "system_commands": [
+            "groupadd --gid 1000 node",
+            "useradd --uid 1000 --gid node --shell /bin/bash --create-home node"
+          ]
+        },
+        {
+          "type": "ENV",
+          "time": "2021-11-17T09:54:39Z",
+          "is_nop": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "NODE_VERSION=17.1.0",
+          "command_snippet": "ENV NODE_VERSION=17.1.0",
+          "command_all": "ENV NODE_VERSION=17.1.0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T09:54:59Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 149859320,
+          "size_human": "150 MB",
+          "command_snippet": "RUN ARCH= && \\\n\tdpkgArch=\"$(dpkg --print-arc...",
+          "command_all": "RUN ARCH= && \\\n\tdpkgArch=\"$(dpkg --print-architecture)\" && \\\n\tcase \"${dpkgArch##*-}\" in     amd64) ARCH='x64';;     ppc64el) ARCH='ppc64le';;     s390x) ARCH='s390x';;     arm64) ARCH='arm64';;     armhf) ARCH='armv7l';;     i386) ARCH='x86';;     *) echo \"unsupported architecture\"; exit 1 ;;   esac && \\\n\tset -ex && \\\n\tfor key in     4ED778F539E3634C779C87C6D7062848A1AB005C     94AE36675C464D64BAFA68DD7434390BDBE9B9C5     74F12602B6F1C4E913FAA37AD3A89613643B6201     71DCFD284A79C3B38668286BC97EC7A07EDE3FC1     8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600     C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8     C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C     DD8F2338BAE7501E3DD5AC78C273792F7D83545D     A48C2BEE680E841632CD4E44F07496B3EB3C1762     108F52B48DB57BB0CC439B2997B01419BD92F80A     B9E2F5981AA6E0CD28160D9FF13993A75599653C   ; do       gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||       gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done && \\\n\tcurl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz\" && \\\n\tcurl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\" && \\\n\tgpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc && \\\n\tgrep \" node-v$NODE_VERSION-linux-$ARCH.tar.xz\\$\" SHASUMS256.txt | sha256sum -c - && \\\n\ttar -xJf \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner && \\\n\trm \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt && \\\n\tln -s /usr/local/bin/node /usr/local/bin/nodejs && \\\n\tnode --version && \\\n\tnpm --version",
+          "system_commands": [
+            "ARCH=",
+            "dpkgArch=\"$(dpkg --print-architecture)\"",
+            "case \"${dpkgArch##*-}\" in     amd64) ARCH='x64';;     ppc64el) ARCH='ppc64le';;     s390x) ARCH='s390x';;     arm64) ARCH='arm64';;     armhf) ARCH='armv7l';;     i386) ARCH='x86';;     *) echo \"unsupported architecture\"; exit 1 ;;   esac",
+            "set -ex",
+            "for key in     4ED778F539E3634C779C87C6D7062848A1AB005C     94AE36675C464D64BAFA68DD7434390BDBE9B9C5     74F12602B6F1C4E913FAA37AD3A89613643B6201     71DCFD284A79C3B38668286BC97EC7A07EDE3FC1     8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600     C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8     C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C     DD8F2338BAE7501E3DD5AC78C273792F7D83545D     A48C2BEE680E841632CD4E44F07496B3EB3C1762     108F52B48DB57BB0CC439B2997B01419BD92F80A     B9E2F5981AA6E0CD28160D9FF13993A75599653C   ; do       gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||       gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done",
+            "curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz\"",
+            "curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"",
+            "gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc",
+            "grep \" node-v$NODE_VERSION-linux-$ARCH.tar.xz$\" SHASUMS256.txt | sha256sum -c -",
+            "tar -xJf \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner",
+            "rm \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt",
+            "ln -s /usr/local/bin/node /usr/local/bin/nodejs",
+            "node --version",
+            "npm --version"
+          ]
+        },
+        {
+          "type": "ENV",
+          "time": "2021-11-17T09:54:59Z",
+          "is_nop": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "YARN_VERSION=1.22.15",
+          "command_snippet": "ENV YARN_VERSION=1.22.15",
+          "command_all": "ENV YARN_VERSION=1.22.15"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-11-17T09:55:04Z",
+          "is_nop": false,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 7588295,
+          "size_human": "7.6 MB",
+          "command_snippet": "RUN set -ex && \\\n\tfor key in     6A010C51660...",
+          "command_all": "RUN set -ex && \\\n\tfor key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done && \\\n\tcurl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\" && \\\n\tcurl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\" && \\\n\tgpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz && \\\n\tmkdir -p /opt && \\\n\ttar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/ && \\\n\tln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn && \\\n\tln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg && \\\n\trm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz && \\\n\tyarn --version",
+          "system_commands": [
+            "set -ex",
+            "for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys \"$key\" ||     gpg --batch --keyserver keyserver.ubuntu.com --recv-keys \"$key\" ;   done",
+            "curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"",
+            "curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"",
+            "gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz",
+            "mkdir -p /opt",
+            "tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/",
+            "ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn",
+            "ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg",
+            "rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz",
+            "yarn --version"
+          ]
+        },
+        {
+          "type": "COPY",
+          "time": "2021-11-17T09:55:04Z",
+          "is_nop": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 388,
+          "size_human": "388 B",
+          "params": "file:4d192565a7220e135cab6c77fbc1c73211b69f3d9fb37e62857b2c6eb9363d51 in /usr/local/bin/",
+          "command_snippet": "COPY file:4d192565a7220e135cab6c77fbc1c73211...",
+          "command_all": "COPY file:4d192565a7220e135cab6c77fbc1c73211b69f3d9fb37e62857b2c6eb9363d51 /usr/local/bin/",
+          "target": "/usr/local/bin/",
+          "source_type": "file"
+        },
+        {
+          "type": "ENTRYPOINT",
+          "time": "2021-11-17T09:55:04Z",
+          "is_nop": true,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "[\"docker-entrypoint.sh\"]\n",
+          "command_snippet": "ENTRYPOINT [\"docker-entrypoint.sh\"]\n",
+          "command_all": "ENTRYPOINT [\"docker-entrypoint.sh\"]\n"
+        },
+        {
+          "type": "CMD",
+          "time": "2021-11-17T09:55:04Z",
+          "is_nop": true,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "[\"node\"]\n",
+          "command_snippet": "CMD [\"node\"]\n",
+          "command_all": "CMD [\"node\"]\n"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:10:40Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"WORKDIR\",\"/app\"]",
+          "command_all": "RUN [\"WORKDIR\",\"/app\"]",
+          "system_commands": [
+            "[\"WORKDIR\",\"/app\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:19Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"ENV\",\"NODE_ENV=production\"]",
+          "command_all": "RUN [\"ENV\",\"NODE_ENV=production\"]",
+          "system_commands": [
+            "[\"ENV\",\"NODE_ENV=production\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:19Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 869946442,
+          "size_human": "870 MB",
+          "command_snippet": "RUN [\"COPY\",\"./app/node_modules\",\"./node_mod...",
+          "command_all": "RUN [\"COPY\",\"./app/node_modules\",\"./node_modules\"]",
+          "system_commands": [
+            "[\"COPY\",\"./app/node_modules\",\"./node_modules\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:20Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 123558028,
+          "size_human": "124 MB",
+          "command_snippet": "RUN [\"COPY\",\"./app/apps/web/.next\",\"./.next\"...",
+          "command_all": "RUN [\"COPY\",\"./app/apps/web/.next\",\"./.next\"]",
+          "system_commands": [
+            "[\"COPY\",\"./app/apps/web/.next\",\"./.next\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:20Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 2563,
+          "size_human": "2.6 kB",
+          "command_snippet": "RUN [\"COPY\",\"./app/apps/web/package.json\",\"....",
+          "command_all": "RUN [\"COPY\",\"./app/apps/web/package.json\",\".\"]",
+          "system_commands": [
+            "[\"COPY\",\"./app/apps/web/package.json\",\".\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:20Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 2167279,
+          "size_human": "2.2 MB",
+          "command_snippet": "RUN [\"COPY\",\"./app/package-lock.json\",\".\"]",
+          "command_all": "RUN [\"COPY\",\"./app/package-lock.json\",\".\"]",
+          "system_commands": [
+            "[\"COPY\",\"./app/package-lock.json\",\".\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:20Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"EXPOSE\",\"map[3000/tcp:{}]\"]",
+          "command_all": "RUN [\"EXPOSE\",\"map[3000/tcp:{}]\"]",
+          "system_commands": [
+            "[\"EXPOSE\",\"map[3000/tcp:{}]\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2021-12-30T14:50:20Z",
+          "is_last_instruction": true,
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": true,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"CMD\",\"[npm\",\"start]\"]",
+          "command_all": "RUN [\"CMD\",\"[npm\",\"start]\"]",
+          "system_commands": [
+            "[\"CMD\",\"[npm\",\"start]\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0",
+          "raw_tags": [
+            "oyelowo/web-all2:latest"
+          ]
+        }
+      ]
+    }
+  ]
+}

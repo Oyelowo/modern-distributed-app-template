@@ -20,6 +20,7 @@
     "next-transpile-modules": "9.0.0",
     "@oyelowo/tsconfig": "*",
     "@types/react": "17.0.37",
+    "twin.macro": "^2.8.2",
     "typescript": "4.5.2"
   }
 }
