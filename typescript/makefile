@@ -14,4 +14,9 @@ deploy:
 
 deploy-web:
 	docker build -f Dockerfile.prod --target web  -t oyelowo/web .
+	docker-slim build --include-path=/app/apps/web/server.js oyelowo/web
+	docker run -p 3000:3000 oyelowo/web.slim
+
+deploy-web-old:
+	docker build -f Dockerfile.prod --target web  -t oyelowo/web .
 	docker run -p 3000:3000 oyelowo/web 
