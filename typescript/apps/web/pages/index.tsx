@@ -5,7 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Bars, { useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
-import Box from "../3D/Box";
+
 import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
 import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
         </div>
         <div tw="height[96vh] width[100vw] m-auto">{CandleStickCharts}</div>
         {/* <div tw="height[96vh] width[100vw] m-auto">{TAChart}</div> */}
-        <Box />
+
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
         Home of grind!

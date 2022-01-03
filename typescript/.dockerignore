@@ -12,3 +12,4 @@ Dockerfile
 docker-compose.yml
 node_modules/         # Installed inside container
 nginx/
+makefile

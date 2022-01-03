@@ -1,3 +1,8 @@
+# Deploy
+```bash
+make deploy-web
+```
+
 # Turborepo starter with NPM
 
 This is an official starter turborepo.

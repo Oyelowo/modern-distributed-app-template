@@ -11,7 +11,8 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write '**/*.{ts,tsx,.md}'",
-    "start": "next start"
+    "start": "next start",
+    "prune": "turbo prune --scope=web"
   },
   "devDependencies": {
     "prettier": "^2.5.1",
