@@ -10,7 +10,7 @@ RUN apk update
 WORKDIR /app
 COPY --from=sourcer /app/package-lock.json .
 COPY --from=sourcer /json .
-RUN npm i
+RUN npm i --production
 
 FROM node AS builder
 WORKDIR /app
