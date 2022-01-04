@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "cross-env NODE_ENV=production node dist/server/index.js",
-    "prepkg": "npm run build",
-    "pkg": "pkg . --targets node16-alpine-x64 --out-path pkg",
+    "start": "cross-env NODE_ENV=production node .next/standalone/apps/web/server.js",
+    "start:dist": "cross-env NODE_ENV=production node dist/server/index.js",
     "dev:old": "next dev",
     "build:old": "next build",
     "start:old": "next start",
