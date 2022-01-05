@@ -21,7 +21,7 @@
   },
   "source_image": {
     "identity": {
-      "id": "sha256:6d7a45274f46eeebf6fe3d449b1683348ea3d57961596b52840123eee8305f23",
+      "id": "sha256:1efe481176bc6f492054f0eda31e47a227967b0c59959f4a2a628efb7ae6d4c7",
       "tags": [
         "latest"
       ],
@@ -29,9 +29,9 @@
         "oyelowo/web:latest"
       ]
     },
-    "size": 121214244,
+    "size": 121322653,
     "size_human": "121 MB",
-    "create_time": "2022-01-04T14:48:00Z",
+    "create_time": "2022-01-05T01:39:15Z",
     "docker_version": "",
     "architecture": "amd64",
     "exposed_ports": [
@@ -47,27 +47,27 @@
       "exe_path": ""
     }
   },
-  "minified_image_size": 87156431,
-  "minified_image_size_human": "87 MB",
+  "minified_image_size": 90144005,
+  "minified_image_size_human": "90 MB",
   "minified_image": "oyelowo/web.slim",
   "minified_image_has_data": true,
-  "minified_by": 1.3907664943278828,
-  "artifact_location": "/tmp/docker-slim-state/.docker-slim-state/images/6d7a45274f46eeebf6fe3d449b1683348ea3d57961596b52840123eee8305f23/artifacts",
+  "minified_by": 1.3458760014046414,
+  "artifact_location": "/tmp/docker-slim-state/.docker-slim-state/images/1efe481176bc6f492054f0eda31e47a227967b0c59959f4a2a628efb7ae6d4c7/artifacts",
   "container_report_name": "creport.json",
   "seccomp_profile_name": "oyelowo-web-seccomp.json",
   "apparmor_profile_name": "oyelowo-web-apparmor-profile",
   "image_stack": [
     {
       "is_top_image": true,
-      "id": "sha256:6d7a45274f46eeebf6fe3d449b1683348ea3d57961596b52840123eee8305f23",
+      "id": "sha256:1efe481176bc6f492054f0eda31e47a227967b0c59959f4a2a628efb7ae6d4c7",
       "full_name": "oyelowo/web:latest",
       "repo_name": "oyelowo/web",
       "version_tag": "latest",
       "raw_tags": [
         "oyelowo/web:latest"
       ],
-      "create_time": "2022-01-04T14:48:00Z",
-      "new_size": 121214244,
+      "create_time": "2022-01-05T01:39:15Z",
+      "new_size": 121322653,
       "new_size_human": "121 MB",
       "instructions": [
         {
@@ -240,7 +240,7 @@
         },
         {
           "type": "RUN",
-          "time": "2022-01-04T14:48:00Z",
+          "time": "2022-01-05T01:39:15Z",
           "is_nop": false,
           "is_exec_form": true,
           "local_image_exists": false,
@@ -255,13 +255,13 @@
         },
         {
           "type": "RUN",
-          "time": "2022-01-04T14:48:00Z",
+          "time": "2022-01-05T01:39:15Z",
           "is_nop": false,
           "is_exec_form": true,
           "local_image_exists": false,
           "layer_index": 0,
-          "size": 9905615,
-          "size_human": "9.9 MB",
+          "size": 10013990,
+          "size_human": "10 MB",
           "command_snippet": "RUN [\"COPY\",\"/app/apps/web/.next/standalone\"...",
           "command_all": "RUN [\"COPY\",\"/app/apps/web/.next/standalone\",\".\"]",
           "system_commands": [
@@ -271,12 +271,12 @@
         },
         {
           "type": "RUN",
-          "time": "2022-01-04T14:48:00Z",
+          "time": "2022-01-05T01:39:15Z",
           "is_nop": false,
           "is_exec_form": true,
           "local_image_exists": false,
           "layer_index": 0,
-          "size": 1423839,
+          "size": 1423873,
           "size_human": "1.4 MB",
           "command_snippet": "RUN [\"COPY\",\"/app/apps/web/.next/static\",\"./...",
           "command_all": "RUN [\"COPY\",\"/app/apps/web/.next/static\",\"./apps/web/.next/static\"]",
@@ -287,7 +287,7 @@
         },
         {
           "type": "RUN",
-          "time": "2022-01-04T14:48:00Z",
+          "time": "2022-01-05T01:39:15Z",
           "is_last_instruction": true,
           "is_nop": false,
           "is_exec_form": true,
