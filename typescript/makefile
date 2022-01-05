@@ -4,6 +4,9 @@ build:
 run:
 	npm run start
 
+build-web-image:
+	docker build -f Dockerfile.prod --target web  -t oyelowo/web .
+
 deploy:
 	docker build -f Dockerfile.prod --target web  -t oyelowo/web .
 	docker run -p 3000:3000 oyelowo/web 

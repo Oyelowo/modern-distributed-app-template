@@ -1,15 +1,19 @@
 # Deploy
 ```bash
 make deploy-web
+
+make build_web_image
 ```
 
 # Turborepo starter with NPM
 
 This is an official starter turborepo.
 
+
 ## What's inside?
 
 This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
+
 
 ### Apps and Packages
 
