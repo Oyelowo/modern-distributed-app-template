@@ -12,7 +12,7 @@ This is an official starter turborepo.
 
 ## What's inside?
 
-This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
+This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps: 
 
 
 ### Apps and Packages 
