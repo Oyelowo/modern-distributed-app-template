@@ -13,13 +13,22 @@ COPY --from=sourcer /json .
 RUN npm i
 
 
+
+FROM node:16.13.1-alpine AS web-dev
+WORKDIR /app
+EXPOSE 3000
+COPY --from=installer /app .
+COPY . .
+WORKDIR /app/apps/web
+CMD ["npm", "run", "dev"]
+
+
 FROM node AS base
 WORKDIR /app
 COPY --from=installer /app .
 COPY . .
 # RUN npm run build -- --scope=web
 RUN npm run build
-
 
 FROM node:16.13.1-alpine AS web
 WORKDIR /app
