@@ -18,35 +18,8 @@
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {
+    "@turbo/codemod": "^1.1.0-canary.3",
     "prettier": "^2.5.1",
     "turbo": "latest"
-  },
-  "turbo": {
-    "pipeline": {
-      "build": {
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "dist/**",
-          ".next/**"
-        ]
-      },
-      "test": {
-        "outputs": []
-      },
-      "test:ci": {
-        "outputs": []
-      },
-      "lint": {
-        "outputs": []
-      },
-      "prettier": {
-        "outputs": []
-      },
-      "dev": {
-        "cache": false
-      }
-    }
   }
 }
