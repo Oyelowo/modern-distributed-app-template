@@ -13,16 +13,6 @@ COPY --from=sourcer /json .
 RUN npm i
 
 
-
-FROM node:16.13.1-alpine AS web-dev
-WORKDIR /app
-EXPOSE 3000
-COPY --from=installer /app .
-COPY . .
-WORKDIR /app/apps/web
-CMD ["npm", "run", "dev"]
-
-
 FROM node AS base
 WORKDIR /app
 COPY --from=installer /app .
@@ -34,7 +24,7 @@ FROM node:16.13.1-alpine AS web
 WORKDIR /app
 EXPOSE 3000
 COPY --from=base /app/apps/web/.next/standalone .
-# Also copt the static files into the standalone for nodejs server to serve. This can also be
+# Also copy the static files into the standalone for nodejs server to serve. This can also be
 # served over the CDN or nginx.
 COPY --from=base /app/apps/web/.next/static ./apps/web/.next/static
 CMD ["node", "/app/apps/web/server.js"]

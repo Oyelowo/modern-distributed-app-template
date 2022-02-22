@@ -1,8 +1,8 @@
 FROM node:lts-alpine AS base
 RUN apk update
 WORKDIR /app
-ARG SCOPE=web
-ENV SCOPE=${SCOPE}
+ARG SCOPE
+ENV SCOPE=web
 ENV YARN_CACHE_FOLDER=.yarn-cache
 
 FROM base AS pruner
@@ -28,7 +28,7 @@ COPY --from=pruner /app/out/full/ .
 RUN yarn turbo run build --scope=${SCOPE} --include-dependencies --no-deps
 RUN find . -name node_modules | xargs rm -rf
 
-FROM base AS runner
+FROM base AS web
 COPY --from=prod-deps /app/ .
 COPY --from=builder /app/ .
 CMD yarn workspace ${SCOPE} start
