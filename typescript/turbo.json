@@ -1,27 +1,21 @@
 {
   "pipeline": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        "dist/**",
-        ".next/**"
-      ]
+      "outputs": ["dist/**", ".next/**", "public/dist/**"],
+      "dependsOn": ["^build"]
     },
     "test": {
-      "outputs": []
-    },
-    "test:ci": {
-      "outputs": []
+      "outputs": ["coverage/**"],
+      "dependsOn": []
     },
     "lint": {
-      "outputs": []
-    },
-    "prettier": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "dev": {
+      "cache": false
+    },
+    "clean": {
       "cache": false
     }
   }
