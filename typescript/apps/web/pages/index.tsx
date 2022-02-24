@@ -16,6 +16,12 @@ import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
 import { useCreateUserMutation } from "@oyelowo/graphql-client";
+import { ReactQueryDevtools } from "react-query/devtools";
+import { request, gql, GraphQLClient } from "graphql-request";
+
+const client = new GraphQLClient("localhost:8000", {
+  headers: {},
+});
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const Home: NextPage = () => {
@@ -30,8 +36,8 @@ const Home: NextPage = () => {
   const { ReactCharts: MultiChart } = useChart({
     option: multiChartOptions,
   });
-  
-  const { mutate } = useCreateUserMutation();
+
+  const { mutate } = useCreateUserMutation(client);
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
