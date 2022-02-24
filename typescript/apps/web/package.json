@@ -19,8 +19,8 @@
     "@emotion/react": "^11.5.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.3.0",
-    "@oyelowo/ui": "*",
     "@oyelowo/graphql-client": "*",
+    "@oyelowo/ui": "*",
     "@react-aria/button": "^3.3.4",
     "@react-aria/checkbox": "^3.2.3",
     "@react-aria/dialog": "^3.1.4",
@@ -63,7 +63,8 @@
     "next-transpile-modules": "9.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-spring": "^9.3.1"
+    "react-spring": "^9.3.1",
+    "react-use": "^17.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

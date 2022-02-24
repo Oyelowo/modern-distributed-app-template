@@ -41,7 +41,12 @@ const Home: NextPage = () => {
   });
 
   const { mutate } = useCreateUserMutation(client);
-  const { data } = useGetUsersQuery(client);
+  const { data, isSuccess } = useGetUsersQuery(client);
+
+  if (!isSuccess) {
+    return <div>Hasn{"'"}t yet succeeded</div>;
+  }
+  
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -68,7 +73,7 @@ const Home: NextPage = () => {
           }}
         ></button>
         <ul>
-          {data.users.map((el) => (
+          {data?.users.map((el) => (
             <li key={el.id}>
               <div>First name: {el.firstName}</div>
               <div>Last name: {el.lastName}</div>
@@ -77,7 +82,7 @@ const Home: NextPage = () => {
               <div>Created At: {el.createdAt}</div>
               <div>
                 Posts:{" "}
-                {el.posts.map((p, i) => (
+                {el?.posts.map((p, i) => (
                   <div key={i}>
                     <div>Title: {p.title}</div>
                     <div>Content: {p.content}</div>

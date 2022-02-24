@@ -4,6 +4,7 @@ const withTM = require("next-transpile-modules")([
   "echarts",
   "zrender",
   "@oyelowo/ui",
+  "@oyelowo/graphql-client",
 ]);
 
 /** @type {import('next').NextConfig} */
