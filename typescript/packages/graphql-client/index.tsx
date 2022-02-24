@@ -9,4 +9,4 @@ export function getLowo() {
 }
 
 
-export * from "./generates";
+export * from "./generated/generated";

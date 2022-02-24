@@ -1,4 +1,4 @@
-import { endpointUrl, fetchParams } from './my-config';
+import { endpointUrl, fetchParams } from '../my-config';
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
