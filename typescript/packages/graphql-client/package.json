@@ -8,7 +8,8 @@
   "scripts": {
     "dev:ui": "next dev",
     "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 6006",
-    "builmd": "next build",
+    "build": "tsc",
+    "build:old": "next build",
     "start": "next start",
     "lint": "next lint",
     "compile": "tsc",
@@ -23,6 +24,7 @@
   },
   "dependencies": {
     "fuse.js": "^6.4.6",
+    "graphql-request": "^4.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-query": "^3.34.16"
@@ -30,6 +32,7 @@
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
+    "@babel/preset-typescript": "^7.16.0",
     "@graphql-codegen/add": "^3.1.1",
     "@graphql-codegen/cli": "2.6.2",
     "@graphql-codegen/introspection": "2.1.1",
@@ -43,7 +46,6 @@
     "@types/node": "16.11.7",
     "@types/react": "17.0.34",
     "autoprefixer": "^10.4.0",
-    "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.3",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.3",
