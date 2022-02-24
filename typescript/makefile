@@ -1,3 +1,9 @@
+gen:
+	# Only cd for this subshell. Dont affect the following after this
+	(cd ../rust && make gen)
+	npm run generate --workspace=@oyelowo/graphql-client
+	# npm run generate
+
 build:
 	npm run build
 

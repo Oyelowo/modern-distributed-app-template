@@ -12,16 +12,21 @@
     "start": "next start",
     "lint": "next lint",
     "compile": "tsc",
+    "graphql-codegen": "graphql-codegen --config codegen.yml",
+    "generate": "graphql-codegen --config codegen.yml",
+    "prestart": "npm run generate",
+    "predev": "npm run generate",
     "test": "jest --watch",
     "test:ci": "jest --ci",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "graphql-codegen": "graphql-codegen --config codegen.yml"
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "D": "^1.0.0",
     "fuse.js": "^6.4.6",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-query": "^3.34.16"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",
@@ -29,7 +34,16 @@
     "@babel/preset-typescript": "^7.16.0",
     "@emotion/babel-plugin": "^11.3.0",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.1.5",
+    "@graphql-codegen/add": "^3.1.1",
     "@graphql-codegen/cli": "2.6.2",
+    "@graphql-codegen/introspection": "2.1.1",
+    "@graphql-codegen/typescript": "2.4.5",
+    "@graphql-codegen/typescript-document-nodes": "2.2.5",
+    "@graphql-codegen/typescript-graphql-files-modules": "^2.1.1",
+    "@graphql-codegen/typescript-operations": "2.3.2",
+    "@graphql-codegen/typescript-react-apollo": "3.2.8",
+    "@graphql-codegen/typescript-react-query": "^3.5.5",
+    "@graphql-codegen/urql-introspection": "2.1.1",
     "@storybook/addon-actions": "^6.3.12",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-links": "^6.3.12",
@@ -54,10 +68,6 @@
     "prettier": "^2.3.1",
     "react-is": "^17.0.2",
     "react-test-renderer": "^17.0.2",
-    "typescript": "^4.5.2",
-    "@graphql-codegen/typescript": "2.4.5",
-    "@graphql-codegen/typescript-react-apollo": "3.2.8",
-    "@graphql-codegen/typescript-operations": "2.3.2",
-    "@graphql-codegen/introspection": "2.1.1"
+    "typescript": "^4.5.2"
   }
 }

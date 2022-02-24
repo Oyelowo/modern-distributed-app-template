@@ -15,6 +15,7 @@
     "prettier": "turbo run prettier",
     "format": "prettier --write '**/*.{ts,tsx,.md}'",
     "start": "next start",
+    "generate": "turbo run generate --scope=@oyelowo/graphql-client",
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {

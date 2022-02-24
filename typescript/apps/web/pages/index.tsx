@@ -15,7 +15,7 @@ import { tradingChartOption } from "../charts/echarts/StockChartTA";
 import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
-
+import { useCreateUserMutation } from "@oyelowo/graphql-client";
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const Home: NextPage = () => {
@@ -30,6 +30,8 @@ const Home: NextPage = () => {
   const { ReactCharts: MultiChart } = useChart({
     option: multiChartOptions,
   });
+  
+  const { mutate } = useCreateUserMutation();
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -41,6 +43,21 @@ const Home: NextPage = () => {
       <main tw="bg-black">
         another name {getLowo()} <br />
         <br />
+        Create Dummy User
+        <button
+          onClick={() => {
+            mutate({
+              userInput: {
+                firstName: "Oyelowo",
+                lastName: "Oyedayo",
+                socialMedia: ["fd"],
+                age: 19,
+                email: "oye@gmail.com",
+              },
+            });
+          }}
+        ></button>
+        <br />
         <Link href="/hello">
           <a tw="text-gray-50">Link to charts</a>
         </Link>
@@ -49,11 +66,14 @@ const Home: NextPage = () => {
         </div>
         <div tw="height[96vh] width[100vw] m-auto">{CandleStickCharts}</div>
         {/* <div tw="height[96vh] width[100vw] m-auto">{TAChart}</div> */}
-
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
         Home of grind!
-        <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
+        <TextField
+          label="Oyelowo Oyedayo"
+          description="The sweet field"
+          errorMessage="Bad error"
+        />
         <CardTailWindExample />
         <div tw="text-blue-600">
           Separate
@@ -63,7 +83,11 @@ const Home: NextPage = () => {
       </main>
 
       <footer>
-        <a href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://codebreather.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Powered by Code breather
         </a>
       </footer>

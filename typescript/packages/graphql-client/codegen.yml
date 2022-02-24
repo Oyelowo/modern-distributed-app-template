@@ -1,12 +1,23 @@
 overwrite: true
-schema: "http://localhost:8000"
-documents: "src/**/*.graphql"
+schema: "../../../rust/graphql-mongo/generated/schema.graphql"
+documents: "./operations/users.graphql"
 generates:
-  src/generated/graphql.tsx:
+  ./generates.ts:
     plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typescript-react-apollo"
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"
+      - add:
+          content: "import { endpointUrl, fetchParams } from './my-config';"
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+     # - "typescript-graphql-files-modules"
+  #     - "typescript-document-nodes"
+  #     - "@graphql-codegen/typescript"
+  #     - "@graphql-codegen/typescript-operations"
+  #     - "urql-introspection"
+  # ./graphql.schema.json:
+  #   plugins:
+  #     - "introspection"
+    config:
+      fetcher:
+        endpoint: 'endpointUrl'
+        fetchParams: 'fetchParams'
