@@ -1,4 +1,5 @@
-import { endpointUrl, fetchParams } from '../my-config';
+import { GraphQLClient } from 'graphql-request';
+import { RequestInit } from 'graphql-request/dist/types.dom';
 import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -6,24 +7,8 @@ export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K]
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch(endpointUrl as string, {
-    method: "POST",
-    ...(fetchParams),
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
+function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
+  return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -138,10 +123,14 @@ export const CreateUserDocument = `
 export const useCreateUserMutation = <
       TError = unknown,
       TContext = unknown
-    >(options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>) =>
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateUserMutation, TError, CreateUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
     useMutation<CreateUserMutation, TError, CreateUserMutationVariables, TContext>(
       ['createUser'],
-      (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, variables)(),
+      (variables?: CreateUserMutationVariables) => fetcher<CreateUserMutation, CreateUserMutationVariables>(client, CreateUserDocument, variables, headers)(),
       options
     );
 export const GetUsersDocument = `
@@ -166,11 +155,13 @@ export const useGetUsersQuery = <
       TData = GetUsersQuery,
       TError = unknown
     >(
+      client: GraphQLClient,
       variables?: GetUsersQueryVariables,
-      options?: UseQueryOptions<GetUsersQuery, TError, TData>
+      options?: UseQueryOptions<GetUsersQuery, TError, TData>,
+      headers?: RequestInit['headers']
     ) =>
     useQuery<GetUsersQuery, TError, TData>(
       variables === undefined ? ['GetUsers'] : ['GetUsers', variables],
-      fetcher<GetUsersQuery, GetUsersQueryVariables>(GetUsersDocument, variables),
+      fetcher<GetUsersQuery, GetUsersQueryVariables>(client, GetUsersDocument, variables, headers),
       options
     );
