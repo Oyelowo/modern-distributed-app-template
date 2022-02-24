@@ -15,7 +15,10 @@ import { tradingChartOption } from "../charts/echarts/StockChartTA";
 import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
-import { useCreateUserMutation } from "@oyelowo/graphql-client";
+import {
+  useCreateUserMutation,
+  useGetUsersQuery,
+} from "@oyelowo/graphql-client";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
 
@@ -38,6 +41,7 @@ const Home: NextPage = () => {
   });
 
   const { mutate } = useCreateUserMutation(client);
+  const { data } = useGetUsersQuery(client);
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -63,6 +67,26 @@ const Home: NextPage = () => {
             });
           }}
         ></button>
+        <ul>
+          {data.users.map((el) => (
+            <li key={el.id}>
+              <div>First name: {el.firstName}</div>
+              <div>Last name: {el.lastName}</div>
+              <div>Age: {el.age}</div>
+              <div>Social Media: {el.socialMedia.join(", ")}</div>
+              <div>Created At: {el.createdAt}</div>
+              <div>
+                Posts:{" "}
+                {el.posts.map((p, i) => (
+                  <div key={i}>
+                    <div>Title: {p.title}</div>
+                    <div>Content: {p.content}</div>
+                  </div>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
         <br />
         <Link href="/hello">
           <a tw="text-gray-50">Link to charts</a>
