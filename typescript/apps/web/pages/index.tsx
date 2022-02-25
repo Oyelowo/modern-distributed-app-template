@@ -60,18 +60,20 @@ const Home: NextPage = () => {
         <br />
         Create Dummy User
         <button
+          tw="text-white"
           onClick={() => {
             mutate({
               userInput: {
-                firstName: "Oyelowo",
-                lastName: "Oyedayo",
+                firstName: "Oyelowo" + Math.random(),
+                lastName: "Oyedayo" + Math.random(),
                 socialMedia: ["fd"],
                 age: 19,
-                email: "oye@gmail.com",
+                email: + Math.random() + "oye@gmail.com",
               },
-            });
+            },
+            );
           }}
-        ></button>
+        >Crate random user</button>
         <ul>
           {data?.users.map((el) => (
             <li key={el.id}>
