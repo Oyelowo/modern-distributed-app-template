@@ -5,7 +5,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Bars, { useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
-
+import { useQueryClient } from "react-query";
 import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
 import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
@@ -40,13 +40,18 @@ const Home: NextPage = () => {
     option: multiChartOptions,
   });
 
-  const { mutate } = useCreateUserMutation(client);
+  const queryClient = useQueryClient();
   const { data, isSuccess } = useGetUsersQuery(client);
+  const { mutate } = useCreateUserMutation(client, {
+    onMutate: () => {
+      queryClient.invalidateQueries(["GetUsers"]);
+    },
+  });
 
   if (!isSuccess) {
     return <div>Hasn{"'"}t yet succeeded</div>;
   }
-  
+
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -68,12 +73,13 @@ const Home: NextPage = () => {
                 lastName: "Oyedayo" + Math.random(),
                 socialMedia: ["fd"],
                 age: 19,
-                email: + Math.random() + "oye@gmail.com",
+                email: +Math.random() + "oye@gmail.com",
               },
-            },
-            );
+            });
           }}
-        >Crate random user</button>
+        >
+          Crate random user
+        </button>
         <ul>
           {data?.users.map((el) => (
             <li key={el.id}>
