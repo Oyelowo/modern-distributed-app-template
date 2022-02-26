@@ -61,6 +61,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main tw="bg-black">
+        <h1>The allergy</h1>
         another name {getLowo()} <br />
         <br />
         Create Dummy User

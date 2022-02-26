@@ -21,6 +21,7 @@
     "@emotion/styled": "^11.3.0",
     "@oyelowo/graphql-client": "*",
     "@oyelowo/ui": "*",
+    "@picocss/pico": "^1.4.4",
     "@react-aria/button": "^3.3.4",
     "@react-aria/checkbox": "^3.2.3",
     "@react-aria/dialog": "^3.1.4",
