@@ -13,7 +13,7 @@ COPY --from=planner /json .
 RUN npm ci
 
 
-FROM node:16.14.0-alpine3.14 AS builder-base
+FROM $BASE_IMAGE AS builder-base
 WORKDIR /app
 # Copy over the cached dependencies 
 COPY --from=cacher /app .
@@ -21,10 +21,19 @@ COPY --from=cacher /app .
 #others
 COPY . .
 
-######### START WEB SERVICE  ##################
+######### START WEB SERVICE  #################
 ################################################################
-FROM builder-base as web
+FROM builder-base as builder-web
+RUN npm run build -- --scope=web
+# RUN npm run build
+
+FROM node:16.14.0-alpine3.14 AS web
+WORKDIR /app
 EXPOSE 3000
-CMD ["npm", "run", "dev", "-w=web"]
+COPY --from=builder-web /app/apps/web/.next/standalone .
+# Also copy the static files into the standalone for nodejs server to serve. This can also be
+# served over the CDN or nginx.
+COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
+CMD ["node", "/app/apps/web/server.js"]
 ######### END WEB SERVICE  #################
 ##############################################################
