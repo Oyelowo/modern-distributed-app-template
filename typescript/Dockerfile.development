@@ -10,10 +10,10 @@ FROM $BASE_IMAGE AS cacher
 WORKDIR /app
 COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .
-RUN npm i
+RUN npm ci
 
 
-FROM $BASE_IMAGE AS builder-base
+FROM node:16.14.0-alpine3.14 AS builder-base
 WORKDIR /app
 # Copy over the cached dependencies 
 COPY --from=cacher /app .
@@ -21,10 +21,10 @@ COPY --from=cacher /app .
 #others
 COPY . .
 
-######### START WEB SERVICE  #################
+######### START WEB SERVICE  ##################
 ################################################################
 FROM builder-base as web
 EXPOSE 3000
-CMD ["npm", "start", "-w=web"]
+CMD ["npm", "run", "dev", "-w=web"]
 ######### END WEB SERVICE  #################
 ##############################################################

@@ -13,5 +13,9 @@ docker-compose.yml
 node_modules/         # Installed inside container
 **/node_modules/         # Installed inside container
 **/node_modules         # Installed inside container
+**/.next
+**/.next/
+**/.turbo
+**/.turbo/
 nginx/
 makefile

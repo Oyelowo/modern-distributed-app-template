@@ -10,7 +10,7 @@ FROM $BASE_IMAGE AS cacher
 WORKDIR /app
 COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .
-RUN npm i
+RUN npm ci
 
 
 FROM $BASE_IMAGE AS builder-base
@@ -27,7 +27,7 @@ FROM builder-base as builder-web
 RUN npm run build -- --scope=web
 # RUN npm run build
 
-FROM node:16.14.0-alpine3.14 AS web
+FROM gcr.io/distroless/nodejs:16 AS web
 WORKDIR /app
 EXPOSE 3000
 COPY --from=builder-web /app/apps/web/.next/standalone .
