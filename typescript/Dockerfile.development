@@ -5,7 +5,7 @@ COPY . .
 # Copies the root and all workspaces `package.json` to /json perserving their parent directories structure
 RUN mkdir /json && find . -type f -name package.json -not -path '*/node_modules/*' | xargs -i cp --parents {} /json
 
-FROM node:16.14.0-alpine3.14 AS installer
+FROM node:16.14.0-alpine3.14 AS cacher
 RUN apk update
 WORKDIR /app
 COPY --from=sourcer /app/package-lock.json .
@@ -13,18 +13,25 @@ COPY --from=sourcer /json .
 RUN npm i
 
 
-FROM node AS base
+FROM node AS builder-base
 WORKDIR /app
-COPY --from=installer /app .
+# Copy over the cached dependencies 
+COPY --from=cacher /app .
+
+#others
 COPY . .
-# RUN npm run build -- --scope=web
-RUN npm run build
+
+######### START GRAPHQL-MONGO BACKEND SERVICE  #################
+################################################################
+FROM builder-base as builder-web
+RUN npm run build -- --scope=web
+# RUN npm run build
 
 FROM node:16.14.0-alpine3.14 AS web
 WORKDIR /app
 EXPOSE 3000
-COPY --from=base /app/apps/web/.next/standalone .
+COPY --from=builder-web /app/apps/web/.next/standalone .
 # Also copy the static files into the standalone for nodejs server to serve. This can also be
 # served over the CDN or nginx.
-COPY --from=base /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
 CMD ["node", "/app/apps/web/server.js"]
