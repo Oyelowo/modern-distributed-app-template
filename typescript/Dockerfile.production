@@ -1,14 +1,12 @@
 ARG BASE_IMAGE=node:16.14.0
 
 FROM $BASE_IMAGE AS planner
-RUN apk update
 WORKDIR /app
 COPY . .
 # Copies the root and all workspaces `package.json` to /json perserving their parent directories structure
 RUN mkdir /json && find . -type f -name package.json -not -path '*/node_modules/*' | xargs -i cp --parents {} /json
 
 FROM $BASE_IMAGE AS cacher
-# RUN apk update
 WORKDIR /app
 COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .

@@ -1,14 +1,12 @@
 ARG BASE_IMAGE=node:16.14.0
 
 FROM $BASE_IMAGE AS planner
-RUN apk update
 WORKDIR /app
 COPY . .
 # Copies the root and all workspaces `package.json` to /json perserving their parent directories structure
 RUN mkdir /json && find . -type f -name package.json -not -path '*/node_modules/*' | xargs -i cp --parents {} /json
 
 FROM $BASE_IMAGE AS cacher
-# RUN apk update
 WORKDIR /app
 COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .
@@ -25,17 +23,8 @@ COPY . .
 
 ######### START WEB SERVICE  #################
 ################################################################
-FROM builder-base as builder-web
-RUN npm run build -- --scope=web
-# RUN npm run build
-
-FROM node:16.14.0-alpine3.14 AS web
-WORKDIR /app
+FROM builder-base as web
 EXPOSE 3000
-COPY --from=builder-web /app/apps/web/.next/standalone .
-# Also copy the static files into the standalone for nodejs server to serve. This can also be
-# served over the CDN or nginx.
-COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
-CMD ["node", "/app/apps/web/server.js"]
+CMD ["npm", "start", "-w=web"]
 ######### END WEB SERVICE  #################
 ##############################################################
