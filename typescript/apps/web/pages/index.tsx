@@ -28,6 +28,14 @@ const client = new GraphQLClient("http://localhost:8080/graphql", {
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const Home: NextPage = () => {
+  const queryClient = useQueryClient();
+  const { data, isSuccess } = useGetUsersQuery(client);
+  const { mutate } = useCreateUserMutation(client, {
+    onMutate: () => {
+      // queryClient.invalidateQueries(["GetUsers"]);
+      queryClient.refetchQueries(["GetUsers"]);
+    },
+  });
   // const {ReactCharts: CandleStickChart, chart} = useStockCandleCharts();
   const { ReactCharts: CandleChart1 } = useChart({
     option: tradingChartOption,
@@ -40,17 +48,10 @@ const Home: NextPage = () => {
     option: multiChartOptions,
   });
 
-  const queryClient = useQueryClient();
-  const { data, isSuccess } = useGetUsersQuery(client);
-  const { mutate } = useCreateUserMutation(client, {
-    onMutate: () => {
-      queryClient.invalidateQueries(["GetUsers"]);
-    },
-  });
 
-  if (!isSuccess) {
-    return <div>Hasn{"'"}t yet succeeded</div>;
-  }
+  // if (!isSuccess) {
+  //   return <div>Hasn{"'"}t yet succeeded</div>;
+  // }
 
   return (
     <div tw="bg-black h-screen text-white">
