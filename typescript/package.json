@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "turbo run build",
+    "build": "npx turbo run build",
     "dev": "turbo run dev --parallel",
     "test:watch": "turbo run test --parallel",
     "test": "turbo run test:ci --parallel",
