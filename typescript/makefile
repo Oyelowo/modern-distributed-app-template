@@ -6,6 +6,8 @@ gen:
 
 dev:
 	# Only cd for this subshell. Dont affect the following after this
+	# kill -9 $(lsof -ti:3000)
+	# pkill node
 	npm run dev --workspace=web
 	# npm run dev:old --workspace=web
 

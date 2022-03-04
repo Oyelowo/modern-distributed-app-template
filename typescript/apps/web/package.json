@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "nodemon",
+    "dev:old": "next dev",
     "test": "cross-env jest --watch",
     "test:ci": "jest --ci",
     "build": "next build && tsc --project tsconfig.server.json",
     "start": "cross-env NODE_ENV=production node .next/standalone/apps/web/server.js",
     "start:dist": "cross-env NODE_ENV=production node dist/server/index.js",
-    "dev:old": "next dev",
     "build:old": "next build",
     "start:old": "next start",
     "lint": "next lint"
