@@ -4,6 +4,11 @@ gen:
 	npm run generate --workspace=@oyelowo/graphql-client
 	# npm run generate
 
+dev:
+	# Only cd for this subshell. Dont affect the following after this
+	npm run dev --workspace=web
+	# npm run dev:old --workspace=web
+
 build:
 	npm run build
 
