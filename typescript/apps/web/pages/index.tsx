@@ -48,7 +48,6 @@ const Home: NextPage = () => {
     option: multiChartOptions,
   });
 
-
   // if (!isSuccess) {
   //   return <div>Hasn{"'"}t yet succeeded</div>;
   // }
