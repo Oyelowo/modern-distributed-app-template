@@ -27,13 +27,24 @@ FROM builder-base as builder-web
 RUN npm run build -- --scope=web
 # RUN npm run build
 
-FROM gcr.io/distroless/nodejs:16 AS web
+
+# gcr.io/distroless/nodejs:16
+FROM node:16.14.0-alpine3.15 AS web
 WORKDIR /app
 EXPOSE 3000
-COPY --from=builder-web /app/apps/web/.next/standalone .
+
+# Automatically leverage output traces to reduce image size 
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder-web /app/apps/web/.next/standalone ./
+
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder-web /app/apps/web/next.config.js ./apps/web
+COPY --from=builder-web /app/apps/web/public ./apps/web/public
+COPY --from=builder-web /app/apps/web/package.json ./apps/web/package.json
+
 # Also copy the static files into the standalone for nodejs server to serve. This can also be
 # served over the CDN or nginx.
 COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
-CMD ["node", "/app/apps/web/server.js"]
+CMD ["node", "./apps/web/server.js"]
 ######### END WEB SERVICE  #################
 ##############################################################
