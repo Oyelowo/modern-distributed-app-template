@@ -8,6 +8,10 @@
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
+    "test:ci": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
     "lint": {
       "dependsOn": ["^build"],
       "outputs": []
