@@ -37,7 +37,7 @@ EXPOSE 3000
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder-web /app/apps/web/.next/standalone ./
 
-# You only need to copy next.config.js if you are NOT using the default configuration
+# only need to copy next.config.js if NOT using the default configuration
 COPY --from=builder-web /app/apps/web/next.config.js ./apps/web
 COPY --from=builder-web /app/apps/web/public ./apps/web/public
 COPY --from=builder-web /app/apps/web/package.json ./apps/web/package.json
