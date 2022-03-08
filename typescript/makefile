@@ -1,10 +1,17 @@
+
+install:
+	npm i
+
 gen:
+	make install
 	# Only cd for this subshell. Dont affect the following after this
+	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
 	npm run generate --workspace=@oyelowo/graphql-client
 	# npm run generate
 
 dev:
+	make gen
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
