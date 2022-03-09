@@ -307,7 +307,6 @@ const data = splitData([
   ["2017-01-03", 17.6, 17.92, 17.57, 17.98, 28.0, 1, 0.0, 0.0, 0.0],
 ]);
 
-//数组处理
 function splitData(rawData: Array<[string, number, number, number, number, number, number, number, number, number]>) {
   const datas = [];
   const times = [];
