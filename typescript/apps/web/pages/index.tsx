@@ -71,6 +71,7 @@ const Home: NextPage = () => {
             mutate({
               userInput: {
                 firstName: "Oyelowo" + Math.random(),
+                username: "Oyelowo" + Math.random(),
                 lastName: "Oyedayo" + Math.random(),
                 socialMedia: ["fd"],
                 age: 19,

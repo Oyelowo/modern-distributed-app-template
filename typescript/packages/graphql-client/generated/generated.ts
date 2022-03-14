@@ -30,6 +30,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
   createUser: User;
+  getSession: Something;
+  signin: Something;
 };
 
 
@@ -75,6 +77,22 @@ export type QueryUserArgs = {
   id: Scalars['ObjectId'];
 };
 
+export enum Role {
+  Admin = 'ADMIN',
+  User = 'USER'
+}
+
+export type Something = {
+  __typename?: 'Something';
+  name: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type Subscription = {
+  __typename?: 'Subscription';
+  values: Scalars['Int'];
+};
+
 export type User = {
   __typename?: 'User';
   age: Scalars['Int'];
@@ -85,7 +103,9 @@ export type User = {
   lastName: Scalars['String'];
   postCount: Scalars['Int'];
   posts: Array<Post>;
+  roles: Array<Role>;
   socialMedia: Array<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserInput = {
@@ -94,6 +114,7 @@ export type UserInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   socialMedia: Array<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type CreateUserMutationVariables = Exact<{

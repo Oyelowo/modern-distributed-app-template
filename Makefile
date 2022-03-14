@@ -4,4 +4,4 @@ gen:
 	(cd typescript && make gen)
 
 dev:
-	(cd kubernetes && make start-app-build)
+	(cd kubernetes && make dev)
