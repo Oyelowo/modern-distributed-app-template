@@ -31,7 +31,7 @@ export type Mutation = {
   createPost: Post;
   createUser: User;
   getSession: Something;
-  signin: Something;
+  signIn: Something;
 };
 
 
