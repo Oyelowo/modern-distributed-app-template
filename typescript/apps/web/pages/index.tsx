@@ -75,6 +75,7 @@ const Home: NextPage = () => {
                 lastName: "Oyedayo" + Math.random(),
                 socialMedia: ["fd"],
                 age: 19,
+                password: "1234",
                 email: +Math.random() + "oye@gmail.com",
               },
             });
