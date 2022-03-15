@@ -31,7 +31,12 @@ export type Mutation = {
   createPost: Post;
   createUser: User;
   getSession: Something;
-  signIn: Something;
+  signIn: User;
+  /**
+   * Creates a new user but doesn't log in the user
+   * Currently like this because of future developments
+   */
+  signup: User;
 };
 
 
@@ -41,6 +46,16 @@ export type MutationCreatePostArgs = {
 
 
 export type MutationCreateUserArgs = {
+  userInput: UserInput;
+};
+
+
+export type MutationSignInArgs = {
+  userInput: SignInInput;
+};
+
+
+export type MutationSignupArgs = {
   userInput: UserInput;
 };
 
@@ -82,6 +97,11 @@ export enum Role {
   User = 'USER'
 }
 
+export type SignInInput = {
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
 export type Something = {
   __typename?: 'Something';
   name: Scalars['String'];
@@ -113,6 +133,7 @@ export type UserInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  password: Scalars['String'];
   socialMedia: Array<Scalars['String']>;
   username: Scalars['String'];
 };
