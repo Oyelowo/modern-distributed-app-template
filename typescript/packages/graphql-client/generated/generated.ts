@@ -32,11 +32,12 @@ export type Mutation = {
   createUser: User;
   getSession: Something;
   signIn: User;
+  signOut: SignOutMessage;
   /**
    * Creates a new user but doesn't log in the user
    * Currently like this because of future developments
    */
-  signup: User;
+  signUp: User;
 };
 
 
@@ -55,7 +56,7 @@ export type MutationSignInArgs = {
 };
 
 
-export type MutationSignupArgs = {
+export type MutationSignUpArgs = {
   userInput: UserInput;
 };
 
@@ -100,6 +101,12 @@ export enum Role {
 export type SignInInput = {
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type SignOutMessage = {
+  __typename?: 'SignOutMessage';
+  message: Scalars['String'];
+  userId: Scalars['ObjectId'];
 };
 
 export type Something = {
