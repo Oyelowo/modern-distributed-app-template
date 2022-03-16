@@ -6,20 +6,23 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { SSRProvider } from "@react-aria/ssr";
+import { SessionProvider } from "next-auth/react";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <SSRProvider>
-          <GlobalStyles />
-          <Component {...pageProps} />
-        </SSRProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </Hydrate>
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <SSRProvider>
+            <GlobalStyles />
+            <Component {...pageProps} />
+          </SSRProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </Hydrate>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 };
 
