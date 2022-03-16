@@ -52,12 +52,12 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationSignInArgs = {
-  userInput: SignInInput;
+  signInCredentials: SignInCredentials;
 };
 
 
 export type MutationSignUpArgs = {
-  userInput: UserInput;
+  user: UserInput;
 };
 
 export type Post = {
@@ -98,7 +98,7 @@ export enum Role {
   User = 'USER'
 }
 
-export type SignInInput = {
+export type SignInCredentials = {
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -145,6 +145,20 @@ export type UserInput = {
   username: Scalars['String'];
 };
 
+export type SignInMutationVariables = Exact<{
+  signInCredentials: SignInCredentials;
+}>;
+
+
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', username: string, email: string, age: number } };
+
+export type SignUpMutationVariables = Exact<{
+  user: UserInput;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email: string, age: number } };
+
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
 }>;
@@ -158,6 +172,50 @@ export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName: string, lastName: string, age: number, email: string, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
 
 
+export const SignInDocument = `
+    mutation signIn($signInCredentials: SignInCredentials!) {
+  signIn(signInCredentials: $signInCredentials) {
+    username
+    email
+    age
+  }
+}
+    `;
+export const useSignInMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SignInMutation, TError, SignInMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SignInMutation, TError, SignInMutationVariables, TContext>(
+      ['signIn'],
+      (variables?: SignInMutationVariables) => fetcher<SignInMutation, SignInMutationVariables>(client, SignInDocument, variables, headers)(),
+      options
+    );
+export const SignUpDocument = `
+    mutation signUp($user: UserInput!) {
+  signUp(user: $user) {
+    username
+    email
+    age
+  }
+}
+    `;
+export const useSignUpMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SignUpMutation, TError, SignUpMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SignUpMutation, TError, SignUpMutationVariables, TContext>(
+      ['signUp'],
+      (variables?: SignUpMutationVariables) => fetcher<SignUpMutation, SignUpMutationVariables>(client, SignUpDocument, variables, headers)(),
+      options
+    );
 export const CreateUserDocument = `
     mutation createUser($userInput: UserInput!) {
   createUser(userInput: $userInput) {
