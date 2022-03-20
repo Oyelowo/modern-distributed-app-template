@@ -1,0 +1,169 @@
+import React, { FC, useState, useEffect } from "react";
+import {
+  getProviders,
+  signOut,
+  signIn,
+  ClientSafeProvider,
+  LiteralUnion,
+} from "next-auth/react";
+import { BuiltInProviderType } from "next-auth/providers";
+import { useSessionReactQuery } from "../../lib/next-auth-react-query";
+import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
+import { authOptions } from "./../api/auth/[...nextauth]";
+import { useSignInMutation, useSignOutMutation } from "@oyelowo/graphql-client";
+import { GraphQLClient } from "graphql-request";
+import { useRouter } from "next/dist/client/router";
+
+const client = new GraphQLClient("http://localhost:8080/graphql", {
+  credentials: "include",
+  headers: {},
+});
+const SignIn = () => {
+  const [providers, setProviders] = useState<Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  > | null>();
+  // const k = useTextField({label})
+  const { mutate, data } = useSignInMutation(client);
+  const { mutate: signOutMutate, data: signOutData } =
+    useSignOutMutation(client);
+
+  const router = useRouter();
+  const signInCustom = () => {
+    mutate(
+      {
+        signInCredentials: {
+          username: "oyelowo",
+          password: "opolo",
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+      }
+    );
+  };
+  const signOutCustom = () => {
+    signOutMutate(
+      {},
+      {
+        onSuccess: () => {
+          router.push("/custom-signin");
+        },
+      }
+    );
+  };
+
+  const { session, isLoading } = useSessionReactQuery({
+    required: true,
+    redirectTo: "http://localhost:8080",
+    queryConfig: {
+      staleTime: 60 * 1000 * 60 * 3, // 3 hours
+      refetchInterval: 60 * 1000 * 5, // 5 minutes
+    },
+  });
+
+  useEffect(() => {
+    const setTheProviders = async () => {
+      const setupProviders = await getProviders();
+      setProviders(setupProviders);
+    };
+    setTheProviders();
+  }, []);
+
+  // if (isLoading) {
+  //   return <h1>Loading...</h1>;
+  // }
+  if (session) {
+    return (
+      <>
+        Signed in as {session.user?.email} <br />
+        {/* <button type="button" onClick={() => signOut()}> */}
+        <button type="button" onClick={signOutCustom}>
+          Sign out
+        </button>
+      </>
+    );
+  }
+  return (
+    <>
+      Not signed in but in the custom page!
+      <br />
+      <button type="button" onClick={() => signIn()}>
+        Sign in
+      </button>
+      {providers?.email && (
+        <>
+          <br />
+          <br />
+          <button type="button" onClick={() => signIn(providers.email.id)}>
+            Email Login Bro
+          </button>
+        </>
+      )}
+      {/* DATA!!!!: {JSON.stringify(data)} */}
+      {providers?.credentials && (
+        <>
+          <br />
+          <br />
+          <input type="text" name="" id="" />
+          <TextField label="Username" placeholder="Username" />
+          <TextField
+            type="password"
+            label="Password"
+            placeholder="abc@example.com"
+          />
+          <button
+            type="button"
+            // onClick={() => signIn(providers.credentials.id)}
+            onClick={signInCustom}
+          >
+            Username and password Login
+          </button>
+        </>
+      )}
+      {providers?.github && (
+        <>
+          <br />
+          <br />
+          <button type="button" onClick={() => signIn(providers.github.id)}>
+            Github Login Sis
+          </button>
+        </>
+      )}
+    </>
+  );
+};
+
+export default SignIn;
+
+function TextField(props: AriaTextFieldOptions<"input">) {
+  let { label } = props;
+  let ref = React.useRef();
+  let { labelProps, inputProps, descriptionProps, errorMessageProps } =
+    useTextField(props, ref);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: 200,
+      }}
+    >
+      <label {...labelProps}>{label}</label>
+      <input {...inputProps} ref={ref} />
+      {props.description && (
+        <div {...descriptionProps} style={{ fontSize: 12 }}>
+          {props.description}
+        </div>
+      )}
+      {props.errorMessage && (
+        <div {...errorMessageProps} style={{ color: "red", fontSize: 12 }}>
+          {props.errorMessage}
+        </div>
+      )}
+    </div>
+  );
+}

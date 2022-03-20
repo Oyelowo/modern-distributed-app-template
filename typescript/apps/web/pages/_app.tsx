@@ -8,21 +8,20 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { SSRProvider } from "@react-aria/ssr";
 import { SessionProvider } from "next-auth/react";
 
+const queryClient = new QueryClient();
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
-  const [queryClient] = useState(() => new QueryClient());
+  // const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <SessionProvider session={session}>
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <SSRProvider>
-            <GlobalStyles />
-            <Component {...pageProps} />
-          </SSRProvider>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Hydrate>
-      </QueryClientProvider>
-    </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <Hydrate state={pageProps.dehydratedState}>
+        <SSRProvider>
+          <GlobalStyles />
+          <Component {...pageProps} />
+        </SSRProvider>
+      </Hydrate>
+    </QueryClientProvider>
   );
 };
 

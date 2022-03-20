@@ -1,42 +1,46 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-
-import NextAuth from "next-auth";
-import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import NextAuth, { NextAuthOptions } from "next-auth";
+import EmailProvider from "next-auth/providers/email";
+// import { PrismaAdapter } from "@next-auth/prisma-adapter";
+// import { PrismaClient } from "@prisma/client";
+import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { useQueryClient } from "react-query";
-import { useGetUsersQuery, useSignInMutation } from "@oyelowo/graphql-client";
 import { GraphQLClient } from "graphql-request";
-// process.env.NEXTAUTH_URL = "localhost:3000";
-export default NextAuth({
-  // Configure one or more authentication providers
-  secret: "thefggfgfgfgfg secret",
-  jwt: {},
-  session: {},
+import {
+  SignInDocument,
+  SignInMutation,
+  SignInMutationVariables,
+  User,
+} from "@oyelowo/graphql-client";
+// import CredentialsProvider from 'next-auth/providers/credentials';
+import crossFetch from "cross-fetch";
+// const prisma = new PrismaClient();
+
+// For more information on each option (and a full list of options) go to
+// https://next-auth.js.org/configuration/options
+export const authOptions: NextAuthOptions = {
+  // https://next-auth.js.org/configuration/providers
+  // adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      //   clientId: process.env.GITHUB_ID,
-      clientId: "89c19374f7e7b5b35164",
-      //   clientSecret: process.env.GITHUB_SECRET,
-      clientSecret: "129488cc92e2d2f91e3a5a024086396c48c65339",
-    }),
-    GoogleProvider({
-      //   clientId: process.env.GITHUB_ID,
-      clientId:
-        "855174209543-6m0f088e55d3mevhnr8bs0qjap8j6g0g.apps.googleusercontent.com",
-      //   clientSecret: process.env.GITHUB_SECRET,
-      clientSecret: "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",
-    }),
-    //     // ...add more providers here
+    // EmailProvider({
+    //   server: process.env.EMAIL_SERVER,
+    //   from: process.env.EMAIL_FROM,
+    // }),
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: "Credentials",
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
+      /* 
+      The Credentials provider can only be used if JSON Web Tokens are enabled for sessions. 
+      Users authenticated with the Credentials provider are not persisted in the database.
+      */
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
+        // email: {
+        //   label: "Email",
+        //   type: "text ",
+        //   placeholder: "jsmith@example.com",
+        // },
+        username: {
+          label: "Username",
+          type: "text ",
+          placeholder: "jsmith",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -46,88 +50,123 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const client = new GraphQLClient("http://localhost:8080/graphql", {
-          headers: {},
-        });
-        client.setHeader(
-          "Cookie",
-          "oyelowo-session=6vIf6/Y49o2yXEpZAf2C88c8vpyd9pek9hZcEZTMPfg=XEeyKD6HxNKg5tbjKHCAAMIwYNfqgB3u"
-        );
-        // const queryClient = useQueryClient();
-        // const { mutate, data } = useSignInMutation(client, {
-        //   onMutate: () => {},
+        // const res = await fetch("http://localhost:3000/api/login", {
+        //   method: "POST",
+        //   body: JSON.stringify(credentials),
+        //   headers: { "Content-Type": "application/json" },
         // });
-        // //  const { data, isSuccess } = makeGetUsersQuery(client);
-        // // const { mutate } = useCreateUserMutation(client, {
-        // //   onMutate: () => {
-        // //     // queryClient.invalidateQueries(["GetUsers"]);
-        // //     queryClient.refetchQueries(["GetUsers"]);
-        // //   },
-        // // });
-        // //   mutate({
-        // //     signInCredentials: {
-        // //       username: "oyelowo",
-        // //       password: "1234",
-        // //     },
-        // //   });
-        // mutate({
-        //   signInCredentials: {
-        //     username: credentials.username,
-        //     password: credentials.password,
-        //   },
-        // });
+        // const user = await res.json();
 
-        // console.log("CREdentialsss", credentials);
-        // console.log("Dataaaa", data);
-        // return data.signIn;
-        //     const SignInDocument = `
-        //     mutation signIn($signInCredentials: SignInCredentials!) {
-        //   signIn(signInCredentials: $signInCredentials) {
-        //     username
-        //     email
-        //     age
-        //   }
+        // // If no error and we have user data, return it
+        // if (res.ok && user) {
+        //   return user;
         // }
-        //     `;
-
-            const SignInDocument2 = `
-          signIn(
-              username: "oyelowo"
-              password: "opolo"
-          ) {
-            username
-            email
-            age
-          }
-            `;
-
-            console.log("RUNSSSSS");
-
-            const res = await fetch("localhost:8080/graphql", {
-              headers: { "Content-Type": "application/json" },
-              method: "POST",
-              body: JSON.stringify(SignInDocument2),
-            });
-            const user = await res.json();
-
-            console.log("FERGERGFERGFDFGVD", user);
-            // If no error and we have user data, return it
-            if (res.ok && user) {
-              return user;
-            }
-            // Return null if user data could not be retrieved
-            return null;
+        // Return null if user data could not be retrieved
+        const query = SignInDocument;
+        const variables: SignInMutationVariables = {
+          signInCredentials: {
+            username: credentials.username,
+            password: credentials.password,
+          },
+        };
+        // a cookie jar scoped to the client object
+        // const fetch = require("fetch-cookie")(crossFetch);
+        const client = new GraphQLClient("http://localhost:8080/graphql", {
+          credentials: "include",
+          // headers: {},
+        });
+        const { data, extensions, headers, status } =
+          await client.rawRequest<SignInMutation>(query, variables);
+        console.log("DATAAAAAA", JSON.stringify(data, undefined, 2));
+        console.log("headers", JSON.stringify(headers, undefined, 2));
+        console.log("extensions", JSON.stringify(extensions, undefined, 2));
+        console.log("status", JSON.stringify(status, undefined, 2));
+        return data.signIn;
       },
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
     }),
   ],
 
-  // callbacks: {
-  //   async signIn({ user, account, profile, email, credentials }): Promise<any> {
-  //     console.log("RUNANANANAN");
-  //   },
-  //   // async signOut({user, account, profile, email, credentials}) {
+  // The secret should be set to a reasonably long random string.
+  // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
+  // a separate secret is defined explicitly for encrypting the JWT.
+  secret: "process.env.SECRET",
+  // secret: process.env.SECRET,
 
-  //   // },
-  // },
-  // secret: "process.env.SECRET"
-});
+  session: {
+    strategy: "database",
+    // Use JSON Web Tokens for session instead of database sessions.
+    // This option can be used with or without a database for users/accounts.
+    // Note: `jwt` is automatically set to `true` if no database is specified.
+    // jwt: true,
+    // Seconds - How long until an idle session expires and is no longer valid.
+    // maxAge: 30 * 24 * 60 * 60, // 30 days
+    // Seconds - Throttle how frequently to write to database to extend a session.
+    // Use it to limit write operations. Set to 0 to always update the database.
+    // Note: This option is ignored if using JSON Web Tokens
+    // updateAge: 24 * 60 * 60, // 24 hours
+  },
+
+  // JSON Web tokens are only used for sessions if the `jwt: true` session
+  // option is set - or by default if no database is specified.
+  // https://next-auth.js.org/configuration/options#jwt
+  jwt: {
+    // A secret to use for key generation (you should set this explicitly)
+    // secret: 'INp8IvdIyeMcoGAgFGoA61DdBglwwSqnXJZkgz8PSnw',
+    // Set to true to use encryption (default: false)
+    // encryption: true,
+    // You can define your own encode/decode functions for signing and encryption
+    // if you want to override the default behaviour.
+    // encode: async ({ secret, token, maxAge }) => {},
+    // decode: async ({ secret, token, maxAge }) => {},
+  },
+
+  // You can define custom pages to override the built-in ones. These will be regular Next.js pages
+  // so ensure that they are placed outside of the '/api' folder, e.g. signIn: '/auth/mycustom-signin'
+  // The routes shown here are the default URLs that will be used when a custom
+  // pages is not specified for that route.
+  // https://next-auth.js.org/configuration/pages
+  pages: {
+    signIn: "/auth/signin", // Displays signin buttons
+    // signIn: "/custom-signin", // Displays signin buttons
+    // signOut: '/auth/signout', // Displays form with sign out button
+    // error: '/auth/error', // Error code passed in query string as ?error=
+    // verifyRequest: '/auth/verify-request', // Used for check email page
+    // newUser: "/newUser", // If set, new users will be directed here on first sign in
+  },
+
+  // Callbacks are asynchronous functions you can use to control what happens
+  // when an action is performed.
+  // https://next-auth.js.org/configuration/callbacks
+  callbacks: {
+    // async signIn(user, account, profile) { return true },
+    // async redirect(url, baseUrl) { return baseUrl },
+    // async session(session, user) { return session },
+    // async jwt(token, user, account, profile, isNewUser) { return token }
+  },
+
+  // Events are useful for logging
+  // https://next-auth.js.org/configuration/events
+  events: {
+    signIn: ({ user, account, profile, isNewUser }) => {
+      console.log(`isNewUser: ${JSON.stringify(isNewUser)}`);
+    },
+    // updateUser({ user })
+  },
+
+  // You can set the theme to 'light', 'dark' or use 'auto' to default to the
+  // whatever prefers-color-scheme is set to in the browser. Default is 'auto'
+  theme: {
+    colorScheme: "auto",
+    logo: "https://next-auth.js.org/img/logo/logo-sm.png",
+    brandColor: "green",
+  },
+
+  // Enable debug messages in the console if you are having problems
+  debug: false,
+};
+
+export default NextAuth(authOptions);

@@ -62,7 +62,6 @@ export const SpringPlay = () => {
     from: { testNumber: 0 },
     config: { mass: 10, tension: 50, friction: 50, clamp: true },
   });
-  console.log("fef", p, props);
   const { someX } = useSpring({
     someX: 400,
     from: { someX: 0 },

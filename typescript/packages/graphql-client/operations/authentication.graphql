@@ -14,3 +14,23 @@ mutation signUp($user: UserInput!) {
     age
   }
 }
+
+
+mutation signOut {
+  signOut {
+    userId
+    message
+  }
+}
+
+
+query session {
+  session {
+    user {
+      name
+      email
+      image
+    }
+    expiresIn
+  }
+}

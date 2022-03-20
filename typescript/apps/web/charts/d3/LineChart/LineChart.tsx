@@ -116,7 +116,6 @@ const LineChart = () => {
 
   const x2 = xScale(new Date(data[2].date)) - xScale(new Date(data[1].date));
   const bb = chartAreaProps.WIDTH / data.length;
-  // console.log("bb", x2);
   console.log(
     "hovered",
     hovered,

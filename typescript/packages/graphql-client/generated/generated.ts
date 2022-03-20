@@ -30,7 +30,6 @@ export type Mutation = {
   __typename?: 'Mutation';
   createPost: Post;
   createUser: User;
-  getSession: Something;
   signIn: User;
   signOut: SignOutMessage;
   /**
@@ -79,7 +78,8 @@ export type Query = {
   __typename?: 'Query';
   post?: Maybe<Post>;
   posts: Array<Post>;
-  user?: Maybe<User>;
+  session: Session;
+  user: User;
   users: Array<User>;
 };
 
@@ -98,6 +98,19 @@ export enum Role {
   User = 'USER'
 }
 
+export type Session = {
+  __typename?: 'Session';
+  expiresIn: Scalars['String'];
+  user: SessionUser;
+};
+
+export type SessionUser = {
+  __typename?: 'SessionUser';
+  email: Scalars['String'];
+  image: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type SignInCredentials = {
   password: Scalars['String'];
   username: Scalars['String'];
@@ -107,12 +120,6 @@ export type SignOutMessage = {
   __typename?: 'SignOutMessage';
   message: Scalars['String'];
   userId: Scalars['ObjectId'];
-};
-
-export type Something = {
-  __typename?: 'Something';
-  name: Scalars['String'];
-  userId: Scalars['String'];
 };
 
 export type Subscription = {
@@ -158,6 +165,16 @@ export type SignUpMutationVariables = Exact<{
 
 
 export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email: string, age: number } };
+
+export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SignOutMutation = { __typename?: 'Mutation', signOut: { __typename?: 'SignOutMessage', userId: any, message: string } };
+
+export type SessionQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresIn: string, user: { __typename?: 'SessionUser', name: string, email: string, image: string } } };
 
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
@@ -214,6 +231,53 @@ export const useSignUpMutation = <
     useMutation<SignUpMutation, TError, SignUpMutationVariables, TContext>(
       ['signUp'],
       (variables?: SignUpMutationVariables) => fetcher<SignUpMutation, SignUpMutationVariables>(client, SignUpDocument, variables, headers)(),
+      options
+    );
+export const SignOutDocument = `
+    mutation signOut {
+  signOut {
+    userId
+    message
+  }
+}
+    `;
+export const useSignOutMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SignOutMutation, TError, SignOutMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SignOutMutation, TError, SignOutMutationVariables, TContext>(
+      ['signOut'],
+      (variables?: SignOutMutationVariables) => fetcher<SignOutMutation, SignOutMutationVariables>(client, SignOutDocument, variables, headers)(),
+      options
+    );
+export const SessionDocument = `
+    query session {
+  session {
+    user {
+      name
+      email
+      image
+    }
+    expiresIn
+  }
+}
+    `;
+export const useSessionQuery = <
+      TData = SessionQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: SessionQueryVariables,
+      options?: UseQueryOptions<SessionQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<SessionQuery, TError, TData>(
+      variables === undefined ? ['session'] : ['session', variables],
+      fetcher<SessionQuery, SessionQueryVariables>(client, SessionDocument, variables, headers),
       options
     );
 export const CreateUserDocument = `
