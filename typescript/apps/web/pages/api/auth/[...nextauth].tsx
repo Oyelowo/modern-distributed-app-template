@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { NextAuthOptions, User } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { PrismaClient } from "@prisma/client";
@@ -9,17 +9,42 @@ import {
   SignInDocument,
   SignInMutation,
   SignInMutationVariables,
-  User,
 } from "@oyelowo/graphql-client";
+
+import {
+  Adapter,
+  AdapterSession,
+  AdapterUser,
+  VerificationToken,
+} from "next-auth/adapters";
+
 // import CredentialsProvider from 'next-auth/providers/credentials';
 import crossFetch from "cross-fetch";
 // const prisma = new PrismaClient();
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
+
+import type { NextApiRequest, NextApiResponse } from "next";
+
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  // if(req.query.nextauth.includes("callback") && req.method === "POST") {
+  //   console.log(
+  //     "Handling callback request from my Identity Provider",
+  //     req.body
+  //   )
+  // }
+
+  // // Get a custom cookie value from the request
+  // const someCookie = req.cookies["some-custom-cookie"]
+
+  return await NextAuth(req, res, authOptions);
+}
+
 export const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers
   // adapter: PrismaAdapter(prisma),
+  adapter: MyAdapter({}),
   providers: [
     // EmailProvider({
     //   server: process.env.EMAIL_SERVER,
@@ -93,6 +118,7 @@ export const authOptions: NextAuthOptions = {
   // The secret should be set to a reasonably long random string.
   // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
   // a separate secret is defined explicitly for encrypting the JWT.
+  // Generate one with the command: `openssl rand -base64 32`
   secret: "process.env.SECRET",
   // secret: process.env.SECRET,
 
@@ -169,4 +195,64 @@ export const authOptions: NextAuthOptions = {
   debug: false,
 };
 
-export default NextAuth(authOptions);
+// export default NextAuth(authOptions);
+
+interface AdapterUserHack extends AdapterUser {
+  /*   id omitted here, I had to readd the type explicitly here in `createUser`
+   function below and set id to never
+  because autocompletion wasn't working in vscode because `AdapterUser`
+    interface extends `Record<string, unknown>` somewhere in the inheritance tree.
+   `id` field should be omitted
+  20th, March, 2022. Oyelowo */
+  id: never;
+}
+
+export function MyAdapter(client, options = {}): Adapter {
+  return {
+    async createUser(user: AdapterUserHack) {
+      return Promise.resolve({} as AdapterUser);
+    },
+    async getUser(id) {
+      return Promise.resolve({} as AdapterUser);
+    },
+    async getUserByEmail(email) {
+      return Promise.resolve({} as AdapterUser);
+    },
+    async getUserByAccount({ providerAccountId, provider }) {
+      return Promise.resolve({} as AdapterUser);
+    },
+    async updateUser(user) {
+      return Promise.resolve({} as AdapterUser);
+    },
+    async deleteUser(userId) {
+      return;
+    },
+    async linkAccount(account) {
+      return;
+    },
+    async unlinkAccount({ providerAccountId, provider }) {
+      return;
+    },
+    async createSession({ sessionToken, userId, expires }) {
+      return Promise.resolve({} as AdapterSession);
+    },
+    async getSessionAndUser(sessionToken) {
+      return Promise.resolve(
+        {} as { session: AdapterSession; user: AdapterUser }
+      );
+      return;
+    },
+    async updateSession({ sessionToken }) {
+      return Promise.resolve({} as AdapterSession);
+    },
+    async deleteSession(sessionToken) {
+      return Promise.resolve({} as AdapterSession);
+    },
+    async createVerificationToken({ identifier, expires, token }) {
+      return Promise.resolve({} as VerificationToken);
+    },
+    async useVerificationToken({ identifier, token }) {
+      return Promise.resolve({} as VerificationToken);
+    },
+  };
+}

@@ -1,0 +1,112 @@
+import {
+  SessionQuery,
+  useSessionQuery,
+  useSignInMutation,
+  useSignOutMutation,
+} from "@oyelowo/graphql-client";
+import { useRouter } from "next/router";
+import { UseQueryOptions } from "react-query";
+import { client } from "../config/client";
+
+export function useSignOut() {
+  const router = useRouter();
+  const { mutate: signOutMutate, data: signOutData } =
+    useSignOutMutation(client);
+
+  const signOutCustom = () => {
+    signOutMutate(
+      {},
+      {
+        onSuccess: () => {
+          router.push("/auth/signin");
+        },
+      }
+    );
+  };
+
+  return { signOutCustom };
+}
+
+export function useSignIn() {
+  const router = useRouter();
+  const { mutate, data } = useSignInMutation(client);
+  const { mutate: signOutMutate, data: signOutData } =
+    useSignOutMutation(client);
+
+  const signInCustom = () => {
+    mutate(
+      {
+        signInCredentials: {
+          username: "oyelowo",
+          password: "opolo",
+        },
+      },
+      {
+        onSuccess: () => {
+          router.push("/");
+        },
+      }
+    );
+  };
+
+  return { signInCustom };
+}
+
+interface UseSessionProps {
+  required: boolean;
+  redirectTo: string;
+  queryConfig: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
+  // queryConfig: UseQueryOptions;
+}
+
+export function useSessionReactQuery({
+  required,
+  redirectTo = "/api/auth/signin?error=SessionExpired",
+  queryConfig = {},
+}: UseSessionProps) {
+  const router = useRouter();
+  // const k = useGetSession
+  // const { data, status, isLoading } = useQuery(["session"], fetchSession, {
+  //   ...queryConfig,
+  //   onSettled(data, error) {
+  //     if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+  //     if (data || !required) return;
+  //     router.push(redirectTo);
+  //   },
+  // });
+
+  const { data, status, isLoading } = useSessionQuery(client, undefined, {
+    ...queryConfig,
+    // onSuccess: (data) => {
+    //   router.push("/");
+    // },
+    onSettled(data, error) {
+      if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+      if (data || !required) return;
+      // TODO: Log error
+      const hasError = (data?.session as any)?.errors as any;
+      console.log("DATAERROR", data);
+      console.log("ERRORERROR", error);
+      if (hasError) {
+        router.push("/auth/signin");
+      }
+      // router.push(redirectTo);
+    },
+    onError: () => {
+      router.push("/auth/signin");
+    },
+  });
+
+  console.log("DATAAAAppppppp", data);
+  console.log("statuspppppp", status);
+  console.log("isloadingppppp", isLoading);
+  const hasError = (data?.session as any)?.errors as any;
+
+  return {
+    session: (hasError as any) ? null : data?.session,
+    status,
+    isLoading,
+  };
+  //   return { session: data as Session, status, isLoading };
+  //   return [query.data, query.status === "loading"] as const;
+}

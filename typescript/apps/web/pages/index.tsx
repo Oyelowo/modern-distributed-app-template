@@ -1,11 +1,11 @@
 import { signIn, signOut } from "next-auth/react";
 import HomePage from "../components/HomePage";
 import "twin.macro";
-import { useSessionReactQuery } from "../lib/next-auth-react-query";
 import { useRouter } from "next/dist/client/router";
+import { useSessionReactQuery, useSignOut } from "../hooks/authentication";
 
 export default function Home() {
-  const router = useRouter();
+  const { signOutCustom } = useSignOut();
   const { session, isLoading } = useSessionReactQuery({
     required: true,
     // redirectTo: "http://localhost:8080",
@@ -16,9 +16,9 @@ export default function Home() {
     },
   });
 
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   if (session) {
     return (
@@ -26,16 +26,16 @@ export default function Home() {
         Signed in as {session.user.email} <br />
         Signed in as {session.user.name} <br />
         Signed in as {session.user.image} <br />
-        <button onClick={() => signOut()}>Sign out</button>
+        <button onClick={() => signOutCustom()}>Sign out</button>
         <HomePage />
       </div>
     );
   }
-  return (
-    <div tw="bg-black h-screen text-white">
-      Not signed in <br />
-      {/* <button onClick={() => signIn()}>Sign in</button> */}
-      <button onClick={() => router.push("/custom-signin")}>Sign in</button>
-    </div>
-  );
+  // return (
+  //   <div tw="bg-black h-screen text-white">
+  //     Not signed in <br />
+  //     <button onClick={() => signIn()}>Sign in</button>
+  //     {/* <button onClick={() => router.push("/custom-signin")}>Sign in</button> */}
+  //   </div>
+  // );
 }

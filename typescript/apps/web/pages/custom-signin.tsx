@@ -7,18 +7,20 @@ import {
   LiteralUnion,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
-import { useSessionReactQuery } from "../lib/next-auth-react-query";
 import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { useSignInMutation, useSignOutMutation } from "@oyelowo/graphql-client";
 import { GraphQLClient } from "graphql-request";
 import { useRouter } from "next/dist/client/router";
+import {
+  useSessionReactQuery,
+  useSignIn,
+  useSignOut,
+} from "../hooks/authentication";
 
 const client = new GraphQLClient("http://localhost:8080/graphql", {
-  credentials : "include",
-  headers: {
-    
-  },
+  credentials: "include",
+  headers: {},
 });
 const CustomSignIn = () => {
   const [providers, setProviders] = useState<Record<
@@ -26,37 +28,8 @@ const CustomSignIn = () => {
     ClientSafeProvider
   > | null>();
   // const k = useTextField({label})
-  const { mutate, data } = useSignInMutation(client);
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
-
-  const router = useRouter();
-  const signInCustom = () => {
-    mutate(
-      {
-        signInCredentials: {
-          username: "oyelowo",
-          password: "opolo",
-        },
-      },
-      {
-        onSuccess: () => {
-          router.push("/");
-        },
-      }
-    );
-  };
-  const signOutCustom = () => {
-    signOutMutate(
-      {},
-      {
-        onSuccess: () => {
-          router.push("/custom-signin");
-        },
-      }
-    );
-  };
-
+  const { signInCustom } = useSignIn();
+  const { signOutCustom } = useSignOut();
   const { session, isLoading } = useSessionReactQuery({
     required: true,
     redirectTo: "http://localhost:8080",

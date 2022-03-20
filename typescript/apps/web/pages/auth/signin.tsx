@@ -7,12 +7,16 @@ import {
   LiteralUnion,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
-import { useSessionReactQuery } from "../../lib/next-auth-react-query";
 import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
-import { authOptions } from "./../api/auth/[...nextauth]";
+import { authOptions } from "../api/auth/[...nextauth]";
 import { useSignInMutation, useSignOutMutation } from "@oyelowo/graphql-client";
 import { GraphQLClient } from "graphql-request";
 import { useRouter } from "next/dist/client/router";
+import {
+  useSessionReactQuery,
+  useSignIn,
+  useSignOut,
+} from "../../hooks/authentication";
 
 const client = new GraphQLClient("http://localhost:8080/graphql", {
   credentials: "include",
@@ -24,36 +28,8 @@ const SignIn = () => {
     ClientSafeProvider
   > | null>();
   // const k = useTextField({label})
-  const { mutate, data } = useSignInMutation(client);
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
-
-  const router = useRouter();
-  const signInCustom = () => {
-    mutate(
-      {
-        signInCredentials: {
-          username: "oyelowo",
-          password: "opolo",
-        },
-      },
-      {
-        onSuccess: () => {
-          router.push("/");
-        },
-      }
-    );
-  };
-  const signOutCustom = () => {
-    signOutMutate(
-      {},
-      {
-        onSuccess: () => {
-          router.push("/custom-signin");
-        },
-      }
-    );
-  };
+  const { signInCustom } = useSignIn();
+  const { signOutCustom } = useSignOut();
 
   const { session, isLoading } = useSessionReactQuery({
     required: true,
@@ -75,24 +51,24 @@ const SignIn = () => {
   // if (isLoading) {
   //   return <h1>Loading...</h1>;
   // }
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user?.email} <br />
-        {/* <button type="button" onClick={() => signOut()}> */}
-        <button type="button" onClick={signOutCustom}>
-          Sign out
-        </button>
-      </>
-    );
-  }
+  // if (session) {
+  //   return (
+  //     <>
+  //       Signed in as {session.user?.email} <br />
+  //       {/* <button type="button" onClick={() => signOut()}> */}
+  //       <button type="button" onClick={signOutCustom}>
+  //         Sign out
+  //       </button>
+  //     </>
+  //   );
+  // }
   return (
     <>
-      Not signed in but in the custom page!
+      Not signed in but in the custom pageeeeee!
       <br />
-      <button type="button" onClick={() => signIn()}>
+      {/* <button type="button" onClick={() => signIn()}>
         Sign in
-      </button>
+      </button> */}
       {providers?.email && (
         <>
           <br />
@@ -102,6 +78,26 @@ const SignIn = () => {
           </button>
         </>
       )}
+      <h1>From Custom</h1>
+      <>
+        <br />
+        <br />
+        <input type="text" name="" id="" />
+        <TextField label="Username" placeholder="Username" />
+        <TextField
+          type="password"
+          label="Password"
+          placeholder="abc@example.com"
+        />
+        <button
+          type="button"
+          // onClick={() => signIn(providers.credentials.id)}
+          onClick={signInCustom}
+        >
+          Username and password Login
+        </button>
+      </>
+      <h1>From providers</h1>
       {/* DATA!!!!: {JSON.stringify(data)} */}
       {providers?.credentials && (
         <>
@@ -132,6 +128,15 @@ const SignIn = () => {
           </button>
         </>
       )}
+      <>
+        {Object.values(providers).map((provider) => (
+          <div key={provider.name}>
+            <button onClick={() => signIn(provider.id)}>
+              Sign in with {provider.name}
+            </button>
+          </div>
+        ))}
+      </>
     </>
   );
 };
