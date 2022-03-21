@@ -44,7 +44,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 export const authOptions: NextAuthOptions = {
   // https://next-auth.js.org/configuration/providers
   // adapter: PrismaAdapter(prisma),
-  adapter: MyAdapter({}),
+  // adapter: MyAdapter({}),
   providers: [
     // EmailProvider({
     //   server: process.env.EMAIL_SERVER,
@@ -123,7 +123,7 @@ export const authOptions: NextAuthOptions = {
   // secret: process.env.SECRET,
 
   session: {
-    strategy: "database",
+    strategy: "jwt",
     // Use JSON Web Tokens for session instead of database sessions.
     // This option can be used with or without a database for users/accounts.
     // Note: `jwt` is automatically set to `true` if no database is specified.
@@ -168,7 +168,89 @@ export const authOptions: NextAuthOptions = {
   // when an action is performed.
   // https://next-auth.js.org/configuration/callbacks
   callbacks: {
-    // async signIn(user, account, profile) { return true },
+    /* 
+  WITH SESSION STRATEGY SET AS DATABASE
+Listening on port 3000
+async getUserByAccount({ providerAccountId, provider })
+{ providerAccountId: '31687368', provider: 'github' }
+async getUserByAccount({ providerAccountId, provider })
+SIGNIN START
+user {}
+account {
+  provider: 'github',
+  type: 'oauth',
+  providerAccountId: '31687368',
+  access_token: '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',
+  token_type: 'bearer',
+  scope: 'read:user,user:email'
+}
+profile {
+  login: 'Oyelowo',
+  id: 31687368,
+  node_id: 'MDQ6VXNlcjMxNjg3MzY4',
+  avatar_url: 'https://avatars.githubusercontent.com/u/31687368?v=4',
+  gravatar_id: '',
+  url: 'https://api.github.com/users/Oyelowo',
+  html_url: 'https://github.com/Oyelowo',
+  followers_url: 'https://api.github.com/users/Oyelowo/followers',
+  following_url: 'https://api.github.com/users/Oyelowo/following{/other_user}',
+  gists_url: 'https://api.github.com/users/Oyelowo/gists{/gist_id}',
+  starred_url: 'https://api.github.com/users/Oyelowo/starred{/owner}{/repo}',
+  subscriptions_url: 'https://api.github.com/users/Oyelowo/subscriptions',
+  organizations_url: 'https://api.github.com/users/Oyelowo/orgs',
+  repos_url: 'https://api.github.com/users/Oyelowo/repos',
+  events_url: 'https://api.github.com/users/Oyelowo/events{/privacy}',
+  received_events_url: 'https://api.github.com/users/Oyelowo/received_events',
+  type: 'User',
+  site_admin: false,
+  name: 'Oyelowo Oyedayo',
+  company: null,
+  blog: '',
+  location: 'Helsinki, Finland',
+  email: 'oyelowooyedayo@gmail.com',
+  hireable: true,
+  bio: 'Full-stack Engineer | Rust | Typescript React | Kubernetes',
+  twitter_username: null,
+  public_repos: 281,
+  public_gists: 2,
+  followers: 25,
+  following: 36,
+  created_at: '2017-09-06T07:43:22Z',
+  updated_at: '2022-03-16T00:55:55Z',
+  private_gists: 1,
+  total_private_repos: 21,
+  owned_private_repos: 21,
+  disk_usage: 1158956,
+  collaborators: 2,
+  two_factor_authentication: true,
+  plan: {
+    name: 'free',
+    space: 976562499,
+    collaborators: 0,
+    private_repos: 10000
+  }
+}
+email undefined
+credentials undefined
+SIGNIN END
+async getSessionAndUser(sessionToken)
+async getUserByAccount({ providerAccountId, provider })
+{ providerAccountId: '31687368', provider: 'github' }
+async getUserByAccount({ providerAccountId, provider })
+async createSession({ sessionToken, userId, expires })
+isNewUser: false
+
+    */
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log("SIGNIN START");
+      console.log("user", user);
+      console.log("account", account);
+      console.log("profile", profile);
+      console.log("email", email);
+      console.log("credentials", credentials);
+      console.log("SIGNIN END");
+      return true;
+    },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
     // async jwt(token, user, account, profile, isNewUser) { return token }
@@ -207,51 +289,83 @@ interface AdapterUserHack extends AdapterUser {
   id: never;
 }
 
+// Adapter logs from k8s cluster
+/* 
+Listening on port 3000
+async getUserByAccount({ providerAccountId, provider })
+async getUserByAccount({ providerAccountId, provider })
+isNewUser: false
+*/
+
 export function MyAdapter(client, options = {}): Adapter {
   return {
     async createUser(user: AdapterUserHack) {
+      console.log("async createUser(user: AdapterUserHack) ");
       return Promise.resolve({} as AdapterUser);
     },
     async getUser(id) {
+      console.log("async getUser(id)");
       return Promise.resolve({} as AdapterUser);
     },
     async getUserByEmail(email) {
+      console.log("async getUserByEmail(email)");
       return Promise.resolve({} as AdapterUser);
     },
     async getUserByAccount({ providerAccountId, provider }) {
+      console.log("async getUserByAccount({ providerAccountId, provider })");
+      console.log({ providerAccountId, provider });
+      console.log("async getUserByAccount({ providerAccountId, provider })");
       return Promise.resolve({} as AdapterUser);
     },
     async updateUser(user) {
+      console.log("async updateUser(user)");
       return Promise.resolve({} as AdapterUser);
     },
     async deleteUser(userId) {
+      console.log("async deleteUser(userId)");
       return;
     },
     async linkAccount(account) {
+      console.log("async linkAccount(account)");
       return;
     },
     async unlinkAccount({ providerAccountId, provider }) {
+      console.log("async unlinkAccount({ providerAccountId, provider })");
       return;
     },
     async createSession({ sessionToken, userId, expires }) {
+      console.log("async createSession({ sessionToken, userId, expires })", {
+        sessionToken,
+        userId,
+        expires,
+      });
       return Promise.resolve({} as AdapterSession);
     },
     async getSessionAndUser(sessionToken) {
+      console.log("async getSessionAndUser(sessionToken), sessionToken:", sessionToken);
       return Promise.resolve(
         {} as { session: AdapterSession; user: AdapterUser }
       );
       return;
     },
     async updateSession({ sessionToken }) {
+      console.log("async updateSession({ sessionToken })");
       return Promise.resolve({} as AdapterSession);
     },
     async deleteSession(sessionToken) {
+      console.log("async deleteSession(sessionToken) START");
+      console.log("sessionToken:", sessionToken);
+      console.log("async deleteSession(sessionToken) END");
       return Promise.resolve({} as AdapterSession);
     },
     async createVerificationToken({ identifier, expires, token }) {
+      console.log(
+        "async createVerificationToken({ identifier, expires, token })"
+      );
       return Promise.resolve({} as VerificationToken);
     },
     async useVerificationToken({ identifier, token }) {
+      console.log("async useVerificationToken({ identifier, token })");
       return Promise.resolve({} as VerificationToken);
     },
   };

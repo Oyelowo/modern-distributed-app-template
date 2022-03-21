@@ -5,7 +5,7 @@ import {
   useSignOutMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
-import { UseQueryOptions } from "react-query";
+import { QueryCache, QueryClient, UseQueryOptions } from "react-query";
 import { client } from "../config/client";
 
 export function useSignOut() {
@@ -43,6 +43,9 @@ export function useSignIn() {
       },
       {
         onSuccess: () => {
+          const client = new QueryClient();
+          // the generated useSessionQuery graphql hook uses `session` as the key
+          client.refetchQueries(["session"]);
           router.push("/");
         },
       }
