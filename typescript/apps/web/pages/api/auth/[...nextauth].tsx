@@ -21,10 +21,6 @@ import {
   VerificationToken,
 } from "next-auth/adapters";
 
-const client = new GraphQLClient("http://localhost:8080/graphql", {
-  credentials: "include",
-  // headers: {},
-});
 // import CredentialsProvider from 'next-auth/providers/credentials';
 import crossFetch from "cross-fetch";
 // const prisma = new PrismaClient();
@@ -249,53 +245,64 @@ isNewUser: false
 
 */
     async signIn({ user, account, profile, email, credentials }) {
-      const query = CreateOrUpdateUserOauthDocument;
-      console.log("oiuygtfryguhijok account", account)
-      console.log("oiuygtfryguhijok profile", profile)
-      // Login for github oauth
-      // TODO: Add google
-      // TODO: Camelize all keys before using to standardize them
-      if (account?.provider === "github") {
-        const variables: CreateOrUpdateUserOauthMutationVariables = {
-          account: {
-            provider: account?.provider,
-            providerAccountId: account?.providerAccountId,
-            accessToken: account?.access_token,
-            accountType: account?.type ?? "",
-            expiresAt: account?.expires_at ?? new Date().toISOString(),
-            idToken: account?.id_token ?? "",
-            refreshToken: account?.refresh_token ?? "",
-            scope: account?.scope ?? "",
-            sessionState: account?.session_state ?? "",
-            tokenType: account?.token_type ?? "",
-          },
-          profile: {
-            email: profile?.email,
-            // TODO: DO this right. Dont hardcode
-            emailVerified: false,
-            // TODO: Fix this hack
-            firstName:
-              (profile as any).first_name ?? profile?.name?.split(" ").at(0),
-            lastName:
-              (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
-            username: (profile as any).login ?? profile.name,
-          },
-        };
-        // a cookie jar scoped to the client object
-        // const fetch = require("fetch-cookie")(crossFetch);
+      try {
+        const query = CreateOrUpdateUserOauthDocument;
+        console.log("oiuygtfryguhijok account", account);
+        console.log("oiuygtfryguhijok profile", profile);
+        // Login for github oauth
+        // TODO: Add google
+        // TODO: Camelize all keys before using to standardize them
+        if (account?.provider === "github") {
+          const variables: CreateOrUpdateUserOauthMutationVariables = {
+            account: {
+              provider: account?.provider,
+              providerAccountId: account?.providerAccountId,
+              accessToken: account?.access_token,
+              accountType: account?.type ?? "",
+              expiresAt: account?.expires_at ?? new Date().toISOString(),
+              idToken: account?.id_token ?? "",
+              refreshToken: account?.refresh_token ?? "",
+              scope: account?.scope ?? "",
+              sessionState: account?.session_state ?? "",
+              tokenType: account?.token_type ?? "",
+            },
+            profile: {
+              email: profile?.email,
+              // TODO: DO this right. Dont hardcode
+              emailVerified: false,
+              // TODO: Fix this hack
+              firstName: profile.name,
+              // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+              lastName: "Oyedayo",
+              // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+              username: (profile as any).login ?? profile.name,
+            },
+          };
 
-        const { data, extensions, headers, status } =
-          await client.rawRequest<CreateOrUpdateUserOauthMutation>(
-            query,
-            variables
-          );
-        console.log("DATAAAAAA", JSON.stringify(data, undefined, 2));
-        console.log("headers", JSON.stringify(headers, undefined, 2));
-        console.log("extensions", JSON.stringify(extensions, undefined, 2));
-        console.log("status", JSON.stringify(status, undefined, 2));
-        // return data.createOrUpdateUserOauth;
-        return true;
-        // createOrUpdateUserOauth
+          console.log("BEFORE FETCH");
+          // a cookie jar scoped to the client object
+          // const fetch = require("fetch-cookie")(crossFetch);
+          const client = new GraphQLClient("http://localhost:8080/graphql", {
+            credentials: "include",
+            // headers: {},
+          });
+          const { data, extensions, headers, status } =
+            await client.rawRequest<CreateOrUpdateUserOauthMutation>(
+              query,
+              variables
+            );
+          console.log("DATAAAAAA", JSON.stringify(data, undefined, 2));
+          console.log("headers", JSON.stringify(headers, undefined, 2));
+          console.log("extensions", JSON.stringify(extensions, undefined, 2));
+          console.log("status", JSON.stringify(status, undefined, 2));
+          // return data.createOrUpdateUserOauth;
+          // TODO: Check error before returning true which would authenticate
+          return true;
+          // createOrUpdateUserOauth
+        }
+      } catch (error) {
+        console.log("Something fishy going down, eRROR", error);
+        return true
       }
       console.log("SIGNIN START");
       console.log("user", user);
