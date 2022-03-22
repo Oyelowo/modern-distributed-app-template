@@ -26,8 +26,38 @@ export type Scalars = {
   ObjectId: any;
 };
 
+export type AccountOauth = {
+  __typename?: 'AccountOauth';
+  accessToken: Scalars['String'];
+  accountType: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
+  id: Scalars['String'];
+  idToken: Scalars['String'];
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+  refreshToken: Scalars['String'];
+  scope: Scalars['String'];
+  sessionState: Scalars['String'];
+  tokenType: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type AccountOauthInput = {
+  accessToken: Scalars['String'];
+  accountType: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
+  idToken: Scalars['String'];
+  provider: Scalars['String'];
+  providerAccountId: Scalars['String'];
+  refreshToken: Scalars['String'];
+  scope: Scalars['String'];
+  sessionState: Scalars['String'];
+  tokenType: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createOrUpdateUserOauth: User;
   createPost: Post;
   createUser: User;
   signIn: User;
@@ -37,6 +67,12 @@ export type Mutation = {
    * Currently like this because of future developments
    */
   signUp: User;
+};
+
+
+export type MutationCreateOrUpdateUserOauthArgs = {
+  account: AccountOauthInput;
+  profile: ProfileOauth;
 };
 
 
@@ -72,6 +108,14 @@ export type PostInput = {
   content: Scalars['String'];
   posterId: Scalars['ObjectId'];
   title: Scalars['String'];
+};
+
+export type ProfileOauth = {
+  email: Scalars['String'];
+  emailVerified: Scalars['Boolean'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Query = {
@@ -129,9 +173,11 @@ export type Subscription = {
 
 export type User = {
   __typename?: 'User';
-  age: Scalars['Int'];
+  accounts: Array<AccountOauth>;
+  age?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
+  emailVerifiedAt?: Maybe<Scalars['DateTime']>;
   firstName: Scalars['String'];
   id?: Maybe<Scalars['ObjectId']>;
   lastName: Scalars['String'];
@@ -143,11 +189,11 @@ export type User = {
 };
 
 export type UserInput = {
-  age: Scalars['Int'];
+  age?: InputMaybe<Scalars['Int']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
-  password: Scalars['String'];
+  password?: InputMaybe<Scalars['String']>;
   socialMedia: Array<Scalars['String']>;
   username: Scalars['String'];
 };
@@ -157,14 +203,14 @@ export type SignInMutationVariables = Exact<{
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', username: string, email: string, age: number } };
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', username: string, email: string, age?: number | null } };
 
 export type SignUpMutationVariables = Exact<{
   user: UserInput;
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email: string, age: number } };
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email: string, age?: number | null } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -181,12 +227,12 @@ export type CreateUserMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id?: any | null, firstName: string, lastName: string, email: string, age: number } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id?: any | null, firstName: string, lastName: string, email: string, age?: number | null } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName: string, lastName: string, age: number, email: string, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName: string, lastName: string, age?: number | null, email: string, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
 
 
 export const SignInDocument = `
