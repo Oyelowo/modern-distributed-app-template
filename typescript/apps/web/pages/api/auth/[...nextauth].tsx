@@ -250,24 +250,27 @@ isNewUser: false
 */
     async signIn({ user, account, profile, email, credentials }) {
       const query = CreateOrUpdateUserOauthDocument;
+      console.log("oiuygtfryguhijok account", account)
+      console.log("oiuygtfryguhijok profile", profile)
       // Login for github oauth
       // TODO: Add google
-      if (account.provider === "github") {
+      // TODO: Camelize all keys before using to standardize them
+      if (account?.provider === "github") {
         const variables: CreateOrUpdateUserOauthMutationVariables = {
           account: {
-            provider: account.provider,
-            providerAccountId: account.providerAccountId,
-            accessToken: account.access_token,
-            accountType: account.type,
-            expiresAt: account.expires_at,
-            idToken: account.id_token,
-            refreshToken: account.refresh_token,
-            scope: account.scope,
-            sessionState: account.session_state,
-            tokenType: account.token_type,
+            provider: account?.provider,
+            providerAccountId: account?.providerAccountId,
+            accessToken: account?.access_token,
+            accountType: account?.type ?? "",
+            expiresAt: account?.expires_at ?? new Date().toISOString(),
+            idToken: account?.id_token ?? "",
+            refreshToken: account?.refresh_token ?? "",
+            scope: account?.scope ?? "",
+            sessionState: account?.session_state ?? "",
+            tokenType: account?.token_type ?? "",
           },
           profile: {
-            email: profile.email,
+            email: profile?.email,
             // TODO: DO this right. Dont hardcode
             emailVerified: false,
             // TODO: Fix this hack
