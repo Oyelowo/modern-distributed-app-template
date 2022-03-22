@@ -1,4 +1,5 @@
-import React, { FC, useState, useEffect } from "react";
+import "twin.macro";
+import { FC, useState, useEffect, useRef } from "react";
 import {
   getProviders,
   signOut,
@@ -63,7 +64,7 @@ const SignIn = () => {
   //   );
   // }
   return (
-    <>
+    <div tw="bg-black h-screen text-white">
       Not signed in but in the custom pageeeeee!
       <br />
       {/* <button type="button" onClick={() => signIn()}>
@@ -128,7 +129,7 @@ const SignIn = () => {
           </button>
         </>
       )}
-{/*       <>
+      {/*       <>
         {Object.values(providers).map((provider) => (
           <div key={provider?.name}>
             <button onClick={() => signIn(provider?.id)}>
@@ -137,7 +138,7 @@ const SignIn = () => {
           </div>
         ))}
       </> */}
-    </>
+    </div>
   );
 };
 
@@ -145,7 +146,7 @@ export default SignIn;
 
 function TextField(props: AriaTextFieldOptions<"input">) {
   let { label } = props;
-  let ref = React.useRef();
+  let ref = useRef();
   let { labelProps, inputProps, descriptionProps, errorMessageProps } =
     useTextField(props, ref);
 

@@ -6,6 +6,9 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { GraphQLClient } from "graphql-request";
 import {
+  CreateOrUpdateUserOauthDocument,
+  CreateOrUpdateUserOauthMutation,
+  CreateOrUpdateUserOauthMutationVariables,
   SignInDocument,
   SignInMutation,
   SignInMutationVariables,
@@ -18,6 +21,10 @@ import {
   VerificationToken,
 } from "next-auth/adapters";
 
+const client = new GraphQLClient("http://localhost:8080/graphql", {
+  credentials: "include",
+  // headers: {},
+});
 // import CredentialsProvider from 'next-auth/providers/credentials';
 import crossFetch from "cross-fetch";
 // const prisma = new PrismaClient();
@@ -240,8 +247,53 @@ async getUserByAccount({ providerAccountId, provider })
 async createSession({ sessionToken, userId, expires })
 isNewUser: false
 
-    */
+*/
     async signIn({ user, account, profile, email, credentials }) {
+      const query = CreateOrUpdateUserOauthDocument;
+      // Login for github oauth
+      // TODO: Add google
+      if (account.provider === "github") {
+        const variables: CreateOrUpdateUserOauthMutationVariables = {
+          account: {
+            provider: account.provider,
+            providerAccountId: account.providerAccountId,
+            accessToken: account.access_token,
+            accountType: account.type,
+            expiresAt: account.expires_at,
+            idToken: account.id_token,
+            refreshToken: account.refresh_token,
+            scope: account.scope,
+            sessionState: account.session_state,
+            tokenType: account.token_type,
+          },
+          profile: {
+            email: profile.email,
+            // TODO: DO this right. Dont hardcode
+            emailVerified: false,
+            // TODO: Fix this hack
+            firstName:
+              (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+            lastName:
+              (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+            username: (profile as any).login ?? profile.name,
+          },
+        };
+        // a cookie jar scoped to the client object
+        // const fetch = require("fetch-cookie")(crossFetch);
+
+        const { data, extensions, headers, status } =
+          await client.rawRequest<CreateOrUpdateUserOauthMutation>(
+            query,
+            variables
+          );
+        console.log("DATAAAAAA", JSON.stringify(data, undefined, 2));
+        console.log("headers", JSON.stringify(headers, undefined, 2));
+        console.log("extensions", JSON.stringify(extensions, undefined, 2));
+        console.log("status", JSON.stringify(status, undefined, 2));
+        // return data.createOrUpdateUserOauth;
+        return true;
+        // createOrUpdateUserOauth
+      }
       console.log("SIGNIN START");
       console.log("user", user);
       console.log("account", account);
@@ -249,7 +301,7 @@ isNewUser: false
       console.log("email", email);
       console.log("credentials", credentials);
       console.log("SIGNIN END");
-      return true;
+      return false;
     },
     // async redirect(url, baseUrl) { return baseUrl },
     // async session(session, user) { return session },
@@ -342,7 +394,10 @@ export function MyAdapter(client, options = {}): Adapter {
       return Promise.resolve({} as AdapterSession);
     },
     async getSessionAndUser(sessionToken) {
-      console.log("async getSessionAndUser(sessionToken), sessionToken:", sessionToken);
+      console.log(
+        "async getSessionAndUser(sessionToken), sessionToken:",
+        sessionToken
+      );
       return Promise.resolve(
         {} as { session: AdapterSession; user: AdapterUser }
       );

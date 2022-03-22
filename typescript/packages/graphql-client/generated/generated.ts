@@ -222,6 +222,14 @@ export type SessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresIn: string, user: { __typename?: 'SessionUser', name: string, email: string, image: string } } };
 
+export type CreateOrUpdateUserOauthMutationVariables = Exact<{
+  account: AccountOauthInput;
+  profile: ProfileOauth;
+}>;
+
+
+export type CreateOrUpdateUserOauthMutation = { __typename?: 'Mutation', createOrUpdateUserOauth: { __typename?: 'User', username: string, email: string, age?: number | null } };
+
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
 }>;
@@ -324,6 +332,28 @@ export const useSessionQuery = <
     useQuery<SessionQuery, TError, TData>(
       variables === undefined ? ['session'] : ['session', variables],
       fetcher<SessionQuery, SessionQueryVariables>(client, SessionDocument, variables, headers),
+      options
+    );
+export const CreateOrUpdateUserOauthDocument = `
+    mutation createOrUpdateUserOauth($account: AccountOauthInput!, $profile: ProfileOauth!) {
+  createOrUpdateUserOauth(account: $account, profile: $profile) {
+    username
+    email
+    age
+  }
+}
+    `;
+export const useCreateOrUpdateUserOauthMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateOrUpdateUserOauthMutation, TError, CreateOrUpdateUserOauthMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateOrUpdateUserOauthMutation, TError, CreateOrUpdateUserOauthMutationVariables, TContext>(
+      ['createOrUpdateUserOauth'],
+      (variables?: CreateOrUpdateUserOauthMutationVariables) => fetcher<CreateOrUpdateUserOauthMutation, CreateOrUpdateUserOauthMutationVariables>(client, CreateOrUpdateUserOauthDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `

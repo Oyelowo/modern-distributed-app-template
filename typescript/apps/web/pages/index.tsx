@@ -17,7 +17,11 @@ export default function Home() {
   });
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <div tw="bg-black h-screen text-white">
+        <h1>Loading...</h1>;
+      </div>
+    );
   }
 
   if (session) {
@@ -31,7 +35,7 @@ export default function Home() {
       </div>
     );
   }
-  return null
+  return null;
   // return (
   //   <div tw="bg-black h-screen text-white">
   //     Not signed in <br />

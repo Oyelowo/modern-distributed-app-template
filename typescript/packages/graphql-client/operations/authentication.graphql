@@ -34,3 +34,14 @@ query session {
     expiresIn
   }
 }
+
+mutation createOrUpdateUserOauth(
+  $account: AccountOauthInput!
+  $profile: ProfileOauth!
+) {
+  createOrUpdateUserOauth(account: $account, profile: $profile) {
+    username
+    email
+    age
+  }
+}
