@@ -8,7 +8,6 @@ import {
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
 import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
-import { authOptions } from "./api/auth/[...nextauth]";
 import { useSignInMutation, useSignOutMutation } from "@oyelowo/graphql-client";
 import { GraphQLClient } from "graphql-request";
 import { useRouter } from "next/dist/client/router";
