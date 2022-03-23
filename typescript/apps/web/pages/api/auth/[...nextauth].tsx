@@ -40,62 +40,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { Provider } from "next-auth/providers";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
-  // if(req.query.nextauth.includes("callback") && req.method === "POST") {
-  //   console.log(
-  //     "Handling callback request from my Identity Provider",
-  //     req.body
-  //   )
-  // }
-
-  // // Get a custom cookie value from the request
-  // const someCookie = req.cookies["some-custom-cookie"]
-  console.log("req.urlll", req.url);
-  console.log("req.body", req.body);
-  console.log("req.headers", req.headers);
-  console.log("req.query", req.query);
-  console.log("req.method", req.method);
-  console.log("req.cookies", req.cookies);
-  console.log("req.cookies", req.cookies["oyelowo-session"]);
-  console.log("req.cookies-test", req.cookies["test"]);
-  // console.log("reqALL",req);
-  // console.log("resALL",res);
-  console.log("resALLheaders", res.getHeaders());
-  console.log("resALL", res.getHeader("cookie"));
-  console.log("resheadersent", res.headersSent);
-  console.log("tes.req.headers", res.req.headers);
-  console.log("tes.req.uel", res.req.url);
-  // res.setHeader
-  // setHeader(headerName: string, cookies: string | string[])
-  // can use array for multiple cookies
-  res.setHeader(
-    "Set-Cookie",
-    serialize("token", "token_cookie_value", { path: "/" })
-  );
-  // res.setHeader(
-  //   "Set-Cookie",
-  //   "oyelowo-session=FT3b0G8xEih3LEaqLItVVR1LFFSlMaTth3Z3hUTRVbc=4WdvoWHCzyqXWoQdKq8TwkE8S4FvbygT; HttpOnly; SameSite=Lax; Path=/; Max-Age=15552000"
-  // );
-
-  /* 
-      // Create a cookies instance
-    const cookies = new Cookies(req, res)
-    // Get a cookie
-    cookies.get('myCookieName')
-    // Set a cookie
-    cookies.set('myCookieName', 'some-value', {
-        httpOnly: true // true by default
-    })
-    // Delete a cookie
-    cookies.set('myCookieName')
-  */
-
-  // GOOD
-  /* 
-    // setHeader(headerName: string, cookies: string | string[])
-   // can use array for multiple cookies
-   res.setHeader('Set-Cookie', serialize('token', 'token_cookie_value', { path: '/' }));
-}
-    */
   return await NextAuth(req, res, {
     providers: initProviders(req, res),
     secret: "process.env.SECRET",
@@ -126,8 +70,6 @@ function initCallbacks(
     async signIn({ user, account, profile, email, credentials }) {
       try {
         const query = CreateOrUpdateUserOauthDocument;
-        console.log("oiuygtfryguhijok account", account);
-        console.log("oiuygtfryguhijok profile", profile);
         // Login for github oauth
         // TODO: Add google
         // TODO: Camelize all keys before using to standardize them
@@ -158,14 +100,13 @@ function initCallbacks(
             },
           };
 
-          console.log("BEFORE FETCH");
-          // a cookie jar scoped to the client object
-          // const fetch = require("fetch-cookie")(crossFetch);
-          // This code runs on the server which runs within the cluster, so, we need to
-          // use the domain name(maybe FQDN) of the respective graphql server which also runs within
-          // the same cluster and namespace. If it were on the client, then, we should use the
-          // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
 
+          // This code runs on the server which runs within the cluster, so, we need to
+          // use the domain name(maybe FQDN) of the respective rust graphql service which also runs within
+          // the same cluster and namespace. 
+          // If it were on the client, then, we should use the
+          // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
+          // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
           const resp = await fetch(
             "http://graphql-mongo.development:8000/graphql",
             {
@@ -179,14 +120,12 @@ function initCallbacks(
               }),
             }
           );
+          // Relay the cookie from the rust graphql api to the client via the nextjs server. This runs in the server
           const authCookie = resp.headers.get("set-cookie");
-          console.log("The real header", authCookie);
           res.setHeader("set-cookie", authCookie);
-          console.log("BIG HEADDDD", (await resp).headers);
-          console.log("RESSSPONSE", (await resp).json());
 
+          // TODO: Use variables for routes rather than hard-coding them
           // If string is provided, it will redirect to the URI
-          // TODO: Use variables for routes rather than hardcoding them
           return "/";
         }
       } catch (error) {
