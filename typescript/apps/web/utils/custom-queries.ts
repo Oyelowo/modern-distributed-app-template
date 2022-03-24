@@ -7,10 +7,10 @@ import { OmitFirst, ArgumentTypes } from "./typescript";
 const queryAllByDataCy = (
   ...args: OmitFirst<ArgumentTypes<typeof queryHelpers.queryAllByAttribute>>
 ) => queryHelpers.queryAllByAttribute("data-cy", ...args);
-
-const getMultipleError = (c, dataCyValue) =>
+// TODO: improve type
+const getMultipleError = (c: any, dataCyValue:any) =>
   `Found multiple elements with the data-cy attribute of: ${dataCyValue}`;
-const getMissingError = (c, dataCyValue) =>
+const getMissingError = (c:any, dataCyValue:any) =>
   `Unable to find an element with the data-cy attribute of: ${dataCyValue}`;
 
 const [

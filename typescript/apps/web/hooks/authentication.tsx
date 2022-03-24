@@ -46,12 +46,12 @@ export function useSignIn() {
   const { mutate: signOutMutate, data: signOutData } =
     useSignOutMutation(client);
 
-  const signInCustom = () => {
+  const signInCustom = ({username, password}: {username: string, password: string}) => {
     mutate(
       {
         signInCredentials: {
-          username: "oyelowo",
-          password: "opolo",
+          username,
+          password,
         },
       },
       {

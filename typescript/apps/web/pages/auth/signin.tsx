@@ -1,5 +1,12 @@
 import "twin.macro";
-import { FC, useState, useEffect, useRef } from "react";
+import {
+  FC,
+  useState,
+  useEffect,
+  useRef,
+  DetailedHTMLProps,
+  InputHTMLAttributes,
+} from "react";
 import {
   getProviders,
   signOut,
@@ -17,16 +24,42 @@ import {
   useSignIn,
   useSignOut,
 } from "../../hooks/authentication";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
 
 const client = new GraphQLClient("http://localhost:8080/graphql", {
   credentials: "include",
   headers: {},
 });
+
+const SignInFormSchema = z.object({
+  username: z
+    .string()
+    // .nonempty
+    .min(1, { message: "Username Must be provided" })
+    .max(30, { message: "Username too long" }),
+  password: z
+    .string()
+    .min(4, { message: "Password too short" })
+    .nonempty({ message: "Password must be provided" }),
+});
+
 const SignIn = () => {
   const [providers, setProviders] = useState<Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   > | null>();
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm<z.infer<typeof SignInFormSchema>>({
+    reValidateMode: "onChange",
+    mode: "all",
+    resolver: zodResolver(SignInFormSchema),
+  });
   // const k = useTextField({label})
   const { signInCustom } = useSignIn();
   const { signOutCustom } = useSignOut();
@@ -82,43 +115,59 @@ const SignIn = () => {
       <>
         <br />
         <br />
-        <input type="text" name="" id="" />
-        <TextField label="Username" placeholder="Username" />
-        <TextField
-          type="password"
-          label="Password"
-          placeholder="abc@example.com"
-        />
-        <button
-          type="button"
-          // onClick={() => signIn(providers.credentials.id)}
-          onClick={signInCustom}
+        <form
+          tw="text-black"
+          onSubmit={handleSubmit((d) => {
+            console.log("formdata", d);
+            // signInCustom({...d});
+            signInCustom({ username: d.username, password: d.password });
+          })}
         >
-          Username and password Login
-        </button>
-      </>
-      <h1>From providers</h1>
-      {/* DATA!!!!: {JSON.stringify(data)} */}
-      {providers?.credentials && (
-        <>
           <br />
           <br />
-          <input type="text" name="" id="" />
+          <br />
+          <input tw="text-black" {...register("username")} />
+          {errors.username?.message && (
+            <p tw="text-red-600">{errors.username?.message}</p>
+          )}
+
+          <br />
+          <br />
+          <br />
+          <input tw="text-black" type="password" {...register("password")} />
+          {errors.password?.message && (
+            <p tw="text-red-600">{errors.password?.message}</p>
+          )}
+
+          <br />
+          <br />
+          <br />
+
+          {/* <TextField
+            label="Username"
+            placeholder="Username"
+            {...register("username")}
+          />
+
           <TextField label="Username" placeholder="Username" />
           <TextField
             type="password"
             label="Password"
             placeholder="abc@example.com"
-          />
-          <button
+          /> */}
+
+          <input type="submit" value="Sign in" tw="text-yellow-400" />
+          {/*   <button
             type="button"
             // onClick={() => signIn(providers.credentials.id)}
             onClick={signInCustom}
           >
             Username and password Login
-          </button>
-        </>
-      )}
+          </button> */}
+        </form>
+      </>
+      <h1>From providers</h1>
+      {/* DATA!!!!: {JSON.stringify(data)} */}
       {providers?.github && (
         <>
           <br />
@@ -128,24 +177,25 @@ const SignIn = () => {
           </button>
         </>
       )}
-      {/*       <>
-        {Object.values(providers).map((provider) => (
+      <>
+        {Object.values(providers ?? {}).map((provider) => (
           <div key={provider?.name}>
             <button onClick={() => signIn(provider?.id)}>
               Sign in with {provider?.name}
             </button>
           </div>
         ))}
-      </> */}
+      </>
     </div>
   );
 };
 
 export default SignIn;
 
-function TextField(props: AriaTextFieldOptions<"input">) {
+// function TextField(props: AriaTextFieldOptions<"input">) {
+function TextField(props: AriaTextFieldOptions<"input"> & any) {
   let { label } = props;
-  let ref = useRef();
+  let ref = useRef<HTMLInputElement>(null);
   let { labelProps, inputProps, descriptionProps, errorMessageProps } =
     useTextField(props, ref);
 

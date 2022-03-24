@@ -9,7 +9,7 @@ import EmailProvider from "next-auth/providers/email";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { PrismaClient } from "@prisma/client";
 import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider, {
   CredentialInput,
 } from "next-auth/providers/credentials";
@@ -176,6 +176,7 @@ function mapProviderDataToAPI({
         },
       };
     case "google":
+      // const l = profile as GoogleProfile;
       return {
         account: {
           provider: account?.provider,
