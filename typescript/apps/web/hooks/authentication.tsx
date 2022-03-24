@@ -97,8 +97,8 @@ export function useSessionReactQuery({
     //   router.push("/");
     // },
     onSettled(data, error) {
-      if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-      if (data || !required) return;
+      // if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+      // if (data || !required) return;
       // TODO: Log error
       const hasError = (data?.session as any)?.errors as any;
       console.log("DATAERROR", data);
