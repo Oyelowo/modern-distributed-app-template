@@ -9,7 +9,10 @@ import EmailProvider from "next-auth/providers/email";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { PrismaClient } from "@prisma/client";
 import GitHubProvider from "next-auth/providers/github";
-import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider, {
+  CredentialInput,
+} from "next-auth/providers/credentials";
 import { GraphQLClient } from "graphql-request";
 import {
   CreateOrUpdateUserOauthDocument,
@@ -27,7 +30,6 @@ import {
   VerificationToken,
 } from "next-auth/adapters";
 // import Cookies from "cookies";
-import { serialize } from "cookie";
 
 // import CredentialsProvider from 'next-auth/providers/credentials';
 import crossFetch from "cross-fetch";
@@ -50,6 +52,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       signIn: "/auth/signin",
     },
     callbacks: initCallbacks(req, res),
+    debug: true,
   });
 }
 
@@ -58,6 +61,10 @@ function initProviders(req: NextApiRequest, res: NextApiResponse): Provider[] {
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!, // TODO: Use zod validation
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ];
 }
@@ -73,66 +80,126 @@ function initCallbacks(
         // Login for github oauth
         // TODO: Add google
         // TODO: Camelize all keys before using to standardize them
-        if (account?.provider === "github") {
-          const variables: CreateOrUpdateUserOauthMutationVariables = {
-            account: {
-              provider: account?.provider,
-              providerAccountId: account?.providerAccountId,
-              accessToken: account?.access_token,
-              accountType: account?.type ?? "",
-              expiresAt: account?.expires_at ?? new Date().toISOString(),
-              idToken: account?.id_token ?? "",
-              refreshToken: account?.refresh_token ?? "",
-              scope: account?.scope ?? "",
-              sessionState: account?.session_state ?? "",
-              tokenType: account?.token_type ?? "",
+        // TODO: Use zod validation
+        const variables = mapProviderDataToAPI({
+          account,
+          user,
+          profile,
+          email,
+          credentials,
+        });
+
+        // This code runs on the server which runs within the cluster, so, we need to
+        // use the domain name(maybe FQDN) of the respective rust graphql service which also runs within
+        // the same cluster and namespace.
+        // If it were on the client, then, we should use the
+        // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
+        // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
+        const resp = await fetch(
+          "http://graphql-mongo.development:8000/graphql",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-            profile: {
-              email: profile?.email,
-              // TODO: DO this right. Dont hardcode
-              emailVerified: false,
-              // TODO: Fix this hack
-              firstName: profile?.name ?? "",
-              // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
-              lastName: "Oyedayo",
-              // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
-              username: (profile as any).login ?? profile?.name ?? "",
-            },
-          };
+            body: JSON.stringify({
+              query: query,
+              variables: variables,
+            }),
+          }
+        );
+        // Relay the cookie from the rust graphql api to the client via the nextjs server. This runs in the server
+        const authCookie = resp.headers.get("set-cookie")!; // TODO: Use zod validation
+        res.setHeader("set-cookie", authCookie);
 
-          // This code runs on the server which runs within the cluster, so, we need to
-          // use the domain name(maybe FQDN) of the respective rust graphql service which also runs within
-          // the same cluster and namespace.
-          // If it were on the client, then, we should use the
-          // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
-          // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
-          const resp = await fetch(
-            "http://graphql-mongo.development:8000/graphql",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                query: query,
-                variables: variables,
-              }),
-            }
-          );
-          // Relay the cookie from the rust graphql api to the client via the nextjs server. This runs in the server
-          const authCookie = resp.headers.get("set-cookie");
-          res.setHeader("set-cookie", authCookie);
+        // TODO: if response data or cookie is null, revert to an error page/signin in page. so, e.g return "/auth/signin"
+        // Returning string redirects to that page
 
-          // TODO: if response data or cookie is null, revert to an error page/signin in page. so, e.g return "/auth/signin" 
-          // Returning string redirects to that page
-
-          // TODO: Use variables for routes rather than hard-coding them
-          // If string is provided, it will redirect to the URI
-          return "/";
-        }
+        // TODO: Use variables for routes rather than hard-coding them
+        // If string is provided, it will redirect to the URI
+        return "/";
       } catch (error) {
         return false;
       }
     },
   };
+}
+
+interface SignInParams {
+  user: User;
+  account: Account;
+  profile: Profile & Record<string, unknown>;
+  email: {
+    verificationRequest?: boolean;
+  };
+  credentials?: Record<string, CredentialInput>;
+}
+
+type ProviderType = "github" | "google" /* | "email" */;
+
+function mapProviderDataToAPI({
+  account,
+  user,
+  profile,
+  email,
+  credentials,
+}: SignInParams): CreateOrUpdateUserOauthMutationVariables {
+  const provider = account?.provider as ProviderType;
+  switch (provider) {
+    case "github":
+      return {
+        // TODO: Add google
+        // TODO: Camelize all keys before using to standardize them
+        // TODO: Use zod validation
+        account: {
+          provider: account?.provider,
+          providerAccountId: account?.providerAccountId,
+          accessToken: account?.access_token!, // TODO: Do zod validation
+          accountType: account?.type ?? "",
+          expiresAt: account?.expires_at ?? new Date().toISOString(),
+          idToken: account?.id_token ?? "",
+          refreshToken: account?.refresh_token ?? "",
+          scope: account?.scope ?? "",
+          sessionState: account?.session_state ?? "",
+          tokenType: account?.token_type ?? "",
+        },
+        profile: {
+          email: profile?.email!, // TODO: Do zod validation
+          // TODO: DO this right. Dont hardcode
+          emailVerified: false,
+          // TODO: Fix this hack
+          firstName: profile?.name ?? "",
+          // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+          lastName: "Oyedayo",
+          // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+          username: (profile as any).login ?? profile?.name ?? "",
+        },
+      };
+    case "google":
+      return {
+        account: {
+          provider: account?.provider,
+          providerAccountId: account?.providerAccountId,
+          accessToken: account?.access_token ?? "", // TODO: Do zod validation
+          accountType: account?.type ?? "",
+          expiresAt: account?.expires_at ?? new Date().toISOString(),
+          idToken: account?.id_token ?? "",
+          refreshToken: account?.refresh_token ?? "",
+          scope: account?.scope ?? "",
+          sessionState: account?.session_state ?? "",
+          tokenType: account?.token_type ?? "",
+        },
+        profile: {
+          email: profile?.email!, // TODO: Do zod validation
+          // TODO: DO this right. Dont hardcode
+          emailVerified: !!profile?.email_verified, // TODO: Do zod validation
+          // TODO: Fix this hack
+          firstName: profile?.name ?? "",
+          // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+          lastName: "Oyedayoooo",
+          // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+          username: (profile as any).login ?? profile?.name ?? "",
+        },
+      };
+  }
 }
