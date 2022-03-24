@@ -92,18 +92,17 @@ function initCallbacks(
               // TODO: DO this right. Dont hardcode
               emailVerified: false,
               // TODO: Fix this hack
-              firstName: profile.name,
+              firstName: profile?.name ?? "",
               // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
               lastName: "Oyedayo",
               // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
-              username: (profile as any).login ?? profile.name,
+              username: (profile as any).login ?? profile?.name ?? "",
             },
           };
 
-
           // This code runs on the server which runs within the cluster, so, we need to
           // use the domain name(maybe FQDN) of the respective rust graphql service which also runs within
-          // the same cluster and namespace. 
+          // the same cluster and namespace.
           // If it were on the client, then, we should use the
           // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
           // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
@@ -123,6 +122,9 @@ function initCallbacks(
           // Relay the cookie from the rust graphql api to the client via the nextjs server. This runs in the server
           const authCookie = resp.headers.get("set-cookie");
           res.setHeader("set-cookie", authCookie);
+
+          // TODO: if response data or cookie is null, revert to an error page/signin in page. so, e.g return "/auth/signin" 
+          // Returning string redirects to that page
 
           // TODO: Use variables for routes rather than hard-coding them
           // If string is provided, it will redirect to the URI
