@@ -22,7 +22,8 @@ export function useSignOut() {
     signOutMutate(
       {},
       {
-        onSuccess: () => {
+        onSuccess: () => {},
+        onSettled: () => {
           const client = new QueryClient();
           const cache = new QueryCache();
           const mutCache = new MutationCache();
@@ -110,7 +111,7 @@ export function useSessionReactQuery({
     onError: () => {
       router.push("/auth/signin");
     },
-    refetchOnMount: "always"
+    refetchOnMount: "always",
   });
 
   console.log("DATAAAAppppppp", data);
