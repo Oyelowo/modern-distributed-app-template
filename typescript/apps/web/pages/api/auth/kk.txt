@@ -93,7 +93,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export const authOptions: NextAuthOptions = {
-  // https://next-auth.js.org/configuration/providers
+ next-auth.js.org/configuration/providers
   // adapter: PrismaAdapter(prisma),
   // adapter: MyAdapter({}),
   providers: [

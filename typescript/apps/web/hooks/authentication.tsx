@@ -5,7 +5,12 @@ import {
   useSignOutMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
-import { QueryCache, QueryClient, UseQueryOptions } from "react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  UseQueryOptions,
+} from "react-query";
 import { client } from "../config/client";
 
 export function useSignOut() {
@@ -18,6 +23,13 @@ export function useSignOut() {
       {},
       {
         onSuccess: () => {
+          const client = new QueryClient();
+          const cache = new QueryCache();
+          const mutCache = new MutationCache();
+          client.invalidateQueries(["session"]);
+          client.clear();
+          cache.clear();
+          mutCache.clear();
           router.push("/auth/signin");
         },
       }
@@ -45,8 +57,8 @@ export function useSignIn() {
         onSuccess: () => {
           const client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
-          client.refetchQueries(["session"]);
           router.push("/");
+          client.refetchQueries(["session"]);
         },
       }
     );
@@ -98,6 +110,7 @@ export function useSessionReactQuery({
     onError: () => {
       router.push("/auth/signin");
     },
+    refetchOnMount: "always"
   });
 
   console.log("DATAAAAppppppp", data);
