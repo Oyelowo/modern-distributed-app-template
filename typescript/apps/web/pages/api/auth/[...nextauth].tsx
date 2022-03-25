@@ -56,15 +56,27 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
+import z from "zod";
+
+// TODO: Extract this into config/util and expand this to cover other use-cases
+const EnvironmentVariables = z.object({
+  GITHUB_ID: z.string().nonempty(),
+  GITHUB_SECRET: z.string().nonempty(),
+  GOOGLE_CLIENT_ID: z.string().nonempty(),
+  GOOGLE_CLIENT_SECRET: z.string().nonempty(),
+});
+
+const envs = EnvironmentVariables.parse(process.env);
+
 function initProviders(req: NextApiRequest, res: NextApiResponse): Provider[] {
   return [
     GitHubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+      clientId: envs.GITHUB_ID,
+      clientSecret: envs.GITHUB_SECRET,
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!, // TODO: Use zod validation
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: envs.GOOGLE_CLIENT_ID!,
+      clientSecret: envs.GOOGLE_CLIENT_SECRET!,
     }),
   ];
 }
