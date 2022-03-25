@@ -60,8 +60,8 @@ import z from "zod";
 
 // TODO: Extract this into config/util and expand this to cover other use-cases
 const EnvironmentVariables = z.object({
-  GITHUB_ID: z.string().nonempty(),
-  GITHUB_SECRET: z.string().nonempty(),
+  GITHUB_CLIENT_ID: z.string().nonempty(),
+  GITHUB_CLIENT_SECRET: z.string().nonempty(),
   GOOGLE_CLIENT_ID: z.string().nonempty(),
   GOOGLE_CLIENT_SECRET: z.string().nonempty(),
 });
@@ -71,8 +71,8 @@ const envs = EnvironmentVariables.parse(process.env);
 function initProviders(req: NextApiRequest, res: NextApiResponse): Provider[] {
   return [
     GitHubProvider({
-      clientId: envs.GITHUB_ID,
-      clientSecret: envs.GITHUB_SECRET,
+      clientId: envs.GITHUB_CLIENT_ID,
+      clientSecret: envs.GITHUB_CLIENT_SECRET,
     }),
     GoogleProvider({
       clientId: envs.GOOGLE_CLIENT_ID!,
