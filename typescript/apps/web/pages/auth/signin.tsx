@@ -31,7 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import SignInForm from "../../components/SignInForm";
 import { SignUpForm } from "../../components/SignUpForm";
 
-const client = new GraphQLClient("http://localhost:8080/graphql", {
+const client = new GraphQLClient("http://localhost:8080/graphql-mongo", {
   credentials: "include",
   headers: {},
 });

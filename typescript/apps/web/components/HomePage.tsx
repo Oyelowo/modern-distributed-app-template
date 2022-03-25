@@ -22,7 +22,7 @@ import {
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
 
-const client = new GraphQLClient("http://localhost:8080/graphql", {
+const client = new GraphQLClient("http://localhost:8080/graphql-mongo", {
   headers: {},
 });
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;

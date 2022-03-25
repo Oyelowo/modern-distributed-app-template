@@ -147,7 +147,7 @@ export const authOptions: NextAuthOptions = {
         };
         // a cookie jar scoped to the client object
         // const fetch = require("fetch-cookie")(crossFetch);
-        const client = new GraphQLClient("http://localhost:8080/graphql", {
+        const client = new GraphQLClient("http://localhost:8080/graphql-mongo", {
           credentials: "include",
           // headers: {},
         });
@@ -247,7 +247,7 @@ profile {
   following_url: 'https://api.github.com/users/Oyelowo/following{/other_user}',
   gists_url: 'https://api.github.com/users/Oyelowo/gists{/gist_id}',
   starred_url: 'https://api.github.com/users/Oyelowo/starred{/owner}{/repo}',
-  subscriptions_url: 'https://api.github.com/users/Oyelowo/subscriptions',
+  subscriptions_url: "",
   organizations_url: 'https://api.github.com/users/Oyelowo/orgs',
   repos_url: 'https://api.github.com/users/Oyelowo/repos',
   events_url: 'https://api.github.com/users/Oyelowo/events{/privacy}',

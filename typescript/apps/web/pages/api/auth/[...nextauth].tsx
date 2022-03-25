@@ -108,7 +108,7 @@ function initCallbacks(
         // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
         // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
         const resp = await fetch(
-          "http://graphql-mongo.development:8000/graphql",
+          "http://graphql-mongo.development:8000/graphql-mongo",
           {
             method: "POST",
             headers: {
