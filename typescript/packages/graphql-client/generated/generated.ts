@@ -30,29 +30,31 @@ export type AccountOauth = {
   __typename?: 'AccountOauth';
   accessToken: Scalars['String'];
   accountType: Scalars['String'];
-  expiresAt: Scalars['DateTime'];
+  expiresAt?: Maybe<Scalars['DateTime']>;
   id: Scalars['String'];
-  idToken: Scalars['String'];
+  idToken?: Maybe<Scalars['String']>;
+  profile: ProfileOauth;
   provider: Scalars['String'];
   providerAccountId: Scalars['String'];
-  refreshToken: Scalars['String'];
-  scope: Scalars['String'];
-  sessionState: Scalars['String'];
-  tokenType: Scalars['String'];
+  refreshToken?: Maybe<Scalars['String']>;
+  scope?: Maybe<Scalars['String']>;
+  sessionState?: Maybe<Scalars['String']>;
+  tokenType?: Maybe<Scalars['String']>;
   userId: Scalars['String'];
 };
 
 export type AccountOauthInput = {
   accessToken: Scalars['String'];
   accountType: Scalars['String'];
-  expiresAt: Scalars['DateTime'];
-  idToken: Scalars['String'];
+  expiresAt?: InputMaybe<Scalars['DateTime']>;
+  idToken?: InputMaybe<Scalars['String']>;
+  profile: ProfileOauthInput;
   provider: Scalars['String'];
   providerAccountId: Scalars['String'];
-  refreshToken: Scalars['String'];
-  scope: Scalars['String'];
-  sessionState: Scalars['String'];
-  tokenType: Scalars['String'];
+  refreshToken?: InputMaybe<Scalars['String']>;
+  scope?: InputMaybe<Scalars['String']>;
+  sessionState?: InputMaybe<Scalars['String']>;
+  tokenType?: InputMaybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -72,7 +74,6 @@ export type Mutation = {
 
 export type MutationCreateOrUpdateUserOauthArgs = {
   account: AccountOauthInput;
-  profile: ProfileOauth;
 };
 
 
@@ -111,6 +112,15 @@ export type PostInput = {
 };
 
 export type ProfileOauth = {
+  __typename?: 'ProfileOauth';
+  email: Scalars['String'];
+  emailVerified: Scalars['Boolean'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  username: Scalars['String'];
+};
+
+export type ProfileOauthInput = {
   email: Scalars['String'];
   emailVerified: Scalars['Boolean'];
   firstName: Scalars['String'];
@@ -224,7 +234,6 @@ export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Sess
 
 export type CreateOrUpdateUserOauthMutationVariables = Exact<{
   account: AccountOauthInput;
-  profile: ProfileOauth;
 }>;
 
 
@@ -335,8 +344,8 @@ export const useSessionQuery = <
       options
     );
 export const CreateOrUpdateUserOauthDocument = `
-    mutation createOrUpdateUserOauth($account: AccountOauthInput!, $profile: ProfileOauth!) {
-  createOrUpdateUserOauth(account: $account, profile: $profile) {
+    mutation createOrUpdateUserOauth($account: AccountOauthInput!) {
+  createOrUpdateUserOauth(account: $account) {
     username
     email
     age

@@ -37,9 +37,8 @@ query session {
 
 mutation createOrUpdateUserOauth(
   $account: AccountOauthInput!
-  $profile: ProfileOauth!
 ) {
-  createOrUpdateUserOauth(account: $account, profile: $profile) {
+  createOrUpdateUserOauth(account: $account) {
     username
     email
     age

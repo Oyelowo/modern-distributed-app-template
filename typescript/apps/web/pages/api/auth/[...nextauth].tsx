@@ -124,6 +124,11 @@ function initCallbacks(
         const authCookie = resp.headers.get("set-cookie")!; // TODO: Use zod validation
         res.setHeader("set-cookie", authCookie);
 
+        console.log("resp", await resp.json());
+        console.log("authCookie", authCookie);
+        console.log("headers", resp.headers);
+        console.log("variables", variables);
+
         // TODO: if response data or cookie is null, revert to an error page/signin in page. so, e.g return "/auth/signin"
         // Returning string redirects to that page
 
@@ -174,17 +179,17 @@ function mapProviderDataToAPI({
           scope: account?.scope ?? "",
           sessionState: account?.session_state ?? "",
           tokenType: account?.token_type ?? "",
-        },
-        profile: {
-          email: profile?.email!, // TODO: Do zod validation
-          // TODO: DO this right. Dont hardcode
-          emailVerified: false,
-          // TODO: Fix this hack
-          firstName: profile?.name ?? "",
-          // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
-          lastName: "Oyedayo",
-          // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
-          username: (profile as any).login ?? profile?.name ?? "",
+          profile: {
+            email: profile?.email!, // TODO: Do zod validation
+            // TODO: DO this right. Dont hardcode
+            emailVerified: false,
+            // TODO: Fix this hack
+            firstName: profile?.name ?? "",
+            // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+            lastName: "Oyedayo",
+            // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+            username: (profile as any).login ?? profile?.name ?? "",
+          },
         },
       };
     case "google":
@@ -195,23 +200,25 @@ function mapProviderDataToAPI({
           providerAccountId: account?.providerAccountId,
           accessToken: account?.access_token ?? "", // TODO: Do zod validation
           accountType: account?.type ?? "",
-          expiresAt: account?.expires_at ?? new Date().toISOString(),
+          expiresAt: new Date().toISOString(),
+          // expiresAt: account?.expires_at ?? new Date().toISOString(), // TODO: Convert timestamp to datetime
           idToken: account?.id_token ?? "",
           refreshToken: account?.refresh_token ?? "",
           scope: account?.scope ?? "",
           sessionState: account?.session_state ?? "",
           tokenType: account?.token_type ?? "",
-        },
-        profile: {
-          email: profile?.email!, // TODO: Do zod validation
-          // TODO: DO this right. Dont hardcode
-          emailVerified: !!profile?.email_verified, // TODO: Do zod validation
-          // TODO: Fix this hack
-          firstName: profile?.name ?? "",
-          // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
-          lastName: "Oyedayoooo",
-          // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
-          username: (profile as any).login ?? profile?.name ?? "",
+          profile: {
+            email: profile?.email!, // TODO: Do zod validation
+            // TODO: DO this right. Dont hardcode
+            emailVerified: !!profile?.email_verified, // TODO: Do zod validation
+            // emailVerifiedAt: !!profile?.email_verified, // TODO: Do zod validation
+            // TODO: Fix this hack
+            firstName: profile?.name ?? "",
+            // firstName: (profile as any).first_name ?? profile?.name?.split(" ").at(0),
+            lastName: "Oyedayoooo",
+            // lastName:  (profile as any).last_name ?? profile?.name?.split(" ").at(-1),
+            username: (profile as any).login ?? profile?.name ?? "",
+          },
         },
       };
   }
