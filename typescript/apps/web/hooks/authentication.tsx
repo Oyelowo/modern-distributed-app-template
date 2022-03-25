@@ -101,8 +101,6 @@ export const SignUpSchema = z.object({
 export function useSignUp() {
   const router = useRouter();
   const { mutate, data } = useSignUpMutation(client);
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
 
   const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
     const user = SignUpSchema.parse(userData);
@@ -121,7 +119,7 @@ export function useSignUp() {
     );
   };
 
-  return { signUpCustom };
+  return { signUpCustom, data };
 }
 
 interface UseSessionProps {

@@ -19,7 +19,7 @@ export function SignUpForm() {
         tw="text-black"
         onSubmit={handleSubmit((d) => {
           console.log("formdata", d);
-          signUpCustom({ ...d, socialMedia: [] });
+          signUpCustom({ ...d, socialMedia: ["lin"] });
         })}
       >
         <TextField
