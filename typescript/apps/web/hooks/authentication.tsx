@@ -3,6 +3,7 @@ import {
   useSessionQuery,
   useSignInMutation,
   useSignOutMutation,
+  useSignUpMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
 import {
@@ -46,7 +47,13 @@ export function useSignIn() {
   const { mutate: signOutMutate, data: signOutData } =
     useSignOutMutation(client);
 
-  const signInCustom = ({username, password}: {username: string, password: string}) => {
+  const signInCustom = ({
+    username,
+    password,
+  }: {
+    username: string;
+    password: string;
+  }) => {
     mutate(
       {
         signInCredentials: {
@@ -66,6 +73,55 @@ export function useSignIn() {
   };
 
   return { signInCustom };
+}
+
+type UserData = {
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  socialMedia: string;
+  age: number;
+};
+
+import * as z from "zod";
+
+export const SignUpSchema = z.object({
+  username: z.string().nonempty().min(1),
+  password: z.string().min(4),
+  passwordConfirm: z.string().min(4),
+  firstName: z.string().nonempty(),
+  lastName: z.string().nonempty(),
+  email: z.string().email(),
+  socialMedia: z.array(z.string(), {}),
+  age: z.number().min(15),
+});
+
+export function useSignUp() {
+  const router = useRouter();
+  const { mutate, data } = useSignUpMutation(client);
+  const { mutate: signOutMutate, data: signOutData } =
+    useSignOutMutation(client);
+
+  const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
+    const user = SignUpSchema.parse(userData);
+    mutate(
+      {
+        user,
+      },
+      {
+        onSuccess: () => {
+          const client = new QueryClient();
+          // the generated useSessionQuery graphql hook uses `session` as the key
+          router.push("/");
+          client.refetchQueries(["session"]);
+        },
+      }
+    );
+  };
+
+  return { signUpCustom };
 }
 
 interface UseSessionProps {

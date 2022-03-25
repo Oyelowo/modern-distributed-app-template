@@ -1,16 +1,15 @@
-import { useTextField } from "@react-aria/textfield";
-import { InputHTMLAttributes, useRef } from "react";
+import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
+import { useRef } from "react";
 
-type ITextFieldProps = {
-  errorMessage: string;
-  label: string;
-  description: string;
-};
-
-export function TextField(props: ITextFieldProps) {
+// TODO: Extract into shared ui package
+// function TextField(props: AriaTextFieldOptions<"input">) {
+export function TextField<T>(
+  props: AriaTextFieldOptions<"input"> & { inputProps?: T }
+) {
   let { label } = props;
-  let ref = useRef<HTMLInputElement | null>(null);
-  let { labelProps, inputProps, descriptionProps, errorMessageProps } = useTextField(props, ref);
+  let ref = useRef<HTMLInputElement>(null);
+  let { labelProps, inputProps, descriptionProps, errorMessageProps } =
+    useTextField(props, ref);
 
   return (
     <div
@@ -21,7 +20,7 @@ export function TextField(props: ITextFieldProps) {
       }}
     >
       <label {...labelProps}>{label}</label>
-      <input style={{ color: "black" }} {...(inputProps as InputHTMLAttributes<HTMLInputElement>)} ref={ref} />
+      <input {...inputProps} ref={ref} {...props.inputProps} />
       {props.description && (
         <div {...descriptionProps} style={{ fontSize: 12 }}>
           {props.description}
