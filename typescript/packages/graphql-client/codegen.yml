@@ -1,3 +1,4 @@
+# DEPRECATED IN FAVOUR OF CODEGEN.JS
 overwrite: true
 # Path to the graphql-mongo backend
 schema: "../../../rust/graphql-mongo/generated/schema.graphql"
