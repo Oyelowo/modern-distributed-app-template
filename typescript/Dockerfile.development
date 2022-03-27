@@ -48,4 +48,4 @@ COPY --from=builder-web /app/apps/web/package.json ./apps/web/package.json
 COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
 CMD ["node", "./apps/web/server.js"]
 ######### END WEB SERVICE  #################
-##############################################################
+############################################################## 
