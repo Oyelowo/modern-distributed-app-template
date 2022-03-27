@@ -16,7 +16,7 @@ const ServerSideRenderedPage = ({ session }: IServerSideRenderedPageProps) => {
   if (session) {
     return (
       <>
-        <h1>Server Side Rendering</h1>
+        <h1>Server Side Rendering!</h1>
         <p>
           Using <strong>getSession()</strong> in{" "}
           <strong>getServerSideProps()</strong> is the recommended approach if
