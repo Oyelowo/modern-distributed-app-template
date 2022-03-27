@@ -52,7 +52,7 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
       signIn: "/auth/signin",
     },
     callbacks: initCallbacks(req, res),
-    debug: true,
+    debug: false,
   });
 }
 

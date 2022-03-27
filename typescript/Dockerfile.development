@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:16.14.0
+ARG BASE_IMAGE=node:17.8.0-bullseye
 
 FROM $BASE_IMAGE AS planner
 WORKDIR /app
@@ -28,7 +28,8 @@ RUN npm run build -- --scope=web
 # RUN npm run build
 
 
-FROM node:16.14.0-alpine3.15 AS web
+FROM node:17.8.0-alpine3.15 AS web
+# FROM node:16.14.0-alpine3.15 AS web
 WORKDIR /app
 EXPOSE 3000
 
