@@ -14,7 +14,7 @@ import CredentialsProvider, {
   CredentialInput,
 } from "next-auth/providers/credentials";
 import { GraphQLClient } from "graphql-request";
-import { environmentVariables } from "../../../config/environmentVariables";
+
 import {
   CreateOrUpdateUserOauthDocument,
   CreateOrUpdateUserOauthMutation,
@@ -41,6 +41,7 @@ import crossFetch from "cross-fetch";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Provider } from "next-auth/providers";
+import { environmentVariables } from "../../../config/EnvironmentVariables";
 
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
