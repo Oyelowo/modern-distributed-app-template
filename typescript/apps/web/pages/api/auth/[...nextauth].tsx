@@ -14,6 +14,7 @@ import CredentialsProvider, {
   CredentialInput,
 } from "next-auth/providers/credentials";
 import { GraphQLClient } from "graphql-request";
+import { environmentVariables } from "../../../config/environmentVariables";
 import {
   CreateOrUpdateUserOauthDocument,
   CreateOrUpdateUserOauthMutation,
@@ -56,27 +57,15 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   });
 }
 
-import z from "zod";
-
-// TODO: Extract this into config/util and expand this to cover other use-cases
-const EnvironmentVariables = z.object({
-  GITHUB_CLIENT_ID: z.string().nonempty(),
-  GITHUB_CLIENT_SECRET: z.string().nonempty(),
-  GOOGLE_CLIENT_ID: z.string().nonempty(),
-  GOOGLE_CLIENT_SECRET: z.string().nonempty(),
-});
-
-const envs = EnvironmentVariables.parse(process.env);
-
 function initProviders(req: NextApiRequest, res: NextApiResponse): Provider[] {
   return [
     GitHubProvider({
-      clientId: envs.GITHUB_CLIENT_ID,
-      clientSecret: envs.GITHUB_CLIENT_SECRET,
+      clientId: environmentVariables.GITHUB_CLIENT_ID,
+      clientSecret: environmentVariables.GITHUB_CLIENT_SECRET,
     }),
     GoogleProvider({
-      clientId: envs.GOOGLE_CLIENT_ID!,
-      clientSecret: envs.GOOGLE_CLIENT_SECRET!,
+      clientId: environmentVariables.GOOGLE_CLIENT_ID!,
+      clientSecret: environmentVariables.GOOGLE_CLIENT_SECRET!,
     }),
   ];
 }
