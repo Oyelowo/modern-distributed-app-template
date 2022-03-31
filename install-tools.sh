@@ -1,4 +1,5 @@
 brew install pulumi
+brew install pulumi/tap/crd2pulumi  
 brew install skaffold
 brew install node
 
