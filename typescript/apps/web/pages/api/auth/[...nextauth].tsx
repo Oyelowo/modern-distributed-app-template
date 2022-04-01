@@ -1,18 +1,10 @@
-import NextAuth, {
-  Account,
-  CallbacksOptions,
-  NextAuthOptions,
-  Profile,
-  User,
-} from "next-auth";
+import NextAuth, { Account, CallbacksOptions, NextAuthOptions, Profile, User } from "next-auth";
 import EmailProvider from "next-auth/providers/email";
 // import { PrismaAdapter } from "@next-auth/prisma-adapter";
 // import { PrismaClient } from "@prisma/client";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
-import CredentialsProvider, {
-  CredentialInput,
-} from "next-auth/providers/credentials";
+import CredentialsProvider, { CredentialInput } from "next-auth/providers/credentials";
 import { GraphQLClient } from "graphql-request";
 
 import {
@@ -24,12 +16,7 @@ import {
   SignInMutationVariables,
 } from "@oyelowo/graphql-client";
 
-import {
-  Adapter,
-  AdapterSession,
-  AdapterUser,
-  VerificationToken,
-} from "next-auth/adapters";
+import { Adapter, AdapterSession, AdapterUser, VerificationToken } from "next-auth/adapters";
 // import Cookies from "cookies";
 
 // import CredentialsProvider from 'next-auth/providers/credentials';
@@ -42,7 +29,14 @@ import crossFetch from "cross-fetch";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Provider } from "next-auth/providers";
 import { environmentVariables } from "../../../config/environmentVariables";
+import * as z from "zod";
 
+// const environmentVariables = z.object({
+//     GITHUB_CLIENT_ID: z.string().nonempty(),
+//     GITHUB_CLIENT_SECRET: z.string().nonempty(),
+//     GOOGLE_CLIENT_ID: z.string().nonempty(),
+//     GOOGLE_CLIENT_SECRET: z.string().nonempty(),
+//   })
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
     providers: initProviders(req, res),
@@ -97,8 +91,10 @@ function initCallbacks(
         // If it were on the client, then, we should use the
         // cluster domain exposed by the reverse proxy(Nginx-ingress controller in this case. 23/March/2022)
         // TODO: Grab the domain using environment variables which will be provided by the nextjs k8s deployment
+
         const resp = await fetch(
-          "http://graphql-mongo.development:8000/graphql",
+          `${environmentVariables.GRAPHQL_MONGO_URL}/graphql`,
+          // "http://graphql-mongo.development:8000/graphql",
           {
             method: "POST",
             headers: {
