@@ -28,8 +28,8 @@ import crossFetch from "cross-fetch";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Provider } from "next-auth/providers";
+// import * as z from "zod";
 import { environmentVariables } from "../../../config/environmentVariables";
-import * as z from "zod";
 
 // const environmentVariables = z.object({
 //     GITHUB_CLIENT_ID: z.string().nonempty(),

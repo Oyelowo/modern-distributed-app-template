@@ -1,4 +1,4 @@
-import z from "zod";
+import * as z from "zod";
 
 const EnvironmentVariables = z.object({
   GITHUB_CLIENT_ID: z.string().nonempty(),
