@@ -28,15 +28,17 @@ import crossFetch from "cross-fetch";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Provider } from "next-auth/providers";
-// import * as z from "zod";
-import { environmentVariables } from "../../../config/environmentVariables";
+import * as z from "zod";
+// import { environmentVariables } from "../../../config/environmentVariables";
 
-// const environmentVariables = z.object({
-//     GITHUB_CLIENT_ID: z.string().nonempty(),
-//     GITHUB_CLIENT_SECRET: z.string().nonempty(),
-//     GOOGLE_CLIENT_ID: z.string().nonempty(),
-//     GOOGLE_CLIENT_SECRET: z.string().nonempty(),
-//   })
+const EnvironmentVariables = z.object({
+  GITHUB_CLIENT_ID: z.string().nonempty(),
+  GITHUB_CLIENT_SECRET: z.string().nonempty(),
+  GOOGLE_CLIENT_ID: z.string().nonempty(),
+  GOOGLE_CLIENT_SECRET: z.string().nonempty(),
+  GRAPHQL_MONGO_URL: z.string().nonempty(), // TODO: Could this be referenced from the kubernetes deployment directly?
+});
+const environmentVariables = EnvironmentVariables.parse(process.env);
 export default async function auth(req: NextApiRequest, res: NextApiResponse) {
   return await NextAuth(req, res, {
     providers: initProviders(req, res),
