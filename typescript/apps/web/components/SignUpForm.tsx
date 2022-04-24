@@ -6,6 +6,7 @@ export function SignUpForm() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useFormCustom(SignUpSchema, {});
 
@@ -15,13 +16,7 @@ export function SignUpForm() {
   return (
     <div>
       <h1>Sign Up</h1>
-      <form
-        tw="text-black"
-        onSubmit={handleSubmit((d) => {
-          console.log("formdata", d);
-          signUpCustom({ ...d, socialMedia: ["lin"] });
-        })}
-      >
+      <form tw="text-black" onSubmit={handleSubmit(signUpCustom)}>
         <TextField
           label="Username"
           placeholder="Username"
@@ -71,17 +66,16 @@ export function SignUpForm() {
 
         <p tw="text-red-600">{errors.lastName?.message}</p>
 
-        <input type="submit" value="Sign Up" tw="text-yellow-400" />
+        <input type="submit" value="Sign Up" tw="text-yellow-400 bg-red-500" />
+        <br />
         <button
           type="button"
           // onClick={() => signIn(providers.credentials.id)}
           onClick={() => {
-            handleSubmit((d) => {
-              signUpCustom({ ...d, socialMedia: ["lin"] });
-            });
+            signUpCustom({ ...getValues(), socialMedia: ["yevibes"] });
           }}
         >
-          Login with Username and password
+          Sign up btn
         </button>
       </form>
     </div>

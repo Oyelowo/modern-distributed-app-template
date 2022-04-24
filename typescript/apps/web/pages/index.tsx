@@ -3,13 +3,13 @@ import HomePage from "../components/HomePage";
 import "twin.macro";
 import { useRouter } from "next/dist/client/router";
 import { useSessionReactQuery, useSignOut } from "../hooks/authentication";
+import { DOMAIN_BASE } from "../config/client";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
   const { session, isLoading } = useSessionReactQuery({
     required: true,
-    // redirectTo: "http://localhost:8080",
-    redirectTo: "http://localhost:8080",
+    redirectTo: DOMAIN_BASE,
     queryConfig: {
       staleTime: 60 * 100 * 60 * 3, // 3 hours
       refetchInterval: 60 * 1000 * 5, // 5 minutes

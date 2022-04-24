@@ -21,10 +21,8 @@ import {
 } from "@oyelowo/graphql-client";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
+import { client } from "../config/client";
 
-const client = new GraphQLClient("http://localhost:8080/graphql", {
-  headers: {},
-});
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const HomePage: NextPage = () => {

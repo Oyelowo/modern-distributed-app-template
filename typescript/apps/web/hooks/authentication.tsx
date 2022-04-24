@@ -44,16 +44,13 @@ export function useSignOut() {
 export function useSignIn() {
   const router = useRouter();
   const { mutate, data } = useSignInMutation(client);
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
+  // const { mutate: signOutMutate, data: signOutData } =
+  //   useSignOutMutation(client);
 
   const signInCustom = ({
     username,
     password,
-  }: {
-    username: string;
-    password: string;
-  }) => {
+  }: z.infer<typeof SignInFormSchema>) => {
     mutate(
       {
         signInCredentials: {
@@ -86,6 +83,7 @@ type UserData = {
 };
 
 import * as z from "zod";
+import { SignInFormSchema } from "../components/SignInForm";
 
 export const SignUpSchema = z.object({
   username: z.string().nonempty().min(1),

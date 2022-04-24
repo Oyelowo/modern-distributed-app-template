@@ -3,7 +3,7 @@ import z, { ZodType } from "zod";
 import { useSignIn } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 
-const SignInFormSchema = z.object({
+export const SignInFormSchema = z.object({
   username: z
     .string()
     // .nonempty
