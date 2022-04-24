@@ -5,3 +5,5 @@ brew install node
 
 # For sealed secrets
 brew install kubeseal
+
+code --install-extension lightyen.tailwindcss-intellisense-twin
