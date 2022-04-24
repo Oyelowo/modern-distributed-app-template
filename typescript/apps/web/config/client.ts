@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 
-export const client = new GraphQLClient("http://localhost:8080/graphql", {
+export const client = new GraphQLClient("https://oyelowo.dev/graphql", {
   credentials: "include",
   headers: {},
 });
