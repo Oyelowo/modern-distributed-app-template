@@ -72,13 +72,17 @@ export function SignUpForm() {
         <p tw="text-red-600">{errors.lastName?.message}</p>
 
         <input type="submit" value="Sign Up" tw="text-yellow-400" />
-        {/*   <button
-            type="button"
-            // onClick={() => signIn(providers.credentials.id)}
-            onClick={signInCustom}
-          >
-            Username and password Login
-          </button> */}
+        <button
+          type="button"
+          // onClick={() => signIn(providers.credentials.id)}
+          onClick={() => {
+            handleSubmit((d) => {
+              signUpCustom({ ...d, socialMedia: ["lin"] });
+            });
+          }}
+        >
+          Login with Username and password
+        </button>
       </form>
     </div>
   );
