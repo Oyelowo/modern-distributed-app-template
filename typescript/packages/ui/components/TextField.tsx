@@ -12,6 +12,11 @@ export function TextField<T>(
   let { labelProps, inputProps, descriptionProps, errorMessageProps } =
     useTextField(props, ref);
 
+  const allInputProps = {
+    ...inputProps,
+    ...props.inputProps,
+    // ...props
+  };
   return (
     <div
       style={{
@@ -21,7 +26,7 @@ export function TextField<T>(
       }}
     >
       <label {...labelProps}>{label}</label>
-      <input tw="text-black" {...inputProps} ref={ref} {...props.inputProps} />
+      <input tw="text-black" ref={ref} {...allInputProps} />
       {props.description && (
         <div {...descriptionProps} style={{ fontSize: 12 }}>
           {props.description}

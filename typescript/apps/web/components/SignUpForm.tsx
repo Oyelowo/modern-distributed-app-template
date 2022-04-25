@@ -16,7 +16,12 @@ export function SignUpForm() {
   return (
     <div>
       <h1>Sign Up</h1>
-      <form tw="text-black" onSubmit={handleSubmit(signUpCustom)}>
+      <form
+        tw="text-black"
+        onSubmit={handleSubmit((d) =>
+          signUpCustom({ ...d, age: Number(d.age) })
+        )}
+      >
         <TextField
           label="Username"
           placeholder="Username"
@@ -65,9 +70,11 @@ export function SignUpForm() {
         />
 
         <br />
+        {/* TODO: Use compound component instead */}
         <TextField
           label="Age(15+)"
           placeholder="Age"
+          type="number"
           inputProps={{ ...register("age") }}
         />
 
@@ -79,7 +86,11 @@ export function SignUpForm() {
           type="button"
           // onClick={() => signIn(providers.credentials.id)}
           onClick={() => {
-            signUpCustom({ ...getValues(), socialMedia: ["yevibes"] });
+            signUpCustom({
+              ...getValues(),
+              age: getValues().age,
+              socialMedia: ["yevibes"],
+            });
           }}
         >
           Sign up btn
