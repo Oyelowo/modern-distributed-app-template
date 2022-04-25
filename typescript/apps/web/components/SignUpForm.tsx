@@ -86,8 +86,9 @@ export function SignUpForm() {
           type="button"
           // onClick={() => signIn(providers.credentials.id)}
           onClick={() => {
+            const { passwordConfirm, ...userInput } = getValues();
             signUpCustom({
-              ...getValues(),
+              ...userInput,
               age: Number(getValues().age),
               socialMedia: ["yevibes"],
             });

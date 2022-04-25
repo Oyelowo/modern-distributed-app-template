@@ -100,7 +100,9 @@ export function useSignUp() {
   const router = useRouter();
   const { mutate, data } = useSignUpMutation(client);
 
-  const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
+  const signUpCustom = (
+    userData: Omit<z.infer<typeof SignUpSchema>, "passwordConfirm">
+  ) => {
     const user = SignUpSchema.parse(userData);
     mutate(
       {
