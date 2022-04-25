@@ -88,7 +88,7 @@ export function SignUpForm() {
           onClick={() => {
             signUpCustom({
               ...getValues(),
-              age: getValues().age,
+              age: Number(getValues().age),
               socialMedia: ["yevibes"],
             });
           }}
