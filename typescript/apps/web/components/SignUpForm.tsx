@@ -64,6 +64,13 @@ export function SignUpForm() {
           inputProps={{ ...register("lastName") }}
         />
 
+        <br />
+        <TextField
+          label="Age(15+)"
+          placeholder="Age"
+          inputProps={{ ...register("age") }}
+        />
+
         <p tw="text-red-600">{errors.lastName?.message}</p>
 
         <input type="submit" value="Sign Up" tw="text-yellow-400 bg-red-500" />
