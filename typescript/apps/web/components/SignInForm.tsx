@@ -1,3 +1,4 @@
+import "twin.macro";
 import { TextField } from "@oyelowo/ui";
 import z, { ZodType } from "zod";
 import { useSignIn } from "../hooks/authentication";
@@ -32,25 +33,18 @@ export default function SignInForm() {
           label="Username"
           placeholder="Username"
           inputProps={{ ...register("username") }}
+          errorMessage={errors.username?.message}
         />
-        <p tw="text-red-600">{errors.username?.message}</p>
 
         <br />
         <TextField
           label="Password"
           placeholder="Password"
           inputProps={{ ...register("password") }}
+          errorMessage={errors.password?.message}
         />
-        <p tw="text-red-600">{errors.password?.message}</p>
 
         <input type="submit" value="Sign In" tw="text-yellow-400" />
-        {/*   <button
-            type="button"
-            // onClick={() => signIn(providers.credentials.id)}
-            onClick={signInCustom}
-          >
-            Username and password Login
-          </button> */}
       </form>
     </div>
   );

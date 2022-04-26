@@ -26,14 +26,6 @@ import { client } from "../config/client";
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
 const HomePage: NextPage = () => {
-  const queryClient = useQueryClient();
-  const { data, isSuccess } = useGetUsersQuery(client);
-  const { mutate } = useCreateUserMutation(client, {
-    onMutate: () => {
-      // queryClient.invalidateQueries(["GetUsers"]);
-      queryClient.refetchQueries(["GetUsers"]);
-    },
-  });
   // const {ReactCharts: CandleStickChart, chart} = useStockCandleCharts();
   const { ReactCharts: CandleChart1 } = useChart({
     option: tradingChartOption,
@@ -46,10 +38,6 @@ const HomePage: NextPage = () => {
     option: multiChartOptions,
   });
 
-  // if (!isSuccess) {
-  //   return <div>Hasn{"'"}t yet succeeded</div>;
-  // }
-
   return (
     <div tw="bg-black h-screen text-white">
       <Head>
@@ -59,51 +47,11 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main tw="bg-black">
-        <h1>The allergy</h1>
-        another name {getLowo()} <br />
-        <br />
-        Create Dummy User
-        <button
-          tw="text-white"
-          onClick={() => {
-            mutate({
-              userInput: {
-                firstName: "Oyelowo" + Math.random(),
-                username: "Oyelowo" + Math.random(),
-                lastName: "Oyedayo" + Math.random(),
-                socialMedia: ["fd"],
-                age: 19,
-                password: "1234",
-                email: +Math.random() + "oye@gmail.com",
-              },
-            });
-          }}
-        >
-          Crate random user
-        </button>
-        <ul>
-          {data?.users.map((el) => (
-            <li key={el.id}>
-              <div>First name: {el.firstName}</div>
-              <div>Last name: {el.lastName}</div>
-              <div>Age: {el.age}</div>
-              <div>Social Media: {el.socialMedia.join(", ")}</div>
-              <div>Created At: {el.createdAt}</div>
-              <div>
-                Posts:{" "}
-                {el?.posts.map((p, i) => (
-                  <div key={i}>
-                    <div>Title: {p.title}</div>
-                    <div>Content: {p.content}</div>
-                  </div>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
-        <br />
         <Link href="/hello">
           <a tw="text-gray-50">Link to charts</a>
+        </Link>
+        <Link href="/random">
+          <a tw="text-gray-50">Goto Random Rogue Users</a>
         </Link>
         <div tw="height[500px]">
           <ReactEcharts />
@@ -113,11 +61,6 @@ const HomePage: NextPage = () => {
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
         Home of grind!
-        <TextField
-          label="Oyelowo Oyedayo"
-          description="The sweet field"
-          errorMessage="Bad error"
-        />
         <CardTailWindExample />
         <div tw="text-blue-600">
           Separate

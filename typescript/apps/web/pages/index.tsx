@@ -28,9 +28,11 @@ export default function Home() {
   if (session?.user) {
     return (
       <div tw="bg-black h-screen text-white">
-        Signed in as {session.user.email} <br />
-        Signed in as {session.user.name} <br />
-        Signed in as {session.user.image} <br />
+        Signed in as:
+        <div>
+          Email: {session.user.email} <br />
+          Username: {session.user.name} <br />
+        </div>
         <button onClick={() => signOutCustom()}>Sign out</button>
         <HomePage />
       </div>

@@ -1,3 +1,4 @@
+import "twin.macro";
 import { TextField } from "@oyelowo/ui";
 import { SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
@@ -15,56 +16,58 @@ export function SignUpForm() {
     <div>
       <h1>Sign Up</h1>
       <form
-        tw="text-black"
+        tw="text-black grid-cols-2"
         onSubmit={handleSubmit((d) =>
-          signUpCustom({ ...d, age: Number(d.age) })
+          signUpCustom({ ...d, age: Number(d.age), socialMedia: ["blayzfm"] })
         )}
       >
         <TextField
           label="Username"
           placeholder="Username"
           inputProps={{ ...register("username") }}
+          errorMessage={errors.username?.message}
         />
-        <p tw="text-red-600">{errors.username?.message}</p>
 
         <br />
         <TextField
           label="Password"
           placeholder="Password"
           inputProps={{ ...register("password") }}
+          errorMessage={errors.password?.message}
         />
-        <p tw="text-red-600">{errors.password?.message}</p>
 
         <br />
         <TextField
           label="Confirm Password"
           placeholder="Confirm Password"
           inputProps={{ ...register("passwordConfirm") }}
+          errorMessage={errors.passwordConfirm?.message}
         />
-
-        <p tw="text-red-600">{errors.passwordConfirm?.message}</p>
 
         <br />
         <TextField
           label="Email"
           placeholder="email@example.com"
           inputProps={{ ...register("email") }}
+          errorMessage={errors.email?.message}
         />
-        <p tw="text-red-600">{errors.email?.message}</p>
 
         <br />
         <TextField
           label="First Name"
           placeholder="First Name"
           inputProps={{ ...register("firstName") }}
+          description="Last Name"
+          errorMessage={errors.firstName?.message}
         />
-        <p tw="text-red-600">{errors.firstName?.message}</p>
 
         <br />
         <TextField
           label="Last Name"
           placeholder="Last Name"
           inputProps={{ ...register("lastName") }}
+          // description="Last Name"
+          errorMessage={errors.lastName?.message}
         />
 
         <br />
@@ -73,14 +76,16 @@ export function SignUpForm() {
           label="Age(15+)"
           placeholder="Age"
           type="number"
+          errorMessage={errors.age?.message}
           inputProps={{ ...register("age") }}
         />
 
-        <p tw="text-red-600">{errors.lastName?.message}</p>
-
-        <input type="submit" value="Sign Up" tw="text-yellow-400 bg-red-500" />
-        <br />
-        <button
+        <input
+          type="submit"
+          value="Sign Up"
+          tw="text-yellow-400 bg-green-700"
+        />
+        {/* <button
           type="button"
           // onClick={() => signIn(providers.credentials.id)}
           onClick={() => {
@@ -93,7 +98,7 @@ export function SignUpForm() {
           }}
         >
           Sign up btn
-        </button>
+        </button> */}
       </form>
     </div>
   );

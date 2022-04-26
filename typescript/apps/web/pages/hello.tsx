@@ -1,7 +1,17 @@
-import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/ui";
+import "twin.macro";
+import {
+  CardTailWindExample,
+  getLowo,
+  TextField,
+  useInterval,
+} from "@oyelowo/ui";
 import { EChartsOption } from "echarts";
 import React, { useEffect, useState } from "react";
-import Bars, { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
+import Bars, {
+  ECOption,
+  ReactEChartCustom,
+  useChart,
+} from "../charts/echarts/ChartWithHooks";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -59,7 +69,7 @@ const Hello = () => {
     option: isBar ? barOption : pieOption,
   });
 
-  useInterval(() => setIsBar(prev => !prev), 2000);
+  useInterval(() => setIsBar((prev) => !prev), 2000);
 
   return (
     <main>
@@ -81,7 +91,14 @@ const Hello = () => {
             left: 12,
           },
           xAxis: {
-            data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
+            data: [
+              "Shirts",
+              "Cardigans",
+              "Chiffons",
+              "Pants",
+              "Heels",
+              "Socks",
+            ],
           },
           yAxis: {},
           series: [
@@ -93,7 +110,11 @@ const Hello = () => {
           ],
         }}
       />
-      <TextField label="Oyelowo Oyedayo" description="The sweet field" errorMessage="Bad error" />
+      <TextField
+        label="Oyelowo Oyedayo"
+        description="The sweet field"
+        errorMessage="Bad error"
+      />
       <CardTailWindExample />
       <div tw="text-blue-600">Separate Enter</div>
     </main>
