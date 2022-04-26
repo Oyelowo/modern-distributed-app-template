@@ -12,6 +12,7 @@ import Bars, {
   ReactEChartCustom,
   useChart,
 } from "../charts/echarts/ChartWithHooks";
+import Link from "next/link";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -74,8 +75,12 @@ const Hello = () => {
   return (
     <main>
       another name {getLowo()} <br />
-      Home of grind!
+      <Link href="/">
+        <a tw="text-gray-50">Go Home</a>
+      </Link>
+      <h1>Home of grind!</h1>
       {ReactCharts}
+      <br />
       <ReactEChartCustom
         style={{ height: 500 }}
         theme="dark"
@@ -109,11 +114,6 @@ const Hello = () => {
             },
           ],
         }}
-      />
-      <TextField
-        label="Oyelowo Oyedayo"
-        description="The sweet field"
-        errorMessage="Bad error"
       />
       <CardTailWindExample />
       <div tw="text-blue-600">Separate Enter</div>

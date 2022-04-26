@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useQueryClient } from "react-query";
 import { client } from "../config/client";
 
-export function RandomUsers() {
+export default function RandomUsers() {
   const queryClient = useQueryClient();
   const { data, isSuccess } = useGetUsersQuery(client);
   const { mutate } = useCreateUserMutation(client, {
