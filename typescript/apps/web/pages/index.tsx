@@ -17,7 +17,7 @@ export default function Home() {
     },
   });
 
-  if (isIdle) {
+  if (isLoading) {
     return (
       <div tw="bg-black h-screen text-white">
         <h1>Loading...</h1>
