@@ -22,7 +22,7 @@ import {
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
 import { client } from "../config/client";
-import Box from "../3D/Box";
+// import Box from "../3D/Box";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
 
@@ -54,7 +54,7 @@ const HomePage: NextPage = () => {
         <Link href="/random">
           <a tw="text-gray-50">Goto Random Rogue Users</a>
         </Link>
-        <Box />
+        {/* <Box /> */}
         <br />
         <div tw="height[500px]">
           <ReactEcharts />
