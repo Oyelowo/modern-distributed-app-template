@@ -7,7 +7,8 @@ import { DOMAIN_BASE } from "../config/client";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
-  const { session, isLoading } = useSessionReactQuery({
+  // TODO: Change to useAuth
+  const { session, isLoading, isIdle } = useSessionReactQuery({
     required: true,
     redirectTo: DOMAIN_BASE,
     queryConfig: {
@@ -16,15 +17,15 @@ export default function Home() {
     },
   });
 
-  if (isLoading) {
+  if (isIdle) {
     return (
       <div tw="bg-black h-screen text-white">
-        <h1>Loading...</h1>;
+        <h1>Loading...</h1>
       </div>
     );
   }
 
-  if (session) {
+  if (session?.user) {
     return (
       <div tw="bg-black h-screen text-white">
         Signed in as {session.user.email} <br />

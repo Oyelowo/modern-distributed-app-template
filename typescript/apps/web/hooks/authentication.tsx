@@ -1,3 +1,7 @@
+import * as z from "zod";
+import { SignInFormSchema } from "../components/SignInForm";
+import { useState } from "react";
+
 import {
   SessionQuery,
   useSessionQuery,
@@ -23,7 +27,7 @@ export function useSignOut() {
     signOutMutate(
       {},
       {
-        onSuccess: () => {},
+        onSuccess: () => { },
         onSettled: () => {
           const client = new QueryClient();
           const cache = new QueryCache();
@@ -82,9 +86,6 @@ type UserData = {
   age: number;
 };
 
-import * as z from "zod";
-import { SignInFormSchema } from "../components/SignInForm";
-
 export const SignUpSchema = z.object({
   username: z.string().nonempty().min(1),
   password: z.string().min(4),
@@ -135,6 +136,7 @@ export function useSessionReactQuery({
   queryConfig = {},
 }: UseSessionProps) {
   const router = useRouter();
+  const [isAuth, setIsAuth] = useState(false);
   // const k = useGetSession
   // const { data, status, isLoading } = useQuery(["session"], fetchSession, {
   //   ...queryConfig,
@@ -145,38 +147,54 @@ export function useSessionReactQuery({
   //   },
   // });
 
-  const { data, status, isLoading } = useSessionQuery(client, undefined, {
-    ...queryConfig,
-    // onSuccess: (data) => {
-    //   router.push("/");
-    // },
-    onSettled(data, error) {
-      // if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-      // if (data || !required) return;
-      // TODO: Log error
-      const hasError = (data?.session as any)?.errors as any;
-      console.log("DATAERROR", data);
-      console.log("ERRORERROR", error);
-      if (hasError) {
-        router.push("/auth/signin");
-      }
-      // router.push(redirectTo);
-    },
-    onError: () => {
-      router.push("/auth/signin");
-    },
-    refetchOnMount: "always",
-  });
+  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(
+    client,
+    undefined,
+    {
+      ...queryConfig,
+      // onSuccess: (data) => {
+      //   if (data?.session?.user) {
+      //     setIsAuth(true);
+      //     router.push("/");
+      //   } else {
+      //     setIsAuth(false);
+      //     router.push("/auth/signin");
+      //   }
+      // },
+      onSettled(data, error) {
+        if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+        // if (data || !required) return;
+        if (data?.session?.user) {
+          router.push("/");
+          return;
+        }
+        // router.push("/auth/signin");
+        // TODO: Log error
+        const hasError = (data?.session as any)?.errors as any;
 
-  console.log("DATAAAAppppppp", data);
-  console.log("statuspppppp", status);
-  console.log("isloadingppppp", isLoading);
+        if (hasError || error) {
+          setIsAuth(false);
+          router.push("/auth/signin");
+        }
+        // router.push(redirectTo);
+      },
+      // onError: () => {
+      //   setIsAuth(false);
+      //   router.push("/auth/signin");
+      // },
+      // refetchOnMount: "always",
+    }
+  );
+
   const hasError = (data?.session as any)?.errors as any;
 
   return {
     session: (hasError as any) ? null : data?.session,
     status,
     isLoading,
+    isAuth,
+    isIdle,
+    isFetching,
   };
   //   return { session: data as Session, status, isLoading };
   //   return [query.data, query.status === "loading"] as const;

@@ -3,15 +3,13 @@ import { SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 
 export function SignUpForm() {
+  const { signUpCustom } = useSignUp();
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
   } = useFormCustom(SignUpSchema, {});
-
-  // const k = useTextField({label})
-  const { signUpCustom } = useSignUp();
 
   return (
     <div>
