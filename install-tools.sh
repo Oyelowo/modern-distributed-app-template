@@ -7,5 +7,6 @@ brew install node
 brew install kubeseal
 
 brew install act
+brew install step
 
 code --install-extension lightyen.tailwindcss-intellisense-twin
