@@ -30,6 +30,8 @@ RUN npm run build -- --scope=web
 
 FROM node:17.8.0-alpine3.15 AS web
 # FROM node:16.14.0-alpine3.15 AS web
+RUN useradd --uid 10000 runner
+USER 10000
 WORKDIR /app
 EXPOSE 3000
 
