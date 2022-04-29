@@ -27,7 +27,6 @@ export default function SignInForm() {
 
   return (
     <div>
-      <h1>Sign In</h1>
       <form tw="text-black" onSubmit={handleSubmit(signInCustom)}>
         <TextField
           label="Username"

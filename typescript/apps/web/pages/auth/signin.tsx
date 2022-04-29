@@ -67,28 +67,29 @@ const SignIn = () => {
   // }
 
   return (
-    <div tw="bg-black h-screen text-white">
-      <>
-        <SignUpForm />
+    <div tw="bg-black min-h-full text-white grid-cols-2">
+      <div>
+        <h1>Signin with Username and password</h1>
+        <SignInForm />
         <br />
-        <br />
-      </>
 
-      <h1>Credentials</h1>
-      <br />
-      <br />
-      <SignInForm />
-      <h1>With providers</h1>
-      <>
-        {Object.values(providers ?? {}).map((provider) => (
-          <div key={provider?.name}>
-            <button onClick={() => signIn(provider?.id)}>
-              Sign in with {provider?.name}
-            </button>
-            <br />
-          </div>
-        ))}
-      </>
+        <div>
+          <h1>Signin with providers</h1>
+          {Object.values(providers ?? {}).map((provider) => (
+            <div key={provider?.name}>
+              <button onClick={() => signIn(provider?.id)}>
+                Sign in with {provider?.name}
+              </button>
+              <br />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h1>Signup</h1>
+        <SignUpForm />
+      </div>
     </div>
   );
 };

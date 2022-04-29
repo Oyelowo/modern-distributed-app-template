@@ -14,7 +14,6 @@ export function SignUpForm() {
 
   return (
     <div>
-      <h1>Sign Up</h1>
       <form
         tw="text-black grid-cols-2"
         onSubmit={handleSubmit((d) =>
