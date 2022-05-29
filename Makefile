@@ -1,3 +1,7 @@
+setup:
+	chmod +x ./install-tools.sh
+	./install-tools.sh
+
 gen:
 	(cd kubernetes && make gen)
 	(cd rust && make gen)

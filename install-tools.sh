@@ -2,6 +2,7 @@ brew install pulumi
 brew install pulumi/tap/crd2pulumi  
 brew install skaffold
 brew install node
+brew install protobuf
 
 # For sealed secrets
 brew install kubeseal
