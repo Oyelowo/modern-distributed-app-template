@@ -2,7 +2,9 @@ brew install pulumi
 brew install pulumi/tap/crd2pulumi  
 brew install skaffold
 brew install node
+
 brew install protobuf
+cargo install sea-orm-cli
 
 # For sealed secrets
 brew install kubeseal
