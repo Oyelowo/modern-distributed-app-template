@@ -31,7 +31,7 @@ query session {
       email
       image
     }
-    expiresIn
+    expiresAt
   }
 }
 

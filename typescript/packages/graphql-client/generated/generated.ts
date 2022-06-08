@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 import { RequestInit } from 'graphql-request/dist/types.dom';
-import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
+import { useMutation, useQuery, UseMutationOptions, UseQueryOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -57,6 +57,13 @@ export type AccountOauthInput = {
   tokenType?: InputMaybe<Scalars['String']>;
 };
 
+export type Address = {
+  city: Scalars['String'];
+  houseNumber: Scalars['String'];
+  street: Scalars['String'];
+  zip: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createOrUpdateUserOauth: User;
@@ -78,7 +85,7 @@ export type MutationCreateOrUpdateUserOauthArgs = {
 
 
 export type MutationCreatePostArgs = {
-  postInput: PostInput;
+  post: PostInput;
 };
 
 
@@ -100,14 +107,13 @@ export type Post = {
   __typename?: 'Post';
   content: Scalars['String'];
   id?: Maybe<Scalars['ObjectId']>;
-  poster?: Maybe<User>;
+  poster: User;
   posterId: Scalars['ObjectId'];
   title: Scalars['String'];
 };
 
 export type PostInput = {
   content: Scalars['String'];
-  posterId: Scalars['ObjectId'];
   title: Scalars['String'];
 };
 
@@ -130,11 +136,17 @@ export type ProfileOauthInput = {
 
 export type Query = {
   __typename?: 'Query';
-  post?: Maybe<Post>;
+  getUser: User;
+  post: Post;
   posts: Array<Post>;
   session: Session;
   user: User;
   users: Array<User>;
+};
+
+
+export type QueryGetUserArgs = {
+  userBy: UserBy;
 };
 
 
@@ -154,7 +166,7 @@ export enum Role {
 
 export type Session = {
   __typename?: 'Session';
-  expiresIn: Scalars['String'];
+  expiresAt: Scalars['DateTime'];
   user: SessionUser;
 };
 
@@ -185,6 +197,7 @@ export type User = {
   __typename?: 'User';
   accounts: Array<AccountOauth>;
   age?: Maybe<Scalars['Int']>;
+  city?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
   emailVerifiedAt?: Maybe<Scalars['DateTime']>;
@@ -198,8 +211,16 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type UserBy = {
+  address?: InputMaybe<Address>;
+  email?: InputMaybe<Scalars['String']>;
+  userId?: InputMaybe<Scalars['ObjectId']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type UserInput = {
   age?: InputMaybe<Scalars['Int']>;
+  city?: InputMaybe<Scalars['String']>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
@@ -230,7 +251,7 @@ export type SignOutMutation = { __typename?: 'Mutation', signOut: { __typename?:
 export type SessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresIn: string, user: { __typename?: 'SessionUser', name: string, email: string, image: string } } };
+export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresAt: any, user: { __typename?: 'SessionUser', name: string, email: string, image: string } } };
 
 export type CreateOrUpdateUserOauthMutationVariables = Exact<{
   account: AccountOauthInput;
@@ -325,7 +346,7 @@ export const SessionDocument = `
       email
       image
     }
-    expiresIn
+    expiresAt
   }
 }
     `;
