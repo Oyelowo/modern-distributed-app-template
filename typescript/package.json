@@ -19,12 +19,12 @@
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {
-    "@turbo/codemod": "^1.1.0-canary.3",
-    "prettier": "^2.5.1",
-    "turbo": "^1.1.2"
+    "@turbo/codemod": "^1.2.16",
+    "prettier": "^2.6.2",
+    "turbo": "^1.2.16"
   },
   "packageManager": "npm@8.1.2",
   "dependencies": {
-    "graphql-request": "^4.0.0"
+    "graphql-request": "^4.3.0"
   }
 }
