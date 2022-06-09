@@ -1,8 +1,9 @@
-import "twin.macro";
+import tw from "twin.macro";
 
+const Container = tw.div`inset-0 flex items-end justify-center pointer-events-none sm:p-6 sm:items-start sm:justify-end`;
 export const CardTailWindExample = () => {
   return (
-    <div tw="inset-0 flex items-end justify-center pointer-events-none sm:p-6 sm:items-start sm:justify-end">
+    <Container>
       <div tw="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto">
         <div tw="rounded-lg overflow-hidden">
           <div tw="p-4">
@@ -29,7 +30,12 @@ export const CardTailWindExample = () => {
               </div>
               <div tw="ml-4 flex-shrink-0 flex">
                 <button tw="inline-flex text-gray-400 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
-                  <svg tw="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <svg
+                    tw="h-5 w-5"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -42,6 +48,6 @@ export const CardTailWindExample = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };

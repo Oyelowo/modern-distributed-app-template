@@ -15,8 +15,8 @@ dev:
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-	yarn workspace wev dev
-	yarn workspace wev dev:old
+	yarn workspace web dev
+	# yarn workspace web dev:old
 
 build:
 	yarn build

@@ -5,7 +5,7 @@ import { Provider } from "jotai";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { SSRProvider } from "@react-aria/ssr";
+import { SSRProvider } from "react-aria";
 import { SessionProvider } from "next-auth/react";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {

@@ -1,22 +1,15 @@
 import "twin.macro";
-import { AriaTextFieldOptions, useTextField } from "@react-aria/textfield";
+import { useTextField, mergeProps } from "react-aria";
 import { useRef } from "react";
 
-// TODO: Extract into shared ui package
-// function TextField(props: AriaTextFieldOptions<"input">) {
-export function TextField<T>(
-  props: AriaTextFieldOptions<"input"> & { inputProps?: T }
-) {
+type AriaTextFieldOptions = Parameters<typeof useTextField>[0];
+export function TextField<T>(props: AriaTextFieldOptions & { inputProps?: T }) {
   let { label } = props;
   let ref = useRef<HTMLInputElement>(null);
-  let { labelProps, inputProps, descriptionProps, errorMessageProps } =
-    useTextField(props, ref);
+  let { labelProps, inputProps, descriptionProps, errorMessageProps } = useTextField(props, ref);
 
-  const allInputProps = {
-    ...inputProps,
-    ...props.inputProps,
-    // ...props
-  };
+  const allProps = mergeProps(inputProps, props.inputProps);
+
   return (
     <div
       style={{
@@ -26,7 +19,7 @@ export function TextField<T>(
       }}
     >
       <label {...labelProps}>{label}</label>
-      <input tw="text-black" ref={ref} {...allInputProps} />
+      <input tw="text-black" ref={ref} {...allProps} />
       {props.description && (
         <div {...descriptionProps} style={{ fontSize: 12 }}>
           {props.description}
