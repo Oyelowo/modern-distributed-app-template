@@ -1,13 +1,14 @@
 
 install:
-	yarn install --ignore-engines 
+	yarn install --ignore-engines
 
 gen:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
-    yarn workspace @oyelowo/graphql-client generate  
+	yarn workspace @oyelowo/graphql-client generate  
+	# npm run generate --workspace=@oyelowo/graphql-client
 
 dev:
 	make gen
