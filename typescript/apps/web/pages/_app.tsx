@@ -17,15 +17,17 @@ creating the QueryClient once per component lifecycle.
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Hydrate state={pageProps.dehydratedState}>
-        <SSRProvider>
-          <GlobalStyles />
-          <Component {...pageProps} />
-        </SSRProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Hydrate state={pageProps.dehydratedState}>
+          <SSRProvider>
+            <GlobalStyles />
+            <Component {...pageProps} />
+          </SSRProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 
