@@ -30,7 +30,7 @@ export function useSignOut() {
           client.clear();
           cache.clear();
           mutCache.clear();
-          router.push("/auth/signin");
+          router.push("/login");
         },
       }
     );
