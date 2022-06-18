@@ -34,13 +34,3 @@ query session {
     expiresAt
   }
 }
-
-mutation createOrUpdateUserOauth(
-  $account: AccountOauthInput!
-) {
-  createOrUpdateUserOauth(account: $account) {
-    username
-    email
-    age
-  }
-}

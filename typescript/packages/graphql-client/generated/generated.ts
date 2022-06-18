@@ -30,31 +30,18 @@ export type AccountOauth = {
   __typename?: 'AccountOauth';
   accessToken: Scalars['String'];
   accountType: Scalars['String'];
+  /** ccess token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
   expiresAt?: Maybe<Scalars['DateTime']>;
+  /** unique identifier for the oauth provider. Don't use name of user because that could be changed */
   id: Scalars['String'];
   idToken?: Maybe<Scalars['String']>;
-  profile: ProfileOauth;
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
+  oauthToken?: Maybe<Scalars['String']>;
+  oauthTokenSecret?: Maybe<Scalars['String']>;
+  provider: OauthProvider;
+  providerAccountId: OauthProvider;
   refreshToken?: Maybe<Scalars['String']>;
-  scope?: Maybe<Scalars['String']>;
-  sessionState?: Maybe<Scalars['String']>;
-  tokenType?: Maybe<Scalars['String']>;
-  userId: Scalars['String'];
-};
-
-export type AccountOauthInput = {
-  accessToken: Scalars['String'];
-  accountType: Scalars['String'];
-  expiresAt?: InputMaybe<Scalars['DateTime']>;
-  idToken?: InputMaybe<Scalars['String']>;
-  profile: ProfileOauthInput;
-  provider: Scalars['String'];
-  providerAccountId: Scalars['String'];
-  refreshToken?: InputMaybe<Scalars['String']>;
-  scope?: InputMaybe<Scalars['String']>;
-  sessionState?: InputMaybe<Scalars['String']>;
-  tokenType?: InputMaybe<Scalars['String']>;
+  scopes: Array<Scalars['String']>;
+  tokenType?: Maybe<TokenType>;
 };
 
 export type Address = {
@@ -66,7 +53,6 @@ export type Address = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createOrUpdateUserOauth: User;
   createPost: Post;
   createUser: User;
   signIn: User;
@@ -76,11 +62,6 @@ export type Mutation = {
    * Currently like this because of future developments
    */
   signUp: User;
-};
-
-
-export type MutationCreateOrUpdateUserOauthArgs = {
-  account: AccountOauthInput;
 };
 
 
@@ -103,6 +84,11 @@ export type MutationSignUpArgs = {
   user: UserInput;
 };
 
+export enum OauthProvider {
+  Github = 'GITHUB',
+  Google = 'GOOGLE'
+}
+
 export type Post = {
   __typename?: 'Post';
   content: Scalars['String'];
@@ -115,23 +101,6 @@ export type Post = {
 export type PostInput = {
   content: Scalars['String'];
   title: Scalars['String'];
-};
-
-export type ProfileOauth = {
-  __typename?: 'ProfileOauth';
-  email: Scalars['String'];
-  emailVerified: Scalars['Boolean'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  username: Scalars['String'];
-};
-
-export type ProfileOauthInput = {
-  email: Scalars['String'];
-  emailVerified: Scalars['Boolean'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-  username: Scalars['String'];
 };
 
 export type Query = {
@@ -172,7 +141,7 @@ export type Session = {
 
 export type SessionUser = {
   __typename?: 'SessionUser';
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   image: Scalars['String'];
   name: Scalars['String'];
 };
@@ -193,17 +162,21 @@ export type Subscription = {
   values: Scalars['Int'];
 };
 
+export enum TokenType {
+  Bearer = 'BEARER'
+}
+
 export type User = {
   __typename?: 'User';
   accounts: Array<AccountOauth>;
   age?: Maybe<Scalars['Int']>;
   city?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  email: Scalars['String'];
-  emailVerifiedAt?: Maybe<Scalars['DateTime']>;
-  firstName: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+  emailVerified: Scalars['Boolean'];
+  firstName?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ObjectId']>;
-  lastName: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
   postCount: Scalars['Int'];
   posts: Array<Post>;
   roles: Array<Role>;
@@ -221,9 +194,9 @@ export type UserBy = {
 export type UserInput = {
   age?: InputMaybe<Scalars['Int']>;
   city?: InputMaybe<Scalars['String']>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   socialMedia: Array<Scalars['String']>;
   username: Scalars['String'];
@@ -234,14 +207,14 @@ export type SignInMutationVariables = Exact<{
 }>;
 
 
-export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', username: string, email: string, age?: number | null } };
+export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'User', username: string, email?: string | null, age?: number | null } };
 
 export type SignUpMutationVariables = Exact<{
   user: UserInput;
 }>;
 
 
-export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email: string, age?: number | null } };
+export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: 'User', username: string, email?: string | null, age?: number | null } };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -251,26 +224,19 @@ export type SignOutMutation = { __typename?: 'Mutation', signOut: { __typename?:
 export type SessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresAt: any, user: { __typename?: 'SessionUser', name: string, email: string, image: string } } };
-
-export type CreateOrUpdateUserOauthMutationVariables = Exact<{
-  account: AccountOauthInput;
-}>;
-
-
-export type CreateOrUpdateUserOauthMutation = { __typename?: 'Mutation', createOrUpdateUserOauth: { __typename?: 'User', username: string, email: string, age?: number | null } };
+export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresAt: any, user: { __typename?: 'SessionUser', name: string, email?: string | null, image: string } } };
 
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
 }>;
 
 
-export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id?: any | null, firstName: string, lastName: string, email: string, age?: number | null } };
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', id?: any | null, firstName?: string | null, lastName?: string | null, email?: string | null, age?: number | null } };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName: string, lastName: string, age?: number | null, email: string, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
+export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName?: string | null, lastName?: string | null, age?: number | null, email?: string | null, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
 
 
 export const SignInDocument = `
@@ -362,28 +328,6 @@ export const useSessionQuery = <
     useQuery<SessionQuery, TError, TData>(
       variables === undefined ? ['session'] : ['session', variables],
       fetcher<SessionQuery, SessionQueryVariables>(client, SessionDocument, variables, headers),
-      options
-    );
-export const CreateOrUpdateUserOauthDocument = `
-    mutation createOrUpdateUserOauth($account: AccountOauthInput!) {
-  createOrUpdateUserOauth(account: $account) {
-    username
-    email
-    age
-  }
-}
-    `;
-export const useCreateOrUpdateUserOauthMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(
-      client: GraphQLClient,
-      options?: UseMutationOptions<CreateOrUpdateUserOauthMutation, TError, CreateOrUpdateUserOauthMutationVariables, TContext>,
-      headers?: RequestInit['headers']
-    ) =>
-    useMutation<CreateOrUpdateUserOauthMutation, TError, CreateOrUpdateUserOauthMutationVariables, TContext>(
-      ['createOrUpdateUserOauth'],
-      (variables?: CreateOrUpdateUserOauthMutationVariables) => fetcher<CreateOrUpdateUserOauthMutation, CreateOrUpdateUserOauthMutationVariables>(client, CreateOrUpdateUserOauthDocument, variables, headers)(),
       options
     );
 export const CreateUserDocument = `
