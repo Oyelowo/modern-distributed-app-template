@@ -26,7 +26,7 @@ export function useSignOut() {
           const client = new QueryClient();
           const cache = new QueryCache();
           const mutCache = new MutationCache();
-          client.invalidateQueries(["session"]);
+          client.refetchQueries(["session"]);
           client.clear();
           cache.clear();
           mutCache.clear();
@@ -57,8 +57,8 @@ export function useSignIn() {
         onSuccess: () => {
           const client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
+          client.refetchQueries(["session"]);
           router.push("/");
-          // client.refetchQueries(["session"]);
         },
       }
     );
@@ -113,34 +113,32 @@ export function useSignUp() {
 }
 
 interface UseSessionProps {
-  required: boolean;
+  required?: boolean;
   redirectTo: string;
-  queryConfig: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
+  queryConfig?: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
   // queryConfig: UseQueryOptions;
 }
 
-export function useSession({
-  redirectTo = "/api/auth/signin?error=SessionExpired",
-  queryConfig = {},
-}: UseSessionProps) {
+// DOMAIN_BASE
+export function useSession(props?: UseSessionProps) {
+  const {
+    // redirectTo = "/api/auth/signin?error=SessionExpired",
+    redirectTo = "/api/auth/signin?error=SessionExpired",
+    required,
+    queryConfig = { staleTime: 0 },
+  } = props ?? {};
+
   const router = useRouter();
-  const [isAuth, setIsAuth] = useState(false);
 
   const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(client, undefined, {
     ...queryConfig,
 
     onSettled(data, error) {
       if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-      console.log("SADDDDD");
-      // if (data || !required) return;
       if (data?.session?.userId) {
-        setIsAuth(true);
-        router.push("/");
         return;
-      } else {
-        setIsAuth(false);
-        router.push("/login");
       }
+      router.push("/login");
     },
   });
 
@@ -150,7 +148,7 @@ export function useSession({
     session: (hasError as any) ? null : data?.session,
     status,
     isLoading,
-    isAuth,
+    isAuth: !data?.session?.userId,
     isIdle,
     isFetching,
   };

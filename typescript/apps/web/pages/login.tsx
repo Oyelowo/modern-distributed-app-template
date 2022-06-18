@@ -24,17 +24,6 @@ const client = new GraphQLClient(`${DOMAIN_BASE}/graphql`, {
 export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
 
 const SignIn = () => {
-  const { signInCustom } = useSignIn();
-  // TODO: Sign in
-  //   const { session, isLoading, isAuth } = useSession({
-  //     required: true,
-  //     redirectTo: `${DOMAIN_BASE}`,
-  //     queryConfig: {
-  //       staleTime: 60 * 1000 * 60 * 3, // 3 hours
-  //       refetchInterval: 60 * 1000 * 5, // 5 minutes
-  //     },
-  //   });
-
   const providers = ["google", "github"] as const;
 
   return (

@@ -8,20 +8,60 @@ mutation createUser($userInput: UserInput!) {
   }
 }
 
-
 query GetUsers {
-   users {
-     id
-     firstName
-     lastName
-     age
-     email
-     socialMedia
-     createdAt
-     posts {
-       posterId
-       title
-       content
-     }
-   }
- }
+  users {
+    id
+    firstName
+    lastName
+    age
+    email
+    socialMedia
+    createdAt
+    posts {
+      posterId
+      title
+      content
+    }
+  }
+}
+
+query getUser($UserBy: UserBy!) {
+  getUser(userBy: $UserBy) {
+    id
+    firstName
+    lastName
+    age
+    email
+    socialMedia
+    createdAt
+    posts {
+      posterId
+      title
+      content
+    }
+  }
+}
+
+query me {
+  me {
+    id
+    username
+    firstName
+    lastName
+    age
+    city
+    roles
+    email
+    socialMedia
+    createdAt
+    postCount
+    accounts {
+      provider
+    }
+    posts {
+      posterId
+      title
+      content
+    }
+  }
+}

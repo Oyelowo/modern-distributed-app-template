@@ -3,6 +3,7 @@ import { TextField } from "@oyelowo/ui";
 import z, { ZodType } from "zod";
 import { useSignIn } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
+import { ButtonSexy } from "../pages/login";
 
 export const SignInFormSchema = z.object({
   username: z
@@ -10,9 +11,7 @@ export const SignInFormSchema = z.object({
     // .nonempty
     .min(1, { message: "Username Must be provided" })
     .max(30, { message: "Username too long" }),
-  password: z
-    .string()
-    .min(4, { message: "Password too short" })
+  password: z.string().min(4, { message: "Password too short" }),
 });
 
 export default function SignInForm() {
@@ -42,7 +41,9 @@ export default function SignInForm() {
           errorMessage={errors.password?.message}
         />
 
-        <input type="submit" value="Sign In" tw="text-yellow-400" />
+        <ButtonSexy>
+          <input type="submit" value="Sign In" tw="text-yellow-400" />
+        </ButtonSexy>
       </form>
     </div>
   );

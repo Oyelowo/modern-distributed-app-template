@@ -106,6 +106,7 @@ export type PostInput = {
 export type Query = {
   __typename?: 'Query';
   getUser: User;
+  me: User;
   post: Post;
   posts: Array<Post>;
   session: Session;
@@ -230,6 +231,18 @@ export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id?: any | null, firstName?: string | null, lastName?: string | null, age?: number | null, email?: string | null, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> }> };
+
+export type GetUserQueryVariables = Exact<{
+  UserBy: UserBy;
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser: { __typename?: 'User', id?: any | null, firstName?: string | null, lastName?: string | null, age?: number | null, email?: string | null, socialMedia: Array<string>, createdAt?: any | null, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> } };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'User', id?: any | null, username: string, firstName?: string | null, lastName?: string | null, age?: number | null, city?: string | null, roles: Array<Role>, email?: string | null, socialMedia: Array<string>, createdAt?: any | null, postCount: number, accounts: Array<{ __typename?: 'AccountOauth', provider: OauthProvider }>, posts: Array<{ __typename?: 'Post', posterId: any, title: string, content: string }> } };
 
 
 export const SignInDocument = `
@@ -373,5 +386,76 @@ export const useGetUsersQuery = <
     useQuery<GetUsersQuery, TError, TData>(
       variables === undefined ? ['GetUsers'] : ['GetUsers', variables],
       fetcher<GetUsersQuery, GetUsersQueryVariables>(client, GetUsersDocument, variables, headers),
+      options
+    );
+export const GetUserDocument = `
+    query getUser($UserBy: UserBy!) {
+  getUser(userBy: $UserBy) {
+    id
+    firstName
+    lastName
+    age
+    email
+    socialMedia
+    createdAt
+    posts {
+      posterId
+      title
+      content
+    }
+  }
+}
+    `;
+export const useGetUserQuery = <
+      TData = GetUserQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetUserQueryVariables,
+      options?: UseQueryOptions<GetUserQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetUserQuery, TError, TData>(
+      ['getUser', variables],
+      fetcher<GetUserQuery, GetUserQueryVariables>(client, GetUserDocument, variables, headers),
+      options
+    );
+export const MeDocument = `
+    query me {
+  me {
+    id
+    username
+    firstName
+    lastName
+    age
+    city
+    roles
+    email
+    socialMedia
+    createdAt
+    postCount
+    accounts {
+      provider
+    }
+    posts {
+      posterId
+      title
+      content
+    }
+  }
+}
+    `;
+export const useMeQuery = <
+      TData = MeQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: MeQueryVariables,
+      options?: UseQueryOptions<MeQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<MeQuery, TError, TData>(
+      variables === undefined ? ['me'] : ['me', variables],
+      fetcher<MeQuery, MeQueryVariables>(client, MeDocument, variables, headers),
       options
     );
