@@ -6,7 +6,6 @@ mutation signIn($signInCredentials: SignInCredentials!) {
   }
 }
 
-
 mutation signUp($user: UserInput!) {
   signUp(user: $user) {
     username
@@ -15,7 +14,6 @@ mutation signUp($user: UserInput!) {
   }
 }
 
-
 mutation signOut {
   signOut {
     userId
@@ -23,14 +21,9 @@ mutation signOut {
   }
 }
 
-
 query session {
   session {
-    user {
-      name
-      email
-      image
-    }
+    userId
     expiresAt
   }
 }

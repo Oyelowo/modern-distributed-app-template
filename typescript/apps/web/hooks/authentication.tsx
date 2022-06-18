@@ -10,24 +10,18 @@ import {
   useSignUpMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  UseQueryOptions,
-} from "react-query";
+import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from "react-query";
 import { client } from "../config/client";
 
 export function useSignOut() {
   const router = useRouter();
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
+  const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
 
   const signOutCustom = () => {
     signOutMutate(
       {},
       {
-        onSuccess: () => { },
+        onSuccess: () => {},
         onSettled: () => {
           const client = new QueryClient();
           const cache = new QueryCache();
@@ -51,10 +45,7 @@ export function useSignIn() {
   // const { mutate: signOutMutate, data: signOutData } =
   //   useSignOutMutation(client);
 
-  const signInCustom = ({
-    username,
-    password,
-  }: z.infer<typeof SignInFormSchema>) => {
+  const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
     mutate(
       {
         signInCredentials: {
@@ -67,7 +58,7 @@ export function useSignIn() {
           const client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
           router.push("/");
-          client.refetchQueries(["session"]);
+          // client.refetchQueries(["session"]);
         },
       }
     );
@@ -87,23 +78,21 @@ type UserData = {
 };
 
 export const SignUpSchema = z.object({
-  username: z.string().nonempty().min(1),
+  username: z.string().min(1),
   password: z.string().min(4),
   passwordConfirm: z.string().min(4),
-  firstName: z.string().nonempty(),
-  lastName: z.string().nonempty(),
+  firstName: z.string().min(1),
+  lastName: z.string().min(1),
   email: z.string().email(),
   socialMedia: z.array(z.string(), {}),
-  age: z.number().min(15),
+  age: z.any(),
 });
 
 export function useSignUp() {
   const router = useRouter();
   const { mutate, data } = useSignUpMutation(client);
 
-  const signUpCustom = (
-    user: Omit<z.infer<typeof SignUpSchema>, "passwordConfirm">
-  ) => {
+  const signUpCustom = (user: Omit<z.infer<typeof SignUpSchema>, "passwordConfirm">) => {
     // const user = SignUpSchema.parse(userData);
     mutate(
       {
@@ -114,7 +103,7 @@ export function useSignUp() {
           const client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
           router.push("/");
-          client.refetchQueries(["session"]);
+          // client.refetchQueries(["session"]);
         },
       }
     );
@@ -130,61 +119,30 @@ interface UseSessionProps {
   // queryConfig: UseQueryOptions;
 }
 
-export function useSessionReactQuery({
-  required,
+export function useSession({
   redirectTo = "/api/auth/signin?error=SessionExpired",
   queryConfig = {},
 }: UseSessionProps) {
   const router = useRouter();
   const [isAuth, setIsAuth] = useState(false);
-  // const k = useGetSession
-  // const { data, status, isLoading } = useQuery(["session"], fetchSession, {
-  //   ...queryConfig,
-  //   onSettled(data, error) {
-  //     if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-  //     if (data || !required) return;
-  //     router.push(redirectTo);
-  //   },
-  // });
 
-  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(
-    client,
-    undefined,
-    {
-      ...queryConfig,
-      // onSuccess: (data) => {
-      //   if (data?.session?.user) {
-      //     setIsAuth(true);
-      //     router.push("/");
-      //   } else {
-      //     setIsAuth(false);
-      //     router.push("/auth/signin");
-      //   }
-      // },
-      onSettled(data, error) {
-        if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-        // if (data || !required) return;
-        if (data?.session?.user) {
-          router.push("/");
-          return;
-        }
-        // router.push("/auth/signin");
-        // TODO: Log error
-        const hasError = (data?.session as any)?.errors as any;
+  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(client, undefined, {
+    ...queryConfig,
 
-        if (hasError || error) {
-          setIsAuth(false);
-          router.push("/auth/signin");
-        }
-        // router.push(redirectTo);
-      },
-      // onError: () => {
-      //   setIsAuth(false);
-      //   router.push("/auth/signin");
-      // },
-      // refetchOnMount: "always",
-    }
-  );
+    onSettled(data, error) {
+      if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+      console.log("SADDDDD");
+      // if (data || !required) return;
+      if (data?.session?.userId) {
+        setIsAuth(true);
+        router.push("/");
+        return;
+      } else {
+        setIsAuth(false);
+        router.push("/login");
+      }
+    },
+  });
 
   const hasError = (data?.session as any)?.errors as any;
 

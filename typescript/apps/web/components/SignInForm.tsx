@@ -13,7 +13,6 @@ export const SignInFormSchema = z.object({
   password: z
     .string()
     .min(4, { message: "Password too short" })
-    .nonempty({ message: "Password must be provided" }),
 });
 
 export default function SignInForm() {

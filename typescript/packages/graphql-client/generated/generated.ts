@@ -136,14 +136,7 @@ export enum Role {
 export type Session = {
   __typename?: 'Session';
   expiresAt: Scalars['DateTime'];
-  user: SessionUser;
-};
-
-export type SessionUser = {
-  __typename?: 'SessionUser';
-  email?: Maybe<Scalars['String']>;
-  image: Scalars['String'];
-  name: Scalars['String'];
+  userId: Scalars['ObjectId'];
 };
 
 export type SignInCredentials = {
@@ -224,7 +217,7 @@ export type SignOutMutation = { __typename?: 'Mutation', signOut: { __typename?:
 export type SessionQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', expiresAt: any, user: { __typename?: 'SessionUser', name: string, email?: string | null, image: string } } };
+export type SessionQuery = { __typename?: 'Query', session: { __typename?: 'Session', userId: any, expiresAt: any } };
 
 export type CreateUserMutationVariables = Exact<{
   userInput: UserInput;
@@ -307,11 +300,7 @@ export const useSignOutMutation = <
 export const SessionDocument = `
     query session {
   session {
-    user {
-      name
-      email
-      image
-    }
+    userId
     expiresAt
   }
 }
