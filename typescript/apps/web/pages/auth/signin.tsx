@@ -16,7 +16,7 @@ import SignInForm from "../../components/SignInForm";
 import { SignUpForm } from "../../components/SignUpForm";
 import { DOMAIN_BASE } from "../../config/client";
 
-const client = new GraphQLClient(`${DOMAIN_BASE}:8080/graphql`, {
+const client = new GraphQLClient(`${DOMAIN_BASE}/graphql`, {
   credentials: "include",
   headers: {},
 });
@@ -26,7 +26,7 @@ const SignIn = () => {
   // TODO: Sign in
   const { session, isLoading } = useSessionReactQuery({
     required: true,
-    redirectTo: `${DOMAIN_BASE}:8080`,
+    redirectTo: `${DOMAIN_BASE}`,
     queryConfig: {
       staleTime: 60 * 1000 * 60 * 3, // 3 hours
       refetchInterval: 60 * 1000 * 5, // 5 minutes
