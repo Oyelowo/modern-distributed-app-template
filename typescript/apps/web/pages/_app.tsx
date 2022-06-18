@@ -5,7 +5,8 @@ import { Provider } from "jotai";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { useState } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { SSRProvider } from "@react-aria/ssr";
+import { SSRProvider } from "react-aria";
+import { SessionProvider } from "next-auth/react";
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   /* 
@@ -16,15 +17,17 @@ creating the QueryClient once per component lifecycle.
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <Hydrate state={pageProps.dehydratedState}>
-        <SSRProvider>
-          <GlobalStyles />
-          <Component {...pageProps} />
-        </SSRProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <Provider>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <Hydrate state={pageProps.dehydratedState}>
+          <SSRProvider>
+            <GlobalStyles />
+            <Component {...pageProps} />
+          </SSRProvider>
+        </Hydrate>
+      </QueryClientProvider>
+    </Provider>
   );
 };
 

@@ -1,28 +1,28 @@
 
 install:
-	npm i
+	yarn install --ignore-engines
 
 gen:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
-	npm run generate --workspace=@oyelowo/graphql-client
-	# npm run generate
+	yarn workspace @oyelowo/graphql-client generate  
+	# npm run generate --workspace=@oyelowo/graphql-client
 
 dev:
 	make gen
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-	npm run dev --workspace=web
-	# npm run dev:old --workspace=web
+	yarn workspace web dev
+	# yarn workspace web dev:old
 
 build:
-	npm run build
+	yarn build
 
 run:
-	npm run start
+	yarn start
 
 build-web-image:
 	docker build -f Dockerfile.prod --target web  -t oyelowo/web .
