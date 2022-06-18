@@ -38,12 +38,23 @@ export function useSignOut() {
 
   return { signOutCustom };
 }
+export type ErrorGraphql = {
+  response: {
+    data: null;
+    errors: Array<{
+      message: string;
+      locations: any;
+    }>;
+  };
+};
+
+export const getGraphqlErrorMessage = (error: ErrorGraphql | null) => {
+  return error?.response?.errors?.[0]?.message;
+};
 
 export function useSignIn() {
   const router = useRouter();
-  const { mutate, data } = useSignInMutation(client);
-  // const { mutate: signOutMutate, data: signOutData } =
-  //   useSignOutMutation(client);
+  const { mutate, data, error } = useSignInMutation<ErrorGraphql>(client);
 
   const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
     mutate(
@@ -54,17 +65,17 @@ export function useSignIn() {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           const client = new QueryClient();
-          // the generated useSessionQuery graphql hook uses `session` as the key
-          client.refetchQueries(["session"]);
+          // {"data":null,"errors":[{"message":"Authentication failed.","locations":[{"line":3,"column":3}],"path":["signIn"]}]}
+
           router.push("/");
         },
       }
     );
   };
 
-  return { signInCustom };
+  return { signInCustom, data, error };
 }
 
 type UserData = {

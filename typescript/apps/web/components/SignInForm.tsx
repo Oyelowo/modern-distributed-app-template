@@ -1,7 +1,7 @@
 import "twin.macro";
 import { TextField } from "@oyelowo/ui";
 import z, { ZodType } from "zod";
-import { useSignIn } from "../hooks/authentication";
+import { getGraphqlErrorMessage, useSignIn } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 import { ButtonSexy } from "../pages/login";
 
@@ -21,11 +21,12 @@ export default function SignInForm() {
     formState: { errors },
   } = useFormCustom(SignInFormSchema, {});
 
-  const { signInCustom } = useSignIn();
+  const { signInCustom, error } = useSignIn();
 
   return (
     <div>
       <form tw="text-black" onSubmit={handleSubmit(signInCustom)}>
+        <div tw="text-red-400"> {getGraphqlErrorMessage(error)}</div>
         <TextField
           label="Username"
           placeholder="Username"
