@@ -47,7 +47,7 @@ const SignIn = () => {
         <div>
           <h1>Signin with providers</h1>
           {providers.map((p) => (
-            <div>
+            <div key={p}>
               <ButtonSexy>
                 <a href={`http://localhost:8000/api/oauth/signin/${p}`}>
                   Sign in with <span tw="capitalize">{p}</span>
