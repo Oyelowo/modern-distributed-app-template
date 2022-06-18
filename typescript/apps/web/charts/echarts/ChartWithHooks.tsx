@@ -36,6 +36,7 @@ import {
   SingleAxisComponent,
   MarkLineComponent,
   MarkPointComponent,
+  ToolboxComponent,
 } from "echarts/components";
 
 import { LabelLayout, UniversalTransition } from "echarts/features";

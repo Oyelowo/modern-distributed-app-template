@@ -3,6 +3,7 @@ import "twin.macro";
 import { useSession, useSignOut } from "../hooks/authentication";
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
+import { ButtonSexy } from "./login";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -27,7 +28,7 @@ export default function Home() {
           Email: {me?.email} <br />
           Post: {me?.postCount} <br />
         </div>
-        <button onClick={() => signOutCustom()}>Sign out</button>
+        <ButtonSexy onClick={() => signOutCustom()}>Sign out</ButtonSexy>
         <HomePage />
       </div>
     );
