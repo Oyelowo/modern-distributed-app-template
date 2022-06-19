@@ -12,6 +12,10 @@
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
+    "cypress:run": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
     "lint": {
       "dependsOn": ["^build"],
       "outputs": []

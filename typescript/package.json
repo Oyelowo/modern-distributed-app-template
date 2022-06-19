@@ -11,6 +11,7 @@
     "dev": "turbo run dev --parallel",
     "test:watch": "turbo run test --parallel",
     "test": "turbo run test:ci --parallel",
+    "test-e2e": "turbo run cypress:run --parallel",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
     "format": "prettier --write '**/*.{ts,tsx,.md,json}'",

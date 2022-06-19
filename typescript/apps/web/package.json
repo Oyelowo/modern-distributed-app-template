@@ -11,7 +11,7 @@
     "test": "cross-env jest --watch",
     "test:ci": "jest --ci",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run --config video=false"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "7.17.0",

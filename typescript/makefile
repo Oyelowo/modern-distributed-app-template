@@ -17,6 +17,15 @@ dev:
 	# pkill node
 	yarn workspace web dev
 
+lint:
+	yarn lint
+
+test:
+	yarn test
+
+test-e2e:
+	yarn test-e2e
+
 build:
 	yarn build
 
