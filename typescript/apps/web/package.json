@@ -58,7 +58,7 @@
     "zod": "3.17.3"
   },
   "devDependencies": {
-    "@oyelowo/eslint-config-custom": "*",
+    "eslint-config-custom": "*",
     "@oyelowo/tsconfig": "*",
     "@babel/core": "7.18.2",
     "@babel/preset-react": "7.17.12",

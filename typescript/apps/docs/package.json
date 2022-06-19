@@ -15,8 +15,8 @@
     "@oyelowo/ui": "*"
   },
   "devDependencies": {
-"@oyelowo/eslint-config-custom": "*",
-"@oyelowo/tsconfig": "*",
+    "eslint-config-custom": "*",
+    "@oyelowo/tsconfig": "*",
     "eslint": "8.17.0",
     "next-transpile-modules": "9.0.0",
     "@types/react": "18.0.12",

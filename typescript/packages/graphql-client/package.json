@@ -24,8 +24,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "fuse.js": "6.6.2",
     "graphql-request": "4.3.0",

@@ -13,7 +13,7 @@
     "test": "turbo run test:ci --parallel",
     "lint": "turbo run lint",
     "prettier": "turbo run prettier",
-    "format": "prettier --write '**/*.{ts,tsx,.md}'",
+    "format": "prettier --write '**/*.{ts,tsx,.md,json}'",
     "start": "next start",
     "generate": "turbo run generate --scope=@oyelowo/graphql-client",
     "prune": "turbo prune --scope=web"

@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev:ui": "next dev",
-    "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 6006",
+    "dev": "start-storybook -p 6006",
     "builmd": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -29,7 +29,7 @@
     "@emotion/styled": "11.8.1"
   },
   "devDependencies": {
-    "@oyelowo/eslint-config-custom": "*",
+    "eslint-config-custom": "*",
     "@oyelowo/tsconfig": "*",
     "react-aria": "3.5.0",
     "@react-spring/animated": "9.4.5",
@@ -47,11 +47,11 @@
     "@emotion/babel-plugin": "11.9.2",
     "@emotion/babel-plugin-jsx-pragmatic": "0.1.5",
     "@emotion/babel-preset-css-prop": "11.2.0",
-    "@storybook/addon-actions": "6.5.7",
-    "@storybook/addon-essentials": "6.5.7",
-    "@storybook/addon-links": "6.5.7",
+    "@storybook/addon-actions": "6.5.9",
+    "@storybook/addon-essentials": "6.5.9",
+    "@storybook/addon-links": "6.5.9",
     "@storybook/addon-postcss": "2.0.0",
-    "@storybook/react": "6.5.7",
+    "@storybook/react": "6.5.9",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",
     "@testing-library/user-event": "14.2.0",
