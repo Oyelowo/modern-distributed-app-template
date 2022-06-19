@@ -3,7 +3,7 @@ import { useTextField, mergeProps } from "react-aria";
 import { useRef } from "react";
 
 type AriaTextFieldOptions = Parameters<typeof useTextField>[0];
-export function TextField<T=undefined>(props: AriaTextFieldOptions & { inputProps?: T }) {
+export function TextField<T = undefined>(props: AriaTextFieldOptions & { inputProps?: T }) {
   let { label } = props;
   let ref = useRef<HTMLInputElement>(null);
   let { labelProps, inputProps, descriptionProps, errorMessageProps } = useTextField(props, ref);
