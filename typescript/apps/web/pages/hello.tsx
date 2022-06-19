@@ -1,11 +1,9 @@
 import "twin.macro";
-import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/ui";
-import { EChartsOption } from "echarts";
-import React, { useEffect, useState } from "react";
-import Bars, { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
+import { CardTailWindExample, getLowo, useInterval } from "@oyelowo/ui";
+import { useState } from "react";
+import { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
 import { ButtonSexy } from "./login";
-import tw from "twin.macro";
 
 const dataset = {
   dimensions: ["name", "score"],

@@ -29,8 +29,10 @@ export type Scalars = {
 export type AccountOauth = {
   __typename?: 'AccountOauth';
   accessToken: Scalars['String'];
-  accountType: Scalars['String'];
-  /** ccess token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
+  displayName?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  emailVerified: Scalars['Boolean'];
+  /** access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
   expiresAt?: Maybe<Scalars['DateTime']>;
   /** unique identifier for the oauth provider. Don't use name of user because that could be changed */
   id: Scalars['String'];
