@@ -19,6 +19,9 @@ import { useCreateUserMutation, useGetUsersQuery } from "@oyelowo/graphql-client
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
 import { client } from "../config/client";
+import { ButtonBoop } from "@oyelowo/ui";
+import { ButtonSexy } from "../pages/login";
+import { styled } from "twin.macro";
 // import Box from "../3D/Box";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
@@ -45,9 +48,12 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main tw="bg-black">
-        <Link href="/hello">
-          <a tw="text-gray-50">Link to charts</a>
-        </Link>
+        <ButtonSexy>
+          <Link href="/hello">
+            <a tw="text-gray-50">Link to charts</a>
+          </Link>
+        </ButtonSexy>
+        <br />
         <Link href="/random">
           <a tw="text-gray-50">Goto Random Rogue Users</a>
         </Link>

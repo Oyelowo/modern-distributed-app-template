@@ -8,7 +8,7 @@ import { ButtonSexy } from "./login";
 export default function Home() {
   const { signOutCustom } = useSignOut();
   const { session, isLoading, isAuth, isIdle } = useSession();
-  const { data: { me } = {} } = useMeQuery(client);
+  const { data: { me } = {} } = useMeQuery(client, {}, {staleTime: 60 * 60 *24 * 7 *4 * 6, refetchOnMount:true});
 
   if (isLoading) {
     return (

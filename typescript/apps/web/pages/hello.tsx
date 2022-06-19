@@ -87,7 +87,7 @@ const Hello = () => {
         settings={{}}
         option={{
           title: {
-            text: "ECharts Getting Started Example",
+            text: "Charts of darkness",
           },
           tooltip: {},
           legend: {

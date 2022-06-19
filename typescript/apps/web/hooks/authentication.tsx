@@ -124,20 +124,12 @@ export function useSignUp() {
 }
 
 interface UseSessionProps {
-  required?: boolean;
-  redirectTo: string;
   queryConfig?: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
-  // queryConfig: UseQueryOptions;
 }
 
 // DOMAIN_BASE
 export function useSession(props?: UseSessionProps) {
-  const {
-    // redirectTo = "/api/auth/signin?error=SessionExpired",
-    redirectTo = "/api/auth/signin?error=SessionExpired",
-    required,
-    queryConfig = { staleTime: 0 },
-  } = props ?? {};
+  const { queryConfig = { staleTime: 0 } } = props ?? {};
 
   const router = useRouter();
 
@@ -149,7 +141,7 @@ export function useSession(props?: UseSessionProps) {
       if (data?.session?.userId) {
         return;
       }
-      router.push("/login");
+      router.push("/login/?error=SessionExpired");
     },
   });
 
