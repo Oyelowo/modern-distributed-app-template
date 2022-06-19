@@ -58,13 +58,13 @@
     "zod": "3.17.3"
   },
   "devDependencies": {
+    "@oyelowo/eslint-config-custom": "*",
+    "@oyelowo/tsconfig": "*",
     "@babel/core": "7.18.2",
     "@babel/preset-react": "7.17.12",
     "@babel/preset-typescript": "7.17.12",
     "@emotion/babel-plugin": "11.9.2",
     "@hookform/devtools": "4.1.0",
-    "@oyelowo/config": "*",
-    "@oyelowo/tsconfig": "*",
     "@testing-library/cypress": "8.0.3",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.3.0",

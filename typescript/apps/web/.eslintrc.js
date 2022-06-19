@@ -1,1 +1,4 @@
-module.exports = require("@oyelowo/config/eslint-preset");
+module.exports = {
+  root: true,
+  extends: ["custom"],
+};

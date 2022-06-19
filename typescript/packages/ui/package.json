@@ -29,6 +29,8 @@
     "@emotion/styled": "11.8.1"
   },
   "devDependencies": {
+    "@oyelowo/eslint-config-custom": "*",
+    "@oyelowo/tsconfig": "*",
     "react-aria": "3.5.0",
     "@react-spring/animated": "9.4.5",
     "@react-spring/core": "9.4.5",
