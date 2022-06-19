@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:17.8.0-bullseye
+ARG BASE_IMAGE=node:18.4.0-alpine
 
 FROM $BASE_IMAGE AS planner
 WORKDIR /app
@@ -27,12 +27,12 @@ FROM builder-base as builder-web
 RUN yarn build -- --scope=web
 
 
-FROM node:17.8.0-alpine3.15 AS web
+FROM node:18.4.0-alpine AS web
 # FROM node:16.14.0-alpine3.15 AS web
 # Create a group and user
-RUN addgroup -S 10000 && adduser -S appuser -G 10000
-# Tell docker that all future commands should run as the appuser user
-USER appuser
+# RUN addgroup -S 10000 && adduser -S appuser -G 10000
+# # Tell docker that all future commands should run as the appuser user
+# USER appuser
 # RUN useradd --uid 10000 runner
 # USER 10000
 WORKDIR /app
