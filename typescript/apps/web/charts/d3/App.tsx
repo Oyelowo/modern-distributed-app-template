@@ -1,4 +1,3 @@
-import { css } from "@emotion/core";
 import * as d3 from "d3";
 import React, { StrictMode, useEffect, useState } from "react";
 
@@ -23,13 +22,7 @@ const MyD3Charts = (): JSX.Element => {
           alignItems: "center",
         }}
       >
-        <p
-          css={css({
-            color: "blue",
-          })}
-        >
-          this
-        </p>
+        <p>this</p>
         <Divi>Tool tip hovering with Voronoi Polygon</Divi>
         <VoronoiHoverTracker />
         <SpringPlay />
@@ -74,7 +67,11 @@ export const SpringPlay = () => {
      
     </animated.div> */
     <animated.svg stroke="red" fill="none">
-      <path d={String(p)} strokeDashoffset={someX.to(val => val.toFixed(0)).get()} strokeDasharray={400} />
+      <path
+        d={String(p)}
+        strokeDashoffset={someX.to((val) => val.toFixed(0)).get()}
+        strokeDasharray={400}
+      />
     </animated.svg>
   );
 };
