@@ -12,10 +12,12 @@ import {
 import { useRouter } from "next/router";
 import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from "react-query";
 import { client } from "../config/client";
+import { useCookie } from "react-use";
 
 export function useSignOut() {
   const router = useRouter();
   const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
+  const [value, updateCookie, deleteCookie] = useCookie("oyelowo-session");
 
   const signOutCustom = () => {
     signOutMutate(
@@ -30,6 +32,7 @@ export function useSignOut() {
           client.clear();
           cache.clear();
           mutCache.clear();
+          deleteCookie();
           router.push("/login");
         },
       }
@@ -101,10 +104,12 @@ export const SignUpSchema = z.object({
 
 export function useSignUp() {
   const router = useRouter();
-  const { mutate, data } = useSignUpMutation(client);
+  const { mutate, data, error } = useSignUpMutation<ErrorGraphql>(client);
 
-  const signUpCustom = (user: Omit<z.infer<typeof SignUpSchema>, "passwordConfirm">) => {
-    // const user = SignUpSchema.parse(userData);
+  const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
+    const data = SignUpSchema.parse(userData);
+    const { passwordConfirm, ...user } = data;
+    if (user.password !== passwordConfirm) throw new Error("Confirm password has to be the same");
     mutate(
       {
         user,
@@ -120,7 +125,7 @@ export function useSignUp() {
     );
   };
 
-  return { signUpCustom, data };
+  return { signUpCustom, data, error };
 }
 
 interface UseSessionProps {

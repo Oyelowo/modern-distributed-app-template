@@ -1,18 +1,11 @@
 import "twin.macro";
-import {
-  CardTailWindExample,
-  getLowo,
-  TextField,
-  useInterval,
-} from "@oyelowo/ui";
+import { CardTailWindExample, getLowo, TextField, useInterval } from "@oyelowo/ui";
 import { EChartsOption } from "echarts";
 import React, { useEffect, useState } from "react";
-import Bars, {
-  ECOption,
-  ReactEChartCustom,
-  useChart,
-} from "../charts/echarts/ChartWithHooks";
+import Bars, { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
+import { ButtonSexy } from "./login";
+import tw from "twin.macro";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -75,9 +68,9 @@ const Hello = () => {
   return (
     <main>
       another name {getLowo()} <br />
-      <Link href="/">
-        <a tw="text-gray-50">Go Home</a>
-      </Link>
+      <ButtonSexy>
+        <Link href="/">Go Home</Link>
+      </ButtonSexy>
       <h1>Home of grind!</h1>
       {ReactCharts}
       <br />
@@ -96,14 +89,7 @@ const Hello = () => {
             left: 12,
           },
           xAxis: {
-            data: [
-              "Shirts",
-              "Cardigans",
-              "Chiffons",
-              "Pants",
-              "Heels",
-              "Socks",
-            ],
+            data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
           },
           yAxis: {},
           series: [

@@ -1,11 +1,11 @@
 import "twin.macro";
 import { TextField } from "@oyelowo/ui";
-import { SignUpSchema, useSignUp } from "../hooks/authentication";
+import { getGraphqlErrorMessage, SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 import { ButtonSexy } from "../pages/login";
 
 export function SignUpForm() {
-  const { signUpCustom } = useSignUp();
+  const { signUpCustom, error } = useSignUp();
   const {
     register,
     handleSubmit,
@@ -21,6 +21,7 @@ export function SignUpForm() {
         //   signUpCustom({ ...d, age: Number(d.age), socialMedia: ["blayzfm"] })
         // )}
       >
+        <div tw="text-red-400"> {getGraphqlErrorMessage(error)}</div>
         <TextField
           label="Username"
           placeholder="Username"
@@ -90,6 +91,7 @@ export function SignUpForm() {
               ...userInput,
               age: Number(getValues().age),
               socialMedia: ["yevibes"],
+              passwordConfirm
             });
           }}
         >

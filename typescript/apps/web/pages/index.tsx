@@ -5,6 +5,7 @@ import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-
 import { client } from "../config/client";
 import { ButtonSexy } from "./login";
 
+
 export default function Home() {
   const { signOutCustom } = useSignOut();
   const { session, isLoading, isAuth, isIdle } = useSession();
