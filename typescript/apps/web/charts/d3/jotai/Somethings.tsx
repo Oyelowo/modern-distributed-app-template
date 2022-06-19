@@ -3,7 +3,6 @@ import { atom, useAtom } from "jotai";
 // import { atomFamily } from "jotai/utils";
 
 const Somethings = () => {
-  console.log("render somethings");
   const [names, setStuff] = useAtom(timeAtom);
   return (
     <div>

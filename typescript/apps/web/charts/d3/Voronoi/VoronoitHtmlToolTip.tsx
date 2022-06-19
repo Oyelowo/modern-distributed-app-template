@@ -55,7 +55,6 @@ const VoronoiHoverTracker = () => {
   );
   const voronoi = delaunay.voronoi([0, 0, width, height]);
 
-  console.table(hovered);
   const chartWidth = width + margin.left + margin.right;
   const chartHeight = height + margin.top + margin.bottom;
 
@@ -150,6 +149,5 @@ export default VoronoiHoverTracker;
       );
     }}
     pointerEvents="visibleStroke"
-    onClick={() => console.log("erer")}
   />
 ))} */

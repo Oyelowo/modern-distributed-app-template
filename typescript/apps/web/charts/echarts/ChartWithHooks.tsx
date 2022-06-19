@@ -119,7 +119,6 @@ export function useChart({
       chart = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {
-      //   console.log(params);
       //   if (params.name === "lineData") {
       //     selectGraph(params);
 

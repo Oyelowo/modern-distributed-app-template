@@ -20,7 +20,6 @@ export const useCandleChart = () => {
 
   //   useEffect(() => {
   //     chart?.on("legendselectchanged", (params: CallbackDataParams) => {
-  //       console.log(params);
   //       //   if (params.name === "lineData") {
   //       //     selectGraph(params);
 

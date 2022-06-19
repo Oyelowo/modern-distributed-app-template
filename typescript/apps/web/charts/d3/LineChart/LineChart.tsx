@@ -110,16 +110,9 @@ const LineChart = () => {
   const [, end] = xScale.domain();
   const [, endRange] = xScale.range();
   const barWidth = xScale(end) - xScale(subDays(end, 1));
-  // console.log(end, endRange, barWidth);
 
   const x2 = xScale(new Date(data[2].date)) - xScale(new Date(data[1].date));
   const bb = chartAreaProps.WIDTH / data.length;
-  console.log(
-    "hovered",
-    hovered,
-    hovered && xScale(hovered.date),
-    hovered && yScale(hovered.score)
-  );
   return (
     <SvgContainer
       width={svgProps.WIDTH}

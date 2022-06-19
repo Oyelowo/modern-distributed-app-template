@@ -834,7 +834,6 @@ function PosSelect(params) {
     _this.datas = {};
     _this.ma = {};
     _this.macd = {};
-    // console.log(params)
     for (i = 0; i < params.length; i++) {
         let el = params[i];
         switch (el.seriesIndex) {
@@ -1033,7 +1032,6 @@ function AutoSetMALabel() {
     if (MA6 !== 0) {
         mapush.push('MA' + MA6[1]);
     }
-    //console.log(MA2[1])
     return mapush;
 }
 macd = data.macd;
