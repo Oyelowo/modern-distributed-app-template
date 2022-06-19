@@ -39,6 +39,7 @@ export function useSignOut() {
   return { signOutCustom };
 }
 export type ErrorGraphql = {
+  // {"data":null,"errors":[{"message":"Authentication failed.","locations":[{"line":3,"column":3}],"path":["signIn"]}]}
   response: {
     data: null;
     errors: Array<{
@@ -67,7 +68,6 @@ export function useSignIn() {
       {
         onSuccess: (data) => {
           const client = new QueryClient();
-          // {"data":null,"errors":[{"message":"Authentication failed.","locations":[{"line":3,"column":3}],"path":["signIn"]}]}
 
           router.push("/");
         },
