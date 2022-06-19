@@ -15,7 +15,10 @@ import { tradingChartOption } from "../charts/echarts/StockChartTA";
 import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
-import { useCreateUserMutation, useGetUsersQuery } from "@oyelowo/graphql-client";
+import {
+  useCreateUserMutation,
+  useGetUsersQuery,
+} from "@oyelowo/graphql-client";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { request, gql, GraphQLClient } from "graphql-request";
 import { client } from "../config/client";
@@ -76,7 +79,11 @@ const HomePage: NextPage = () => {
       </main>
 
       <footer>
-        <a href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://codebreather.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Powered by Code breather
         </a>
       </footer>

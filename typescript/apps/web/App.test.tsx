@@ -1,4 +1,4 @@
-import { render, screen , setupServer, rest} from "./utils/test-utils";
+import { render, screen, setupServer, rest } from "./utils/test-utils";
 
 const server = setupServer(
   rest.get("/greeting", (req, res, ctx) => {
@@ -9,7 +9,6 @@ const server = setupServer(
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-
 
 test("renders learn react link", () => {
   render(<div>learn react </div>);

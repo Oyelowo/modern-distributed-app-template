@@ -72,14 +72,27 @@ const Chart = ({ children }: { children: ReactNode }) => {
         stroke="green"
       >
         <animated.g transform={`translate(${margin.left}, ${margin.top})`}>
-          <rect x={0} y={0} height={chartHeight} width={chartWidth} opacity={0.6} stroke="black" />
+          <rect
+            x={0}
+            y={0}
+            height={chartHeight}
+            width={chartWidth}
+            opacity={0.6}
+            stroke="black"
+          />
           <animated.path
             d={generateLine(data)!}
             strokeDashoffset={props2.x}
             strokeDasharray="1000"
           />
           {data.map((d) => (
-            <circle key={d.value} cy={yScale(d.value)} cx={xScale(d.date)} r="3" fill="black" />
+            <circle
+              key={d.value}
+              cy={yScale(d.value)}
+              cx={xScale(d.date)}
+              r="3"
+              fill="black"
+            />
           ))}
           <g transform={`translate(${chartWidth + 4},0)`}>
             {data.map((d) => (

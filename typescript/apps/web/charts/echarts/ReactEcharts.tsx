@@ -67,7 +67,7 @@ const ReactEcharts = () => {
     option: isBar ? barOption : pieOption,
   });
 
-  useInterval(() => setIsBar(prev => !prev), 2000);
+  useInterval(() => setIsBar((prev) => !prev), 2000);
 
   return <>{ReactCharts}</>;
 };

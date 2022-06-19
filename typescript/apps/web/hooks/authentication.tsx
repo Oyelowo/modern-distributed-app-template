@@ -10,13 +10,19 @@ import {
   useSignUpMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
-import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from "react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  UseQueryOptions,
+} from "react-query";
 import { client } from "../config/client";
 import { useCookie } from "react-use";
 
 export function useSignOut() {
   const router = useRouter();
-  const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
+  const { mutate: signOutMutate, data: signOutData } =
+    useSignOutMutation(client);
   const [value, updateCookie, deleteCookie] = useCookie("oyelowo-session");
 
   const signOutCustom = () => {
@@ -60,7 +66,10 @@ export function useSignIn() {
   const router = useRouter();
   const { mutate, data, error } = useSignInMutation<ErrorGraphql>(client);
 
-  const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
+  const signInCustom = ({
+    username,
+    password,
+  }: z.infer<typeof SignInFormSchema>) => {
     mutate(
       {
         signInCredentials: {
@@ -109,7 +118,8 @@ export function useSignUp() {
   const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
     const data = SignUpSchema.parse(userData);
     const { passwordConfirm, ...user } = data;
-    if (user.password !== passwordConfirm) throw new Error("Confirm password has to be the same");
+    if (user.password !== passwordConfirm)
+      throw new Error("Confirm password has to be the same");
     mutate(
       {
         user,
@@ -138,17 +148,21 @@ export function useSession(props?: UseSessionProps) {
 
   const router = useRouter();
 
-  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(client, undefined, {
-    ...queryConfig,
+  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(
+    client,
+    undefined,
+    {
+      ...queryConfig,
 
-    onSettled(data, error) {
-      if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-      if (data?.session?.userId) {
-        return;
-      }
-      router.push("/login/?error=SessionExpired");
-    },
-  });
+      onSettled(data, error) {
+        if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+        if (data?.session?.userId) {
+          return;
+        }
+        router.push("/login/?error=SessionExpired");
+      },
+    }
+  );
 
   const hasError = (data?.session as any)?.errors as any;
 

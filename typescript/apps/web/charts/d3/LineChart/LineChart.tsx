@@ -4,15 +4,13 @@ import { eachDayOfInterval, subDays } from "date-fns";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 
-
 const SvgContainer = styled.svg({
-  background: "#eaeaea", 
+  background: "#eaeaea",
   border: "13px solid green",
   "&:hover": {
-    background: ""
-  }
-})
-
+    background: "",
+  },
+});
 
 const Tooltip = styled.foreignObject({
   x: 3,

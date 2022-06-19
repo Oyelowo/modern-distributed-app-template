@@ -307,7 +307,22 @@ const data = splitData([
   ["2017-01-03", 17.6, 17.92, 17.57, 17.98, 28.0, 1, 0.0, 0.0, 0.0],
 ]);
 
-function splitData(rawData: Array<[string, number, number, number, number, number, number, number, number, number]>) {
+function splitData(
+  rawData: Array<
+    [
+      string,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number,
+      number
+    ]
+  >
+) {
   const datas = [];
   const times = [];
   const opens = [];
@@ -362,7 +377,9 @@ function fenduans() {
         {
           xAxis: i,
           yAxis:
-            data.datas[i][1] > Number(data.datas[i][0]) ? data.datas[i][3].toFixed(2) : data.datas[i][2].toFixed(2),
+            data.datas[i][1] > Number(data.datas[i][0])
+              ? data.datas[i][3].toFixed(2)
+              : data.datas[i][2].toFixed(2),
         },
       ]);
       idx = i;
@@ -386,7 +403,9 @@ function fenduans() {
         {
           xAxis: i,
           yAxis:
-            data.datas[i][1] > Number(data.datas[i][0]) ? data.datas[i][3].toFixed(2) : data.datas[i][2].toFixed(2),
+            data.datas[i][1] > Number(data.datas[i][0])
+              ? data.datas[i][3].toFixed(2)
+              : data.datas[i][2].toFixed(2),
         },
       ]);
       idx = i;
@@ -675,9 +694,12 @@ export const taChartOption: ECOption = {
       yAxisIndex: 1,
       data: data.vols,
       itemStyle: {
-        color: params => {
+        color: (params) => {
           let colorList;
-          if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
+          if (
+            data.datas[params.dataIndex][1] >
+            Number(data.datas[params.dataIndex][0])
+          ) {
             colorList = "#FD1050";
           } else {
             colorList = "#0CF49B";
@@ -693,7 +715,7 @@ export const taChartOption: ECOption = {
       yAxisIndex: 2,
       data: data.macds,
       itemStyle: {
-        color: params => {
+        color: (params) => {
           let colorList;
           if (params.data >= 0) {
             colorList = "#FD1050";
@@ -720,4 +742,3 @@ export const taChartOption: ECOption = {
     },
   ],
 };
-

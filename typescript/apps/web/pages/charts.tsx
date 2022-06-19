@@ -1,4 +1,3 @@
-
 import { useAtom } from "jotai";
 import React from "react";
 import MyD3Charts from "../charts/d3/App";
@@ -19,10 +18,14 @@ const Charts = () => {
       <br />
       <br />
 
-      <button onClick={() => setStuff(prev => [...prev, new Date().toISOString()])}>Add Time</button>
+      <button
+        onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}
+      >
+        Add Time
+      </button>
       <MyD3Charts />
     </div>
   );
 };
 
-export default Charts
+export default Charts;

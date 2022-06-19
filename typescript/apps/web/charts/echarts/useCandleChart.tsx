@@ -7,16 +7,16 @@ export const useCandleChart = () => {
   const { ReactCharts: CandleStickCharts, chart } = useChart({
     option: taChartOption,
   });
-//   useEffect(() => {
-//     chart?.dispatchAction({
-//       type: "legendSelect",
-//       name: "LineData",
-//     });
-//     chart?.dispatchAction({
-//       type: "legendUnSelect",
-//       name: "LineData",
-//     });
-//   }, []);
+  //   useEffect(() => {
+  //     chart?.dispatchAction({
+  //       type: "legendSelect",
+  //       name: "LineData",
+  //     });
+  //     chart?.dispatchAction({
+  //       type: "legendUnSelect",
+  //       name: "LineData",
+  //     });
+  //   }, []);
 
   //   useEffect(() => {
   //     chart?.on("legendselectchanged", (params: CallbackDataParams) => {

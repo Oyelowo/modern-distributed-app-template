@@ -1,15 +1,22 @@
 import HomePage from "../components/HomePage";
 import "twin.macro";
 import { useSession, useSignOut } from "../hooks/authentication";
-import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
+import {
+  useGetUserQuery,
+  useGetUsersQuery,
+  useMeQuery,
+} from "@oyelowo/graphql-client";
 import { client } from "../config/client";
 import { ButtonSexy } from "./login";
-
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
   const { session, isLoading, isAuth, isIdle } = useSession();
-  const { data: { me } = {} } = useMeQuery(client, {}, {staleTime: 600 * 1000});
+  const { data: { me } = {} } = useMeQuery(
+    client,
+    {},
+    { staleTime: 600 * 1000 }
+  );
 
   if (isLoading) {
     return (

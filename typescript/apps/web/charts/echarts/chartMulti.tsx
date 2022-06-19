@@ -646,7 +646,9 @@ if (ColorLink == 0) {
 
 KNAME = "k multichart";
 
-function splitData(rawData: Array<[string, number, number, number, number, number]>) {
+function splitData(
+  rawData: Array<[string, number, number, number, number, number]>
+) {
   let datas = [];
   let times = [];
   let vols = [];
@@ -1114,7 +1116,10 @@ export const multiChartOptions: ECOption = {
       itemStyle: {
         color: function (params) {
           let colorList;
-          if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
+          if (
+            data.datas[params.dataIndex][1] >
+            Number(data.datas[params.dataIndex][0])
+          ) {
             colorList = color1;
           } else {
             colorList = color2;
@@ -1149,7 +1154,10 @@ export const multiChartOptions: ECOption = {
       itemStyle: {
         color: function (params) {
           let colorList;
-          if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
+          if (
+            data.datas[params.dataIndex][1] >
+            Number(data.datas[params.dataIndex][0])
+          ) {
             colorList = color1;
           } else {
             colorList = color2;
@@ -1186,7 +1194,10 @@ export const multiChartOptions: ECOption = {
       itemStyle: {
         color: function (params) {
           let colorList;
-          if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
+          if (
+            data.datas[params.dataIndex][1] >
+            Number(data.datas[params.dataIndex][0])
+          ) {
             colorList = color1;
           } else {
             colorList = color2;
@@ -1219,9 +1230,12 @@ export const multiChartOptions: ECOption = {
       data: data.vols,
       barCategoryGap: "20%",
       itemStyle: {
-        color: params => {
+        color: (params) => {
           let colorList;
-          if (data.datas[params.dataIndex][1] > Number(data.datas[params.dataIndex][0])) {
+          if (
+            data.datas[params.dataIndex][1] >
+            Number(data.datas[params.dataIndex][0])
+          ) {
             colorList = color1;
           } else {
             colorList = color2;

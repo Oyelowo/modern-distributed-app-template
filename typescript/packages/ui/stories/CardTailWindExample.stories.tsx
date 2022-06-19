@@ -8,7 +8,9 @@ export default {
   component: CardTailWindExample,
 } as ComponentMeta<typeof CardTailWindExample>;
 
-const Template: ComponentStory<typeof CardTailWindExample> = () => <CardTailWindExample />;
+const Template: ComponentStory<typeof CardTailWindExample> = () => (
+  <CardTailWindExample />
+);
 
 export const CardTailWind = Template.bind({});
 CardTailWind.args = {};

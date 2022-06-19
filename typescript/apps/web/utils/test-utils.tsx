@@ -26,8 +26,10 @@ const AllTheProviders: FC<{ children: React.ReactNode }> = ({ children }) => {
   );
 };
 
-const customRender = (ui: ReactElement, options?: Omit<RenderOptions, "wrapper">) =>
-  render(ui, { wrapper: AllTheProviders, ...options });
+const customRender = (
+  ui: ReactElement,
+  options?: Omit<RenderOptions, "wrapper">
+) => render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from "@testing-library/react";
 import "@testing-library/jest-dom";

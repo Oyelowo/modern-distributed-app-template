@@ -1,7 +1,11 @@
 import "twin.macro";
 import { CardTailWindExample, getLowo, useInterval } from "@oyelowo/ui";
 import { useState } from "react";
-import { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
+import {
+  ECOption,
+  ReactEChartCustom,
+  useChart,
+} from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
 import { ButtonSexy } from "./login";
 
@@ -87,7 +91,14 @@ const Hello = () => {
             left: 12,
           },
           xAxis: {
-            data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
+            data: [
+              "Shirts",
+              "Cardigans",
+              "Chiffons",
+              "Pants",
+              "Heels",
+              "Socks",
+            ],
           },
           yAxis: {},
           series: [

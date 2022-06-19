@@ -1,6 +1,4 @@
-
 import { ECOption } from "./ChartWithHooks";
-
 
 type DataItem = (number | string)[];
 // prettier-ignore
@@ -26,7 +24,7 @@ const dates = rawData.map(function (item) {
   return item[0];
 });
 
-const data = rawData.map(item => [+item[1], +item[2], +item[5], +item[6]]);
+const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
 
 export const tradingChartOption: ECOption = {
   backgroundColor: "#19232d",

@@ -2,7 +2,14 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 // import { init, getInstanceByDom, ECharts, SetOptionOpts, EChartsOption } from "echarts";
 
 // Tree-shakeable approach. //
-import { init, use, ECharts, ComposeOption, SetOptionOpts, getInstanceByDom } from "echarts/core";
+import {
+  init,
+  use,
+  ECharts,
+  ComposeOption,
+  SetOptionOpts,
+  getInstanceByDom,
+} from "echarts/core";
 import {
   BarChart,
   BarSeriesOption,
@@ -91,7 +98,13 @@ export interface ReactEChartsProps {
   theme?: "light" | "dark";
 }
 
-export function useChart({ option, style, settings, loading, theme = "dark" }: ReactEChartsProps) {
+export function useChart({
+  option,
+  style,
+  settings,
+  loading,
+  theme = "dark",
+}: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [chart, setChart] = useState<ECharts>();
 
@@ -167,7 +180,9 @@ export function useChart({ option, style, settings, loading, theme = "dark" }: R
   }, [loading, theme]);
 
   return {
-    ReactCharts: <div ref={chartRef} style={{ width: "100%", height: "100%", ...style }} />,
+    ReactCharts: (
+      <div ref={chartRef} style={{ width: "100%", height: "100%", ...style }} />
+    ),
     chart,
   };
 }
@@ -218,7 +233,9 @@ export function ReactEChartCustom({
     }
   }, [loading, theme]);
 
-  return <div ref={chartRef} style={{ width: "100%", height: 500, ...style }} />;
+  return (
+    <div ref={chartRef} style={{ width: "100%", height: 500, ...style }} />
+  );
 }
 
 export default ReactEChartCustom;

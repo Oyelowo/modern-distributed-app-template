@@ -25,8 +25,12 @@ export const CardTailWindExample = () => {
                 </svg>
               </div>
               <div tw="ml-3 w-0 flex-1 pt-0.5">
-                <p tw="text-sm font-medium text-gray-900">Successfully saved!</p>
-                <p tw="mt-1 text-sm text-gray-500">Anyone with a link can now view this file.</p>
+                <p tw="text-sm font-medium text-gray-900">
+                  Successfully saved!
+                </p>
+                <p tw="mt-1 text-sm text-gray-500">
+                  Anyone with a link can now view this file.
+                </p>
               </div>
               <div tw="ml-4 flex-shrink-0 flex">
                 <button tw="inline-flex text-gray-400 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">

@@ -47,7 +47,7 @@ const apiReducer: ApiReducer = (state, action) => {
       return {
         ...state,
         status: "attempt",
-        data : null
+        data: null,
       };
     case "receive":
       return {
@@ -69,29 +69,28 @@ const apiReducer: ApiReducer = (state, action) => {
 };
 
 const ImpossibleState = () => {
-  const [state, dispatch] = useReducer(
-    apiReducer,
-    {  status: "idle" },
-  );
-  const {status } = state
+  const [state, dispatch] = useReducer(apiReducer, { status: "idle" });
+  const { status } = state;
 
   useEffect(() => {
-      dispatch({type: 'request'})
-      dispatch({type: 'receive', data: {name: 'oyelowo', nationality:'Finnish', age: 12}})
-      dispatch({type: 'errorOut', error: {message: 'anythign'}})
-      return () => {
+    dispatch({ type: "request" });
+    dispatch({
+      type: "receive",
+      data: { name: "oyelowo", nationality: "Finnish", age: 12 },
+    });
+    dispatch({ type: "errorOut", error: { message: "anythign" } });
+    return () => {};
+  }, []);
 
-      }
-  }, [])
-
-  if (state.status === 'success') {
-       const { status, data : {name}} = state;
-      const kk = state.data
+  if (state.status === "success") {
+    const {
+      status,
+      data: { name },
+    } = state;
+    const kk = state.data;
   }
-  if (state.status === 'failure') {
-       const { status, error } = state;
-
-
+  if (state.status === "failure") {
+    const { status, error } = state;
   }
   return <div></div>;
 };

@@ -1,6 +1,10 @@
 import "twin.macro";
 import { TextField } from "@oyelowo/ui";
-import { getGraphqlErrorMessage, SignUpSchema, useSignUp } from "../hooks/authentication";
+import {
+  getGraphqlErrorMessage,
+  SignUpSchema,
+  useSignUp,
+} from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 import { ButtonSexy } from "../pages/login";
 
@@ -91,7 +95,7 @@ export function SignUpForm() {
               ...userInput,
               age: Number(getValues().age),
               socialMedia: ["yevibes"],
-              passwordConfirm
+              passwordConfirm,
             });
           }}
         >
