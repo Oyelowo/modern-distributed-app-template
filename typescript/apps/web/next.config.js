@@ -32,5 +32,6 @@ module.exports = withTM({
   experimental: {
     outputStandalone: true,
     outputFileTracingRoot: path.join(__dirname, "../../"),
+    externalDir: true,
   },
 });
