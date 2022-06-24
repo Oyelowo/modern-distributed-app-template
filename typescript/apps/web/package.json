@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "cross-env next start",
-    "start:old": "cross-env NEXTAUTH_URL=https://localhost:8080 next start",
+    "start:old": "cross-env next start",
     "lint": "next lint",
     "test": "cross-env jest --watch",
     "test:ci": "jest --ci",
