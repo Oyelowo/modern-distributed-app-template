@@ -10,19 +10,13 @@ import {
   useSignUpMutation,
 } from "@oyelowo/graphql-client";
 import { useRouter } from "next/router";
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  UseQueryOptions,
-} from "react-query";
+import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from "react-query";
 import { client } from "../config/client";
 import { useCookie } from "react-use";
 
 export function useSignOut() {
   const router = useRouter();
-  const { mutate: signOutMutate, data: signOutData } =
-    useSignOutMutation(client);
+  const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
   const [value, updateCookie, deleteCookie] = useCookie("oyelowo-session");
 
   const signOutCustom = () => {
@@ -47,29 +41,41 @@ export function useSignOut() {
 
   return { signOutCustom };
 }
-export type ErrorGraphql = {
-  // {"data":null,"errors":[{"message":"Authentication failed.","locations":[{"line":3,"column":3}],"path":["signIn"]}]}
+export type GraphqlErrorResponse = {
   response: {
     data: null;
     errors: Array<{
       message: string;
-      locations: any;
+      locations: Array<{ line: number; column: number }>;
+      extenstions: {
+        code: number;
+        details: string;
+      };
     }>;
   };
 };
 
-export const getGraphqlErrorMessage = (error: ErrorGraphql | null) => {
-  return error?.response?.errors?.[0]?.message;
-};
+class GraphqlIoError {
+  constructor(private errorResponse: GraphqlErrorResponse | null) {
+    this.errorResponse = errorResponse;
+  }
+
+  getTitle = () => {
+    const firstError = this.errorResponse?.response.errors?.[0];
+    return firstError?.extenstions?.details ?? firstError?.message;
+  };
+
+  getDetails = () => {
+    const firstError = this.errorResponse?.response.errors?.[0];
+    return firstError?.extenstions?.details ?? firstError?.message;
+  };
+}
 
 export function useSignIn() {
   const router = useRouter();
-  const { mutate, data, error } = useSignInMutation<ErrorGraphql>(client);
+  const { mutate, data, error } = useSignInMutation<GraphqlErrorResponse>(client);
 
-  const signInCustom = ({
-    username,
-    password,
-  }: z.infer<typeof SignInFormSchema>) => {
+  const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
     mutate(
       {
         signInCredentials: {
@@ -87,7 +93,7 @@ export function useSignIn() {
     );
   };
 
-  return { signInCustom, data, error };
+  return { signInCustom, data, error: new GraphqlIoError(error) };
 }
 
 type UserData = {
@@ -113,13 +119,12 @@ export const SignUpSchema = z.object({
 
 export function useSignUp() {
   const router = useRouter();
-  const { mutate, data, error } = useSignUpMutation<ErrorGraphql>(client);
+  const { mutate, data, error } = useSignUpMutation<GraphqlErrorResponse>(client);
 
   const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
     const data = SignUpSchema.parse(userData);
     const { passwordConfirm, ...user } = data;
-    if (user.password !== passwordConfirm)
-      throw new Error("Confirm password has to be the same");
+    if (user.password !== passwordConfirm) throw new Error("Confirm password has to be the same");
     mutate(
       {
         user,
@@ -135,7 +140,7 @@ export function useSignUp() {
     );
   };
 
-  return { signUpCustom, data, error };
+  return { signUpCustom, data, error: new GraphqlIoError(error) };
 }
 
 interface UseSessionProps {
@@ -148,21 +153,17 @@ export function useSession(props?: UseSessionProps) {
 
   const router = useRouter();
 
-  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(
-    client,
-    undefined,
-    {
-      ...queryConfig,
+  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(client, undefined, {
+    ...queryConfig,
 
-      onSettled(data, error) {
-        if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-        if (data?.session?.userId) {
-          return;
-        }
-        router.push("/login/?error=SessionExpired");
-      },
-    }
-  );
+    onSettled(data, error) {
+      if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+      if (data?.session?.userId) {
+        return;
+      }
+      router.push("/login/?error=SessionExpired");
+    },
+  });
 
   const hasError = (data?.session as any)?.errors as any;
 

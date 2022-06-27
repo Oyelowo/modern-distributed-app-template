@@ -1,10 +1,6 @@
 import "twin.macro";
 import { TextField } from "@oyelowo/ui";
-import {
-  getGraphqlErrorMessage,
-  SignUpSchema,
-  useSignUp,
-} from "../hooks/authentication";
+import { SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 import { ButtonSexy } from "../pages/login";
 
@@ -25,7 +21,7 @@ export function SignUpForm() {
         //   signUpCustom({ ...d, age: Number(d.age), socialMedia: ["blayzfm"] })
         // )}
       >
-        <div tw="text-red-400"> {getGraphqlErrorMessage(error)}</div>
+        <div tw="text-red-400"> {error.getDetails()}</div>
         <TextField
           label="Username"
           placeholder="Username"
