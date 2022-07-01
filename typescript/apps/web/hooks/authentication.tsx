@@ -23,17 +23,18 @@ export function useSignOut() {
     signOutMutate(
       {},
       {
-        onSuccess: () => {},
-        onSettled: () => {
+        onSuccess: () => {
           const client = new QueryClient();
           const cache = new QueryCache();
           const mutCache = new MutationCache();
-          client.refetchQueries(["session"]);
+          // client.refetchQueries(["session"]);
           client.clear();
           cache.clear();
           mutCache.clear();
-          deleteCookie();
           router.push("/login");
+        },
+        onSettled: () => {
+          // deleteCookie();
         },
       }
     );
