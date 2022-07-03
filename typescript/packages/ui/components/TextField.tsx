@@ -1,4 +1,3 @@
-import "twin.macro";
 import { useTextField, mergeProps } from "react-aria";
 import { useRef } from "react";
 
@@ -22,7 +21,7 @@ export function TextField<T = undefined>(
       }}
     >
       <label {...labelProps}>{label}</label>
-      <input tw="text-black" ref={ref} {...allProps} />
+      <input className="text-black" ref={ref} {...allProps} />
       {props.description && (
         <div {...descriptionProps} style={{ fontSize: 12 }}>
           {props.description}

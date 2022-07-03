@@ -18,9 +18,7 @@ const Charts = () => {
       <br />
       <br />
 
-      <button
-        onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}
-      >
+      <button onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}>
         Add Time
       </button>
       <MyD3Charts />

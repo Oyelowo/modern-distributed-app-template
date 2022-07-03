@@ -7,6 +7,7 @@ type Responsive =
   'alert-error';
 
 export type AlertClass = Component | Modifier | Responsive;
+export default AlertClass;
 
 // data="{[
 //   { type: 'component', class: 'alert', desc: 'Container element' },

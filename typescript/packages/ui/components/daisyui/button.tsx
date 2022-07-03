@@ -1,30 +1,33 @@
-import { Size } from './../types';
+import { styled } from "goober";
+import tw from "twin.macro";
+import { Size } from "../types";
 // title: Button
 // desc: Buttons allows user to take actions or make choices.
 
 import { ColorVariant } from "../types";
 
-type Component = "btn"
+type Component = "btn";
 type Modifier =
-    `btn-${ColorVariant}` |
-    'btn-link' |
-    'btn-outline' |
-    'btn-active' |
-    'btn-disabled' |
-    'glass' |
-    'loading' |
-    'no-animation'
-    ;
+  | `btn-${ColorVariant}`
+  | "btn-link"
+  | "btn-outline"
+  | "btn-active"
+  | "btn-disabled"
+  | "glass"
+  | "loading"
+  | "no-animation";
 
-type Responsive =
-    `btn-${Size}` |
-    'btn-wide' |
-    'btn-block' |
-    'btn-circle' |
-    'btn-square'
-    ;
+type Responsive = `btn-${Size}` | "btn-wide" | "btn-block" | "btn-circle" | "btn-square";
 
 export type BtnClass = Component | Modifier | Responsive;
+
+// <button class="btn btn-square loading"></button>
+
+export const Button = styled.button`
+  color: red;
+`;
+
+// export const Button = tw.button``
 
 // data = "{[
 // { type: 'component', class: 'btn', desc: 'Button' },
@@ -52,4 +55,3 @@ export type BtnClass = Component | Modifier | Responsive;
 // { type: 'responsive', class: 'btn-circle', desc: 'Circle button with a 1:1 ratio' },
 // { type: 'responsive', class: 'btn-square', desc: 'Square button with a 1:1 ratio' },
 // ]}"
-

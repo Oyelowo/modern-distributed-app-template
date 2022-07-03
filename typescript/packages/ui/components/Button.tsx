@@ -1,42 +1,45 @@
-import tw, { css, styled, theme } from "twin.macro";
+import { css, styled } from "goober";
+import { forwardRef } from "react";
 
 interface ButtonProps {
   variant?: "primary" | "secondary";
-  isSmall?: boolean;
+  isPrimary?: boolean;
 }
 
-export const Button = styled.button(({ variant, isSmall }: ButtonProps) => [
-  // The common button styles added with the tw import
-  tw`px-8 py-2 rounded focus:outline-none transform duration-75 border-2 border-red-400`,
+interface Props {
+  size: number;
+}
 
-  // Use the variant grouping feature to add variants to multiple classes
-  tw`hocus:(scale-105 text-yellow-400)`,
-
-  // Use props to conditionally style your components
-  variant === "primary" && tw`bg-red-500 text-white border-black`,
-
-  // Combine regular css with tailwind classes within backticks
-  variant === "secondary" && [
-    css`
-      box-shadow: 0 0.1em 0 0 rgba(0, 0, 0, 0.25);
-    `,
-    tw`border-2 border-yellow-600`,
-  ],
-
-  // Conditional props can be used
-  isSmall ? tw`text-sm` : tw`text-lg`,
-
-  // The theme import can supply values from your tailwind.config.js
-  css`
-    color: ${theme`colors.indigo`};
-  `,
+export const Button = styled(
+  "button",
+  forwardRef
+)<ButtonProps>([
+  { color: "tomato" },
+  ({ isPrimary }) => ({ background: isPrimary ? "cyan" : "gray" }),
 ]);
 
+// import { classnames } from "tailwindcss-classnames";
+// classnames("");
 import t from "tailwindcss";
+import classnames, {
+  borderCollapse,
+  screenReaders,
+  textColor,
+  TTextColor,
+  TW,
+} from "../tailwindcss-classnames";
 
+// const k : TW = ""
+// const k: TTextColor = TW.textColor("text-red")
+classnames(TW.textColor("text-red-100"), TW.backgroundColor("xl:bg-zinc-900"));
 
-
-
-export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
+// export function Button(props: any) {
+//   return (
+//     <Buttonx tw="" className="btn btn-active btn-primary">
+//       {props.children}
+//     </Buttonx>
+//   );
+// }
+// export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
 
 // export default Button;

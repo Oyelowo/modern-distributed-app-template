@@ -1,30 +1,12 @@
-import "twin.macro";
-import { getLowo, TextField, CardTailWindExample } from "@oyelowo/ui";
+import { Button, getLowo, TextField } from "@oyelowo/ui";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import Bars, { useChart } from "../charts/echarts/ChartWithHooks";
+import { useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
-import { useQueryClient } from "react-query";
-import MyD3Charts from "../charts/d3/App";
 import ReactEcharts from "../charts/echarts/ReactEcharts";
-import ReactEChartCustom from "../charts/echarts/ChartWithHooks";
-import { ToolboxComponent } from "echarts/components";
-// import { useStockCandleCharts } from "../charts/echarts/TradingChart";
 import { tradingChartOption } from "../charts/echarts/StockChartTA";
-import { taChartOption } from "../charts/echarts/TAChart";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
-import {
-  useCreateUserMutation,
-  useGetUsersQuery,
-} from "@oyelowo/graphql-client";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { request, gql, GraphQLClient } from "graphql-request";
-import { client } from "../config/client";
-import { ButtonBoop } from "@oyelowo/ui";
-import { ButtonSexy } from "../pages/login";
-import { styled } from "twin.macro";
 // import Box from "../3D/Box";
 
 const Input = () => <input tw="border hover:border-red-50 text-red-500" />;
@@ -51,11 +33,11 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main tw="bg-black">
-        <ButtonSexy>
+        <Button>
           <Link href="/hello">
             <a tw="text-gray-50">Link to charts</a>
           </Link>
-        </ButtonSexy>
+        </Button>
         <br />
         <Link href="/random">
           <a tw="text-gray-50">Goto Random Rogue Users</a>
@@ -70,7 +52,6 @@ const HomePage: NextPage = () => {
         <div tw="height[700px]">{MultiChart}</div>
         <div tw="height[700px]">{CandleChart1}</div>
         Home of grind!
-        <CardTailWindExample />
         <div tw="text-blue-600">
           Separate
           <Input />
@@ -79,11 +60,7 @@ const HomePage: NextPage = () => {
       </main>
 
       <footer>
-        <a
-          href="https://codebreather.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
           Powered by Code breather
         </a>
       </footer>

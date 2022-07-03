@@ -1,3 +1,5 @@
+import { TBorders, TBackgrounds, TTypography, TUtilityFunction } from "../tailwindcss-classnames";
+
 export type Btn = "btn";
 
 export type PositionEdgesElement = "end" | "top" | "left" | "right";
@@ -26,6 +28,12 @@ export type ColorVariant =
 
 type DaisyUiClassNames = Btn | `${Btn}-${ColorVariant}`;
 
-export function twi(...clases: DaisyUiClassNames[]) {
-    return clases.join(" ");
-}
+// type TailwiindNativeClasses = TUtilityFunction<TBackgrounds | TBorders | TTypography>;
+
+// export const twi: TailwiindNativeClasses = (clases) => {
+
+//     // return clases.join(" ");
+
+// }
+
+// twi("");

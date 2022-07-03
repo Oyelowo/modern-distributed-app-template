@@ -1,8 +1,4 @@
-import "twin.macro";
-import {
-  useGetUsersQuery,
-  useCreateUserMutation,
-} from "@oyelowo/graphql-client";
+import { useGetUsersQuery, useCreateUserMutation } from "@oyelowo/graphql-client";
 import { getLowo } from "@oyelowo/ui";
 import Link from "next/link";
 import { useQueryClient } from "react-query";
@@ -18,15 +14,15 @@ export default function RandomUsers() {
     },
   });
   return (
-    <div tw="bg-black h-screen text-white">
+    <div className="bg-black h-screen text-white">
       <Link href="/">
-        <a tw="text-gray-50">Go Home</a>
+        <a>Go Home</a>
       </Link>
       <h1>The allergy</h1>
       another name {getLowo()} <br />
       <br />
       <button
-        tw="text-white"
+        className="text-white"
         onClick={() => {
           mutate({
             userInput: {

@@ -1,10 +1,9 @@
 import HomePage from "../components/HomePage";
-import "twin.macro";
 import { useSession, useSignOut } from "../hooks/authentication";
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
 import { AppContext } from "next/app";
-import { ButtonSexy } from "@oyelowo/ui/components/Button";
+import { Button } from "@oyelowo/ui/components/Button";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -21,7 +20,7 @@ export default function Home() {
 
   if (data.status === "success") {
     return (
-      <div tw="bg-black h-screen text-white">
+      <div /* tw="bg-black h-screen text-white" */>
         Signedd in as:
         <div>
           Id: {data.data?.session.userId} <br />
@@ -29,7 +28,7 @@ export default function Home() {
           Email: {me?.email} <br />
           Post: {me?.postCount} <br />
         </div>
-        <ButtonSexy onClick={() => signOutCustom()}>Sign out</ButtonSexy>
+        <Button onClick={() => signOutCustom()}>Sign out</Button>
         <HomePage />
       </div>
     );
