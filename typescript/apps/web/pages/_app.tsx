@@ -1,11 +1,16 @@
 import { AppProps } from "next/app";
-import "../styles/globals.css";
-import { GlobalStyles } from "twin.macro";
 import { Provider } from "jotai";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { useState } from "react";
+import { createElement, useState } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { SSRProvider } from "react-aria";
+import { prefix } from "goober-autoprefixer";
+import { setup } from "goober";
+
+// goober's needs to know how to render the `styled` nodes.
+// So to let it know, we run the `setup` function with the
+// `createElement` function and prefixer function.
+setup(createElement, prefix);
 
 const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   /* 
@@ -21,7 +26,6 @@ creating the QueryClient once per component lifecycle.
         <ReactQueryDevtools initialIsOpen={false} />
         <Hydrate state={pageProps.dehydratedState}>
           <SSRProvider>
-            <GlobalStyles />
             <Component {...pageProps} />
           </SSRProvider>
         </Hydrate>
