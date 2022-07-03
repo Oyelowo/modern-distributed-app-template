@@ -1,32 +1,7 @@
 import tw from "twin.macro";
-import {
-  FC,
-  useState,
-  useEffect,
-  useRef,
-  DetailedHTMLProps,
-  InputHTMLAttributes,
-} from "react";
-import { useSignInMutation, useSignOutMutation } from "@oyelowo/graphql-client";
-import { GraphQLClient } from "graphql-request";
-import { useRouter } from "next/dist/client/router";
-import {
-  SignUpSchema,
-  useSession,
-  useSignIn,
-  useSignOut,
-  useSignUp,
-} from "../hooks/authentication";
-import { useForm, UseFormProps } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import SignInForm from "../components/SignInForm";
 import { SignUpForm } from "../components/SignUpForm";
 import { DOMAIN_BASE } from "../config/client";
-
-const client = new GraphQLClient(`${DOMAIN_BASE}/graphql`, {
-  credentials: "include",
-  headers: {},
-});
 
 export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
 

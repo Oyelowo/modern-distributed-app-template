@@ -31,11 +31,10 @@ export function useSignOut() {
           client.clear();
           cache.clear();
           mutCache.clear();
+          deleteCookie();
           router.push("/login");
         },
-        onSettled: () => {
-          // deleteCookie();
-        },
+        onSettled: () => {},
       }
     );
   };
@@ -73,7 +72,8 @@ class GraphqlIoError {
 }
 
 export function useSignIn() {
-  const router = useRouter();
+  const router = useRouter();  
+
   const { mutate, data, error } = useSignInMutation<GraphqlErrorResponse>(client);
 
   const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
@@ -154,28 +154,75 @@ export function useSession(props?: UseSessionProps) {
 
   const router = useRouter();
 
-  const { data, status, isLoading, isIdle, isFetching } = useSessionQuery(client, undefined, {
-    ...queryConfig,
-
+  const { data, status, isLoading, isIdle, isFetching, error } = useSessionQuery<
+    SessionQuery,
+    GraphqlErrorResponse
+  >(client, undefined, {
+    staleTime: 0,
     onSettled(data, error) {
       if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-      if (data?.session?.userId) {
-        return;
+      const hasError = !!error;
+      if (hasError) {
+        router.push("/login/?error=SessionExpired");
       }
-      router.push("/login/?error=SessionExpired");
     },
   });
 
-  const hasError = (data?.session as any)?.errors as any;
-
-  return {
-    session: (hasError as any) ? null : data?.session,
+  let mappedData = mapToServerData({
     status,
-    isLoading,
-    isAuth: !data?.session?.userId,
-    isIdle,
-    isFetching,
-  };
-  //   return { session: data as Session, status, isLoading };
-  //   return [query.data, query.status === "loading"] as const;
+    data,
+    error,
+  });
+
+  return mappedData;
 }
+
+type ServerTypeProps<TData, TError> = {
+  status: "loading" | "error" | "success" | "idle";
+  data: TData;
+  error: TError;
+};
+
+function mapToServerData<TData, TError>({
+  status,
+  data,
+  error,
+}: ServerTypeProps<TData, TError>): ServerData<TData, TError> {
+  switch (status) {
+    case "loading":
+      return {
+        status: "loading",
+      };
+    case "error":
+      return {
+        status: "error",
+        error,
+      };
+    case "success":
+      return {
+        status: "success",
+        data,
+      };
+
+    default:
+      return {
+        status: "idle",
+      };
+  }
+}
+
+type ServerData<TData, TError> =
+  | {
+      status: "error";
+      error: TError;
+    }
+  | {
+      status: "loading";
+    }
+  | {
+      status: "idle";
+    }
+  | {
+      status: "success";
+      data: TData;
+    };

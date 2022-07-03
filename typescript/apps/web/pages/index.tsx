@@ -1,24 +1,17 @@
 import HomePage from "../components/HomePage";
 import "twin.macro";
 import { useSession, useSignOut } from "../hooks/authentication";
-import {
-  useGetUserQuery,
-  useGetUsersQuery,
-  useMeQuery,
-} from "@oyelowo/graphql-client";
+import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
 import { ButtonSexy } from "./login";
+import { AppContext } from "next/app";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
-  const { session, isLoading, isAuth, isIdle } = useSession();
-  const { data: { me } = {} } = useMeQuery(
-    client,
-    {},
-    { staleTime: 600 * 1000 }
-  );
+  const data = useSession();
+  const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
 
-  if (isLoading) {
+  if (data.status === "loading") {
     return (
       <div tw="bg-black h-screen text-white">
         <h1>Loading...</h1>
@@ -26,12 +19,12 @@ export default function Home() {
     );
   }
 
-  if (session) {
+  if (data.status === "success") {
     return (
       <div tw="bg-black h-screen text-white">
         Signed in as:
         <div>
-          Email: {session.userId} <br />
+          Id: {data.data?.session.userId} <br />
           Username: {me?.username} <br />
           Email: {me?.email} <br />
           Post: {me?.postCount} <br />
