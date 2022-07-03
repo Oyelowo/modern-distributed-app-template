@@ -12,5 +12,3 @@ brew install kubeseal
 # brew install act
 # brew install step
 brew install yq
-
-code --install-extension lightyen.tailwindcss-intellisense-twin
