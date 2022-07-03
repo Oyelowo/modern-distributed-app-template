@@ -1,4 +1,4 @@
-import { Size } from './../types';
+import { Size } from '../types';
 // title: Tabs
 // desc: Tabs can be used to show a list of links in a tabbed format.
 

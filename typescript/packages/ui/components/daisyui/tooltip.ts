@@ -1,4 +1,4 @@
-import { PositionEdgesElement } from './../types';
+import { PositionEdgesElement } from '../types';
 // title: Tooltip
 
 import { ColorVariant } from "../types";
