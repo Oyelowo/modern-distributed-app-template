@@ -1,3 +1,5 @@
+/** @type {import('tailwindcss').Config} */
+
 const colors = require("tailwindcss/colors");
 
 module.exports = {
@@ -16,5 +18,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  // Make sure you require daisyui AFTER @tailwindcss/typography in tailwind.config.js
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
 };

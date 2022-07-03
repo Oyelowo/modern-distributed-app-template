@@ -3,8 +3,8 @@ import "twin.macro";
 import { useSession, useSignOut } from "../hooks/authentication";
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
-import { ButtonSexy } from "./login";
 import { AppContext } from "next/app";
+import { ButtonSexy } from "@oyelowo/ui/components/Button";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -22,7 +22,7 @@ export default function Home() {
   if (data.status === "success") {
     return (
       <div tw="bg-black h-screen text-white">
-        Signed in as:
+        Signedd in as:
         <div>
           Id: {data.data?.session.userId} <br />
           Username: {me?.username} <br />

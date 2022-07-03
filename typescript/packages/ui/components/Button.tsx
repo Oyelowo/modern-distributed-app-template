@@ -32,4 +32,11 @@ export const Button = styled.button(({ variant, isSmall }: ButtonProps) => [
   `,
 ]);
 
-export default Button;
+import t from "tailwindcss";
+
+
+
+
+export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
+
+// export default Button;
