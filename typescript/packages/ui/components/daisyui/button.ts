@@ -1,16 +1,12 @@
+import { Size } from './../types';
 // title: Button
 // desc: Buttons allows user to take actions or make choices.
 
+import { ColorVariant } from "../types";
+
 type Component = "btn"
 type Modifier =
-    'btn-primary' |
-    'btn-secondary' |
-    'btn-accent' |
-    'btn-info' |
-    'btn-success' |
-    'btn-warning' |
-    'btn-error' |
-    'btn-ghost' |
+    `btn-${ColorVariant}` |
     'btn-link' |
     'btn-outline' |
     'btn-active' |
@@ -21,10 +17,7 @@ type Modifier =
     ;
 
 type Responsive =
-    'btn-lg' |
-    'btn-md' |
-    'btn-sm' |
-    'btn-xs' |
+    `btn-${Size}` |
     'btn-wide' |
     'btn-block' |
     'btn-circle' |
