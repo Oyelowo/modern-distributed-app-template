@@ -43,7 +43,8 @@ export default function SignInForm() {
         />
 
         <Button className={[isLoading && "loading", "disabled"]}>
-          <input type="submit" value="Sign In" className="text-yellow-400" />
+          Sign In
+          <input type="submit" hidden />
         </Button>
       </form>
     </div>

@@ -1,14 +1,14 @@
 import { Button } from "@oyelowo/ui/components";
+import { cx, TW } from "@oyelowo/ui/tailwind";
 import SignInForm from "../components/SignInForm";
 import { SignUpForm } from "../components/SignUpForm";
 import { DOMAIN_BASE } from "../config/client";
-
 
 const SignIn = () => {
   const providers = ["google", "github"] as const;
 
   return (
-    <div className="bg-black min-h-full text-white grid-cols-2 py-28">
+    <div className={cx(TW.backgroundColor("bg-black"))}>
       <div>
         <h1>Signin with Username and password</h1>
         <SignInForm />
@@ -20,7 +20,7 @@ const SignIn = () => {
             <div key={p}>
               <Button>
                 <a href={`${DOMAIN_BASE}/oauth/signin/${p}`}>
-                  Sign in with <span className="capitalize">{p}</span>
+                  Sign in with <span>{p.toLocaleUpperCase()}</span>
                 </a>
               </Button>
               <br />
