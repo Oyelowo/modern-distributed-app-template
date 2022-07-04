@@ -18,7 +18,7 @@ export * from "./daisyui/footer.type";
 export * from "./daisyui/hero.type";
 export * from "./daisyui/indicator.type";
 export * from "./daisyui/input-group.type";
-export * from "./daisyui/input.type";
+export * from "./daisyui/Input/input.type";
 export * from "./daisyui/kbd.type";
 export * from "./daisyui/link.type";
 export * from "./daisyui/mask.type";

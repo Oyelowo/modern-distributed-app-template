@@ -1,7 +1,7 @@
 // title: Text Input
 // desc: Text Input is a simple input field.
 
-import { ColorVariant, Size } from "./types";
+import { ColorVariant, Size } from "../types";
 
 type Title = "input";
 type Component = Title;

@@ -17,7 +17,7 @@ import { TFooter } from "./daisyui/footer.type";
 import { THero } from "./daisyui/hero.type";
 import { TIndicator } from "./daisyui/indicator.type";
 import { TInputGroup } from "./daisyui/input-group.type";
-import { TInput } from "./daisyui/input.type";
+import { TInput } from "./daisyui/Input/input.type";
 import { TKbd } from "./daisyui/kbd.type";
 import { TLink } from "./daisyui/link.type";
 import { TMask } from "./daisyui/mask.type";
