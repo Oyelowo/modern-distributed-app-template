@@ -3,7 +3,6 @@ import SignInForm from "../components/SignInForm";
 import { SignUpForm } from "../components/SignUpForm";
 import { DOMAIN_BASE } from "../config/client";
 
-// export const ButtonSexy = tw.button`bg-pink-600 m-2 py-1.5 px-7 border-radius[0.2em] text-white`;
 
 const SignIn = () => {
   const providers = ["google", "github"] as const;
@@ -21,7 +20,7 @@ const SignIn = () => {
             <div key={p}>
               <Button>
                 <a href={`${DOMAIN_BASE}/oauth/signin/${p}`}>
-                  Sign in with <span tw="capitalize">{p}</span>
+                  Sign in with <span className="capitalize">{p}</span>
                 </a>
               </Button>
               <br />

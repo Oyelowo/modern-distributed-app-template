@@ -1,3 +1,4 @@
+import "../styles/globals.css";
 import { AppProps } from "next/app";
 import { Provider } from "jotai";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";

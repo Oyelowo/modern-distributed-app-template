@@ -4,6 +4,7 @@ import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-
 import { client } from "../config/client";
 import { AppContext } from "next/app";
 import { Button } from "@oyelowo/ui/components/Button";
+import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwindcss-classnames";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -12,22 +13,31 @@ export default function Home() {
 
   if (data.status === "loading") {
     return (
-      <div tw="bg-black h-screen text-white">
+      <div className="bg-black h-screen text-white">
         <h1>Loading...</h1>
       </div>
     );
   }
-
+  const k: TBorders = "border-sky-500";
+  // classnames("rere")
   if (data.status === "success") {
     return (
-      <div /* tw="bg-black h-screen text-white" */>
-        Signedd in as:
-        <div>
-          Id: {data.data?.session.userId} <br />
-          Username: {me?.username} <br />
-          Email: {me?.email} <br />
-          Post: {me?.postCount} <br />
-        </div>
+      <div
+        className={cx(
+          TW.backgroundColor("bg-black"),
+          TW.textColor("text-white"),
+          TW.borderStyle("required:border-dashed"),
+          TW.borderRadius("rounded-3xl")
+          // TW.borderColor("re"),
+        )}
+        // style={{border: "1px solid red"}}
+        // style={{ height: "80vh" }}
+        // style={{ height: "500vh" }}
+      >
+        Signedd in as: Id: {data.data?.session.userId} <br />
+        Username: {me?.username} <br />
+        Email: {me?.email} <br />
+        Post: {me?.postCount} <br />
         <Button onClick={() => signOutCustom()}>Sign out</Button>
         <HomePage />
       </div>

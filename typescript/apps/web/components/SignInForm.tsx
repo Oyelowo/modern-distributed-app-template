@@ -1,9 +1,7 @@
-import "twin.macro";
-import { TextField } from "@oyelowo/ui";
+import { Button, TextField } from "@oyelowo/ui";
 import z, { ZodType } from "zod";
 import { useSignIn } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
-import { ButtonSexy } from "../pages/login";
 
 export const SignInFormSchema = z.object({
   username: z
@@ -25,8 +23,8 @@ export default function SignInForm() {
 
   return (
     <div>
-      <form tw="text-black" onSubmit={handleSubmit(signInCustom)}>
-        <div tw="text-red-400"> {error.getDetails()}</div>
+      <form className="text-black" onSubmit={handleSubmit(signInCustom)}>
+        <div className="text-red-400"> {error.getDetails()}</div>
         <TextField
           label="Username"
           placeholder="Username"
@@ -42,9 +40,9 @@ export default function SignInForm() {
           errorMessage={errors.password?.message}
         />
 
-        <ButtonSexy>
-          <input type="submit" value="Sign In" tw="text-yellow-400" />
-        </ButtonSexy>
+        <Button>
+          <input type="submit" value="Sign In" className="text-yellow-400" />
+        </Button>
       </form>
     </div>
   );

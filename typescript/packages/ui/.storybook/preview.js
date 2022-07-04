@@ -1,10 +1,5 @@
-import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
 import { themes } from "@storybook/theming";
-import { GlobalStyles, theme } from "twin.macro";
 
-
-const cache = createCache({ prepend: true, key: "twin" });
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -21,7 +16,7 @@ export const parameters = {
     values: [
       {
         name: "electric-ribbon",
-        value: `linear-gradient(180deg, ${theme`colors.electric`}, ${theme`colors.ribbon`})`,
+        value: `linear-gradient(180deg, #db00ff, #0047ff)`,
       },
     ],
   },
@@ -31,11 +26,4 @@ export const parameters = {
   light: { ...themes.normal, appBg: "red" },
 };
 
-export const decorators = [
-  Story => (
-    <CacheProvider value={cache}>
-      <GlobalStyles />
-      <Story />
-    </CacheProvider>
-  ),
-];
+export const decorators = [(Story) => <Story />];

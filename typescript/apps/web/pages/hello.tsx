@@ -1,13 +1,7 @@
-import "twin.macro";
-import { CardTailWindExample, getLowo, useInterval } from "@oyelowo/ui";
+import { Button, getLowo, useInterval } from "@oyelowo/ui";
 import { useState } from "react";
-import {
-  ECOption,
-  ReactEChartCustom,
-  useChart,
-} from "../charts/echarts/ChartWithHooks";
+import { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
 import Link from "next/link";
-import { ButtonSexy } from "./login";
 
 const dataset = {
   dimensions: ["name", "score"],
@@ -70,9 +64,9 @@ const Hello = () => {
   return (
     <main>
       another name {getLowo()} <br />
-      <ButtonSexy>
+      <Button>
         <Link href="/">Go Home</Link>
-      </ButtonSexy>
+      </Button>
       <h1>Home of grind!</h1>
       {ReactCharts}
       <br />
@@ -91,14 +85,7 @@ const Hello = () => {
             left: 12,
           },
           xAxis: {
-            data: [
-              "Shirts",
-              "Cardigans",
-              "Chiffons",
-              "Pants",
-              "Heels",
-              "Socks",
-            ],
+            data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
           },
           yAxis: {},
           series: [
@@ -110,8 +97,7 @@ const Hello = () => {
           ],
         }}
       />
-      <CardTailWindExample />
-      <div tw="text-blue-600">Separate Enter</div>
+      <div className="text-blue-600">Separate Enter</div>
     </main>
   );
 };

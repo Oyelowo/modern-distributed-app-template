@@ -1,8 +1,6 @@
-import "twin.macro";
-import { TextField } from "@oyelowo/ui";
+import { Button, TextField } from "@oyelowo/ui";
 import { SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
-import { ButtonSexy } from "../pages/login";
 
 export function SignUpForm() {
   const { signUpCustom, error } = useSignUp();
@@ -16,12 +14,12 @@ export function SignUpForm() {
   return (
     <div>
       <form
-        tw="text-black grid-cols-2"
+        className="text-black grid-cols-2"
         // onSubmit={handleSubmit((d) =>
         //   signUpCustom({ ...d, age: Number(d.age), socialMedia: ["blayzfm"] })
         // )}
       >
-        <div tw="text-red-400"> {error.getDetails()}</div>
+        <div className="text-red-400"> {error.getDetails()}</div>
         <TextField
           label="Username"
           placeholder="Username"
@@ -81,8 +79,8 @@ export function SignUpForm() {
           inputProps={{ ...register("age") }}
         />
 
-        {/* <input type="submit" value="Sign Up" tw="text-yellow-400 bg-green-700" /> */}
-        <ButtonSexy
+        {/* <input type="submit" value="Sign Up" className="text-yellow-400 bg-green-700" /> */}
+        <Button
           type="button"
           // onClick={() => signIn(providers.credentials.id)}
           onClick={() => {
@@ -96,7 +94,7 @@ export function SignUpForm() {
           }}
         >
           Sign up btn
-        </ButtonSexy>
+        </Button>
       </form>
     </div>
   );

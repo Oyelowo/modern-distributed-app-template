@@ -1,5 +1,4 @@
 import { styled } from "goober";
-import tw from "twin.macro";
 import { Size } from "../types";
 // title: Button
 // desc: Buttons allows user to take actions or make choices.
@@ -27,7 +26,7 @@ export const Button = styled.button`
   color: red;
 `;
 
-// export const Button = tw.button``
+
 
 // data = "{[
 // { type: 'component', class: 'btn', desc: 'Button' },

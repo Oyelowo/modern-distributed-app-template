@@ -233,7 +233,7 @@ export function ReactEChartCustom({
   }, [loading, theme]);
 
   return (
-    <div ref={chartRef} style={{ width: "100%", height: 500, ...style }} />
+    <div ref={chartRef} style={{ width: "100%", minHeight: 500, border: "10px solid green",...style }} />
   );
 }
 
