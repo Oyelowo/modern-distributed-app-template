@@ -8,7 +8,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type BreadcrumbsClass = Component | Modifier | Responsive;
+export type TBreadcrumbs = Component | Modifier | Responsive;
 
 
 // data="{[

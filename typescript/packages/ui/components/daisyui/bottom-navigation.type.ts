@@ -19,7 +19,7 @@ type Responsive =
   'btm-nav-md' |
   'btm-nav-sm';
 
-export type BottomNavigationClass = Component | Modifier | Responsive;
+export type TBottomNavigation = Component | Modifier | Responsive;
 
 
 

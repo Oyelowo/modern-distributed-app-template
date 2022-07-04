@@ -2,14 +2,14 @@
 // title: Dropdown
 // desc: Dropdown can open a menu or any other element when the button is clicked.
 
-import { PositionEdgesElement } from "../types";
+import { PositionEdgesElement } from "./types";
 
 type Component = "dropdown" | 'dropdown-content'
 type Modifier = `dropdown-${PositionEdgesElement}` | "dropdown-hover" | "dropdown-open";
 
 type Responsive = "";
 
-export type DropdownClass = Component | Modifier | Responsive;
+export type TDropdown = Component | Modifier | Responsive;
 
 
 // data="{[

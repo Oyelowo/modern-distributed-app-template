@@ -9,7 +9,7 @@ type Modifier = `${Title}-${Exclude<ColorVariant, "ghost">}`;
 
 type Responsive = "";
 
-export type TProgress = Component | Modifier | Responsive;
+export type ProgressClass = Component | Modifier | Responsive;
 
 
 // data="{[

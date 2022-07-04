@@ -11,8 +11,7 @@ type Modifier =
 
 type Responsive = "";
 
-export type ArtboardClass = Component | Modifier | Responsive;
-
+export type TArtboard = Component | Modifier | Responsive;
 
 // data="{[
 //   { type: 'component', class: 'artboard', desc: 'Container element' },

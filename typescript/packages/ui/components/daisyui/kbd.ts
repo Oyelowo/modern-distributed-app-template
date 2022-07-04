@@ -9,7 +9,7 @@ type Modifier = "";
 
 type Responsive = `${Title}-${Size}`;
 
-export type TKbd = Component | Modifier | Responsive;
+export type KbdClass = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'kbd', desc: 'Do show a keyboard key or a shortcut key' },

@@ -6,7 +6,7 @@ type Modifier = "drawer-mobile" | "drawer-end";
 
 type Responsive = "";
 
-export type DrawerClass = Component | Modifier | Responsive;
+export type TDrawer = Component | Modifier | Responsive;
 
 
 

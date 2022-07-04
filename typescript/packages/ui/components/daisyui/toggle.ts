@@ -10,7 +10,7 @@ type Modifier = `${Title}-${Extract<ColorVariant, "primary" | "secondary" | "acc
 
 type Responsive = `${Title}-${Size}`;
 
-export type TToggle = Component | Modifier | Responsive;
+export type ToggleClass = Component | Modifier | Responsive;
 
 
 // data="{[

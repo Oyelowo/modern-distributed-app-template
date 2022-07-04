@@ -8,7 +8,7 @@ type Modifier = `${Title}-${PositionAlignment}`;
 
 type Responsive = "";
 
-export type TIndicator = Component | Modifier | Responsive;
+export type IndicatorClass = Component | Modifier | Responsive;
 
 
 

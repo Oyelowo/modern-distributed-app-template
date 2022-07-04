@@ -7,7 +7,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type MockupWindowClass = Component | Modifier | Responsive;
+export type TMockupWindow = Component | Modifier | Responsive;
 
 
 // data="{[

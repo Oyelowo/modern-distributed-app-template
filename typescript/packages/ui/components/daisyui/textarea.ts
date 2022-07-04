@@ -9,7 +9,7 @@ type Modifier = `${Title}-${ColorVariant}` | "label" | Title;
 
 type Responsive = "";
 
-export type TTextArea = Component | Modifier | Responsive;
+export type TextAreaClass = Component | Modifier | Responsive;
 
 
 

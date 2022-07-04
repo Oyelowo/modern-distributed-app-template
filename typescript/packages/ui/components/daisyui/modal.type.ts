@@ -7,7 +7,7 @@ type Modifier = `${Title}-${"open"}`;
 
 type Responsive = `${Title}-${"bottom" | "middle"}`;
 
-export type ModalClass = Component | Modifier | Responsive;
+export type TModal = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'modal', desc: 'Container element' },

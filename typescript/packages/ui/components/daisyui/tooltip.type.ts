@@ -1,7 +1,7 @@
-import { PositionEdgesElement } from '../types';
+import { PositionEdgesElement } from './types';
 // title: Tooltip
 
-import { ColorVariant } from "../types";
+import { ColorVariant } from "./types";
 
 // desc: Tooltip can be used to show a message when hovering over an element.
 type Title = "tooltip";
@@ -11,7 +11,7 @@ type Modifier = `${Title}-${Exclude<ColorVariant, "ghost"> | Exclude<PositionEdg
 
 type Responsive = "";
 
-export type TooltipClass = Component | Modifier | Responsive;
+export type TTooltip = Component | Modifier | Responsive;
 
 
 

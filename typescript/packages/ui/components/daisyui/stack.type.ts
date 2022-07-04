@@ -7,7 +7,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type StackClass = Component | Modifier | Responsive;
+export type TStack = Component | Modifier | Responsive;
 
 
 

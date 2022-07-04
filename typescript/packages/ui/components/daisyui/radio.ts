@@ -9,7 +9,7 @@ type Modifier = `${Title}-${Size | Extract<ColorVariant, "primary" | "secondary"
 
 type Responsive = "";
 
-export type TRadio = Component | Modifier | Responsive;
+export type RadioClass = Component | Modifier | Responsive;
 
 
 // data="{[

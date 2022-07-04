@@ -9,7 +9,7 @@ type Modifier = `${Title}-${Extract<ColorVariant, "primary" | "secondary" | "acc
 
 type Responsive = `${Title}-${Size}`;
 
-export type TRange = Component | Modifier | Responsive;
+export type RangeClass = Component | Modifier | Responsive;
 
 
 // data="{[

@@ -11,7 +11,7 @@ type Responsive = 'checkbox-lg' |
     'checkbox-sm' |
     'checkbox-xs';
 
-export type CheckBoxClass = Component | Modifier | Responsive;
+export type TCheckBox = Component | Modifier | Responsive;
 
 
 // data="{[

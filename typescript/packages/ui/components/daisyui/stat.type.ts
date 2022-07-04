@@ -6,7 +6,7 @@ type Modifier = "";
 
 type Responsive = `${Title}s-${"horizontal" | "vertical"}`;
 
-export type StatClass = Component | Modifier | Responsive;
+export type TStat = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'stats', desc: 'Container of multiple stat items' },

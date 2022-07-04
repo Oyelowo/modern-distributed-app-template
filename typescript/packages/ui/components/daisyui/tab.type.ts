@@ -1,4 +1,4 @@
-import { Size } from '../types';
+import { Size } from './types';
 // title: Tabs
 // desc: Tabs can be used to show a list of links in a tabbed format.
 
@@ -9,7 +9,7 @@ type Modifier = `${"tab"}-${"active" | "bordered" | "lifted" | "boxed"}`;
 
 type Responsive = `${Title}-${Size}`;
 
-export type TabClass = Component | Modifier | Responsive;
+export type TTab = Component | Modifier | Responsive;
 
 
 // data="{[

@@ -6,7 +6,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type DividerClass = Component | Modifier | Responsive;
+export type TDivider = Component | Modifier | Responsive;
 
 
 // data="{[

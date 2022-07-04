@@ -10,7 +10,7 @@ type Modifier = `${Title}-${ColorVariant | "bordered"}`;
 
 type Responsive = `${Title}-${Size}`;
 
-export type TSelect = Component | Modifier | Responsive;
+export type SelectClass = Component | Modifier | Responsive;
 
 
 // data="{[

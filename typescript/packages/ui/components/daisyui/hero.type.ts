@@ -6,7 +6,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type HeroClass = Component | Modifier | Responsive;
+export type THero = Component | Modifier | Responsive;
 
 
 // data="{[

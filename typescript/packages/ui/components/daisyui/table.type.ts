@@ -8,7 +8,7 @@ type Modifier = "table-zebra" | "active" | "hover";
 
 type Responsive = `${Title}-${"normal" | "compact"}`;
 
-export type TableClass = Component | Modifier | Responsive;
+export type TTable = Component | Modifier | Responsive;
 
 
 // data="{[

@@ -7,7 +7,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type CountdownClass = Component | Modifier | Responsive;
+export type TCountdown = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'countdown', desc: 'Container element' },

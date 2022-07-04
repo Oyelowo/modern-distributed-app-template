@@ -8,7 +8,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type MockupPhoneClass = Component | Modifier | Responsive;
+export type TMockupPhone = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'mockup-phone', desc: 'Container element' },

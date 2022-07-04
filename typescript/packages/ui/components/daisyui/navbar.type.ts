@@ -7,7 +7,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type NavBarClass = Component | Modifier | Responsive;
+export type TNavBar = Component | Modifier | Responsive;
 
 
 // data="{[

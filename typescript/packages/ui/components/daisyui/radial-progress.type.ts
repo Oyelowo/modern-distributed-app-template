@@ -7,7 +7,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type RadialProgressClass = Component | Modifier | Responsive;
+export type TRadialProgress = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'radial-progress', desc: 'Shows a radial progress' },

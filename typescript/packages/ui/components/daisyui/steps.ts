@@ -11,7 +11,7 @@ type Modifier = `${"step"}-${Exclude<ColorVariant, "ghost">}`;
 
 type Responsive = `${Title}-${"vertical" | "horizontal"}`;
 
-export type TSteps = Component | Modifier | Responsive;
+export type StepsClass = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'steps', desc: 'Container of step items' },

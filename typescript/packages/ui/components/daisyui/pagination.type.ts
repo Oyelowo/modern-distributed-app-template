@@ -6,7 +6,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type PaginationClass = Component | Modifier | Responsive;
+export type TPagination = Component | Modifier | Responsive;
 
 
 // <ClassTable

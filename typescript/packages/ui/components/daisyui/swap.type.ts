@@ -7,7 +7,7 @@ type Modifier = `${Title}-${"active" | "rotate" | "flip"}`;
 
 type Responsive = "";
 
-export type SwapClass = Component | Modifier | Responsive;
+export type TSwap = Component | Modifier | Responsive;
 
 
 // data="{[

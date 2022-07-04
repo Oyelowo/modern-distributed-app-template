@@ -7,7 +7,7 @@ type Modifier = "disabled" | "active";
 
 type Responsive = `${Title}-${"normal" | "compact" | "vertical" | "horizontal"}`;
 
-export type MenuClass = Component | Modifier | Responsive;
+export type TMenu = Component | Modifier | Responsive;
 
 
 // data="{[

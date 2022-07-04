@@ -28,7 +28,7 @@ type Modifier =
 
 type Responsive = "";
 
-export type MaskClass = Component | `${Title}-${Modifier}` | Responsive;
+export type TMask = Component | `${Title}-${Modifier}` | Responsive;
 
 
 

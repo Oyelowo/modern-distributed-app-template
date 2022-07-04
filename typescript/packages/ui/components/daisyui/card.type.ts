@@ -9,7 +9,7 @@ type Responsive =
     'card-compact' |
     'card-side';
 
-export type CardClass = Component | Modifier | Responsive;
+export type TCard = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'card', desc: 'Container element' },

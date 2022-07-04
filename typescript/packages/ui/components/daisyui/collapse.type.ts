@@ -9,7 +9,7 @@ type Modifier = 'collapse-arrow' |
 
 type Responsive = "";
 
-export type CollapseClass = Component | Modifier | Responsive;
+export type TCollapse = Component | Modifier | Responsive;
 
 
 // data="{[

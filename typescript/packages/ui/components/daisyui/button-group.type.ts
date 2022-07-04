@@ -8,7 +8,7 @@ type Modifier = "";
 
 type Responsive = "";
 
-export type BtnGroupClass = Component | Modifier | Responsive;
+export type TBtnGroup = Component | Modifier | Responsive;
 
 
 

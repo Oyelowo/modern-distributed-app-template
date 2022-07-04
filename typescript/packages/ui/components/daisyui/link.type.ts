@@ -12,7 +12,7 @@ type Modifier = 'link-primary' |
 
 type Responsive = "";
 
-export type LinkClass = Component | Modifier | Responsive;
+export type TLink = Component | Modifier | Responsive;
 
 
 // data="{[

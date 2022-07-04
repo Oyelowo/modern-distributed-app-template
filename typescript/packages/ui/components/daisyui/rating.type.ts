@@ -1,7 +1,7 @@
 // title: Rating
 // desc: Rating is a set of radio buttons that allow the user to rate something.
 
-import { Size } from "../types";
+import { Size } from "./types";
 
 type Title = "rating";
 type Component = Title;
@@ -10,7 +10,7 @@ type Modifier = `${Title}-${"half" | "hidden"}`;
 
 type Responsive = `${Title}-${Size}`;
 
-export type RatingClass = Component | Modifier | Responsive;
+export type TRating = Component | Modifier | Responsive;
 
 
 // data="{[

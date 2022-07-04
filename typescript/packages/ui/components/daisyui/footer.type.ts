@@ -6,7 +6,7 @@ type Modifier = "footer-center";
 
 type Responsive = "";
 
-export type FooterClass = Component | Modifier | Responsive;
+export type TFooter = Component | Modifier | Responsive;
 
 
 // data="{[

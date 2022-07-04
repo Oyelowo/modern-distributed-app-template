@@ -21,7 +21,7 @@ type Responsive =
   'badge-warning' |
   'badge-error';
 
-export type BadgeClass = Component | Modifier | Responsive;
+export type TBadge = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'badge', desc: 'Container element' },

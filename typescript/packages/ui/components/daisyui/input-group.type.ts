@@ -1,7 +1,7 @@
 // title: Input group
 // desc: Input group puts an input next to a text or a button.
 
-import { Size } from "../types";
+import { Size } from "./types";
 
 type Title = "input-group";
 
@@ -10,7 +10,7 @@ type Modifier = `${Title}-${Size | "vertical"}`;
 
 type Responsive = "";
 
-export type InputGroupClass = Component | Modifier | Responsive;
+export type TInputGroup = Component | Modifier | Responsive;
 
 // data="{[
 //   { type:'component', class: 'input-group', desc: 'Container for grouping elements' },
