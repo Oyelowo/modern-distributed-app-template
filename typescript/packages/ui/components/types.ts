@@ -1,4 +1,4 @@
-import { TBorders, TBackgrounds, TTypography, TUtilityFunction } from "../tailwindcss-classnames";
+import { TBorders, TBackgrounds, TTypography, TUtilityFunction } from "../tailwind/tailwindcss-classnames";
 
 export type Btn = "btn";
 

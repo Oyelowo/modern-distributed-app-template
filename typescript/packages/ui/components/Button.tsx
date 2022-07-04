@@ -34,7 +34,7 @@ import {
   textColor,
   TTextColor,
   TW,
-} from "../tailwindcss-classnames";
+} from "../tailwind/tailwindcss-classnames";
 
 // const k : TW = ""
 // const k: TTextColor = TW.textColor("text-red")

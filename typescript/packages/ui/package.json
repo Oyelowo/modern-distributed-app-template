@@ -16,7 +16,7 @@
     "test:ci": "jest --ci",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "generate-css-types": "tailwindcss-classnames -i ./tailwind.config.js -x ./components/daisyui/*"
+    "generate-css-types": "tailwindcss-classnames -o ./tailwind/tailwindcss-classnames -i ./tailwind.config.js -x ./components/daisyui/*"
   },
   "dependencies": {
     "daisyui": "2.18.0",

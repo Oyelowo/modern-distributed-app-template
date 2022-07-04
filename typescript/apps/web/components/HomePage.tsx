@@ -1,4 +1,5 @@
-import { Button, getLowo, TextField, TW, cx, TGrid, TDisplay } from "@oyelowo/ui";
+import { Button, getLowo, TextField } from "@oyelowo/ui";
+import { TW, TGrid, TDisplay, cx } from "@oyelowo/ui/tailwind";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useChart } from "../charts/echarts/ChartWithHooks";
@@ -61,13 +62,11 @@ const HomePage: NextPage = () => {
         <br />
         <br />
         <br />
-        <div  className={cx(TW.height("h-screen"))}>
-          {CandleStickCharts}
-        </div>
+        <div className={cx(TW.height("h-screen"))}>{CandleStickCharts}</div>
         <br />
         <br />
         <br />
-        <div className="" style={{ height: "80vh" }}>
+        <div className={cx("klk")} style={{ height: "80vh" }}>
           {MultiChart}
         </div>
         <br />
