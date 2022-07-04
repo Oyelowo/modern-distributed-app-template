@@ -3,8 +3,8 @@ import { useSession, useSignOut } from "../hooks/authentication";
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
 import { AppContext } from "next/app";
-import { Button } from "@oyelowo/ui/components/Button";
-import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwindcss-classnames";
+import { Button } from "@oyelowo/ui/components";
+import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwind";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();

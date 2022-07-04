@@ -1,4 +1,4 @@
-import { Button } from "@oyelowo/ui";
+import { Button } from "@oyelowo/ui/components";
 import SignInForm from "../components/SignInForm";
 import { SignUpForm } from "../components/SignUpForm";
 import { DOMAIN_BASE } from "../config/client";
@@ -23,6 +23,7 @@ const SignIn = () => {
                   Sign in with <span className="capitalize">{p}</span>
                 </a>
               </Button>
+              <br />
               <br />
             </div>
           ))}

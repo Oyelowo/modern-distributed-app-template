@@ -72,9 +72,10 @@ class GraphqlIoError {
 }
 
 export function useSignIn() {
-  const router = useRouter();  
+  const router = useRouter();
 
-  const { mutate, data, error } = useSignInMutation<GraphqlErrorResponse>(client);
+  const { mutate, data, error, status, isLoading } =
+    useSignInMutation<GraphqlErrorResponse>(client);
 
   const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
     mutate(
@@ -94,7 +95,7 @@ export function useSignIn() {
     );
   };
 
-  return { signInCustom, data, error: new GraphqlIoError(error) };
+  return { signInCustom, data, error: new GraphqlIoError(error), isLoading };
 }
 
 type UserData = {

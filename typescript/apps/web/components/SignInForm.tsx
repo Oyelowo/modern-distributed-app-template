@@ -1,7 +1,9 @@
-import { Button, TextField } from "@oyelowo/ui";
+import { Button } from "@oyelowo/ui/components";
+import { TextField } from "@oyelowo/ui";
 import z, { ZodType } from "zod";
 import { useSignIn } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
+import { cx, TW } from "@oyelowo/ui/tailwind";
 
 export const SignInFormSchema = z.object({
   username: z
@@ -19,12 +21,12 @@ export default function SignInForm() {
     formState: { errors },
   } = useFormCustom(SignInFormSchema, {});
 
-  const { signInCustom, error } = useSignIn();
+  const { signInCustom, error, isLoading } = useSignIn();
 
   return (
     <div>
-      <form className="text-black" onSubmit={handleSubmit(signInCustom)}>
-        <div className="text-red-400"> {error.getDetails()}</div>
+      <form onSubmit={handleSubmit(signInCustom)}>
+        <div className={cx(TW.textColor("text-red-300"))}> {error.getDetails()}</div>
         <TextField
           label="Username"
           placeholder="Username"
@@ -40,7 +42,7 @@ export default function SignInForm() {
           errorMessage={errors.password?.message}
         />
 
-        <Button>
+        <Button className={[isLoading && "loading", "disabled"]}>
           <input type="submit" value="Sign In" className="text-yellow-400" />
         </Button>
       </form>

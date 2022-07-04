@@ -4,7 +4,7 @@ import { TBadge } from "./daisyui/badge.type";
 import { TBottomNavigation } from "./daisyui/bottom-navigation.type";
 import { TBreadcrumbs } from "./daisyui/breadcrumbs.type";
 import { TBtnGroup } from "./daisyui/button-group.type";
-import { TBtn } from "./daisyui/button.type";
+import { TButton } from "./daisyui/button/button.type";
 import { TCard } from "./daisyui/card.type";
 import { TCarousel } from "./daisyui/carousel.type";
 import { TCheckBox } from "./daisyui/checkbox.type";
@@ -52,7 +52,7 @@ type TCustomCssClass =
     | TBottomNavigation
     | TBreadcrumbs
     | TBtnGroup
-    | TBtn
+    | TButton
     | TCard
     | TCarousel
     | TCheckBox

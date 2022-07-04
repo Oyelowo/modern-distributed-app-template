@@ -1,9 +1,9 @@
 import { styled } from "goober";
-import { Size } from "./types";
+import { Size } from "../types";
 // title: Button
 // desc: Buttons allows user to take actions or make choices.
 
-import { ColorVariant } from "./types";
+import { ColorVariant } from "../types";
 
 type Component = "btn";
 type Modifier =
@@ -18,14 +18,7 @@ type Modifier =
 
 type Responsive = `btn-${Size}` | "btn-wide" | "btn-block" | "btn-circle" | "btn-square";
 
-export type TBtn = Component | Modifier | Responsive;
-
-// <button class="btn btn-square loading"></button>
-
-export const Button = styled.button`
-  color: red;
-`;
-
+export type TButton = Component | Modifier | Responsive;
 
 
 // data = "{[

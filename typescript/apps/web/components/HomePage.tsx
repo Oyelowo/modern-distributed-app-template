@@ -1,4 +1,4 @@
-import { Button, getLowo, TextField } from "@oyelowo/ui";
+import { Button } from "@oyelowo/ui/components";
 import { TW, TGrid, TDisplay, cx } from "@oyelowo/ui/tailwind";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -46,9 +46,9 @@ const HomePage: NextPage = () => {
           margin: "auto",
         }}
       >
-        <Button>
+        <Button className={["btn-primary", "btn-secondary"]}>
           <Link href="/hello">
-            <a className="text-gray-50">Link to charts</a>
+            <a>Link to charts</a>
           </Link>
         </Button>
         <br />
@@ -66,7 +66,7 @@ const HomePage: NextPage = () => {
         <br />
         <br />
         <br />
-        <div className={cx("klk")} style={{ height: "80vh" }}>
+        <div className={cx("")} style={{ height: "80vh" }}>
           {MultiChart}
         </div>
         <br />

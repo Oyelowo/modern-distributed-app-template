@@ -1,4 +1,5 @@
-import { Button, TextField } from "@oyelowo/ui";
+import { Button } from "@oyelowo/ui/components";
+import { TextField } from "@oyelowo/ui";
 import { SignUpSchema, useSignUp } from "../hooks/authentication";
 import { useFormCustom } from "../hooks/useFormCustom";
 
