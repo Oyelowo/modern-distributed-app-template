@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, forwardRef } from "react";
 import { cx, TArg, TTailwindString, TW } from "../../../tailwind";
+import { useThemeAtom } from "../../theme";
 import { TButton } from "./button.type";
 
 type MakeCustomProps<Element, TCustomClass> = Omit<Element, "className"> & {
@@ -9,20 +10,23 @@ type MakeCustomProps<Element, TCustomClass> = Omit<Element, "className"> & {
 
 type ButtonOriginal = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
 
-interface ButtonProps extends MakeCustomProps<ButtonOriginal, TButton> {
+export interface ButtonProps extends MakeCustomProps<ButtonOriginal, TButton> {
   //   className?: TArg;
   //   btnClass: TButton;
+  theme?: string;
 }
 
 function isDefined(argument: TArg | TButton | boolean): argument is TArg | TButton {
   return Boolean(argument);
 }
 
-export function Button(props: ButtonProps) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
+  const [theme] = useThemeAtom();
   const className = props.className?.filter(isDefined) ?? [];
   return (
     <button
       {...props}
+      data-theme={props.theme ?? theme}
       className={cx(
         "btn",
         "btn-primary",
@@ -31,8 +35,9 @@ export function Button(props: ButtonProps) {
         ...className
         // props.modifiers
       )}
+      ref={ref}
     >
       {props.children}
     </button>
   );
-}
+});

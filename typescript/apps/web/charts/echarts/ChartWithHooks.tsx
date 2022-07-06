@@ -76,6 +76,7 @@ const chartComponentsInUse = [
   CanvasRenderer,
   UniversalTransition,
   CanvasRenderer,
+  ToolboxComponent,
   // SVGRenderer
 ];
 

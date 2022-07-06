@@ -1,4 +1,4 @@
-import { Button } from "@oyelowo/ui/components";
+import { Button, useThemeAtom } from "@oyelowo/ui/components";
 import { TW, TGrid, TDisplay, cx } from "@oyelowo/ui/tailwind";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -8,11 +8,13 @@ import ReactEcharts from "../charts/echarts/ReactEcharts";
 import { tradingChartOption } from "../charts/echarts/StockChartTA";
 import { multiChartOptions } from "../charts/echarts/chartMulti";
 import { useCandleChart } from "../charts/echarts/useCandleChart";
+import { useEffect } from "react";
 // import Box from "../3D/Box";
 
 const Input = () => <input className="border hover:border-red-50 text-red-500" />;
 
 const HomePage: NextPage = () => {
+  const [theme, setTheme] = useThemeAtom();
   // const {ReactCharts: CandleStickChart, chart} = useStockCandleCharts();
   const { ReactCharts: CandleChart1 } = useChart({
     option: tradingChartOption,
@@ -25,6 +27,10 @@ const HomePage: NextPage = () => {
     option: multiChartOptions,
   });
 
+  useEffect(() => {
+    setTheme("dark");
+  }, []);
+
   const k: TGrid | TDisplay = "grid";
   return (
     <>
@@ -35,7 +41,6 @@ const HomePage: NextPage = () => {
       </Head>
 
       <main
-        className=""
         style={{
           // minHeight: "100vh",
           width: "98vw",

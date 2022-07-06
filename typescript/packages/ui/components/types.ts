@@ -33,7 +33,7 @@ import { TRadialProgress } from "./daisyui/radial-progress.type";
 import { TRadio } from "./daisyui/radio.type";
 import { TRange } from "./daisyui/range.type";
 import { TRating } from "./daisyui/rating.type";
-import { TSelect } from "./daisyui/select.type";
+import { TSelect } from "./daisyui/select/select.type";
 import { TStack } from "./daisyui/stack.type";
 import { TStat } from "./daisyui/stat.type";
 import { TSteps } from "./daisyui/steps.type";
