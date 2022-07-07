@@ -43,7 +43,7 @@ export type PopoverProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTM
 };
 // & { ref: React.RefObject<HTMLElement> };
 
-export const PopoverContainer = forwardRef<HTMLElement, PopoverProps>(
+export const Popover  = forwardRef<HTMLElement, PopoverProps>(
   ({ title, children, isOpen, onClose, style, ...otherProps }, ref) => {
     // Handle interacting outside the dialog and pressing
     // the Escape key to close the modal.

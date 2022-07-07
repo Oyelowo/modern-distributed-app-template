@@ -34,7 +34,7 @@ import {
   useRef,
 } from "react";
 import { useToggleContext } from "./context";
-import { PopoverContainer } from "./PopoverContainer";
+import { Popover } from "./Popover";
 
 type ContentProps = ComponentProps<typeof OverlayContainer>;
 type ContentRef = React.ElementRef<typeof OverlayContainer>;
@@ -42,7 +42,7 @@ type ContentRef = React.ElementRef<typeof OverlayContainer>;
 
 export const Content = forwardRef<ContentRef, ContentProps>((props, ref) => {
   const { triggerRef, overlayRef, overlayTriggerState, overlayTrigger } = useToggleContext();
-console.log("overlayTriggerState", overlayTriggerState);
+  console.log("overlayTriggerState", overlayTriggerState);
   // Get popover positioning props relative to the trigger
   let { overlayProps: positionProps } = useOverlayPosition({
     targetRef: triggerRef,
@@ -56,7 +56,7 @@ console.log("overlayTriggerState", overlayTriggerState);
     <>
       {overlayTriggerState.isOpen && (
         <OverlayContainer>
-          <PopoverContainer
+          <Popover
             {...overlayTrigger}
             {...positionProps}
             ref={overlayRef}
@@ -66,7 +66,7 @@ console.log("overlayTriggerState", overlayTriggerState);
             {...props}
           >
             This is the content of the popover.
-          </PopoverContainer>
+          </Popover>
         </OverlayContainer>
       )}
     </>

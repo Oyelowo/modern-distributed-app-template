@@ -6,7 +6,7 @@ import { AppContext } from "next/app";
 import { Button, useThemeAtom } from "@oyelowo/ui/components";
 import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwind";
 import { OverlayProvider } from "react-aria";
-import { Popover } from "@oyelowo/ui/components";
+import { Popup } from "@oyelowo/ui/components";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -40,14 +40,14 @@ export default function Home() {
         <Button onClick={() => signOutCustom()}>Sign out</Button>
         <br />
         <br />
-        <Popover
+        <Popup
           onOpen={(isOpen) => {
             console.log("open", isOpen);
           }}
         >
-          <Popover.Trigger>Namee</Popover.Trigger>
-          <Popover.Content>Some content</Popover.Content>
-        </Popover>
+          <Popup.Trigger>Namee</Popup.Trigger>
+          <Popup.Content>Some content</Popup.Content>
+        </Popup>
         <br />
         <HomePage />
       </div>

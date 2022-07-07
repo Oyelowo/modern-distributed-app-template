@@ -37,7 +37,7 @@ import { Data, ToggleContext, useToggleContext } from "./context";
 import { Trigger } from "./Trigger";
 import { Content } from "./Content";
 
-export function Popover(
+export function Popup(
   props: ComponentProps<typeof OverlayProvider> & { onOpen?: (isOpen: boolean) => void }
 ) {
   let overlayTriggerState = useOverlayTriggerState({});
@@ -73,5 +73,5 @@ export function Popover(
   );
 }
 
-Popover.Trigger = Trigger;
-Popover.Content = Content;
+Popup.Trigger = Trigger;
+Popup.Content = Content;

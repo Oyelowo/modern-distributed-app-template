@@ -44,7 +44,7 @@ export * from "./daisyui/table.type";
 export * from "./daisyui/textarea.type";
 export * from "./daisyui/toggle.type";
 export * from "./daisyui/tooltip.type";
-export * from "./daisyui/Popover";
+export * from "./daisyui/Popup";
 export * from "./theme";
 
 export default TCustomCssClass;
