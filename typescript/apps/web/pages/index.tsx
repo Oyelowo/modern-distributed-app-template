@@ -40,7 +40,11 @@ export default function Home() {
         <Button onClick={() => signOutCustom()}>Sign out</Button>
         <br />
         <br />
-        <Popover>
+        <Popover
+          onOpen={(isOpen) => {
+            console.log("open", isOpen);
+          }}
+        >
           <Popover.Trigger>Namee</Popover.Trigger>
           <Popover.Content>Some content</Popover.Content>
         </Popover>

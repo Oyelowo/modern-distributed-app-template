@@ -14,7 +14,7 @@ import { FocusScope } from "@react-aria/focus";
 import { useButton } from "@react-aria/button";
 import { mergeProps } from "@react-aria/utils";
 import { atom, useAtom, Provider, useSetAtom, useAtomValue } from "jotai";
-import { useMount, useEffectOnce } from "react-use";
+import { useMount, useEffectOnce, useUpdateEffect } from "react-use";
 import {
   ButtonHTMLAttributes,
   ComponentProps,
@@ -37,11 +37,17 @@ import { Data, ToggleContext, useToggleContext } from "./context";
 import { Trigger } from "./Trigger";
 import { Content } from "./Content";
 
-export function Popover(props: ComponentProps<typeof OverlayProvider>) {
+export function Popover(
+  props: ComponentProps<typeof OverlayProvider> & { onOpen?: (isOpen: boolean) => void }
+) {
   let overlayTriggerState = useOverlayTriggerState({});
   let triggerRef: MutableRefObject<null> = useRef() as MutableRefObject<null>;
   let overlayRef = useRef(null);
   let overlayTrigger = useOverlayTrigger({ type: "dialog" }, overlayTriggerState, triggerRef);
+
+  useUpdateEffect(() => {
+    props?.onOpen?.(overlayTriggerState.isOpen);
+  }, [overlayTriggerState.isOpen]);
 
   const data = useMemo<Data>(
     () => ({
