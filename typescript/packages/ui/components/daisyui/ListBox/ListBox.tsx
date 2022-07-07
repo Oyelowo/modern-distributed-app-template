@@ -3,7 +3,7 @@ import { useListState, ListState } from "@react-stately/list";
 import { Item } from "@react-stately/collections";
 import { useFocusRing } from "@react-aria/focus";
 import { mergeProps } from "@react-aria/utils";
-import { DetailedHTMLProps, HTMLAttributes, RefObject, useRef } from "react";
+import { DetailedHTMLProps, HTMLAttributes, ReactNode, RefObject, useRef } from "react";
 
 // function ListBox(props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) {
 type UseListStateProps = Parameters<typeof useListState>[0];
@@ -11,13 +11,17 @@ interface Props extends UseListStateProps {
   label: string;
 }
 
+// type Km = Pick<ReturnType<typeof useListState>, "collection">["collection"];
+
+/**
+ * The ListBox and Option components are used to show the list of options.
+ * They can also be shared with other components like a ComboBox. See useListBox for more examples, including sections and more complex items.
+ */
 function ListBox(props: Props) {
   // Create state based on the incoming props
   let state = useListState(props);
-
   // Get props for the listbox element
   let ref = useRef<HTMLUListElement>(null);
-
   let { listBoxProps, labelProps } = useListBox(props, state, ref);
 
   return (
@@ -43,23 +47,43 @@ function ListBox(props: Props) {
 }
 
 // function Option({ item, state }: { item: Node<object> }) {
-function Option({ item, state }: { item: any; state: ListState<object> }) {
+function Option({
+  item,
+  state,
+}: {
+  item: { rendered: ReactNode; key: string | number };
+  state: ListState<object>;
+}) {
   // Get props for the option element
   let ref = useRef<HTMLLIElement>(null);
-  let { optionProps, isSelected, isDisabled } = useOption({ key: item.key }, state, ref);
+  let { optionProps, isSelected, isDisabled, isFocused } = useOption({ key: item.key }, state, ref);
 
   // Determine whether we should show a keyboard
   // focus ring for accessibility
   let { isFocusVisible, focusProps } = useFocusRing();
+
+  let backgroundColor;
+  let color = "black";
+
+  if (isSelected) {
+    backgroundColor = "blueviolet";
+    color = "white";
+  } else if (isFocused) {
+    backgroundColor = "gray";
+  } else if (isDisabled) {
+    backgroundColor = "transparent";
+    color = "gray";
+  }
 
   return (
     <li
       {...mergeProps(optionProps, focusProps)}
       ref={ref}
       style={{
-        background: isSelected ? "blueviolet" : "transparent",
-        color: isSelected ? "white" : "",
+        background: backgroundColor,
+        color,
         padding: "2px 5px",
+        cursor: "pointer",
         outline: isFocusVisible ? "2px solid orange" : "none",
       }}
     >
@@ -72,14 +96,12 @@ export default ListBox;
 // ListBox.Option = Option;
 ListBox.Option = Item;
 
-
-
-function List() {
-  return (
-    <ListBox label="Choose an option" selectionMode="single">
-      <Item>One</Item>
-      <Item>Two</Item>
-      <Item>Three</Item>
-    </ListBox>
-  );
-}
+// export function Lister() {
+//   return (
+//     <ListBox label="Choose an option" selectionMode="single">
+//       <Item>One</Item>
+//       <Item>Two</Item>
+//       <Item>Three</Item>
+//     </ListBox>
+//   );
+// }

@@ -33,7 +33,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { Data, ToggleContext, useToggleContext } from "./context";
+import { Data, ToggleContext, useToggleContext } from "./Popup";
 
 export type PopoverProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {
   // item?: ReactNode;
@@ -43,8 +43,12 @@ export type PopoverProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTM
 };
 // & { ref: React.RefObject<HTMLElement> };
 
-export const Popover  = forwardRef<HTMLElement, PopoverProps>(
-  ({ title, children, isOpen, onClose, style, ...otherProps }, ref) => {
+/**
+* The Popover component is used to contain the popup listbox for the Select. 
+* It can be shared between many other components, including ComboBox, Menu, Dialog, and others. See useOverlayTrigger for more examples of popovers.
+*/
+export const Popover = forwardRef<HTMLElement, PopoverProps>(
+  ({ title, children, isOpen, onClose, ...otherProps }, ref) => {
     // Handle interacting outside the dialog and pressing
     // the Escape key to close the modal.
     let { overlayProps } = useOverlay(
@@ -60,19 +64,13 @@ export const Popover  = forwardRef<HTMLElement, PopoverProps>(
     let { modalProps } = useModal();
 
     // Get props for the dialog and its title
-    let { dialogProps, titleProps } = useDialog({}, ref as RefObject<HTMLElement>);
+    let { dialogProps, titleProps } = useDialog({}, ref as Parameters<typeof useDialog>[1]);
 
     return (
       <FocusScope restoreFocus>
         <div
           {...mergeProps(overlayProps, dialogProps, otherProps, modalProps)}
           ref={ref as RefObject<HTMLDivElement>}
-          style={{
-            background: "white",
-            color: "black",
-            padding: 30,
-            ...style,
-          }}
         >
           {/* <h3 {...titleProps} style={{ marginTop: 0 }}>
             {title}

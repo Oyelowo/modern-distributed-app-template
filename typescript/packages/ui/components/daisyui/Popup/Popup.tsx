@@ -33,9 +33,25 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { Data, ToggleContext, useToggleContext } from "./context";
 import { Trigger } from "./Trigger";
 import { Content } from "./Content";
+
+export interface Data {
+  overlayTriggerState: ReturnType<typeof useOverlayTriggerState>;
+  triggerRef: RefObject<HTMLElement>;
+  overlayRef: RefObject<HTMLElement>;
+  overlayTrigger: ReturnType<typeof useOverlayTrigger>;
+}
+
+export const ToggleContext = createContext<Data | undefined>(undefined);
+
+export function useToggleContext() {
+  const context = useContext(ToggleContext);
+  if (!context) {
+    throw new Error(`Toggle compound components cannot be rendered outside the Toggle component`);
+  }
+  return context;
+}
 
 export function Popup(
   props: ComponentProps<typeof OverlayProvider> & { onOpen?: (isOpen: boolean) => void }
@@ -56,7 +72,7 @@ export function Popup(
       overlayRef,
       overlayTrigger,
     }),
-    [overlayTriggerState, triggerRef, overlayRef, overlayTrigger]
+    [overlayTriggerState.isOpen]
   );
 
   // Get props for the trigger and overlay. This also handles

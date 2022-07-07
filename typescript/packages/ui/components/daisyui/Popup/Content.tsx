@@ -33,7 +33,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { useToggleContext } from "./context";
+import { useToggleContext } from "./Popup";
 import { Popover } from "./Popover";
 
 type ContentProps = ComponentProps<typeof OverlayContainer>;
@@ -65,7 +65,7 @@ export const Content = forwardRef<ContentRef, ContentProps>((props, ref) => {
             onClose={overlayTriggerState.close}
             {...props}
           >
-            This is the content of the popover.
+            {props.children}
           </Popover>
         </OverlayContainer>
       )}

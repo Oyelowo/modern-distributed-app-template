@@ -33,7 +33,7 @@ import {
   useMemo,
   useRef,
 } from "react";
-import { useToggleContext } from "./context";
+import { useToggleContext } from "./Popup";
 import { Button, ButtonProps } from "../button/button";
 
 // type TriggerProps = ComponentProps<typeof button>;
@@ -54,7 +54,7 @@ export function Trigger(props: ButtonProps) {
       {...buttonProps}
       {...overlayTrigger?.triggerProps}
       className={props.className ?? ["btn-accent"]}
-      ref={triggerRef as any}
+      ref={triggerRef as RefObject<HTMLButtonElement>}
     >
       {props.children}
     </Button>
