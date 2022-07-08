@@ -1,7 +1,7 @@
 // title: Select
 // desc: Select is used to pick a value from a list of options.
 
-import { ColorVariant, Size } from "../types";
+import { ColorVariant, Size } from "./types";
 
 
 type Title = "select";

@@ -1,9 +1,9 @@
 import { styled } from "goober";
-import { Size } from "../types";
+import { Size } from "./types";
 // title: Button
 // desc: Buttons allows user to take actions or make choices.
 
-import { ColorVariant } from "../types";
+import { ColorVariant } from "./types";
 
 type Component = "btn";
 type Modifier =
