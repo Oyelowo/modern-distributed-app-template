@@ -14,6 +14,7 @@
     "cypress:run": "cypress run --config video=false"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "@hookform/resolvers": "2.9.0",
     "@oyelowo/graphql-client": "*",
     "@oyelowo/ui": "*",

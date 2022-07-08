@@ -34,7 +34,7 @@ export * from "./daisyui/radial-progress.type";
 export * from "./daisyui/radio.type";
 export * from "./daisyui/range.type";
 export * from "./daisyui/rating.type";
-export * from "./daisyui/select/select.type";
+// export * from "./daisyui/Select/select.type";
 export * from "./daisyui/stack.type";
 export * from "./daisyui/stat.type";
 export * from "./daisyui/steps.type";
@@ -46,6 +46,7 @@ export * from "./daisyui/toggle.type";
 export * from "./daisyui/tooltip.type";
 export * from "./daisyui/Popup";
 export * from "./daisyui/ListBox";
+export * from "./daisyui/Select";
 export * from "./theme";
 
 export default TCustomCssClass;

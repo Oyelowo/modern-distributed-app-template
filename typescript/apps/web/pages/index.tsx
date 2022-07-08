@@ -3,11 +3,11 @@ import { useSession, useSignOut } from "../hooks/authentication";
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
 import { client } from "../config/client";
 import { AppContext } from "next/app";
-import { Button, Lister, useThemeAtom } from "@oyelowo/ui/components";
+import { Button, useThemeAtom } from "@oyelowo/ui/components";
 import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwind";
 import { OverlayProvider } from "react-aria";
-import { Popup } from "@oyelowo/ui/components";
-import ListBox from "@oyelowo/ui/components/daisyui/ListBox/ListBox";
+import { Popup, ListBox } from "@oyelowo/ui/components";
+import { Select } from "@oyelowo/ui/components/daisyui/Select";
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -50,7 +50,13 @@ export default function Home() {
           <ListBox.Option>Second</ListBox.Option>
           <ListBox.Option>third</ListBox.Option>
         </ListBox>
-        <Lister />
+        <br />
+        <Select label="Some label">
+          <Select.Option key="first">first one</Select.Option>
+          <Select.Option key="second">second one</Select.Option>
+          <Select.Option key="third">third one</Select.Option>
+          <Select.Option key="fourth">fourth one</Select.Option>
+        </Select>
         <br />
         <HomePage />
       </div>

@@ -17,7 +17,7 @@ interface Props extends UseListStateProps {
  * The ListBox and Option components are used to show the list of options.
  * They can also be shared with other components like a ComboBox. See useListBox for more examples, including sections and more complex items.
  */
-function ListBox(props: Props) {
+export function ListBox(props: Props) {
   // Create state based on the incoming props
   let state = useListState(props);
   // Get props for the listbox element
@@ -91,7 +91,6 @@ function Option({
     </li>
   );
 }
-export default ListBox;
 
 // ListBox.Option = Option;
 ListBox.Option = Item;

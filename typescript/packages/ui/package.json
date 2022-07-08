@@ -19,6 +19,7 @@
     "generate-css-types": "tailwindcss-classnames -o ./tailwind/tailwindcss-classnames.ts -i ./tailwind.config.js -x ./components/types.ts"
   },
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "daisyui": "2.18.0",
     "goober": "^2.1.10",
     "goober-autoprefixer": "^1.2.3",
