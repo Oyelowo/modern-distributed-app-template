@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+// import '../styles/globals.css'
 
 import TCustomCssClass from "./types";
 export * from "./daisyui/artboard.type";

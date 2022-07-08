@@ -16,5 +16,5 @@ setup(createElement);
 // export * from "../components/HelloWorld";
 // export * from "../components/TextField";
 // export * from "../components/Page";
-export * from "../components/Button";
+// export * from "../components/Button";
 export * from "../hooks/useInterval";

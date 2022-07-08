@@ -1,7 +1,6 @@
-import { Button } from "@oyelowo/ui/components";
-import { TextField } from "@oyelowo/ui";
-import { SignUpSchema, useSignUp } from "../hooks/authentication";
-import { useFormCustom } from "../hooks/useFormCustom";
+import { Button, TextInput } from '@mantine/core';
+import { SignUpSchema, useSignUp } from '../hooks/authentication';
+import { useFormCustom } from '../hooks/useFormCustom';
 
 export function SignUpForm() {
   const { signUpCustom, error } = useSignUp();
@@ -21,64 +20,30 @@ export function SignUpForm() {
         // )}
       >
         <div className="text-red-400"> {error.getDetails()}</div>
-        <TextField
-          label="Username"
-          placeholder="Username"
-          inputProps={{ ...register("username") }}
-          errorMessage={errors.username?.message}
-        />
+        <TextInput label="Username" placeholder="Username" {...register('username')} />
 
         <br />
-        <TextField
-          label="Password"
-          placeholder="Password"
-          inputProps={{ ...register("password") }}
-          errorMessage={errors.password?.message}
-        />
+        <TextInput label="Password" placeholder="Password" {...register('password')} />
 
         <br />
-        <TextField
+        <TextInput
           label="Confirm Password"
           placeholder="Confirm Password"
-          inputProps={{ ...register("passwordConfirm") }}
-          errorMessage={errors.passwordConfirm?.message}
+          {...register('passwordConfirm')}
         />
 
         <br />
-        <TextField
-          label="Email"
-          placeholder="email@example.com"
-          inputProps={{ ...register("email") }}
-          errorMessage={errors.email?.message}
-        />
+        <TextInput label="Email" placeholder="email@example.com" {...register('email')} />
 
         <br />
-        <TextField
-          label="First Name"
-          placeholder="First Name"
-          inputProps={{ ...register("firstName") }}
-          description="Last Name"
-          errorMessage={errors.firstName?.message}
-        />
+        <TextInput label="First Name" placeholder="First Name" {...register('firstName')} />
 
         <br />
-        <TextField
-          label="Last Name"
-          placeholder="Last Name"
-          inputProps={{ ...register("lastName") }}
-          // description="Last Name"
-          errorMessage={errors.lastName?.message}
-        />
+        <TextInput label="Last Name" placeholder="Last Name" {...register('lastName')} />
 
         <br />
         {/* TODO: Use compound component instead */}
-        <TextField
-          label="Age(15+)"
-          placeholder="Age"
-          type="number"
-          errorMessage={errors.age?.message}
-          inputProps={{ ...register("age") }}
-        />
+        <TextInput label="Age(15+)" placeholder="Age" type="number" {...register('age')} />
 
         {/* <input type="submit" value="Sign Up" className="text-yellow-400 bg-green-700" /> */}
         <Button
@@ -89,7 +54,7 @@ export function SignUpForm() {
             signUpCustom({
               ...userInput,
               age: Number(getValues().age),
-              socialMedia: ["yevibes"],
+              socialMedia: ['yevibes'],
               passwordConfirm,
             });
           }}

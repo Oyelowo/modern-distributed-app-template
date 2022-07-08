@@ -1,33 +1,34 @@
-import { Button, getLowo, useInterval } from "@oyelowo/ui";
-import { useState } from "react";
-import { ECOption, ReactEChartCustom, useChart } from "../charts/echarts/ChartWithHooks";
-import Link from "next/link";
+import { getLowo, useInterval } from '@oyelowo/ui';
+import { Button } from '@mantine/core';
+import { useState } from 'react';
+import { ECOption, ReactEChartCustom, useChart } from '../charts/echarts/ChartWithHooks';
+import Link from 'next/link';
 
 const dataset = {
-  dimensions: ["name", "score"],
+  dimensions: ['name', 'score'],
   source: [
-    ["Oyelowo Oyedayo", 314],
-    ["Maria Koko", 351],
-    ["Samuel Koiv ", 287],
-    ["Saul Paul", 219],
-    ["Sakar Sark", 253],
-    ["Alexi Lab", 165],
-    ["Port Proxy", 318],
-    ["Service Mesh", 366],
+    ['Oyelowo Oyedayo', 314],
+    ['Maria Koko', 351],
+    ['Samuel Koiv ', 287],
+    ['Saul Paul', 219],
+    ['Sakar Sark', 253],
+    ['Alexi Lab', 165],
+    ['Port Proxy', 318],
+    ['Service Mesh', 366],
   ],
 };
 const pieOption: ECOption = {
   title: {
-    text: "Pie of pier",
+    text: 'Pie of pier',
   },
   tooltip: {},
   dataset: [dataset],
   series: [
     {
-      type: "pie",
+      type: 'pie',
       // associate the series to be animated by id
-      id: "Score",
-      radius: [0, "50%"],
+      id: 'Score',
+      radius: [0, '50%'],
       universalTransition: true,
       animationDurationUpdate: 1000,
     },
@@ -36,17 +37,17 @@ const pieOption: ECOption = {
 const barOption: ECOption = {
   dataset: [dataset],
   xAxis: {
-    type: "category",
+    type: 'category',
   },
   yAxis: {},
   series: [
     {
-      type: "bar",
+      type: 'bar',
       // associate the series to be animated by id
-      id: "Score",
+      id: 'Score',
       // Each data will have a different color
-      colorBy: "data",
-      encode: { x: "name", y: "score" },
+      colorBy: 'data',
+      encode: { x: 'name', y: 'score' },
       universalTransition: true,
       animationDurationUpdate: 1000,
     },
@@ -76,22 +77,22 @@ const Hello = () => {
         settings={{}}
         option={{
           title: {
-            text: "Charts of darkness",
+            text: 'Charts of darkness',
           },
           tooltip: {},
           legend: {
-            data: ["sales"],
+            data: ['sales'],
             top: 20,
             left: 12,
           },
           xAxis: {
-            data: ["Shirts", "Cardigans", "Chiffons", "Pants", "Heels", "Socks"],
+            data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks'],
           },
           yAxis: {},
           series: [
             {
-              name: "sales",
-              type: "bar",
+              name: 'sales',
+              type: 'bar',
               data: [5, 20, 36, 10, 10, 20],
             },
           ],

@@ -1,14 +1,15 @@
-import { Button, useThemeAtom } from "@oyelowo/ui/components";
-import { TW, TGrid, TDisplay, cx } from "@oyelowo/ui/tailwind";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { useChart } from "../charts/echarts/ChartWithHooks";
-import Link from "next/link";
-import ReactEcharts from "../charts/echarts/ReactEcharts";
-import { tradingChartOption } from "../charts/echarts/StockChartTA";
-import { multiChartOptions } from "../charts/echarts/chartMulti";
-import { useCandleChart } from "../charts/echarts/useCandleChart";
-import { useEffect } from "react";
+import { useThemeAtom } from '@oyelowo/ui/components';
+import { Button } from '@mantine/core';
+import { TW, TGrid, TDisplay, cx } from '@oyelowo/ui/tailwind';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { useChart } from '../charts/echarts/ChartWithHooks';
+import Link from 'next/link';
+import ReactEcharts from '../charts/echarts/ReactEcharts';
+import { tradingChartOption } from '../charts/echarts/StockChartTA';
+import { multiChartOptions } from '../charts/echarts/chartMulti';
+import { useCandleChart } from '../charts/echarts/useCandleChart';
+import { useEffect } from 'react';
 // import Box from "../3D/Box";
 
 const Input = () => <input className="border hover:border-red-50 text-red-500" />;
@@ -28,10 +29,10 @@ const HomePage: NextPage = () => {
   });
 
   useEffect(() => {
-    setTheme("dark");
+    setTheme('dark');
   }, []);
 
-  const k: TGrid | TDisplay = "grid";
+  const k: TGrid | TDisplay = 'grid';
   return (
     <>
       <Head>
@@ -43,41 +44,41 @@ const HomePage: NextPage = () => {
       <main
         style={{
           // minHeight: "100vh",
-          width: "98vw",
-          justifyContent: "center",
-          alignContent: "center",
-          alignItems: "center",
-          alignSelf: "center",
-          margin: "auto",
+          width: '98vw',
+          justifyContent: 'center',
+          alignContent: 'center',
+          alignItems: 'center',
+          alignSelf: 'center',
+          margin: 'auto',
         }}
       >
-        <Button className={["btn-primary", "btn-secondary"]}>
-          <Link href="/hello">
+        <Link href="/hello">
+          <Button component="a">
             <a>Link to charts</a>
-          </Link>
-        </Button>
+          </Button>
+        </Link>
         <br />
         <Link href="/random">
           <a className="text-blue-50">Goto Random Rogue Users</a>
         </Link>
         <br />
-        <div className={cx(TW.height("h-96"))}>
+        <div className={cx(TW.height('h-96'))}>
           <ReactEcharts />
         </div>
         <br />
         <br />
         <br />
-        <div className={cx(TW.height("h-screen"))}>{CandleStickCharts}</div>
+        <div className={cx(TW.height('h-screen'))}>{CandleStickCharts}</div>
         <br />
         <br />
         <br />
-        <div className={cx("")} style={{ height: "80vh" }}>
+        <div className={cx('')} style={{ height: '80vh' }}>
           {MultiChart}
         </div>
         <br />
         <br />
         <br />
-        <div className="" style={{ height: "80vh" }}>
+        <div className="" style={{ height: '80vh' }}>
           {CandleChart1}
         </div>
         <br />

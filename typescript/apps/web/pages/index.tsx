@@ -1,13 +1,11 @@
-import HomePage from "../components/HomePage";
-import { useSession, useSignOut } from "../hooks/authentication";
-import { useGetUserQuery, useGetUsersQuery, useMeQuery } from "@oyelowo/graphql-client";
-import { client } from "../config/client";
-import { AppContext } from "next/app";
-import { Button, useThemeAtom } from "@oyelowo/ui/components";
-import { TW, classnames as cx, TBorders } from "@oyelowo/ui/tailwind";
-import { OverlayProvider } from "react-aria";
-import { Popup, ListBox } from "@oyelowo/ui/components";
-import { Select } from "@oyelowo/ui/components/daisyui/Select";
+import HomePage from '../components/HomePage';
+import { useSession, useSignOut } from '../hooks/authentication';
+import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
+import { client } from '../config/client';
+import { AppContext } from 'next/app';
+import { useThemeAtom } from '@oyelowo/ui/components';
+import { TW, classnames as cx, TBorders } from '@oyelowo/ui/tailwind';
+import { Button } from '@mantine/core';
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -15,22 +13,22 @@ export default function Home() {
   const data = useSession();
   const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
 
-  if (data.status === "loading") {
+  if (data.status === 'loading') {
     return (
       <div className="bg-black h-screen text-white">
         <h1>Loading...</h1>
       </div>
     );
   }
-  const k: TBorders = "border-sky-500";
+  const k: TBorders = 'border-sky-500';
   // classnames("rere")
-  if (data.status === "success") {
+  if (data.status === 'success') {
     return (
       <div
         data-theme={theme}
         className={cx(
-          TW.borderStyle("required:border-dashed"),
-          TW.borderRadius("rounded-3xl")
+          TW.borderStyle('required:border-dashed'),
+          TW.borderRadius('rounded-3xl')
           // TW.borderColor("re"),
         )}
       >
@@ -39,25 +37,6 @@ export default function Home() {
         Email: {me?.email} <br />
         Post: {me?.postCount} <br />
         <Button onClick={() => signOutCustom()}>Sign out</Button>
-        <br />
-        <br />
-        <Popup onOpen={console.log}>
-          <Popup.Trigger>Namee</Popup.Trigger>
-          <Popup.Content>Some content</Popup.Content>
-        </Popup>
-        <ListBox label="The listbox" selectionMode="single">
-          <ListBox.Option>first</ListBox.Option>
-          <ListBox.Option>Second</ListBox.Option>
-          <ListBox.Option>third</ListBox.Option>
-        </ListBox>
-        <br />
-        <Select label="Some label">
-          <Select.Option key="first">first one</Select.Option>
-          <Select.Option key="second">second one</Select.Option>
-          <Select.Option key="third">third one</Select.Option>
-          <Select.Option key="fourth">fourth one</Select.Option>
-        </Select>
-        <br />
         <HomePage />
       </div>
     );

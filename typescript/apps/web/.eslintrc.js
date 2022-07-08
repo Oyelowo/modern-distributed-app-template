@@ -1,4 +1,22 @@
 module.exports = {
-  root: true,
-  extends: ["custom"],
+  extends: [
+    'mantine',
+    'plugin:@next/next/recommended',
+    'plugin:jest/recommended',
+    'plugin:storybook/recommended',
+    'custom'
+  ],
+  plugins: ['testing-library', 'jest'],
+  overrides: [
+    {
+      files: ['**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['plugin:testing-library/react'],
+    },
+  ],
+  parserOptions: {
+    project: './tsconfig.json',
+  },
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+  },
 };

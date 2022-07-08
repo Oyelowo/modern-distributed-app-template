@@ -1,17 +1,16 @@
-import { Button } from "@oyelowo/ui/components";
-import { TextField } from "@oyelowo/ui";
-import z, { ZodType } from "zod";
-import { useSignIn } from "../hooks/authentication";
-import { useFormCustom } from "../hooks/useFormCustom";
-import { cx, TW } from "@oyelowo/ui/tailwind";
+import { Button, TextInput, Group } from '@mantine/core';
+import z, { ZodType } from 'zod';
+import { useSignIn } from '../hooks/authentication';
+import { useFormCustom } from '../hooks/useFormCustom';
+import { cx, TW } from '@oyelowo/ui/tailwind';
 
 export const SignInFormSchema = z.object({
   username: z
     .string()
     // .nonempty
-    .min(1, { message: "Username Must be provided" })
-    .max(30, { message: "Username too long" }),
-  password: z.string().min(4, { message: "Password too short" }),
+    .min(1, { message: 'Username Must be provided' })
+    .max(30, { message: 'Username too long' }),
+  password: z.string().min(4, { message: 'Password too short' }),
 });
 
 export default function SignInForm() {
@@ -26,26 +25,18 @@ export default function SignInForm() {
   return (
     <div>
       <form onSubmit={handleSubmit(signInCustom)}>
-        <div className={cx(TW.textColor("text-red-300"))}> {error.getDetails()}</div>
-        <TextField
-          label="Username"
-          placeholder="Username"
-          inputProps={{ ...register("username") }}
-          errorMessage={errors.username?.message}
-        />
+        <div className={cx(TW.textColor('text-red-300'))}> {error.getDetails()}</div>
+
+        <TextInput label="Username" placeholder="Username" {...register('username')} />
 
         <br />
-        <TextField
-          label="Password"
-          placeholder="Password"
-          inputProps={{ ...register("password") }}
-          errorMessage={errors.password?.message}
-        />
+        <TextInput label="Password" placeholder="Password" {...register('password')} />
 
-        <Button className={[isLoading && "loading", "disabled"]}>
-          Sign In
-          <input type="submit" hidden />
-        </Button>
+        <Group position="left" mt="md">
+          <Button type="submit" loading={isLoading}>
+            Sign In
+          </Button>
+        </Group>
       </form>
     </div>
   );
