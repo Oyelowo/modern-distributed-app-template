@@ -6,6 +6,7 @@ import { AppContext } from 'next/app';
 import { useThemeAtom } from '@oyelowo/ui/components';
 import { TW, classnames as cx, TBorders } from '@oyelowo/ui/tailwind';
 import { Button } from '@mantine/core';
+import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
@@ -38,6 +39,7 @@ export default function Home() {
         Post: {me?.postCount} <br />
         <Button onClick={() => signOutCustom()}>Sign out</Button>
         <HomePage />
+        <ScrollToTop />
       </div>
     );
   }

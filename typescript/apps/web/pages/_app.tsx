@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 
 function App({ Component, pageProps }: AppProps & { colorScheme: ColorScheme }) {
   /* 
@@ -20,7 +21,9 @@ creating the QueryClient once per component lifecycle.
   const [queryClient] = useState(() => new QueryClient());
   // hook will return either 'dark' or 'light' on client
   // and always 'light' during ssr as window.matchMedia is not available
-  const preferredColorScheme = useColorScheme();
+  const preferredColorScheme = useColorScheme('dark');
+
+  console.log('preferredColorScheme', preferredColorScheme);
   const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
@@ -52,16 +55,20 @@ creating the QueryClient once per component lifecycle.
       <Provider>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
-          {/* <Hydrate state={pageProps.dehydratedState}> */}
-            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-              <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-                <NotificationsProvider>
-                  <Component {...pageProps} />
-                </NotificationsProvider>
-              </MantineProvider>
-            </ColorSchemeProvider>
-            <Component {...pageProps} />
-          {/* </Hydrate> */}
+          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+            <MantineProvider
+              theme={{ colorScheme, primaryColor: 'cyan' }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              <NotificationsProvider position="bottom-right">
+                <ColorSchemeToggle />
+                {/* <Hydrate state={pageProps.dehydratedState}> */}
+                <Component {...pageProps} />
+                {/* </Hydrate> */}
+              </NotificationsProvider>
+            </MantineProvider>
+          </ColorSchemeProvider>
         </QueryClientProvider>
       </Provider>
     </>

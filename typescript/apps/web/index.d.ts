@@ -22,4 +22,7 @@ declare module '@mantine/core' {
         myCustomProperty: string;
         myCustomFunction: () => void;
     }
+
+    // MantineStyleSystemValue
 }
+

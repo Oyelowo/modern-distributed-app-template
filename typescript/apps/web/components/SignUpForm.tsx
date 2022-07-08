@@ -1,67 +1,146 @@
-import { Button, TextInput } from '@mantine/core';
-import { SignUpSchema, useSignUp } from '../hooks/authentication';
-import { useFormCustom } from '../hooks/useFormCustom';
+// import { Button, TextInput } from '@mantine/core';
+import { signUpSchema, useSignUp } from '../hooks/authentication';
+// import { useFormCustom } from '../hooks/useFormCustom';
+import { useForm, zodResolver } from '@mantine/form';
+import {
+  NumberInput,
+  TextInput,
+  PasswordInput,
+  Button,
+  Box,
+  Group,
+  Checkbox,
+  Modal,
+  Grid,
+  SimpleGrid,
+} from '@mantine/core';
+import z from 'zod';
+import { EyeCheck, EyeOff } from 'tabler-icons-react';
+import { PasswordStrength } from './Password';
+import { useState } from 'react';
 
-export function SignUpForm() {
-  const { signUpCustom, error } = useSignUp();
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useFormCustom(SignUpSchema, {});
+export function Content() {
+  const { signUpCustom, error, isLoading } = useSignUp();
+  // const {
+  //   form.getInputProps,
+  //   handleSubmit,
+  //   getValues,
+  //   formState: { errors },
+  // } = useForm(SignUpSchema, {});
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    schema: zodResolver(signUpSchema),
+    initialValues: {
+      username: '',
+      password: '',
+      passwordConfirm: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      socialMedia: [],
+      age: 0,
+      termsOfService: false,
+    },
+    validate: {
+      passwordConfirm: (value, { password }) =>
+        value === password ? null : 'Password does not match',
+    },
+  });
 
   return (
-    <div>
-      <form
-        className="text-black grid-cols-2"
-        // onSubmit={handleSubmit((d) =>
-        //   signUpCustom({ ...d, age: Number(d.age), socialMedia: ["blayzfm"] })
-        // )}
+    <form
+      className="text-black grid-cols-2"
+      onSubmit={form.onSubmit(({ passwordConfirm, age, ...userInput }) => {
+        signUpCustom({
+          ...userInput,
+          age: Number(age),
+          socialMedia: ['yevibes'],
+          passwordConfirm,
+        });
+      })}
+    >
+      <TextInput
+        my="xs"
+        label="Username"
+        placeholder="Username"
+        required
+        {...form.getInputProps('username')}
+      />
+
+      <PasswordStrength
+        my="xs"
+        label="Password"
+        placeholder="Password"
+        required
+        {...form.getInputProps('password')}
+      />
+
+      <PasswordInput
+        my="xs"
+        label="Confirm Password"
+        placeholder="Confirm Password"
+        required
+        {...form.getInputProps('passwordConfirm')}
+      />
+
+      <TextInput label="Email" placeholder="email@example.com" {...form.getInputProps('email')} />
+
+      <SimpleGrid
+        my="xs"
+        cols={1}
+        breakpoints={[
+          {
+            minWidth: 'xs',
+            cols: 2,
+          },
+        ]}
       >
-        <div className="text-red-400"> {error.getDetails()}</div>
-        <TextInput label="Username" placeholder="Username" {...register('username')} />
-
-        <br />
-        <TextInput label="Password" placeholder="Password" {...register('password')} />
-
-        <br />
         <TextInput
-          label="Confirm Password"
-          placeholder="Confirm Password"
-          {...register('passwordConfirm')}
+          label="First Name"
+          placeholder="First Name"
+          {...form.getInputProps('firstName')}
         />
 
-        <br />
-        <TextInput label="Email" placeholder="email@example.com" {...register('email')} />
+        <TextInput label="Last Name" placeholder="Last Name" {...form.getInputProps('lastName')} />
+      </SimpleGrid>
 
-        <br />
-        <TextInput label="First Name" placeholder="First Name" {...register('firstName')} />
+      <NumberInput
+        my="xs"
+        label="Age(18+)"
+        defaultValue={18}
+        placeholder="Age"
+        required
+        stepHoldDelay={500}
+        stepHoldInterval={100}
+        {...form.getInputProps('age')}
+      />
 
-        <br />
-        <TextInput label="Last Name" placeholder="Last Name" {...register('lastName')} />
+      <Checkbox
+        my="xs"
+        label="I agree"
+        {...form.getInputProps('termsOfService', { type: 'checkbox' })}
+      />
 
-        <br />
-        {/* TODO: Use compound component instead */}
-        <TextInput label="Age(15+)" placeholder="Age" type="number" {...register('age')} />
-
-        {/* <input type="submit" value="Sign Up" className="text-yellow-400 bg-green-700" /> */}
-        <Button
-          type="button"
-          // onClick={() => signIn(providers.credentials.id)}
-          onClick={() => {
-            const { passwordConfirm, ...userInput } = getValues();
-            signUpCustom({
-              ...userInput,
-              age: Number(getValues().age),
-              socialMedia: ['yevibes'],
-              passwordConfirm,
-            });
-          }}
-        >
+      <Group position="right" mt="md">
+        <Button type="submit" loading={isLoading}>
           Sign up btn
         </Button>
-      </form>
-    </div>
+      </Group>
+    </form>
+  );
+}
+
+export function SignUpForm() {
+  const [opened, setOpened] = useState(false);
+
+  return (
+    <>
+      <Modal opened={opened} onClose={() => setOpened(false)} title="Introduce yourself!">
+        <Content />
+      </Modal>
+
+      <Group position="center">
+        <Button onClick={() => setOpened(true)}>Open Modal</Button>
+      </Group>
+    </>
   );
 }

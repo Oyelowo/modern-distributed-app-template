@@ -1,6 +1,6 @@
-import * as z from "zod";
-import { SignInFormSchema } from "../components/SignInForm";
-import { useState } from "react";
+import * as z from 'zod';
+// import { SignInFormSchema } from "../components/SignInForm";
+import { useState } from 'react';
 
 import {
   SessionQuery,
@@ -8,16 +8,17 @@ import {
   useSignInMutation,
   useSignOutMutation,
   useSignUpMutation,
-} from "@oyelowo/graphql-client";
-import { useRouter } from "next/router";
-import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from "react-query";
-import { client } from "../config/client";
-import { useCookie } from "react-use";
+} from '@oyelowo/graphql-client';
+import { useRouter } from 'next/router';
+import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from 'react-query';
+import { client } from '../config/client';
+import { useCookie } from 'react-use';
+import { signInSchema } from '../components/SignInForm';
 
 export function useSignOut() {
   const router = useRouter();
   const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
-  const [value, updateCookie, deleteCookie] = useCookie("oyelowo-session");
+  const [value, updateCookie, deleteCookie] = useCookie('oyelowo-session');
 
   const signOutCustom = () => {
     signOutMutate(
@@ -32,7 +33,7 @@ export function useSignOut() {
           cache.clear();
           mutCache.clear();
           deleteCookie();
-          router.push("/login");
+          router.push('/login');
         },
         onSettled: () => {},
       }
@@ -71,13 +72,13 @@ class GraphqlIoError {
   };
 }
 
-export function useSignIn() {
+export function useSignIn({ onError }: { onError: (e: GraphqlIoError) => void }) {
   const router = useRouter();
 
   const { mutate, data, error, status, isLoading } =
     useSignInMutation<GraphqlErrorResponse>(client);
 
-  const signInCustom = ({ username, password }: z.infer<typeof SignInFormSchema>) => {
+  const signInCustom = ({ username, password }: z.infer<typeof signInSchema>) => {
     mutate(
       {
         signInCredentials: {
@@ -89,7 +90,10 @@ export function useSignIn() {
         onSuccess: (data) => {
           const client = new QueryClient();
 
-          router.push("/");
+          router.push('/');
+        },
+        onError: (e) => {
+          onError(new GraphqlIoError(error));
         },
       }
     );
@@ -108,25 +112,26 @@ type UserData = {
   age: number;
 };
 
-export const SignUpSchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(4),
-  passwordConfirm: z.string().min(4),
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  email: z.string().email(),
-  socialMedia: z.array(z.string(), {}),
-  age: z.any(),
+export const signUpSchema = z.object({
+  username: z.string().min(1, { message: 'Username must be provided' }),
+  password: z.string().min(4, { message: 'Invalid password' }),
+  passwordConfirm: z.string().min(4, { message: 'Password does not match' }),
+  firstName: z.string().min(1, { message: 'firstname must be provided' }),
+  lastName: z.string().min(1, { message: 'lastname must be provided' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  socialMedia: z.array(z.string({ description: 'socials' }), {}),
+  age: z.number().min(18, { message: 'You  must be at least 18 to setup an account' }),
+  termsOfService: z.boolean(),
 });
 
 export function useSignUp() {
   const router = useRouter();
-  const { mutate, data, error } = useSignUpMutation<GraphqlErrorResponse>(client);
+  const { mutate, data, error, isLoading } = useSignUpMutation<GraphqlErrorResponse>(client);
 
-  const signUpCustom = (userData: z.infer<typeof SignUpSchema>) => {
-    const data = SignUpSchema.parse(userData);
+  const signUpCustom = (data: z.infer<typeof signUpSchema>) => {
+    // const data = signUpSchema.parse(userData);
     const { passwordConfirm, ...user } = data;
-    if (user.password !== passwordConfirm) throw new Error("Confirm password has to be the same");
+    // if (user.password !== passwordConfirm) throw new Error('Confirm password has to be the same');
     mutate(
       {
         user,
@@ -135,14 +140,14 @@ export function useSignUp() {
         onSuccess: () => {
           const client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
-          router.push("/");
+          router.push('/');
           // client.refetchQueries(["session"]);
         },
       }
     );
   };
 
-  return { signUpCustom, data, error: new GraphqlIoError(error) };
+  return { signUpCustom, data, error: new GraphqlIoError(error), isLoading };
 }
 
 interface UseSessionProps {
@@ -164,7 +169,7 @@ export function useSession(props?: UseSessionProps) {
       if (queryConfig.onSettled) queryConfig.onSettled(data, error);
       const hasError = !!error;
       if (hasError) {
-        router.push("/login/?error=SessionExpired");
+        router.push('/login/?error=SessionExpired');
       }
     },
   });
@@ -179,7 +184,7 @@ export function useSession(props?: UseSessionProps) {
 }
 
 type ServerTypeProps<TData, TError> = {
-  status: "loading" | "error" | "success" | "idle";
+  status: 'loading' | 'error' | 'success' | 'idle';
   data: TData;
   error: TError;
 };
@@ -190,40 +195,40 @@ function mapToServerData<TData, TError>({
   error,
 }: ServerTypeProps<TData, TError>): ServerData<TData, TError> {
   switch (status) {
-    case "loading":
+    case 'loading':
       return {
-        status: "loading",
+        status: 'loading',
       };
-    case "error":
+    case 'error':
       return {
-        status: "error",
+        status: 'error',
         error,
       };
-    case "success":
+    case 'success':
       return {
-        status: "success",
+        status: 'success',
         data,
       };
 
     default:
       return {
-        status: "idle",
+        status: 'idle',
       };
   }
 }
 
 type ServerData<TData, TError> =
   | {
-      status: "error";
+      status: 'error';
       error: TError;
     }
   | {
-      status: "loading";
+      status: 'loading';
     }
   | {
-      status: "idle";
+      status: 'idle';
     }
   | {
-      status: "success";
+      status: 'success';
       data: TData;
     };
