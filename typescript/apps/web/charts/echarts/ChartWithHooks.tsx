@@ -50,6 +50,7 @@ import {
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
 import { vintage } from './themes/vintage';
+import { blackTheme } from './themes/black';
 
 // Register the required components
 const chartComponentsInUse = [
@@ -76,9 +77,10 @@ const chartComponentsInUse = [
   MarkPointComponent,
   LineChart,
   UniversalTransition,
-  // CanvasRenderer,
+  CanvasRenderer,
   ToolboxComponent,
-  SVGRenderer,
+  // Potentially use SQG for mobile
+  // SVGRenderer,
 ];
 
 // Combine an Option type with only required components and charts via ComposeOption
@@ -125,7 +127,8 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
     // Initialize chart
     let chart: ECharts | undefined;
     if (chartRef.current !== null) {
-      registerTheme('vintage', vintage);
+      // registerTheme('vintage', vintage);
+      registerTheme('dark', blackTheme);
       chart = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {

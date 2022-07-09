@@ -64,10 +64,10 @@ export default function Home({ children }: { children: ReactElement }) {
               hiddenBreakpoint="sm"
               hidden={!opened}
               width={{
+                // When viewport is larger than theme.breakpoints.sm, Navbar width will be 100
+                sm: 100,
                 // When viewport is larger than theme.breakpoints.sm, Navbar width will be 200
-                sm: 200,
-                // When viewport is larger than theme.breakpoints.sm, Navbar width will be 300
-                lg: 300,
+                lg: 200,
                 // When other breakpoints do not match base width is used, defaults to 100%
                 // base: 100,
               }}
@@ -102,7 +102,7 @@ export default function Home({ children }: { children: ReactElement }) {
           }
           aside={
             <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-              <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
+              <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 100, lg: 200 }}>
                 <SimpleGrid cols={1}>
                   <Text spellCheck>{me?.username}</Text>
                   <Divider />
