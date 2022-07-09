@@ -10,10 +10,11 @@ import {
   SetOptionOpts,
   getInstanceByDom,
   registerTheme,
-  helper
+  // helper,
 } from 'echarts/core';
 
-import {  } from 'echarts';
+import {helper} from 'echarts';
+
 
 import {
   BarChart,
@@ -112,6 +113,7 @@ export type ThemeOfECharts =
   | 'roma'
   | 'purple-passion'
   | 'halloween';
+
 export interface ReactEChartsProps {
   option: ECOption /* You may also just use the minimal type: EChartsOption */;
   style?: CSSProperties;

@@ -11,8 +11,9 @@ import {
   Globe,
   HotelService,
 } from 'tabler-icons-react';
-import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
+import { ThemeIcon, UnstyledButton, Group, Text, MantineTheme } from '@mantine/core';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 interface MainLinkProps {
   icon: React.ReactNode;
@@ -22,6 +23,9 @@ interface MainLinkProps {
 }
 
 function MainLink({ icon, color, label, to }: MainLinkProps) {
+  const router = useRouter();
+  const getActiveBg = (theme: MantineTheme) =>
+    theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0];
   return (
     <Link href={to}>
       <UnstyledButton
@@ -31,10 +35,10 @@ function MainLink({ icon, color, label, to }: MainLinkProps) {
           padding: theme.spacing.xs,
           borderRadius: theme.radius.sm,
           color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+          backgroundColor: router.pathname === to ? getActiveBg(theme) : '',
 
           '&:hover': {
-            backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+            backgroundColor: getActiveBg(theme),
           },
         })}
         //   component="a"
