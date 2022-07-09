@@ -20,7 +20,7 @@ const requirements = [
   { re: /[0-9]/, label: 'Includes number' },
   { re: /[a-z]/, label: 'Includes lowercase letter' },
   { re: /[A-Z]/, label: 'Includes uppercase letter' },
-  { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
+  { re: /[$&+,:;=?@#|'<>.^*()%!_-]/, label: 'Includes special symbol' },
 ];
 
 function getStrength(password: string) {
@@ -69,7 +69,7 @@ export function PasswordStrength({
           required
           label="Your password"
           placeholder="Your password"
-          // description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
+          description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
           //   value={value}
           //   onChange={(event) => setValue(event.currentTarget.value)}
           // toggleTabIndex={0}

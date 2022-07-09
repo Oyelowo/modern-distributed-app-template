@@ -93,7 +93,7 @@ export function useSignIn({ onError }: { onError: (e: GraphqlIoError) => void })
           router.push('/');
         },
         onError: (e) => {
-          onError(new GraphqlIoError(error));
+          onError(new GraphqlIoError(e));
         },
       }
     );
@@ -124,13 +124,14 @@ export const signUpSchema = z.object({
   termsOfService: z.boolean(),
 });
 
-export function useSignUp() {
+export function useSignUp({ onError }: { onError: (e: GraphqlIoError) => void }) {
   const router = useRouter();
   const { mutate, data, error, isLoading } = useSignUpMutation<GraphqlErrorResponse>(client);
 
-  const signUpCustom = (data: z.infer<typeof signUpSchema>) => {
+  const signUpCustom = (
+    user: Omit<z.infer<typeof signUpSchema>, 'passwordConfirm' | 'termsOfService'>
+  ) => {
     // const data = signUpSchema.parse(userData);
-    const { passwordConfirm, ...user } = data;
     // if (user.password !== passwordConfirm) throw new Error('Confirm password has to be the same');
     mutate(
       {
@@ -142,6 +143,9 @@ export function useSignUp() {
           // the generated useSessionQuery graphql hook uses `session` as the key
           router.push('/');
           // client.refetchQueries(["session"]);
+        },
+        onError: (e) => {
+          onError(new GraphqlIoError(e));
         },
       }
     );
