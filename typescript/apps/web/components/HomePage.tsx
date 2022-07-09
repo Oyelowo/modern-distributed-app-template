@@ -38,13 +38,13 @@ const HomePage: NextPage = () => {
 
       <Container>
         <Link href="/hello">
-          <Button component="a" my="sm">
+          <Button component="a" my="sm" variant="gradient">
             Link to charts
           </Button>
         </Link>
         <Space />
         <Link href="/random">
-          <Button component="a" my="sm">
+          <Button component="a" my="sm" variant="outline">
             Goto Random Rogue Users
           </Button>
         </Link>
@@ -62,12 +62,6 @@ const HomePage: NextPage = () => {
           <TAChart />
         </SimpleGrid>
       </Container>
-
-      <footer>
-        <a href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
-          Powered by Code breather
-        </a>
-      </footer>
     </>
   );
 };
