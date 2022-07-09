@@ -37,7 +37,7 @@ const HomePage: NextPage = () => {
       </Head>
 
       <Container>
-        <Link href="/hello">
+        {/* <Link href="/hello">
           <Button component="a" my="sm" variant="gradient">
             Link to charts
           </Button>
@@ -48,7 +48,7 @@ const HomePage: NextPage = () => {
             Goto Random Rogue Users
           </Button>
         </Link>
-        <Divider my="sm" />
+        <Divider my="sm" /> */}
         <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
           <ReactEcharts />
         </SimpleGrid>

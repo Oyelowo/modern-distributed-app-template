@@ -26,31 +26,28 @@ import {
   Anchor,
   Space,
   Tooltip,
+  Skeleton,
 } from '@mantine/core';
 import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { Navlinks } from '../components/Navlinks/Navlinks';
 
 export default function Home() {
   const { signOutCustom } = useSignOut();
   // const [theme] = useThemeAtom();
   const data = useSession();
-  const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
+  const { data: { me } = {}, isLoading } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
 
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-
-  if (data.status === 'loading') {
-    return (
-      <div className="bg-black h-screen text-white">
-        <h1>Loading...</h1>
-      </div>
-    );
+  if (isLoading) {
+    return <>Loading...</>;
   }
 
-  if (data.status === 'success') {
-    return (
-      <>
+  return (
+    <Skeleton visible={isLoading}>
+      <Suspense fallback={<Skeleton visible={isLoading} />}>
         <AppShell
           styles={{
             main: {
@@ -77,14 +74,7 @@ export default function Home() {
             >
               <Navbar.Section>{/* Header with logo */}</Navbar.Section>
               <Navbar.Section grow mt="md" component={ScrollArea} mx="-xs" px="xs">
-                <SimpleGrid cols={1}>
-                  <Text spellCheck>{me?.username}</Text>
-                  <Divider />
-                  <Text spellCheck>{me?.email}</Text>
-                  <Divider />
-                  <Text spellCheck>{me?.postCount}</Text>
-                  <Divider />
-                </SimpleGrid>
+                <Navlinks />
               </Navbar.Section>
               <Navbar.Section>
                 <SimpleGrid>
@@ -113,7 +103,14 @@ export default function Home() {
           aside={
             <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
               <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 300 }}>
-                <Text>Extra information</Text>
+                <SimpleGrid cols={1}>
+                  <Text spellCheck>{me?.username}</Text>
+                  <Divider />
+                  <Text spellCheck>{me?.email}</Text>
+                  <Divider />
+                  <Text spellCheck>{me?.postCount}</Text>
+                  <Divider />
+                </SimpleGrid>
               </Aside>
             </MediaQuery>
           }
@@ -139,7 +136,7 @@ export default function Home() {
                   />
                 </MediaQuery>
 
-                <Text>{data.data?.session.userId}</Text>
+                <Text>{data?.status === 'success' && data.data?.session.userId}</Text>
               </div>
             </Header>
           }
@@ -147,9 +144,17 @@ export default function Home() {
           <HomePage />
           <ScrollToTop />
         </AppShell>
-      </>
-    );
-  }
+      </Suspense>
+    </Skeleton>
+  );
+}
 
-  return null;
+// This gets called on every request
+export async function getServerSideProps() {
+  // Fetch data from external API
+  // const res = await fetch(`https://.../data`);
+  // const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: {} };
 }

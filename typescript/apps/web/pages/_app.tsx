@@ -63,9 +63,9 @@ creating the QueryClient once per component lifecycle.
             >
               <NotificationsProvider position="bottom-right">
                 <ColorSchemeToggle />
-                {/* <Hydrate state={pageProps.dehydratedState}> */}
+                <Hydrate state={pageProps?.dehydratedState}>
                 <Component {...pageProps} />
-                {/* </Hydrate> */}
+                </Hydrate>
               </NotificationsProvider>
             </MantineProvider>
           </ColorSchemeProvider>
