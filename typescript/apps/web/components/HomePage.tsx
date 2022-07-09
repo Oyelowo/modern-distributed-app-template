@@ -30,13 +30,13 @@ const HomePage: NextPage = () => {
 
   const { ReactCharts: TAChart } = useChart({
     option: tradingChartOption,
-    theme: 'dark',
+    theme: 'vintage',
   });
   const { CandleStickCharts } = useCandleChart();
 
   const { ReactCharts: MultiChart, chart } = useChart({
     option: multiChartOptions,
-    theme: 'dark',
+    theme: 'vintage',
   });
   // chart?.showLoading()
 
@@ -66,7 +66,7 @@ const HomePage: NextPage = () => {
         </Link>
         <Divider my="sm" /> */}
         <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
-          <ReactEcharts />
+          <ReactEcharts theme={theme} />
         </SimpleGrid>
         <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
           <CandleStickCharts />

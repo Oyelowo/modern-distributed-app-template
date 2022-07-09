@@ -1,6 +1,6 @@
 import { getLowo, useInterval } from '@oyelowo/ui';
 import { useState } from 'react';
-import { ECOption, useChart } from './ChartWithHooks';
+import { ECOption, ThemeOfECharts, useChart } from './ChartWithHooks';
 
 const dataset = {
   dimensions: ['name', 'score'],
@@ -18,7 +18,7 @@ const dataset = {
 
 // const pieOption: EChartsOption = {
 const pieOption: ECOption = {
-  backgroundColor: '#19232d',
+  // backgroundColor: '#19232d',
   title: {
     text: 'Pie of pier',
   },
@@ -41,7 +41,7 @@ const pieOption: ECOption = {
 };
 
 const barOption: ECOption = {
-  backgroundColor: '#19232d',
+  // backgroundColor: '#19232d',
   dataset: [dataset],
   xAxis: {
     type: 'category',
@@ -61,10 +61,11 @@ const barOption: ECOption = {
   ],
 };
 
-const ReactEcharts = () => {
+const ReactEcharts = ({ theme }: { theme: ThemeOfECharts }) => {
   const [isBar, setIsBar] = useState(false);
   const { ReactCharts } = useChart({
     option: isBar ? barOption : pieOption,
+    theme,
   });
 
   useInterval(() => setIsBar((prev) => !prev), 2000);

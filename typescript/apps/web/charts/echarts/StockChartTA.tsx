@@ -38,7 +38,7 @@ export const tradingChartOption: ECOption = {
       animation: false,
       type: "cross",
       lineStyle: {
-        color: "#376df4",
+        color: "#eaeaea",
         width: 2,
         opacity: 1,
       },

@@ -75,11 +75,10 @@ const chartComponentsInUse = [
   MarkLineComponent,
   MarkPointComponent,
   LineChart,
-  CanvasRenderer,
   UniversalTransition,
-  CanvasRenderer,
+  // CanvasRenderer,
   ToolboxComponent,
-  // SVGRenderer
+  SVGRenderer,
 ];
 
 // Combine an Option type with only required components and charts via ComposeOption
@@ -93,24 +92,25 @@ export type ECOption = ComposeOption<
   | CandlestickSeriesOption
 >;
 
+export type ThemeOfECharts =
+  | 'dark'
+  | 'vintage'
+  | 'westeros'
+  | 'essos'
+  | 'wonderland'
+  | 'walden'
+  | 'chalk'
+  | 'infographic'
+  | 'macarons'
+  | 'roma'
+  | 'purple-passion'
+  | 'halloween';
 export interface ReactEChartsProps {
   option: ECOption /* You may also just use the minimal type: EChartsOption */;
   style?: CSSProperties;
   settings?: SetOptionOpts;
   loading?: boolean;
-  theme?:
-    | 'dark'
-    | 'vintage'
-    | 'westeros'
-    | 'essos'
-    | 'wonderland'
-    | 'walden'
-    | 'chalk'
-    | 'infographic'
-    | 'macarons'
-    | 'roma'
-    | 'purple-passion'
-    | 'halloween';
+  theme?: ThemeOfECharts;
 }
 
 export function useChart({ option, style, settings, loading, theme }: ReactEChartsProps) {
