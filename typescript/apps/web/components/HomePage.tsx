@@ -1,6 +1,5 @@
 import { useThemeAtom } from '@oyelowo/ui/components';
-import { Button } from '@mantine/core';
-import { TW, TGrid, TDisplay, cx } from '@oyelowo/ui/tailwind';
+import { Button, Divider, Space, Box, Container, SimpleGrid, Grid } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useChart } from '../charts/echarts/ChartWithHooks';
@@ -10,29 +9,25 @@ import { tradingChartOption } from '../charts/echarts/StockChartTA';
 import { multiChartOptions } from '../charts/echarts/chartMulti';
 import { useCandleChart } from '../charts/echarts/useCandleChart';
 import { useEffect } from 'react';
+import { taChartOption } from '../charts/echarts/TAChart';
 // import Box from "../3D/Box";
-
-const Input = () => <input className="border hover:border-red-50 text-red-500" />;
 
 const HomePage: NextPage = () => {
   const [theme, setTheme] = useThemeAtom();
-  // const {ReactCharts: CandleStickChart, chart} = useStockCandleCharts();
-  const { ReactCharts: CandleChart1 } = useChart({
+  const { ReactCharts: TAChart } = useChart({
     option: tradingChartOption,
   });
-  // const { ReactCharts: TAChart } = useChart({
-  //   option: taChartOption,
-  // });
   const { CandleStickCharts } = useCandleChart();
-  const { ReactCharts: MultiChart } = useChart({
+
+  const { ReactCharts: MultiChart, chart } = useChart({
     option: multiChartOptions,
   });
+  // chart?.showLoading()
 
   useEffect(() => {
     setTheme('dark');
   }, []);
 
-  const k: TGrid | TDisplay = 'grid';
   return (
     <>
       <Head>
@@ -41,57 +36,32 @@ const HomePage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main
-        style={{
-          // minHeight: "100vh",
-          width: '98vw',
-          justifyContent: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-          alignSelf: 'center',
-          margin: 'auto',
-        }}
-      >
+      <Container>
         <Link href="/hello">
-          <Button component="a">
-            <a>Link to charts</a>
+          <Button component="a" my="sm">
+            Link to charts
           </Button>
         </Link>
-        <br />
+        <Space />
         <Link href="/random">
-          <a className="text-blue-50">Goto Random Rogue Users</a>
+          <Button component="a" my="sm">
+            Goto Random Rogue Users
+          </Button>
         </Link>
-        <br />
-        <div className={cx(TW.height('h-96'))}>
+        <Divider my="sm" />
+        <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
           <ReactEcharts />
-        </div>
-        <br />
-        <br />
-        <br />
-        <div className={cx(TW.height('h-screen'))}>{CandleStickCharts}</div>
-        <br />
-        <br />
-        <br />
-        <div className={cx('')} style={{ height: '80vh' }}>
-          {MultiChart}
-        </div>
-        <br />
-        <br />
-        <br />
-        <div className="" style={{ height: '80vh' }}>
-          {CandleChart1}
-        </div>
-        <br />
-        <br />
-        <br />
-        {/* <div className="height[96vh] width[100vw] m-auto">{TAChart}</div> */}
-        Home of grind!
-        <div className="text-blue-600">
-          Separate
-          <Input />
-          Enter
-        </div>
-      </main>
+        </SimpleGrid>
+        <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
+          <CandleStickCharts />
+        </SimpleGrid>
+        <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
+          <MultiChart />
+        </SimpleGrid>
+        <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
+          <TAChart />
+        </SimpleGrid>
+      </Container>
 
       <footer>
         <a href="https://codebreather.com" target="_blank" rel="noopener noreferrer">

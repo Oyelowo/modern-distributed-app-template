@@ -1,15 +1,8 @@
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 // import { init, getInstanceByDom, ECharts, SetOptionOpts, EChartsOption } from "echarts";
 
 // Tree-shakeable approach. //
-import {
-  init,
-  use,
-  ECharts,
-  ComposeOption,
-  SetOptionOpts,
-  getInstanceByDom,
-} from "echarts/core";
+import { init, use, ECharts, ComposeOption, SetOptionOpts, getInstanceByDom } from 'echarts/core';
 import {
   BarChart,
   BarSeriesOption,
@@ -20,7 +13,7 @@ import {
   PieChart,
   PieSeriesOption,
   LineChart,
-} from "echarts/charts";
+} from 'echarts/charts';
 
 import {
   TitleComponent,
@@ -44,10 +37,10 @@ import {
   MarkLineComponent,
   MarkPointComponent,
   ToolboxComponent,
-} from "echarts/components";
+} from 'echarts/components';
 
-import { LabelLayout, UniversalTransition } from "echarts/features";
-import { CanvasRenderer, SVGRenderer } from "echarts/renderers";
+import { LabelLayout, UniversalTransition } from 'echarts/features';
+import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
 
 // Register the required components
 const chartComponentsInUse = [
@@ -96,16 +89,10 @@ export interface ReactEChartsProps {
   style?: CSSProperties;
   settings?: SetOptionOpts;
   loading?: boolean;
-  theme?: "light" | "dark";
+  theme?: 'light' | 'dark';
 }
 
-export function useChart({
-  option,
-  style,
-  settings,
-  loading,
-  theme = "dark",
-}: ReactEChartsProps) {
+export function useChart({ option, style, settings, loading, theme = 'dark' }: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [chart, setChart] = useState<ECharts>();
 
@@ -154,12 +141,12 @@ export function useChart({
     function resizeChart() {
       chart?.resize();
     }
-    window.addEventListener("resize", resizeChart);
+    window.addEventListener('resize', resizeChart);
 
     // Return cleanup function
     return () => {
       chart?.dispose();
-      window.removeEventListener("resize", resizeChart);
+      window.removeEventListener('resize', resizeChart);
     };
   }, [theme]);
 
@@ -178,11 +165,13 @@ export function useChart({
       loading === true ? chart?.showLoading() : chart?.hideLoading();
     }
   }, [loading, theme]);
-
+  
+  const ReactCharts = useCallback(
+    () => <div ref={chartRef} style={{ width: '100%', height: '100%', ...style }} />,
+    []
+  );
   return {
-    ReactCharts: (
-      <div ref={chartRef} style={{ width: "100%", height: "100%", ...style }} />
-    ),
+    ReactCharts,
     chart,
   };
 }
@@ -192,7 +181,7 @@ export function ReactEChartCustom({
   style,
   settings,
   loading,
-  theme = "dark",
+  theme = 'dark',
 }: ReactEChartsProps): JSX.Element {
   const chartRef = useRef<HTMLDivElement>(null);
 
@@ -208,12 +197,12 @@ export function ReactEChartCustom({
     function resizeChart() {
       chart?.resize();
     }
-    window.addEventListener("resize", resizeChart);
+    window.addEventListener('resize', resizeChart);
 
     // Return cleanup function
     return () => {
       chart?.dispose();
-      window.removeEventListener("resize", resizeChart);
+      window.removeEventListener('resize', resizeChart);
     };
   }, [theme]);
 
@@ -234,7 +223,10 @@ export function ReactEChartCustom({
   }, [loading, theme]);
 
   return (
-    <div ref={chartRef} style={{ width: "100%", minHeight: 500, border: "10px solid green",...style }} />
+    <div
+      ref={chartRef}
+      style={{ width: '100%', minHeight: 500, border: '10px solid green', ...style }}
+    />
   );
 }
 
