@@ -1,7 +1,10 @@
 export const blackTheme = {
   //   color: ['#fc97af', '#87f7cf', '#f7f494', '#72ccff', '#f7c5a0', '#d4a4eb', '#d2f5a6', '#76f2f2'],
   backgroundColor: '#19232d',
-  textStyle: {},
+  padding: 15,
+  textStyle: {
+    color: '#fff',
+  },
   title: {
     textStyle: {
       color: '#ffffff',
@@ -266,33 +269,41 @@ export const blackTheme = {
   //       },
   //     },
   //   },
-  //   toolbox: {
-  //     iconStyle: {
-  //       borderColor: '#999999',
-  //     },
-  //     emphasis: {
-  //       iconStyle: {
-  //         borderColor: '#666666',
-  //       },
-  //     },
-  //   },
-  //   legend: {
-  //     textStyle: {
-  //       color: '#999999',
-  //     },
-  //   },
-  //   tooltip: {
-  //     axisPointer: {
-  //       lineStyle: {
-  //         color: '#cccccc',
-  //         width: 1,
-  //       },
-  //       crossStyle: {
-  //         color: '#cccccc',
-  //         width: 1,
-  //       },
-  //     },
-  //   },
+  toolbox: {
+    iconStyle: {
+      borderColor: '#999999',
+    },
+    emphasis: {
+      iconStyle: {
+        borderColor: '#666666',
+      },
+    },
+  },
+  legend: {
+    textStyle: {
+      color: '#999999',
+    },
+  },
+  tooltip: {
+    padding: 10,
+    backgroundColor: '#19232d',
+    axisPointer: {
+      lineStyle: {
+        color: '#cccccc',
+        width: 1,
+      },
+      crossStyle: {
+        color: '#cccccc',
+        width: 1,
+      },
+      textStyle: {
+        color: '#fff',
+      },
+    },
+    textStyle: {
+      color: '#aaa',
+    },
+  },
   //   timeline: {
   //     lineStyle: {
   //       color: '#87f7cf',

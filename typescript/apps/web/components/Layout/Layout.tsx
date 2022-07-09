@@ -64,7 +64,7 @@ export default function Home({ children }: { children: ReactElement }) {
               hiddenBreakpoint="sm"
               hidden={!opened}
               width={{
-                // When viewport is larger than theme.breakpoints.sm, Navbar width will be 100
+                // When viewport is larger than theme.breakpoints.sm, Navbar width will be 180
                 sm: 180,
                 // When viewport is larger than theme.breakpoints.sm, Navbar width will be 200
                 lg: 200,

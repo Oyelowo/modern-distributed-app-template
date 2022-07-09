@@ -10,7 +10,11 @@ import {
   SetOptionOpts,
   getInstanceByDom,
   registerTheme,
+  helper
 } from 'echarts/core';
+
+import {  } from 'echarts';
+
 import {
   BarChart,
   BarSeriesOption,
@@ -51,6 +55,7 @@ import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
 import { vintage } from './themes/vintage';
 import { blackTheme } from './themes/black';
+import { darkTheme } from './themes/dark';
 
 // Register the required components
 const chartComponentsInUse = [
@@ -128,7 +133,8 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
     let chart: ECharts | undefined;
     if (chartRef.current !== null) {
       // registerTheme('vintage', vintage);
-      registerTheme('dark', blackTheme);
+      // registerTheme('dark', blackTheme);
+      registerTheme('dark', darkTheme);
       chart = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {
