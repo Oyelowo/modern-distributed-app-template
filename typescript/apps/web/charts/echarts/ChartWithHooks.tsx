@@ -113,15 +113,14 @@ export interface ReactEChartsProps {
     | 'halloween';
 }
 
-
 export function useChart({ option, style, settings, loading, theme }: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [chart, setChart] = useState<ECharts>();
-  
+
   useEffect(() => {
     use(chartComponentsInUse);
   }, []);
-  
+
   useEffect(() => {
     // Initialize chart
     let chart: ECharts | undefined;

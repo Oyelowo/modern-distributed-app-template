@@ -1,0 +1,59 @@
+import HomePage from '../components/HomePage';
+import { useSession, useSignOut } from '../hooks/authentication';
+import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
+import { client } from '../config/client';
+import { AppContext } from 'next/app';
+import { useThemeAtom } from '@oyelowo/ui/components';
+import {
+  Button,
+  AppShell,
+  Navbar,
+  Header,
+  Container,
+  Text,
+  SimpleGrid,
+  Burger,
+  MediaQuery,
+  Aside,
+  Footer,
+  useMantineTheme,
+  ScrollArea,
+  Stack,
+  Box,
+  Avatar,
+  Indicator,
+  Divider,
+  Anchor,
+  Space,
+  Tooltip,
+  Skeleton,
+} from '@mantine/core';
+import { ScrollToTop } from '../components/Scroll/ScrollToTop';
+import { Star } from 'tabler-icons-react';
+import { ReactElement, Suspense, useState } from 'react';
+import { Navlinks } from '../components/Navlinks/Navlinks';
+import { NextPageWithLayout } from './_app';
+import Layout from '../components/Layout/Layout';
+
+const Page: NextPageWithLayout = () => {
+  return <p>hello world</p>;
+};
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      <>Booker</>
+    </Layout>
+  );
+};
+
+export default Page;
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  // const res = await fetch(`https://.../data`);
+  // const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: {} };
+}

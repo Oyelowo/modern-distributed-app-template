@@ -1,5 +1,5 @@
 import { getLowo, useInterval } from '@oyelowo/ui';
-import { Button } from '@mantine/core';
+import { Button, Container } from '@mantine/core';
 import { useState } from 'react';
 import { ECOption, ReactEChartCustom, useChart } from '../charts/echarts/ChartWithHooks';
 import Link from 'next/link';
@@ -63,43 +63,45 @@ const Hello = () => {
   useInterval(() => setIsBar((prev) => !prev), 2000);
 
   return (
-    <main>
-      another name {getLowo()} <br />
-      <Button>
-        <Link href="/">Go Home</Link>
-      </Button>
-      <h1>Home of grind!</h1>
-      {ReactCharts}
-      <br />
-      <ReactEChartCustom
-        style={{ height: 500 }}
-        theme="dark"
-        settings={{}}
-        option={{
-          title: {
-            text: 'Charts of darkness',
-          },
-          tooltip: {},
-          legend: {
-            data: ['sales'],
-            top: 20,
-            left: 12,
-          },
-          xAxis: {
-            data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks'],
-          },
-          yAxis: {},
-          series: [
-            {
-              name: 'sales',
-              type: 'bar',
-              data: [5, 20, 36, 10, 10, 20],
+    <Container>
+      <>
+        another name {getLowo()} <br />
+        <Button>
+          <Link href="/">Go Home</Link>
+        </Button>
+        <h1>Home of grind!</h1>
+        {ReactCharts}
+        <br />
+        <ReactEChartCustom
+          style={{ height: 500 }}
+          theme="dark"
+          settings={{}}
+          option={{
+            title: {
+              text: 'Charts of darkness',
             },
-          ],
-        }}
-      />
-      <div className="text-blue-600">Separate Enter</div>
-    </main>
+            tooltip: {},
+            legend: {
+              data: ['sales'],
+              top: 20,
+              left: 12,
+            },
+            xAxis: {
+              data: ['Shirts', 'Cardigans', 'Chiffons', 'Pants', 'Heels', 'Socks'],
+            },
+            yAxis: {},
+            series: [
+              {
+                name: 'sales',
+                type: 'bar',
+                data: [5, 20, 36, 10, 10, 20],
+              },
+            ],
+          }}
+        />
+        <div className="text-blue-600">Separate Enter</div>
+      </>
+    </Container>
   );
 };
 

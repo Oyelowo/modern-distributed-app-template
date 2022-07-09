@@ -1,24 +1,26 @@
-import { AppProps } from 'next/app';
 import { atom, Provider, useAtom } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { createElement, useCallback, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
+import type { AppProps } from 'next/app';
+import type { ReactElement, ReactNode } from 'react';
+import type { GetServerSidePropsContext, NextPage } from 'next';
 
-import { GetServerSidePropsContext } from 'next';
 // import { getCookie, setCookies } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 
-function App({ Component, pageProps }: AppProps & { colorScheme: ColorScheme }) {
+function App({ Component, pageProps }: AppPropsWithLayout & { colorScheme: ColorScheme }) {
   /* 
 Create a new QueryClient instance inside of your app, and on an instance ref (or in React state).
 This ensures that data is not shared between different users and requests, while still only
 creating the QueryClient once per component lifecycle.
 */
   const [queryClient] = useState(() => new QueryClient());
+  const getLayout = Component.getLayout ?? ((page) => page);
   // const [theme, setTheme] = useAtom(pop);
   // hook will return either 'dark' or 'light' on client
   // and always 'light' during ssr as window.matchMedia is not available
@@ -67,7 +69,7 @@ creating the QueryClient once per component lifecycle.
               <NotificationsProvider position="bottom-right">
                 <ColorSchemeToggle />
                 <Hydrate state={pageProps?.dehydratedState}>
-                  <Component {...pageProps} />
+                  {getLayout(<Component {...pageProps} />)}
                 </Hydrate>
               </NotificationsProvider>
             </MantineProvider>
@@ -77,6 +79,14 @@ creating the QueryClient once per component lifecycle.
     </>
   );
 }
+
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
 
 export default App;
 

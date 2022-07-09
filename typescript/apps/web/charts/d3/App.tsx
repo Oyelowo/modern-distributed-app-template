@@ -1,40 +1,30 @@
-import * as d3 from "d3";
-import React, { StrictMode, useEffect, useState } from "react";
+import * as d3 from 'd3';
+import React, { StrictMode, useEffect, useState } from 'react';
 
-import { animated, useSpring } from "@react-spring/web";
-import LineChart from "./LineChart/LineChart";
-import VoronoiHoverTracker from "./Voronoi/Voronoi";
-import styled from "@emotion/styled";
-
-const Divi = styled.div({
-  background: "green",
-  color: "white",
-  padding: 10,
-});
+import { animated, useSpring } from '@react-spring/web';
+import LineChart from './LineChart/LineChart';
+import VoronoiHoverTracker from './Voronoi/Voronoi';
 
 const MyD3Charts = (): JSX.Element => {
   return (
     <StrictMode>
       <div
         style={{
-          display: "grid",
-          justifyItems: "center",
-          alignItems: "center",
+          display: 'grid',
+          justifyItems: 'center',
+          alignItems: 'center',
         }}
       >
         <p>this</p>
-        <Divi>Tool tip hovering with Voronoi Polygon</Divi>
+
         <VoronoiHoverTracker />
         <SpringPlay />
         {/*         <Somethings />
           <Gesture />
           <Spring />
           <Chart /> */}
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+
+        {/* <Space /> */}
         <LineChart />
       </div>
     </StrictMode>

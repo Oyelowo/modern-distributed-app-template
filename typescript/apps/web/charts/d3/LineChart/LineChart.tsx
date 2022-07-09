@@ -1,57 +1,44 @@
-import styled from "@emotion/styled";
-import * as d3 from "d3";
-import { eachDayOfInterval, subDays } from "date-fns";
-import { motion } from "framer-motion";
-import React, { useState } from "react";
-
-const SvgContainer = styled.svg({
-  background: "#eaeaea",
-  border: "13px solid green",
-  "&:hover": {
-    background: "",
-  },
-});
-
-const Tooltip = styled.foreignObject({
-  x: 3,
-});
-
+import * as d3 from 'd3';
+import { eachDayOfInterval, subDays } from 'date-fns';
+import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { Skeleton, Container, Grid, SimpleGrid } from '@mantine/core';
 const data = [
   {
     score: 62,
-    date: "2020-02-29",
+    date: '2020-02-29',
   },
   {
     score: 73,
-    date: "2020-03-01",
+    date: '2020-03-01',
   },
   {
     score: 28,
-    date: "2020-03-02",
+    date: '2020-03-02',
   },
   {
     score: 77,
-    date: "2020-03-03",
+    date: '2020-03-03',
   },
   {
     score: 50,
-    date: "2020-03-04",
+    date: '2020-03-04',
   },
   {
     score: 87,
-    date: "2020-03-05",
+    date: '2020-03-05',
   },
   {
     score: 66,
-    date: "2020-03-06",
+    date: '2020-03-06',
   },
   {
     score: 94,
-    date: "2020-03-07",
+    date: '2020-03-07',
   },
   {
     score: 63,
-    date: "2020-03-08",
+    date: '2020-03-08',
   },
 ].map((el) => ({ ...el, date: new Date(el.date) }));
 
@@ -81,25 +68,18 @@ const paddings = {
 };
 
 const result = eachDayOfInterval({
-  start: new Date("2020-02-29"),
-  end: new Date("2020-03-08"),
+  start: new Date('2020-02-29'),
+  end: new Date('2020-03-08'),
 });
 
 const LineChart = () => {
   const [hovered, setHovered] = useState<typeof data[number] | null>();
   const [minY, maxY] = d3.extent(data, (d) => d.score) as [number, number];
-  const [minX, maxX] = [new Date("2020-02-29"), new Date("2020-03-08")];
+  const [minX, maxX] = [new Date('2020-02-29'), new Date('2020-03-08')];
 
-  const yScale = d3
-    .scaleLinear()
-    .domain([0, maxY])
-    .range([chartAreaProps.HEIGHT, 0])
-    .nice();
+  const yScale = d3.scaleLinear().domain([0, maxY]).range([chartAreaProps.HEIGHT, 0]).nice();
 
-  const xScale = d3
-    .scaleTime()
-    .domain([minX, maxX])
-    .range([0, chartAreaProps.WIDTH]);
+  const xScale = d3.scaleTime().domain([minX, maxX]).range([0, chartAreaProps.WIDTH]);
 
   const line = d3
     .line<CoolDatum>()
@@ -114,10 +94,12 @@ const LineChart = () => {
   const x2 = xScale(new Date(data[2].date)) - xScale(new Date(data[1].date));
   const bb = chartAreaProps.WIDTH / data.length;
   return (
-    <SvgContainer
-      width={svgProps.WIDTH}
-      height={svgProps.HEIGHT}
-      pointerEvents="none"
+    <Container
+      styles={{
+        width: svgProps,
+        height: svgProps.HEIGHT,
+        pointerEvents: 'none',
+      }}
     >
       <g
         transform={`translate(${margins.LEFT}, ${margins.TOP})`}
@@ -134,12 +116,7 @@ const LineChart = () => {
         /> */}
 
         {/* Data Line */}
-        <path
-          d={line(data) ?? ""}
-          fill="none"
-          stroke="#2c6e35"
-          strokeWidth="2.5"
-        />
+        <path d={line(data) ?? ''} fill="none" stroke="#2c6e35" strokeWidth="2.5" />
 
         {/* Data points */}
         {data.map((el, i) => {
@@ -169,10 +146,10 @@ const LineChart = () => {
                   pointerEvents="all"
                   onMouseEnter={() => setHovered(el)}
                   /*   onMouseLeave={() => {
-                    setTimeout(() => {
-                      setHovered((cu) => (cu === el ? null : cu));
-                    }, 100);
-                  }} */
+                  setTimeout(() => {
+                    setHovered((cu) => (cu === el ? null : cu));
+                  }, 100);
+                }} */
                 />
               </g>
             </g>
@@ -228,25 +205,21 @@ const LineChart = () => {
 
           {/* Highlighted X-axis */}
           {[
-            new Date("2020-02-29"),
-            new Date("2020-03-01"),
-            new Date("2020-03-06"),
-            new Date("2020-03-08"),
+            new Date('2020-02-29'),
+            new Date('2020-03-01'),
+            new Date('2020-03-06'),
+            new Date('2020-03-08'),
           ].map((highlight, i) => {
             return (
               <g key={i}>
-                <line
-                  x1={xScale(highlight) - 12}
-                  x2={xScale(highlight) + 12}
-                  stroke="red"
-                />
+                <line x1={xScale(highlight) - 12} x2={xScale(highlight) + 12} stroke="red" />
                 <text
                   x={xScale(highlight) - 9}
                   transform="translate(0, 50)"
                   stroke="#aaa"
                   fontWeight="100"
                 >
-                  {i === 0 ? "Feb" : i === 1 ? "Mar" : null}
+                  {i === 0 ? 'Feb' : i === 1 ? 'Mar' : null}
                 </text>
               </g>
             );
@@ -261,13 +234,13 @@ const LineChart = () => {
             }}
             style={{ height: 200, width: 100 }}
           >
-            <section style={{ background: "red" }}>{hovered?.score}kkk</section>
+            <section style={{ background: 'red' }}>{hovered?.score}kkk</section>
           </motion.foreignObject>
         )}
 
         <foreignObject />
       </g>
-    </SvgContainer>
+    </Container>
   );
 };
 

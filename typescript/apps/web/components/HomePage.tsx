@@ -30,13 +30,13 @@ const HomePage: NextPage = () => {
 
   const { ReactCharts: TAChart } = useChart({
     option: tradingChartOption,
-    theme: 'vintage',
+    theme: 'dark',
   });
   const { CandleStickCharts } = useCandleChart();
 
   const { ReactCharts: MultiChart, chart } = useChart({
     option: multiChartOptions,
-    theme: 'vintage',
+    theme: 'dark',
   });
   // chart?.showLoading()
 
