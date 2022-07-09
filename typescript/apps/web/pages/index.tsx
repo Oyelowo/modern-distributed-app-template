@@ -41,9 +41,9 @@ export default function Home() {
 
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  if (isLoading) {
-    return <>Loading...</>;
-  }
+  // if (isLoading) {
+  //   return <>Loading...</>;
+  // }
 
   return (
     <Skeleton visible={isLoading}>
@@ -93,7 +93,7 @@ export default function Home() {
                     </Indicator>
                   </Tooltip>
 
-                  <Button component="a" onClick={() => signOutCustom()}>
+                  <Button variant="gradient" component="a" onClick={() => signOutCustom()}>
                     Sign out
                   </Button>
                 </SimpleGrid>

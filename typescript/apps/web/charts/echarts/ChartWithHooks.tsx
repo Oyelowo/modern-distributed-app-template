@@ -2,7 +2,15 @@ import { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 // import { init, getInstanceByDom, ECharts, SetOptionOpts, EChartsOption } from "echarts";
 
 // Tree-shakeable approach. //
-import { init, use, ECharts, ComposeOption, SetOptionOpts, getInstanceByDom } from 'echarts/core';
+import {
+  init,
+  use,
+  ECharts,
+  ComposeOption,
+  SetOptionOpts,
+  getInstanceByDom,
+  registerTheme,
+} from 'echarts/core';
 import {
   BarChart,
   BarSeriesOption,
@@ -41,6 +49,7 @@ import {
 
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
+import { vintage } from './themes/vintage';
 
 // Register the required components
 const chartComponentsInUse = [
@@ -89,21 +98,35 @@ export interface ReactEChartsProps {
   style?: CSSProperties;
   settings?: SetOptionOpts;
   loading?: boolean;
-  theme?: 'light' | 'dark';
+  theme?:
+    | 'dark'
+    | 'vintage'
+    | 'westeros'
+    | 'essos'
+    | 'wonderland'
+    | 'walden'
+    | 'chalk'
+    | 'infographic'
+    | 'macarons'
+    | 'roma'
+    | 'purple-passion'
+    | 'halloween';
 }
 
-export function useChart({ option, style, settings, loading, theme = 'dark' }: ReactEChartsProps) {
+
+export function useChart({ option, style, settings, loading, theme }: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const [chart, setChart] = useState<ECharts>();
-
+  
   useEffect(() => {
     use(chartComponentsInUse);
   }, []);
-
+  
   useEffect(() => {
     // Initialize chart
     let chart: ECharts | undefined;
     if (chartRef.current !== null) {
+      registerTheme('vintage', vintage);
       chart = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {
@@ -165,10 +188,10 @@ export function useChart({ option, style, settings, loading, theme = 'dark' }: R
       loading === true ? chart?.showLoading() : chart?.hideLoading();
     }
   }, [loading, theme]);
-  
+
   const ReactCharts = useCallback(
     () => <div ref={chartRef} style={{ width: '100%', height: '100%', ...style }} />,
-    []
+    [theme]
   );
   return {
     ReactCharts,

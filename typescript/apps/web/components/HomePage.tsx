@@ -1,5 +1,14 @@
 import { useThemeAtom } from '@oyelowo/ui/components';
-import { Button, Divider, Space, Box, Container, SimpleGrid, Grid } from '@mantine/core';
+import {
+  Button,
+  Divider,
+  Space,
+  Box,
+  Container,
+  SimpleGrid,
+  Grid,
+  useMantineTheme,
+} from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useChart } from '../charts/echarts/ChartWithHooks';
@@ -10,23 +19,30 @@ import { multiChartOptions } from '../charts/echarts/chartMulti';
 import { useCandleChart } from '../charts/echarts/useCandleChart';
 import { useEffect } from 'react';
 import { taChartOption } from '../charts/echarts/TAChart';
+
 // import Box from "../3D/Box";
 
 const HomePage: NextPage = () => {
-  const [theme, setTheme] = useThemeAtom();
+  // theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+  // const [theme, setTheme] = useThemeAtom();
+  const { colorScheme } = useMantineTheme();
+  const theme = colorScheme === 'dark' ? 'dark' : 'vintage';
+
   const { ReactCharts: TAChart } = useChart({
     option: tradingChartOption,
+    theme: 'vintage',
   });
   const { CandleStickCharts } = useCandleChart();
 
   const { ReactCharts: MultiChart, chart } = useChart({
     option: multiChartOptions,
+    theme: 'vintage',
   });
   // chart?.showLoading()
 
-  useEffect(() => {
-    setTheme('dark');
-  }, []);
+  // useEffect(() => {
+  //   setTheme('dark');
+  // }, []);
 
   return (
     <>

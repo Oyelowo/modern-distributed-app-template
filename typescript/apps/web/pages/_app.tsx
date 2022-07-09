@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
-import { Provider } from 'jotai';
+import { atom, Provider, useAtom } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { createElement, useState } from 'react';
+import { createElement, useCallback, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 
@@ -19,14 +19,17 @@ This ensures that data is not shared between different users and requests, while
 creating the QueryClient once per component lifecycle.
 */
   const [queryClient] = useState(() => new QueryClient());
+  // const [theme, setTheme] = useAtom(pop);
   // hook will return either 'dark' or 'light' on client
   // and always 'light' during ssr as window.matchMedia is not available
+
+  // const { theme: colorScheme, toggleTheme: toggleColorScheme } = useThemeOfApp();
   const preferredColorScheme = useColorScheme('dark');
 
-  console.log('preferredColorScheme', preferredColorScheme);
+  // console.log('preferredColorScheme', preferredColorScheme);
   const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
-    setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
+    setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
   /* 
     Saving color scheme in cookie is the easiest way to prevent color scheme mismatch. 
     This strategy can be applied to any framework/library that has server side rendering support. 
@@ -64,7 +67,7 @@ creating the QueryClient once per component lifecycle.
               <NotificationsProvider position="bottom-right">
                 <ColorSchemeToggle />
                 <Hydrate state={pageProps?.dehydratedState}>
-                <Component {...pageProps} />
+                  <Component {...pageProps} />
                 </Hydrate>
               </NotificationsProvider>
             </MantineProvider>
@@ -77,9 +80,9 @@ creating the QueryClient once per component lifecycle.
 
 export default App;
 
-App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
-  colorScheme: /*  getCookie('mantine-color-scheme', ctx) || */ 'dark',
-});
+// App.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
+//   colorScheme: /*  getCookie('mantine-color-scheme', ctx) || */ 'dark',
+// });
 
 /*  TODO: PROTECTED ROUTES
 
