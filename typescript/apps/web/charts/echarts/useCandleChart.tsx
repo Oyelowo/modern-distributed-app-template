@@ -1,12 +1,12 @@
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { useEffect } from 'react';
-import { useChart } from './ChartWithHooks';
+import { ThemeOfECharts, useChart } from './ChartWithHooks';
 import { taChartOption } from './TAChart';
 
-export const useCandleChart = () => {
+export const useCandleChart = ({ theme }: { theme: ThemeOfECharts }) => {
   const { ReactCharts: CandleStickCharts, chart } = useChart({
     option: taChartOption,
-    theme: 'vintage',
+    theme,
   });
   //   useEffect(() => {
   //     chart?.dispatchAction({
