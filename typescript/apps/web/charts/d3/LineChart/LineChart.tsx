@@ -3,6 +3,7 @@ import { eachDayOfInterval, subDays } from 'date-fns';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { Skeleton, Container, Grid, SimpleGrid } from '@mantine/core';
+import { useElementSize, useViewportSize } from '@mantine/hooks';
 const data = [
   {
     score: 62,
@@ -73,6 +74,7 @@ const result = eachDayOfInterval({
 });
 
 const LineChart = () => {
+  // const { width, height } = useViewportSize();
   const [hovered, setHovered] = useState<typeof data[number] | null>();
   const [minY, maxY] = d3.extent(data, (d) => d.score) as [number, number];
   const [minX, maxX] = [new Date('2020-02-29'), new Date('2020-03-08')];
@@ -94,153 +96,149 @@ const LineChart = () => {
   const x2 = xScale(new Date(data[2].date)) - xScale(new Date(data[1].date));
   const bb = chartAreaProps.WIDTH / data.length;
   return (
-    <Container
-      styles={{
-        width: svgProps,
-        height: svgProps.HEIGHT,
-        pointerEvents: 'none',
-      }}
-    >
-      <g
-        transform={`translate(${margins.LEFT}, ${margins.TOP})`}
-        width={chartAreaProps.WIDTH}
-        height={chartAreaProps.HEIGHT}
-        onMouseLeave={() => setHovered(null)}
-      >
-        {/* Char Area Bounding Box */}
-        {/*         <rect
+    <div style={{ width: 500, overflow: 'auto' }}>
+      <svg width={svgProps.WIDTH} height={svgProps.HEIGHT} pointerEvents={'none'}>
+        <g
+          transform={`translate(${margins.LEFT}, ${margins.TOP})`}
+          width={chartAreaProps.WIDTH}
+          height={chartAreaProps.HEIGHT}
+          onMouseLeave={() => setHovered(null)}
+        >
+          {/* Char Area Bounding Box */}
+          {/*         <rect
           width={chartAreaProps.WIDTH}
           height={chartAreaProps.HEIGHT}
           fill="none"
           stroke="purple"
         /> */}
 
-        {/* Data Line */}
-        <path d={line(data) ?? ''} fill="none" stroke="#2c6e35" strokeWidth="2.5" />
+          {/* Data Line */}
+          <path d={line(data) ?? ''} fill="none" stroke="#2c6e35" strokeWidth="2.5" />
 
-        {/* Data points */}
-        {data.map((el, i) => {
-          return (
-            <g key={i}>
-              <g>
-                <circle
-                  cx={xScale(el.date)}
-                  cy={yScale(el.score)}
-                  r={5}
-                  fill="#fff"
-                  stroke="#8b95e1"
-                />
-              </g>
-              <g transform={`translate(-${barWidth / 2}, 0)`}>
-                <rect
-                  /* transform={`translate(${
-                  (chartAreaProps.WIDTH / data.length) * i -
-                  chartAreaProps.WIDTH / data.length / 2
-                }, ${0})`} */
-                  x={xScale(el.date)}
-                  y={0}
-                  width={barWidth}
-                  height={chartAreaProps.HEIGHT}
-                  fill="none"
-                  stroke="none"
-                  pointerEvents="all"
-                  onMouseEnter={() => setHovered(el)}
-                  /*   onMouseLeave={() => {
-                  setTimeout(() => {
-                    setHovered((cu) => (cu === el ? null : cu));
-                  }, 100);
-                }} */
-                />
-              </g>
-            </g>
-          );
-        })}
-
-        {/* Grid Lines */}
-        {[0, 25, 50, 75, 100].map((score) => {
-          return (
-            <g key={score}>
-              <line
-                x1={0}
-                x2={chartAreaProps.WIDTH}
-                y1={yScale(score)}
-                y2={yScale(score)}
-                fill="#fff"
-                stroke="#eaeaea"
-                strokeOpacity="0.5"
-              />
-
-              {/* Y-axis */}
-              <text
-                x={5 - margins.LEFT}
-                y={yScale(score)}
-                fontWeight="100"
-                stroke="#bbb"
-                fontSize="12"
-              >
-                {score > 100 ? null : score}
-              </text>
-            </g>
-          );
-        })}
-
-        {/* X-Axis label */}
-        <g transform={`translate(0, ${chartAreaProps.HEIGHT})`}>
-          {result.map((date, i) => {
+          {/* Data points */}
+          {data.map((el, i) => {
             return (
-              <text
-                key={i}
-                x={xScale(date)}
-                y={0}
-                strokeWidth="1"
-                fontSize="12"
-                fontWeight="100"
-                stroke="#bbb"
-                transform={`translate(0, ${30})`}
-              >
-                {padDateWithZero(date.getDate().toLocaleString())}
-              </text>
+              <g key={i}>
+                <g>
+                  <circle
+                    cx={xScale(el.date)}
+                    cy={yScale(el.score)}
+                    r={5}
+                    fill="#fff"
+                    stroke="#8b95e1"
+                  />
+                </g>
+                <g transform={`translate(-${barWidth / 2}, 0)`}>
+                  <rect
+                    /* transform={`translate(${
+                    (chartAreaProps.WIDTH / data.length) * i -
+                    chartAreaProps.WIDTH / data.length / 2
+                  }, ${0})`} */
+                    x={xScale(el.date)}
+                    y={0}
+                    width={barWidth}
+                    height={chartAreaProps.HEIGHT}
+                    fill="none"
+                    stroke="none"
+                    pointerEvents="all"
+                    onMouseEnter={() => setHovered(el)}
+                    /*   onMouseLeave={() => {
+                    setTimeout(() => {
+                      setHovered((cu) => (cu === el ? null : cu));
+                    }, 100);
+                  }} */
+                  />
+                </g>
+              </g>
             );
           })}
 
-          {/* Highlighted X-axis */}
-          {[
-            new Date('2020-02-29'),
-            new Date('2020-03-01'),
-            new Date('2020-03-06'),
-            new Date('2020-03-08'),
-          ].map((highlight, i) => {
+          {/* Grid Lines */}
+          {[0, 25, 50, 75, 100].map((score) => {
             return (
-              <g key={i}>
-                <line x1={xScale(highlight) - 12} x2={xScale(highlight) + 12} stroke="red" />
+              <g key={score}>
+                <line
+                  x1={0}
+                  x2={chartAreaProps.WIDTH}
+                  y1={yScale(score)}
+                  y2={yScale(score)}
+                  fill="#fff"
+                  stroke="#eaeaea"
+                  strokeOpacity="0.5"
+                />
+
+                {/* Y-axis */}
                 <text
-                  x={xScale(highlight) - 9}
-                  transform="translate(0, 50)"
-                  stroke="#aaa"
+                  x={5 - margins.LEFT}
+                  y={yScale(score)}
                   fontWeight="100"
+                  stroke="#bbb"
+                  fontSize="12"
                 >
-                  {i === 0 ? 'Feb' : i === 1 ? 'Mar' : null}
+                  {score > 100 ? null : score}
                 </text>
               </g>
             );
           })}
-        </g>
-        {hovered && (
-          <motion.foreignObject
-            initial={false}
-            animate={{
-              x: xScale(hovered.date),
-              y: yScale(hovered.score),
-            }}
-            style={{ height: 200, width: 100 }}
-          >
-            <section style={{ background: 'red' }}>{hovered?.score}kkk</section>
-          </motion.foreignObject>
-        )}
 
-        <foreignObject />
-      </g>
-    </Container>
+          {/* X-Axis label */}
+          <g transform={`translate(0, ${chartAreaProps.HEIGHT})`}>
+            {result.map((date, i) => {
+              return (
+                <text
+                  key={i}
+                  x={xScale(date)}
+                  y={0}
+                  strokeWidth="1"
+                  fontSize="12"
+                  fontWeight="100"
+                  stroke="#bbb"
+                  transform={`translate(0, ${30})`}
+                >
+                  {padDateWithZero(date.getDate().toLocaleString())}
+                </text>
+              );
+            })}
+
+            {/* Highlighted X-axis */}
+            {[
+              new Date('2020-02-29'),
+              new Date('2020-03-01'),
+              new Date('2020-03-06'),
+              new Date('2020-03-08'),
+            ].map((highlight, i) => {
+              return (
+                <g key={i}>
+                  <line x1={xScale(highlight) - 12} x2={xScale(highlight) + 12} stroke="red" />
+                  <text
+                    x={xScale(highlight) - 9}
+                    transform="translate(0, 50)"
+                    stroke="#aaa"
+                    fontWeight="100"
+                  >
+                    {i === 0 ? 'Feb' : i === 1 ? 'Mar' : null}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+          {hovered && (
+            <motion.foreignObject
+              initial={false}
+              animate={{
+                x: xScale(hovered.date),
+                y: yScale(hovered.score),
+              }}
+              style={{ height: 200, width: 100 }}
+            >
+              <section style={{ background: 'red' }}>{hovered?.score}kkk</section>
+            </motion.foreignObject>
+          )}
+
+          <foreignObject />
+        </g>
+      </svg>
+    </div>
   );
 };
 

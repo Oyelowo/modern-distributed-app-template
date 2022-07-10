@@ -1,7 +1,7 @@
-import * as d3 from "d3";
-import { Delaunay } from "d3-delaunay";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import * as d3 from 'd3';
+import { Delaunay } from 'd3-delaunay';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 interface Datum {
   category: string;
@@ -11,29 +11,29 @@ interface Datum {
 }
 
 const data: Datum[] = [
-  { category: "cold", x: 14.2, y: 215, id: 1 },
-  { category: "cold", x: 16.4, y: 325, id: 2 },
-  { category: "cold", x: 11.9, y: 185, id: 3 },
-  { category: "cold", x: 15.2, y: 332, id: 4 },
-  { category: "cold", x: 18.5, y: 406, id: 5 },
-  { category: "cold", x: 22.1, y: 522, id: 6 },
-  { category: "cold", x: 19.4, y: 412, id: 7 },
-  { category: "cold", x: 25.1, y: 614, id: 8 },
-  { category: "cold", x: 23.4, y: 544, id: 9 },
-  { category: "cold", x: 18.1, y: 421, id: 10 },
-  { category: "cold", x: 22.6, y: 446, id: 11 },
-  { category: "cold", x: 23.6, y: 345, id: 12 },
-  { category: "cold", x: 22.6, y: 405, id: 13 },
-  { category: "cold", x: 22.0, y: 425, id: 14 },
-  { category: "cold", x: 22.6, y: 415, id: 15 },
-  { category: "cold", x: 22.6, y: 422, id: 16 },
-  { category: "cold", x: 22.6, y: 401, id: 17 },
-  { category: "cold", x: 21.6, y: 430, id: 18 },
-  { category: "cold", x: 20.3, y: 427, id: 19 },
-  { category: "cold", x: 22.6, y: 439, id: 20 },
-  { category: "cold", x: 21.5, y: 413, id: 21 },
-  { category: "cold", x: 22.1, y: 428, id: 22 },
-  { category: "cold", x: 17.2, y: 408, id: 23 },
+  { category: 'cold', x: 14.2, y: 215, id: 1 },
+  { category: 'cold', x: 16.4, y: 325, id: 2 },
+  { category: 'cold', x: 11.9, y: 185, id: 3 },
+  { category: 'cold', x: 15.2, y: 332, id: 4 },
+  { category: 'cold', x: 18.5, y: 406, id: 5 },
+  { category: 'cold', x: 22.1, y: 522, id: 6 },
+  { category: 'cold', x: 19.4, y: 412, id: 7 },
+  { category: 'cold', x: 25.1, y: 614, id: 8 },
+  { category: 'cold', x: 23.4, y: 544, id: 9 },
+  { category: 'cold', x: 18.1, y: 421, id: 10 },
+  { category: 'cold', x: 22.6, y: 446, id: 11 },
+  { category: 'cold', x: 23.6, y: 345, id: 12 },
+  { category: 'cold', x: 22.6, y: 405, id: 13 },
+  { category: 'cold', x: 22.0, y: 425, id: 14 },
+  { category: 'cold', x: 22.6, y: 415, id: 15 },
+  { category: 'cold', x: 22.6, y: 422, id: 16 },
+  { category: 'cold', x: 22.6, y: 401, id: 17 },
+  { category: 'cold', x: 21.6, y: 430, id: 18 },
+  { category: 'cold', x: 20.3, y: 427, id: 19 },
+  { category: 'cold', x: 22.6, y: 439, id: 20 },
+  { category: 'cold', x: 21.5, y: 413, id: 21 },
+  { category: 'cold', x: 22.1, y: 428, id: 22 },
+  { category: 'cold', x: 17.2, y: 408, id: 23 },
 ];
 
 const height = 700;
@@ -47,6 +47,7 @@ const margin = {
 };
 const VoronoiHoverTracker = () => {
   const [hovered, setHovered] = useState<Datum | null>(null);
+
   const yScale = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.y) as [number, number])
@@ -73,7 +74,7 @@ const VoronoiHoverTracker = () => {
     <svg
       width={chartWidth}
       height={chartHeight}
-      style={{ border: "0.1px solid pink" }}
+      style={{ border: '0.1px solid pink' }}
       pointerEvents="none"
     >
       <g
@@ -92,7 +93,7 @@ const VoronoiHoverTracker = () => {
                   r={3}
                   strokeWidth={3}
                   fill="pink"
-                  stroke={hovered === point ? "green" : "red"}
+                  stroke={hovered === point ? 'green' : 'red'}
                 />
               </g>
 
@@ -118,17 +119,17 @@ const VoronoiHoverTracker = () => {
             }}
             style={{ height: 200, width: 100 }}
           >
-            <section style={{ background: "#eaeaea" }}>
+            <section style={{ background: '#eaeaea' }}>
               {hovered?.x}:{hovered?.y}:{hovered?.id}
             </section>
             <motion.circle
               initial={{
-                fill: "teal",
+                fill: 'teal',
                 r: 30,
                 opacity: 0,
               }}
               animate={{
-                fill: "green",
+                fill: 'green',
                 r: 100,
                 opacity: 1,
               }}

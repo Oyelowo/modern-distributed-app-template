@@ -40,27 +40,36 @@ import MyD3Charts from '../charts/d3/App';
 import Somethings, { timeAtom } from '../charts/d3/jotai/Somethings';
 import ReactEChartCustom from '../charts/echarts/ChartWithHooks';
 import ReactEcharts from '../charts/echarts/ReactEcharts';
+import LineChart from '../charts/d3/LineChart/LineChart';
 
 const Page: NextPageWithLayout = () => {
   return <p>hello world</p>;
 };
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  const [names, setStuff] = useAtom(timeAtom);
   return (
     <Layout>
-      <>
-        <Somethings />
-        <button onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}>
-          Add Time
-        </button>
-        <MyD3Charts />
-      </>
+      <Settings />
     </Layout>
   );
 };
 
 export default Page;
+
+function Settings() {
+  const [names, setStuff] = useAtom(timeAtom);
+
+  return (
+    <>
+      {/* <Somethings /> */}
+      <LineChart />
+      <button onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}>
+        Add Time
+      </button>
+      <MyD3Charts />
+    </>
+  );
+}
 
 // export async function getServerSideProps() {
 //   // Fetch data from external API

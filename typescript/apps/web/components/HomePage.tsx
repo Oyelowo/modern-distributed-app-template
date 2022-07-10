@@ -65,7 +65,7 @@ const HomePage: NextPage = () => {
           </Button>
         </Link>
         <Divider my="sm" /> */}
-        <SimpleGrid style={{ minHeight: '60vh' }} my="lg">
+        <SimpleGrid style={{ minHeight: '60vh' /* height: 'calc(100vh - 300px)'  */ }} my="lg">
           <ReactEcharts theme={theme} />
         </SimpleGrid>
         <SimpleGrid style={{ minHeight: '60vh' }} my="lg">

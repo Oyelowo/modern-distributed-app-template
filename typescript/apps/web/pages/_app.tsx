@@ -60,20 +60,20 @@ creating the QueryClient once per component lifecycle.
       <Provider>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
-          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <MantineProvider
-              theme={{ colorScheme, primaryColor: 'cyan' }}
-              withGlobalStyles
-              withNormalizeCSS
-            >
-              <NotificationsProvider position="bottom-right">
-                <ColorSchemeToggle />
-                <Hydrate state={pageProps?.dehydratedState}>
+          <Hydrate state={pageProps?.dehydratedState}>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <MantineProvider
+                theme={{ colorScheme, primaryColor: 'cyan' }}
+                withGlobalStyles
+                withNormalizeCSS
+              >
+                <NotificationsProvider position="bottom-right">
+                  <ColorSchemeToggle />
                   {getLayout(<Component {...pageProps} />)}
-                </Hydrate>
-              </NotificationsProvider>
-            </MantineProvider>
-          </ColorSchemeProvider>
+                </NotificationsProvider>
+              </MantineProvider>
+            </ColorSchemeProvider>
+          </Hydrate>
         </QueryClientProvider>
       </Provider>
     </>

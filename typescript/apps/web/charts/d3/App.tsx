@@ -7,7 +7,7 @@ import VoronoiHoverTracker from './Voronoi/Voronoi';
 
 const MyD3Charts = (): JSX.Element => {
   return (
-    <StrictMode>
+    <>
       <div
         style={{
           display: 'grid',
@@ -27,19 +27,13 @@ const MyD3Charts = (): JSX.Element => {
         {/* <Space /> */}
         <LineChart />
       </div>
-    </StrictMode>
+    </>
   );
 };
 
 export default MyD3Charts;
 
 export const SpringPlay = () => {
-  const p = d3.line()([
-    [10, 60],
-    [40, 90],
-    [60, 10],
-    [190, 10],
-  ]);
   const props = useSpring({
     testNumber: 1,
     from: { testNumber: 0 },
@@ -50,6 +44,13 @@ export const SpringPlay = () => {
     from: { someX: 0 },
     // config: { mass: 10, tension: 50, friction: 50, },
   });
+  const p = d3.line()([
+    [10, 60],
+    [40, 90],
+    [60, 10],
+    [190, 10],
+  ]);
+
   return (
     /*  <animated.div>
       {props.testNumber.interpolate((val) => val.toFixed(2))}
