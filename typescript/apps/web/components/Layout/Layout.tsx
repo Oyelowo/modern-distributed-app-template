@@ -38,7 +38,7 @@ export default function Home({ children }: { children: ReactElement }) {
   // const [theme] = useThemeAtom();
   const data = useSession();
   const { data: { me } = {}, isLoading } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
-k
+
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   // if (isLoading) {
