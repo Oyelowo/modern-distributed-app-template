@@ -13,15 +13,20 @@ import {
   Modal,
   Grid,
   SimpleGrid,
+  Anchor,
 } from '@mantine/core';
 import z from 'zod';
 import { EyeCheck, EyeOff } from 'tabler-icons-react';
 import { PasswordStrength } from './Password';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
+import { useAtom } from 'jotai';
+import { toggleAuthAtom } from './AuthForm';
 
-export function Content() {
+export function SignUpForm() {
+  const [authType, setAuthType] = useAtom(toggleAuthAtom);
+
   const { signUpCustom, error, isLoading } = useSignUp({
     onError: (e) => {
       showNotification({
@@ -67,11 +72,14 @@ export function Content() {
         });
       })}
     >
+      <TextInput label="Email" placeholder="email@example.com" {...form.getInputProps('email')} />
+
       <TextInput
         mt="xs"
         label="Username"
         placeholder="Username"
         required
+        error={form.errors.username}
         {...form.getInputProps('username')}
       />
 
@@ -91,9 +99,7 @@ export function Content() {
         {...form.getInputProps('passwordConfirm')}
       />
 
-      <TextInput label="Email" placeholder="email@example.com" {...form.getInputProps('email')} />
-
-      <SimpleGrid
+      {/* <SimpleGrid
         mt="xs"
         cols={1}
         breakpoints={[
@@ -110,9 +116,9 @@ export function Content() {
         />
 
         <TextInput label="Last Name" placeholder="Last Name" {...form.getInputProps('lastName')} />
-      </SimpleGrid>
+      </SimpleGrid> */}
 
-      <NumberInput
+      {/* <NumberInput
         mt="xs"
         label="Age(18+)"
         defaultValue={18}
@@ -121,7 +127,7 @@ export function Content() {
         stepHoldDelay={500}
         stepHoldInterval={100}
         {...form.getInputProps('age')}
-      />
+      /> */}
 
       <Checkbox
         mt="xs"
@@ -129,27 +135,36 @@ export function Content() {
         {...form.getInputProps('termsOfService', { type: 'checkbox' })}
       />
 
-      <Group position="right" mt="md">
-        <Button type="submit" loading={isLoading}>
-          Sign up
-        </Button>
+      <Group position="apart" mt="xl">
+        <Anchor
+          component="button"
+          type="button"
+          color="gray"
+          onClick={() => setAuthType('login')}
+          size="xs"
+        >
+          Already have an account? Login
+        </Anchor>
+        <Button type="submit">Sign Up</Button>
       </Group>
     </form>
   );
 }
 
-export function SignUpForm() {
-  const [opened, setOpened] = useState(false);
+// export function SignUpFormModal() {
+//   const [opened, setOpened] = useState(false);
 
-  return (
-    <>
-      <Modal opened={opened} onClose={() => setOpened(false)} title="Introduce yourself!">
-        <Content />
-      </Modal>
+//   return (
+//     <>
+//       <Modal opened={opened} onClose={() => setOpened(false)}>
+//         <SignUpForm />
+//       </Modal>
 
-      <Group position="center">
-        <Button onClick={() => setOpened(true)}>Create Account</Button>
-      </Group>
-    </>
-  );
-}
+//       <Group position="center">
+//         <Button onClick={() => setOpened(true)} variant="gradient">
+//           Create Account
+//         </Button>
+//       </Group>
+//     </>
+//   );
+// }

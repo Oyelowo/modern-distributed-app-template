@@ -1,7 +1,16 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { CheckIcon, Cross1Icon } from '@modulz/radix-icons';
 import { Lock, Check, CrossOff, EyeCheck, EyeOff } from 'tabler-icons-react';
-import { PasswordInput, Progress, Text, Popover, Box } from '@mantine/core';
+import {
+  PasswordInput,
+  Progress,
+  Text,
+  Popover,
+  Box,
+  SimpleGrid,
+  Container,
+  Grid,
+} from '@mantine/core';
 
 function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {
   return (
@@ -59,7 +68,6 @@ export function PasswordStrength({
       position="bottom"
       placement="start"
       withArrow
-      styles={{ popover: { width: '100%' } }}
       trapFocus={false}
       transition="pop-top-left"
       onFocusCapture={() => setPopoverOpened(true)}
@@ -69,7 +77,8 @@ export function PasswordStrength({
           required
           label="Your password"
           placeholder="Your password"
-          description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
+          style={{ minWidth: 336 }}
+          // description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
           //   value={value}
           //   onChange={(event) => setValue(event.currentTarget.value)}
           // toggleTabIndex={0}

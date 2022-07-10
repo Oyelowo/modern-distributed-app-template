@@ -2,6 +2,7 @@ import z, { ZodType } from 'zod';
 import { useSignIn } from '../hooks/authentication';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
+import { upperFirst } from '@mantine/hooks';
 import {
   NumberInput,
   PasswordInput,
@@ -12,9 +13,12 @@ import {
   Checkbox,
   Alert,
   createStyles,
+  Anchor,
 } from '@mantine/core';
 import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
+import { useAtom } from 'jotai';
+import { toggleAuthAtom } from './AuthForm';
 
 export const signInSchema = z.object({
   username: z
@@ -29,6 +33,8 @@ export const signInSchema = z.object({
 //   color: theme.colors.red[6];
 // });
 export default function SignInForm() {
+  const [authType, setAuthType] = useAtom(toggleAuthAtom);
+
   // const styles = useStyles();
   // const {
   //   register,
@@ -67,10 +73,17 @@ export default function SignInForm() {
       <br />
       <PasswordInput label="Password" placeholder="Password" {...form.getInputProps('password')} />
 
-      <Group position="right" mt="md">
-        <Button type="submit" loading={isLoading}>
-          Sign In
-        </Button>
+      <Group position="apart" mt="xl">
+        <Anchor
+          component="button"
+          type="button"
+          color="gray"
+          onClick={() => setAuthType('register')}
+          size="xs"
+        >
+          Don't have an account? Register
+        </Anchor>
+        <Button type="submit">Login</Button>
       </Group>
     </form>
   );
