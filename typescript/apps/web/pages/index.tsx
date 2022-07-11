@@ -3,7 +3,6 @@ import { useAuth, useSession, useSignOut } from '../hooks/authentication';
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
 import { client } from '../config/client';
 import { AppContext } from 'next/app';
-import { useThemeAtom } from '@oyelowo/ui/components';
 import {
   Button,
   AppShell,
@@ -33,7 +32,7 @@ import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
 import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
-import {Layout} from '../components/Layout/Layout';
+import { Layout } from '../components/Layout/Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
 
 const Page: NextPageWithLayout = () => {
@@ -51,7 +50,7 @@ function Shown() {
   // const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  if (data.status === "loading") {
+  if (data.status === 'loading') {
     return (
       <>
         <Skeleton height={50} circle mb="xl" />

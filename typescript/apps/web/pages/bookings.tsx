@@ -3,7 +3,6 @@ import { useSession, useSignOut } from '../hooks/authentication';
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
 import { client } from '../config/client';
 import { AppContext } from 'next/app';
-import { useThemeAtom } from '@oyelowo/ui/components';
 import {
   Button,
   AppShell,
