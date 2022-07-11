@@ -187,6 +187,36 @@ export function useSession(props?: UseSessionProps) {
   return mappedData;
 }
 
+export function useAuth() {
+  // const { queryConfig = { staleTime: 0 } } = props ?? {};
+  // const { queryConfig = { staleTime: 0 } } = props ?? {};
+
+  const router = useRouter();
+
+  const { data, status, isLoading, isIdle, isFetching, error } = useSessionQuery<
+    SessionQuery,
+    GraphqlErrorResponse
+  >(client, undefined, {
+    staleTime: 0,
+    // onSettled(data, error) {
+    //   // if (queryConfig.onSettled) queryConfig.onSettled(data, error);
+    //   const hasError = !!error;
+    //   if (!data?.session.userId && error?.response.data) {
+    //     router.push('/login/?error=SessionExpired');
+    //   }
+    // },
+  });
+
+  let mappedData = mapToServerData({
+    status,
+    data,
+    error,
+  });
+
+  return { isAuth: !!(!data?.session.userId && error?.response.data), isLoading };
+  // return mappedData;
+}
+
 type ServerTypeProps<TData, TError> = {
   status: 'loading' | 'error' | 'success' | 'idle';
   data: TData;

@@ -14,6 +14,7 @@ import {
   ButtonProps,
   LoadingOverlay,
   Transition,
+  Skeleton,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
 import { useAtomValue, useAtom } from 'jotai';
@@ -78,7 +79,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function HeroBullets() {
+export default function LandingPage({ isLoading }: { isLoading: boolean }) {
   const { classes } = useStyles();
   return (
     <div>

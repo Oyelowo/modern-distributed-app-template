@@ -9,9 +9,18 @@ import type { GetServerSidePropsContext, NextPage } from 'next';
 
 // import { getCookie, setCookies } from 'cookies-next';
 import Head from 'next/head';
-import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import {
+  MantineProvider,
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineThemeOverride,
+} from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+
+const overridenTheme: MantineThemeOverride = {
+  primaryColor: 'cyan',
+};
 
 function App({ Component, pageProps }: AppPropsWithLayout & { colorScheme: ColorScheme }) {
   /* 
@@ -63,7 +72,10 @@ creating the QueryClient once per component lifecycle.
           <Hydrate state={pageProps?.dehydratedState}>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
               <MantineProvider
-                theme={{ colorScheme, primaryColor: 'cyan' }}
+                emotionOptions={{
+                  key: 'oyelowo',
+                }}
+                theme={{ colorScheme, ...overridenTheme }}
                 withGlobalStyles
                 withNormalizeCSS
               >
