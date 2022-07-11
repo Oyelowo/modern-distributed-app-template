@@ -31,9 +31,9 @@ import {
 import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
-import { Navlinks } from '../components/Navlinks/Navlinks';
+import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
-import Layout from '../components/Layout/Layout';
+import { Layout } from '../components/Layout/Layout';
 import { useAtom } from 'jotai';
 import React from 'react';
 import MyD3Charts from '../charts/d3/App';

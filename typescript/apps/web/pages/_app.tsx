@@ -1,7 +1,7 @@
 import { atom, Provider, useAtom } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { createElement, useCallback, useState } from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools, ReactQueryDevtoolsPanel } from 'react-query/devtools';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
@@ -68,7 +68,7 @@ creating the QueryClient once per component lifecycle.
 
       <Provider>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen={false} />
+          {/* <ReactQueryDevtools initialIsOpen={false} /> */}
           <Hydrate state={pageProps?.dehydratedState}>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
               <MantineProvider

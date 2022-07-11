@@ -31,9 +31,9 @@ import {
 import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
-import { Navlinks } from '../components/Navlinks/Navlinks';
+import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
-import Layout from '../components/Layout/Layout';
+import { Layout } from '../components/Layout/Layout';
 
 const Page: NextPageWithLayout = () => {
   return <p>hello world</p>;
