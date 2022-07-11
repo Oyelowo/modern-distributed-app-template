@@ -69,7 +69,20 @@ const result = eachDayOfInterval({
   end: new Date('2020-03-08'),
 });
 
-const LineChart = ({ width, height = 500 }: { width: number; height: number }) => {
+const LineChart = ({ width: w, height: h = 500 }: { width: number; height: number }) => {
+  // befor the wrapper parent dom element is ready(i.e the div used to determine the dimension of the chart),
+  /* 
+  e.g 
+  const {w, h, ref} = useElementSize();
+  <div ref={ref}>
+     <LineChart width={w} height={h} />
+  </div>
+  */
+  // it gives the width and height as -50 and that
+  // causes issue. This is to make that error go away
+  const width = Math.max(w, 100);
+  const height = Math.max(h, 100);
+
   const chartAreaProps = {
     HEIGHT: height - (margins.TOP + margins.BOTTOM),
     WIDTH: width - (margins.RIGHT + margins.LEFT),

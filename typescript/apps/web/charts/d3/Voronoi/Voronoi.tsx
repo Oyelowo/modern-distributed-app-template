@@ -88,7 +88,7 @@ const VoronoiHoverTracker = ({ width: w, height: h = 500 }: { width: number; hei
     (d) => xScale(d.x),
     (d) => yScale(d.y)
   );
-  console.log('first', chartWidth);
+
   const voronoi = delaunay.voronoi([xmin, ymin, xmax, ymax]);
 
   return (
