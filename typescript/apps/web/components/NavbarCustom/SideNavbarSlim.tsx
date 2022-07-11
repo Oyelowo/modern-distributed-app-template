@@ -30,6 +30,7 @@ import { linkData, useActiveLinkStyle } from './Navlinks';
 import Link from 'next/link';
 import { atom, useAtom } from 'jotai';
 import { useStylesHeader } from './Headers';
+import { useSignOut } from '../../hooks/authentication';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -96,6 +97,7 @@ export function SideNavbarSlim() {
   const [active, setActive] = useState(2);
   const { classes } = useStylesHeader();
   const { opened, toggleNav, setNavState } = useNavToggleAtom();
+  const { signOutCustom } = useSignOut();
 
   const links = linkData.map((link, index) => (
     <NavbarLink
@@ -109,7 +111,7 @@ export function SideNavbarSlim() {
 
   return (
     <>
-      <Affix position={{ top:-5, left: opened ? 60 : 0 }} zIndex={33334}>
+      <Affix position={{ top: -5, left: opened ? 60 : 0 }} zIndex={33334}>
         <Burger opened={opened} onClick={() => toggleNav()} size="sm" />
       </Affix>
       <Drawer
@@ -134,7 +136,7 @@ export function SideNavbarSlim() {
           <Navbar.Section>
             <Group direction="column" align="center" spacing={0}>
               <NavbarLink icon={<SwitchHorizontal />} label="Change account" />
-              <NavbarLink icon={<Logout />} label="Logout" />
+              <NavbarLink onClick={signOutCustom} icon={<Logout />} label="Logout" />
             </Group>
           </Navbar.Section>
         </Navbar>
