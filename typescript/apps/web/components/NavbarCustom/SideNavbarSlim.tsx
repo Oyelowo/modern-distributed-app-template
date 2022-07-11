@@ -24,11 +24,10 @@ import {
   Settings,
   Logout,
   SwitchHorizontal,
-} from 'tabler-icons-react';
-import { Globe, ArrowLeft, ArrowRight } from 'tabler-icons-react';
-import { linkData, useActiveLinkStyle } from './Navlinks';
+ Globe, ArrowLeft, ArrowRight } from 'tabler-icons-react';
 import Link from 'next/link';
 import { atom, useAtom } from 'jotai';
+import { linkData, useActiveLinkStyle } from './Navlinks';
 import { useStylesHeader } from './Headers';
 import { useSignOut } from '../../hooks/authentication';
 
@@ -124,7 +123,7 @@ export function SideNavbarSlim() {
         size={80}
         withCloseButton={false}
       >
-        <Navbar /* height={750} */ width={{ base: 80 }} p="md">
+        <Navbar width={{ base: 80 }} p="md">
           <Center>
             <Globe />
           </Center>

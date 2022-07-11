@@ -111,7 +111,7 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
                 <b>Simple</b> – You dont need to be a rocket scientist to use important info
               </List.Item>
               <List.Item>
-                <b>Detailed</b> – The only app you will ever need. Don{"'"}t believe? Try yourself
+                <b>Detailed</b> – The only app you will ever need. Don't believe? Try yourself
               </List.Item>
             </List>
 
@@ -130,7 +130,7 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
     </div>
   );
 }
-/* 
+/*
     Welcome to Oyelowo App, {type} with
 */
 export function GetStarted(props: ButtonProps<'button'>) {
@@ -140,7 +140,7 @@ export function GetStarted(props: ButtonProps<'button'>) {
   return (
     <>
       <Modal
-        size={'xs'}
+        size="xs"
         opened={opened}
         onClose={() => setOpened(false)}
         title={`Welcome! ${authType} with`}

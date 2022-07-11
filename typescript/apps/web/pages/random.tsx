@@ -1,8 +1,8 @@
-import { useGetUsersQuery, useCreateUserMutation } from "@oyelowo/graphql-client";
-import { getLowo } from "@oyelowo/ui";
-import Link from "next/link";
-import { useQueryClient } from "react-query";
-import { client } from "../config/client";
+import { useGetUsersQuery, useCreateUserMutation } from '@oyelowo/graphql-client';
+import { getLowo } from '@oyelowo/ui';
+import Link from 'next/link';
+import { useQueryClient } from 'react-query';
+import { client } from '../config/client';
 
 export default function RandomUsers() {
   const queryClient = useQueryClient();
@@ -10,7 +10,7 @@ export default function RandomUsers() {
   const { mutate } = useCreateUserMutation(client, {
     onMutate: () => {
       // queryClient.invalidateQueries(["GetUsers"]);
-      queryClient.refetchQueries(["GetUsers"]);
+      queryClient.refetchQueries(['GetUsers']);
     },
   });
   return (
@@ -26,13 +26,13 @@ export default function RandomUsers() {
         onClick={() => {
           mutate({
             userInput: {
-              firstName: "Oyelowo" + Math.random(),
-              username: "Oyelowo" + Math.random(),
-              lastName: "Oyedayo" + Math.random(),
-              socialMedia: ["fd"],
+              firstName: `Oyelowo${Math.random()}`,
+              username: `Oyelowo${Math.random()}`,
+              lastName: `Oyedayo${Math.random()}`,
+              socialMedia: ['fd'],
               age: 19,
-              password: "1234",
-              email: +Math.random() + "oye@gmail.com",
+              password: '1234',
+              email: `${+Math.random()}oye@gmail.com`,
             },
           });
         }}
@@ -46,10 +46,10 @@ export default function RandomUsers() {
             <div>First name: {el.firstName}</div>
             <div>Last name: {el.lastName}</div>
             <div>Age: {el.age}</div>
-            <div>Social Media: {el.socialMedia.join(", ")}</div>
+            <div>Social Media: {el.socialMedia.join(', ')}</div>
             <div>Created At: {el.createdAt}</div>
             <div>
-              Posts:{" "}
+              Posts:{' '}
               {el?.posts.map((p, i) => (
                 <div key={i}>
                   <div>Title: {p.title}</div>

@@ -41,9 +41,6 @@ export function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-
-
 export function GoogleButton(props: ButtonProps<'button'>) {
   return <Button leftIcon={<GoogleIcon />} variant="default" color="gray" {...props} />;
 }
-

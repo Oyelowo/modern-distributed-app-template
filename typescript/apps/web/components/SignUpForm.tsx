@@ -1,5 +1,4 @@
 // import { Button, TextInput } from '@mantine/core';
-import { signUpSchema, useSignUp } from '../hooks/authentication';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
 import { useElementSize } from '@mantine/hooks';
@@ -18,12 +17,12 @@ import {
   LoadingOverlay,
 } from '@mantine/core';
 import z from 'zod';
-import { EyeCheck, EyeOff } from 'tabler-icons-react';
-import { PasswordStrength } from './Password';
+import { EyeCheck, EyeOff, AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
-import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import { useAtom } from 'jotai';
+import { PasswordStrength } from './Password';
+import { signUpSchema, useSignUp } from '../hooks/authentication';
 import { toggleAuthAtom } from './AuthForm';
 
 export function SignUpForm() {
@@ -34,7 +33,7 @@ export function SignUpForm() {
     onError: (e) => {
       showNotification({
         title: 'Registration Failed',
-        message: e.getDetails() + ' 🤥',
+        message: `${e.getDetails()} 🤥`,
         color: 'red',
         radius: 'md',
         icon: <AlertTriangle size={16} />,

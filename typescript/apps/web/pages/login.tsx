@@ -15,8 +15,8 @@ const SignIn = () => {
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
       <Modal
-        size={'xs'}
-        opened={true}
+        size="xs"
+        opened
         onClose={() => {}}
         title={`Welcome! ${authType} with,`}
       >

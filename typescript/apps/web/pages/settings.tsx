@@ -1,9 +1,5 @@
-import HomePage from '../components/HomePage';
-import { useSession, useSignOut } from '../hooks/authentication';
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { client } from '../config/client';
 import { AppContext } from 'next/app';
-
 import {
   Button,
   AppShell,
@@ -28,23 +24,24 @@ import {
   Tooltip,
   Skeleton,
 } from '@mantine/core';
-import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
-import { ReactElement, Suspense, useState } from 'react';
+import React, { ReactElement, Suspense, useState } from 'react';
+import { useAtom } from 'jotai';
+import HomePage from '../components/HomePage';
+import { useSession, useSignOut } from '../hooks/authentication';
+import { client } from '../config/client';
+
+import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
-import { useAtom } from 'jotai';
-import React from 'react';
 import MyD3Charts from '../charts/d3/App';
 import Somethings, { timeAtom } from '../charts/d3/jotai/Somethings';
 import ReactEChartCustom from '../charts/echarts/ChartWithHooks';
 import ReactEcharts from '../charts/echarts/ReactEcharts';
 import LineChart from '../charts/d3/LineChart/LineChart';
 
-const Page: NextPageWithLayout = () => {
-  return <p>hello world</p>;
-};
+const Page: NextPageWithLayout = () => <p>hello world</p>;
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return (

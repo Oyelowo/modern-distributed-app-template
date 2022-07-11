@@ -1,9 +1,5 @@
-import HomePage from '../HomePage';
-import { useSession, useSignOut } from '../../hooks/authentication';
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { client } from '../../config/client';
 import { AppContext } from 'next/app';
-import { useThemeAtom } from '@oyelowo/ui/components';
 import {
   Button,
   AppShell,
@@ -28,9 +24,12 @@ import {
   Tooltip,
   Skeleton,
 } from '@mantine/core';
-import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
+import { ScrollToTop } from '../Scroll/ScrollToTop';
+import { client } from '../../config/client';
+import { useSession, useSignOut } from '../../hooks/authentication';
+import HomePage from '../HomePage';
 import { linkData, Navlinks } from '../NavbarCustom/Navlinks';
 import { SideNavbarSlim } from '../NavbarCustom/SideNavbarSlim';
 import { HeaderSimple } from '../NavbarCustom/Headers';

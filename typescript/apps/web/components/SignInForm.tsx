@@ -1,9 +1,7 @@
 import z, { ZodType } from 'zod';
-import { useSignIn } from '../hooks/authentication';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
-import { useForceUpdate } from '@mantine/hooks';
-import { upperFirst } from '@mantine/hooks';
+import { useForceUpdate, upperFirst } from '@mantine/hooks';
 import {
   NumberInput,
   PasswordInput,
@@ -20,6 +18,7 @@ import {
 import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
+import { useSignIn } from '../hooks/authentication';
 import { toggleAuthAtom } from './AuthForm';
 
 export const signInSchema = z.object({
@@ -57,7 +56,7 @@ export default function SignInForm() {
     onError: (e) => {
       showNotification({
         title: 'Authentication Failed',
-        message: e.getDetails() + ' 🤥',
+        message: `${e.getDetails()} 🤥`,
         color: 'red',
         radius: 'md',
         icon: <AlertTriangle size={16} />,
@@ -90,7 +89,7 @@ export default function SignInForm() {
           onClick={() => setAuthType('register')}
           size="xs"
         >
-          Don{"'"}t have an account? Register
+          Don't have an account? Register
         </Anchor>
         <Button type="submit">Login</Button>
       </Group>

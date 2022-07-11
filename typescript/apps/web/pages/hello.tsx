@@ -1,8 +1,8 @@
 import { getLowo, useInterval } from '@oyelowo/ui';
 import { Button, Container } from '@mantine/core';
 import { useState } from 'react';
-import { ECOption, ReactEChartCustom, useChart } from '../charts/echarts/ChartWithHooks';
 import Link from 'next/link';
+import { ECOption, ReactEChartCustom, useChart } from '../charts/echarts/ChartWithHooks';
 
 const dataset = {
   dimensions: ['name', 'score'],

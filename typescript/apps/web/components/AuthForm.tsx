@@ -23,11 +23,11 @@ import {
   Space,
 } from '@mantine/core';
 import { BrandGoogle, BrandGithub } from 'tabler-icons-react';
+import { atom, useAtom } from 'jotai';
 import { DOMAIN_BASE } from '../config/client';
 import SignInForm from './SignInForm';
 import { SignUpForm } from './SignUpForm';
 import { GoogleIcon } from './icons/GoogleIcon';
-import { atom, useAtom } from 'jotai';
 
 export const toggleAuthAtom = atom<'login' | 'register'>('login');
 

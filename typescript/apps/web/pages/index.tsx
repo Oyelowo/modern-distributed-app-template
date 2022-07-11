@@ -1,7 +1,4 @@
-import HomePage from '../components/HomePage';
-import { useAuth, useSession, useSignOut } from '../hooks/authentication';
 import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { client } from '../config/client';
 import { AppContext } from 'next/app';
 import {
   Button,
@@ -27,17 +24,18 @@ import {
   Tooltip,
   Skeleton,
 } from '@mantine/core';
-import { ScrollToTop } from '../components/Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
+import { ScrollToTop } from '../components/Scroll/ScrollToTop';
+import { client } from '../config/client';
+import { useAuth, useSession, useSignOut } from '../hooks/authentication';
+import HomePage from '../components/HomePage';
 import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
 
-const Page: NextPageWithLayout = () => {
-  return <p>hello world</p>;
-};
+const Page: NextPageWithLayout = () => <p>hello world</p>;
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return <Shown />;

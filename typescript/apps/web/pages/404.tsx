@@ -1,7 +1,3 @@
-export default function Custom404() {
-  return <NotFoundImage />;
-}
-
 import React from 'react';
 import {
   createStyles,
@@ -13,9 +9,13 @@ import {
   SimpleGrid,
   ActionIcon,
 } from '@mantine/core';
-import image from './404.png';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import image from './404.png';
+
+export default function Custom404() {
+  return <NotFoundImage />;
+}
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -66,7 +66,7 @@ export function NotFoundImage() {
           <Title className={classes.title}>Page Not Found</Title>
           <Text color="dimmed" size="lg">
             The page you entered does not exist. Check that you properly typed in the address. It
-            {"'"}s also possible that the page has been moved to another address. Contact us if you
+            's also possible that the page has been moved to another address. Contact us if you
             think this is an error. Thanks!
           </Text>
 

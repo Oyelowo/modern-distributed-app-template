@@ -23,7 +23,7 @@ const overridenTheme: MantineThemeOverride = {
 };
 
 function App({ Component, pageProps }: AppPropsWithLayout & { colorScheme: ColorScheme }) {
-  /* 
+  /*
 Create a new QueryClient instance inside of your app, and on an instance ref (or in React state).
 This ensures that data is not shared between different users and requests, while still only
 creating the QueryClient once per component lifecycle.
@@ -41,9 +41,9 @@ creating the QueryClient once per component lifecycle.
   const [colorScheme, setColorScheme] = useState<ColorScheme>(preferredColorScheme);
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
-  /* 
-    Saving color scheme in cookie is the easiest way to prevent color scheme mismatch. 
-    This strategy can be applied to any framework/library that has server side rendering support. 
+  /*
+    Saving color scheme in cookie is the easiest way to prevent color scheme mismatch.
+    This strategy can be applied to any framework/library that has server side rendering support.
     The following example shows how to store color scheme in cookie with Next.js:
      */
   // setCookies('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
@@ -110,7 +110,7 @@ export default App;
 
 // pages/admin.jsx
 export default function AdminDashboard () {
-  const [session] = useSession() 
+  const [session] = useSession()
   // session is always non-null inside this page, all the way down the React tree.
   return "Some super secret dashboard"
 }
@@ -139,7 +139,7 @@ function Auth({ children }) {
   if (isUser) {
     return children
   }
-  
+
   // Session is being fetched, or no user.
   // If no user, useEffect() will redirect.
   return <div>Loading...</div>
@@ -154,11 +154,7 @@ AdminDashboard.auth = {
 }
 Because of how _app is done, it won't unnecessarily contant the /api/auth/session endpoint for pages that do not require auth.
 
-
-
 TYPESCRIPT
-
-
 
 export default FooPage;
 
