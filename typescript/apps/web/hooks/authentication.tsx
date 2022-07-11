@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import {
   SessionQuery,
+  SignInMutation,
   useSessionQuery,
   useSignInMutation,
   useSignOutMutation,
@@ -14,6 +15,7 @@ import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from 'react-q
 import { client } from '../config/client';
 import { useCookie } from 'react-use';
 import { signInSchema } from '../components/SignInForm';
+import { useForceUpdate } from '@react-spring/shared';
 
 export function useSignOut() {
   const router = useRouter();
@@ -72,7 +74,13 @@ class GraphqlIoError {
   };
 }
 
-export function useSignIn({ onError }: { onError: (e: GraphqlIoError) => void }) {
+export function useSignIn({
+  onError,
+  onSuccess,
+}: {
+  onError: (e: GraphqlIoError) => void;
+  onSuccess: (data: SignInMutation) => void;
+}) {
   const router = useRouter();
 
   const { mutate, data, error, status, isLoading } =
@@ -89,8 +97,10 @@ export function useSignIn({ onError }: { onError: (e: GraphqlIoError) => void })
       {
         onSuccess: (data) => {
           const client = new QueryClient();
-
+          client.refetchQueries(['session']);
+          onSuccess(data);
           router.push('/');
+
         },
         onError: (e) => {
           onError(new GraphqlIoError(e));
@@ -160,6 +170,7 @@ interface UseSessionProps {
 
 // DOMAIN_BASE
 export function useSession(props?: UseSessionProps) {
+  // const forceUpdate = useForceUpdate()
   const { queryConfig = { staleTime: 0 } } = props ?? {};
 
   const router = useRouter();
@@ -172,9 +183,10 @@ export function useSession(props?: UseSessionProps) {
     onSettled(data, error) {
       if (queryConfig.onSettled) queryConfig.onSettled(data, error);
       const hasError = !!error;
-      if (hasError) {
-        router.push('/login/?error=SessionExpired');
-      }
+      // if (hasError) {
+      //   router.push('/login/?error=SessionExpired');
+      // }
+      // forceUpdate();
     },
   });
 

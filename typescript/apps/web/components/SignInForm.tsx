@@ -2,6 +2,7 @@ import z, { ZodType } from 'zod';
 import { useSignIn } from '../hooks/authentication';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
+import { useForceUpdate } from '@mantine/hooks';
 import { upperFirst } from '@mantine/hooks';
 import {
   NumberInput,
@@ -35,6 +36,8 @@ export const signInSchema = z.object({
 // });
 export default function SignInForm() {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);
+  const forceRerender = useForceUpdate();
+  // const forceRerenderr = useForceRerender();
 
   // const styles = useStyles();
   // const {
@@ -59,6 +62,9 @@ export default function SignInForm() {
         radius: 'md',
         icon: <AlertTriangle size={16} />,
       });
+    },
+    onSuccess: () => {
+      forceRerender();
     },
   });
 

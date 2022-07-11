@@ -47,11 +47,11 @@ Page.getLayout = function getLayout(page: ReactElement) {
 export default Page;
 
 function Shown() {
-  const { isAuth, isLoading } = useAuth();
-  const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
+  const data = useSession();
+  // const { data: { me } = {} } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  if (isLoading) {
+  if (data.status === "loading") {
     return (
       <>
         <Skeleton height={50} circle mb="xl" />
@@ -66,13 +66,13 @@ function Shown() {
       </>
     );
   }
-  console.log('isAuth', isAuth);
-  return isAuth ? (
+  // console.log('isAuth', isAuth);
+  return data.status == 'success' ? (
     <Layout>
       <HomePage />
     </Layout>
   ) : (
-    <LandingPage isLoading={isLoading} />
+    <LandingPage isLoading={false} />
   );
 }
 
