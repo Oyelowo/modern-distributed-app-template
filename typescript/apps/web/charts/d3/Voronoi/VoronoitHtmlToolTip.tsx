@@ -1,7 +1,7 @@
-import * as d3 from "d3";
-import { Delaunay } from "d3-delaunay";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import * as d3 from 'd3';
+import { Delaunay } from 'd3-delaunay';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 interface Datum {
   category: string;
@@ -11,18 +11,18 @@ interface Datum {
 }
 
 const data: Datum[] = [
-  { category: "cold", x: 14.2, y: 215, id: 1 },
-  { category: "cold", x: 16.4, y: 325, id: 2 },
-  { category: "cold", x: 11.9, y: 185, id: 3 },
-  { category: "cold", x: 15.2, y: 332, id: 4 },
-  { category: "cold", x: 18.5, y: 406, id: 5 },
-  { category: "cold", x: 22.1, y: 522, id: 6 },
-  { category: "cold", x: 19.4, y: 412, id: 7 },
-  { category: "cold", x: 25.1, y: 614, id: 8 },
-  { category: "cold", x: 23.4, y: 544, id: 9 },
-  { category: "cold", x: 18.1, y: 421, id: 10 },
-  { category: "cold", x: 22.6, y: 445, id: 11 },
-  { category: "cold", x: 17.2, y: 408, id: 12 },
+  { category: 'cold', x: 14.2, y: 215, id: 1 },
+  { category: 'cold', x: 16.4, y: 325, id: 2 },
+  { category: 'cold', x: 11.9, y: 185, id: 3 },
+  { category: 'cold', x: 15.2, y: 332, id: 4 },
+  { category: 'cold', x: 18.5, y: 406, id: 5 },
+  { category: 'cold', x: 22.1, y: 522, id: 6 },
+  { category: 'cold', x: 19.4, y: 412, id: 7 },
+  { category: 'cold', x: 25.1, y: 614, id: 8 },
+  { category: 'cold', x: 23.4, y: 544, id: 9 },
+  { category: 'cold', x: 18.1, y: 421, id: 10 },
+  { category: 'cold', x: 22.6, y: 445, id: 11 },
+  { category: 'cold', x: 17.2, y: 408, id: 12 },
 ];
 
 const height = 700;
@@ -34,7 +34,7 @@ const margin = {
   top: 70,
   bottom: 70,
 };
-const VoronoiHoverTracker = () => {
+export const VoronoitHtmlToolTip = () => {
   const [hovered, setHovered] = useState<Datum | null>(null);
   const yScale = d3
     .scaleLinear()
@@ -59,11 +59,11 @@ const VoronoiHoverTracker = () => {
   const chartHeight = height + margin.top + margin.bottom;
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: 'relative' }}>
       <svg
         width={chartWidth}
         height={chartHeight}
-        style={{ border: "0.1px solid pink" }}
+        style={{ border: '0.1px solid pink' }}
         pointerEvents="none"
       >
         <g transform={`translate(${margin.left},${margin.top})`}>
@@ -79,7 +79,7 @@ const VoronoiHoverTracker = () => {
                     r={3}
                     strokeWidth={3}
                     fill="pink"
-                    stroke={hovered === point ? "green" : "red"}
+                    stroke={hovered === point ? 'green' : 'red'}
                   />
                 </g>
 
@@ -102,7 +102,7 @@ const VoronoiHoverTracker = () => {
           x: hovered ? xScale(hovered.x) : 0,
           y: hovered ? yScale(hovered.y) : chartHeight / 2,
         }}
-        style={{ background: "#eaeaea", position: "absolute", top: 0, left: 0 }}
+        style={{ background: '#eaeaea', position: 'absolute', top: 0, left: 0 }}
       >
         {hovered?.x}:{hovered?.y}:{hovered?.id}lk
       </motion.div>
@@ -110,7 +110,6 @@ const VoronoiHoverTracker = () => {
   );
 };
 
-export default VoronoiHoverTracker;
 {
   /* 
   <path

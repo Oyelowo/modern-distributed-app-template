@@ -1,38 +1,38 @@
-import React, { Reducer, useReducer, useEffect } from "react";
+import React, { Reducer, useReducer, useEffect } from 'react';
 
 type State<Data, ErrorMess> =
   | {
-      status: "idle";
+      status: 'idle';
     }
   | {
-      status: "attempt";
+      status: 'attempt';
     }
   | {
-      status: "success";
+      status: 'success';
       data: Data;
     }
   | {
-      status: "failure";
+      status: 'failure';
       error: ErrorMess;
     };
 
 type Action<Data, Err> =
   | {
-      type: "request";
+      type: 'request';
     }
   | {
-      type: "receive";
+      type: 'receive';
       data: Data;
     }
   | {
-      type: "errorOut";
+      type: 'errorOut';
       error: Err;
     };
 
 interface MyData {
-  name: "oyelowo";
+  name: 'oyelowo';
   age: 12;
-  nationality: "Finnish";
+  nationality: 'Finnish';
 }
 
 interface ErrorType {
@@ -43,23 +43,23 @@ type ApiReducer = Reducer<State<MyData, ErrorType>, Action<MyData, ErrorType>>;
 
 const apiReducer: ApiReducer = (state, action) => {
   switch (action.type) {
-    case "request":
+    case 'request':
       return {
         ...state,
-        status: "attempt",
+        status: 'attempt',
         data: null,
       };
-    case "receive":
+    case 'receive':
       return {
         ...state,
         data: action.data,
-        status: "success",
+        status: 'success',
       };
-    case "errorOut":
+    case 'errorOut':
       return {
         ...state,
         data: null,
-        status: "failure",
+        status: 'failure',
         error: action.error,
       };
 
@@ -69,27 +69,27 @@ const apiReducer: ApiReducer = (state, action) => {
 };
 
 const ImpossibleState = () => {
-  const [state, dispatch] = useReducer(apiReducer, { status: "idle" });
+  const [state, dispatch] = useReducer(apiReducer, { status: 'idle' });
   const { status } = state;
 
   useEffect(() => {
-    dispatch({ type: "request" });
+    dispatch({ type: 'request' });
     dispatch({
-      type: "receive",
-      data: { name: "oyelowo", nationality: "Finnish", age: 12 },
+      type: 'receive',
+      data: { name: 'oyelowo', nationality: 'Finnish', age: 12 },
     });
-    dispatch({ type: "errorOut", error: { message: "anythign" } });
+    dispatch({ type: 'errorOut', error: { message: 'anythign' } });
     return () => {};
   }, []);
 
-  if (state.status === "success") {
+  if (state.status === 'success') {
     const {
       status,
       data: { name },
     } = state;
     const kk = state.data;
   }
-  if (state.status === "failure") {
+  if (state.status === 'failure') {
     const { status, error } = state;
   }
   return <div></div>;

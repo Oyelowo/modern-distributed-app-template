@@ -1,10 +1,10 @@
 // import * as d3 from "d3-shape";
-import * as d3 from "d3";
+import * as d3 from 'd3';
 // import { extent } from "d3-array";
-import { axisBottom, axisLeft } from "d3-axis";
-import { scaleLinear, scaleTime } from "d3-scale";
-import { ReactNode } from "react";
-import { animated, useSpring } from "@react-spring/web";
+import { axisBottom, axisLeft } from 'd3-axis';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { ReactNode } from 'react';
+import { animated, useSpring } from '@react-spring/web';
 
 const { extent, line } = d3;
 interface Datum {
@@ -31,7 +31,7 @@ const height = 300;
 const chartWidth = width - margin.left - margin.right;
 const chartHeight = height - margin.top - margin.bottom;
 
-const Chart = ({ children }: { children: ReactNode }) => {
+export const Chart = () => {
   const data = [
     { date: new Date(2007, 3, 24), value: 93.24 },
     { date: new Date(2007, 3, 25), value: 95.35 },
@@ -63,36 +63,23 @@ const Chart = ({ children }: { children: ReactNode }) => {
 
   return (
     <animated.div>
-      {" "}
+      {' '}
       <animated.svg
-        style={{ background: "#eaeaea" }}
+        style={{ background: '' }}
         width={width}
         height={height + 100}
         fill="none"
         stroke="green"
       >
         <animated.g transform={`translate(${margin.left}, ${margin.top})`}>
-          <rect
-            x={0}
-            y={0}
-            height={chartHeight}
-            width={chartWidth}
-            opacity={0.6}
-            stroke="black"
-          />
+          <rect x={0} y={0} height={chartHeight} width={chartWidth} opacity={0.6} stroke="black" />
           <animated.path
             d={generateLine(data)!}
             strokeDashoffset={props2.x}
             strokeDasharray="1000"
           />
           {data.map((d) => (
-            <circle
-              key={d.value}
-              cy={yScale(d.value)}
-              cx={xScale(d.date)}
-              r="3"
-              fill="black"
-            />
+            <circle key={d.value} cy={yScale(d.value)} cx={xScale(d.date)} r="3" fill="black" />
           ))}
           <g transform={`translate(${chartWidth + 4},0)`}>
             {data.map((d) => (
@@ -116,5 +103,3 @@ const Chart = ({ children }: { children: ReactNode }) => {
     </animated.div>
   );
 };
-
-export default Chart;
