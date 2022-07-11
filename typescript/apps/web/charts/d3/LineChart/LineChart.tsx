@@ -57,10 +57,6 @@ const svgProps = {
   WIDTH: 700,
 };
 
-const chartAreaProps = {
-  HEIGHT: svgProps.HEIGHT - (margins.TOP + margins.BOTTOM),
-  WIDTH: svgProps.WIDTH - (margins.RIGHT + margins.LEFT),
-};
 const paddings = {
   TOP: 10,
   RIGHT: 10,
@@ -73,8 +69,11 @@ const result = eachDayOfInterval({
   end: new Date('2020-03-08'),
 });
 
-const LineChart = () => {
-  // const { width, height } = useViewportSize();
+const LineChart = ({ width, height = 500 }: { width: number; height: number }) => {
+  const chartAreaProps = {
+    HEIGHT: height - (margins.TOP + margins.BOTTOM),
+    WIDTH: width - (margins.RIGHT + margins.LEFT),
+  };
   const [hovered, setHovered] = useState<typeof data[number] | null>();
   const [minY, maxY] = d3.extent(data, (d) => d.score) as [number, number];
   const [minX, maxX] = [new Date('2020-02-29'), new Date('2020-03-08')];
@@ -96,8 +95,8 @@ const LineChart = () => {
   const x2 = xScale(new Date(data[2].date)) - xScale(new Date(data[1].date));
   const bb = chartAreaProps.WIDTH / data.length;
   return (
-    <div style={{ width: 500, overflow: 'auto' }}>
-      <svg width={svgProps.WIDTH} height={svgProps.HEIGHT} pointerEvents={'none'}>
+    <div style={{ width: '100%', overflow: 'auto' }}>
+      <svg width={width} height={height} pointerEvents={'none'}>
         <g
           transform={`translate(${margins.LEFT}, ${margins.TOP})`}
           width={chartAreaProps.WIDTH}

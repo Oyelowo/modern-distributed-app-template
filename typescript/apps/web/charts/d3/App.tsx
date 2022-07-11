@@ -17,7 +17,7 @@ const MyD3Charts = (): JSX.Element => {
       >
         <p>this</p>
 
-        <VoronoiHoverTracker />
+        
         <SpringPlay />
         {/*         <Somethings />
           <Gesture />
@@ -25,7 +25,6 @@ const MyD3Charts = (): JSX.Element => {
           <Chart /> */}
 
         {/* <Space /> */}
-        <LineChart />
       </div>
     </>
   );
@@ -53,7 +52,7 @@ export const SpringPlay = () => {
 
   return (
     /*  <animated.div>
-      {props.testNumber.interpolate((val) => val.toFixed(2))}
+      {props.testNumber.to((val) => val.toFixed(2))}
 
      
     </animated.div> */

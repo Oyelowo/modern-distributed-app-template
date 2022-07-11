@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-  createStyles,
-  Image,
-  Container,
-  Title,
-  Text,
-  Button,
-  SimpleGrid,
-} from '@mantine/core';
+import { createStyles, Image, Container, Title, Text, Button, SimpleGrid } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import image from './404.png';
-
-export default function Custom404() {
-  return <NotFoundImage />;
-}
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -52,7 +40,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function NotFoundImage() {
+export default function Custom404() {
   const { classes } = useStyles();
   const router = useRouter();
 
@@ -64,9 +52,9 @@ export function NotFoundImage() {
         <div>
           <Title className={classes.title}>Page Not Found</Title>
           <Text color="dimmed" size="lg">
-            The page you entered does not exist. Check that you properly typed in the address. It
-            's also possible that the page has been moved to another address. Contact us if you
-            think this is an error. Thanks!
+            The page you entered does not exist. Check that you properly typed in the address.
+            It&apos;s also possible that the page has been moved to another address. Contact us if
+            you think this is an error. Thanks!
           </Text>
 
           <SimpleGrid style={{ maxWidth: 230 }}>

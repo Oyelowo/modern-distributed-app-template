@@ -36,27 +36,50 @@ const data: Datum[] = [
   { category: 'cold', x: 17.2, y: 408, id: 23 },
 ];
 
-const height = 700;
-const width = 700;
-
-const margin = {
-  left: 70,
-  right: 70,
-  top: 70,
-  bottom: 70,
+const svgProps = {
+  HEIGHT: 500,
+  WIDTH: 700,
 };
-const VoronoiHoverTracker = () => {
+// const height = 700;
+// const width = 700;
+
+// const margin = {
+//   left: 70,
+//   right: 70,
+//   top: 70,
+//   bottom: 70,
+// };
+type CoolDatum = typeof data[number];
+
+const margins = {
+  TOP: 130,
+  RIGHT: 40,
+  LEFT: 40,
+  BOTTOM: 100,
+};
+const VoronoiHoverTracker = ({ width: w, height: h = 500 }: { width: number; height: number }) => {
+  const width = Math.max(w, 100);
+  const height = Math.max(h, 100);
+
+  const chartAreaProps = {
+    HEIGHT: height - (margins.TOP + margins.BOTTOM),
+    WIDTH: width - (margins.RIGHT + margins.LEFT),
+  };
   const [hovered, setHovered] = useState<Datum | null>(null);
+  const chartWidth = chartAreaProps.WIDTH;
+  const chartHeight = chartAreaProps.HEIGHT;
+  const [xmin, ymin, xmax, ymax] = [0, 0, chartWidth, chartHeight];
 
   const yScale = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.y) as [number, number])
-    .range([height, 0]);
+    // svg starts from top-left. This inverts y coords to get height to not be upside down
+    .range([ymax, ymin]);
 
   const xScale = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.x) as [number, number])
-    .range([0, width]);
+    .range([xmin, xmax]);
 
   // const points = data.map(({ x, y }) => [xScale(x), yScale(y)]);
   // const delaunay = Delaunay.from(points)
@@ -65,80 +88,75 @@ const VoronoiHoverTracker = () => {
     (d) => xScale(d.x),
     (d) => yScale(d.y)
   );
-  const voronoi = delaunay.voronoi([0, 0, width, height]);
-
-  const chartWidth = width + margin.left + margin.right;
-  const chartHeight = height + margin.top + margin.bottom;
+  console.log('first', chartWidth);
+  const voronoi = delaunay.voronoi([xmin, ymin, xmax, ymax]);
 
   return (
-    <svg
-      width={chartWidth}
-      height={chartHeight}
-      style={{ border: '0.1px solid pink' }}
-      pointerEvents="none"
-    >
-      <g
-        transform={`translate(${margin.left},${margin.top})`}
-        onMouseLeave={() => setHovered(null)}
-      >
-        {data.map((point, i) => {
-          const { x, y, id } = point;
-          return (
-            <g key={id}>
-              <g transform={`translate(${xScale(x)},${yScale(y)})`}>
-                <text fontWeight="100" stroke="#bbb" fontSize="12">
-                  {id}
-                </text>
-                <motion.circle
-                  r={3}
-                  strokeWidth={3}
-                  fill="pink"
-                  stroke={hovered === point ? 'green' : 'red'}
+    <div style={{ width: '100%', overflow: 'auto' }}>
+      <svg width={width} height={height} pointerEvents="none">
+        <g
+          transform={`translate(${margins.LEFT}, ${margins.TOP})`}
+          onMouseLeave={() => setHovered(null)}
+        >
+          {data.map((point, i) => {
+            const { x, y, id } = point;
+            return (
+              <g key={id}>
+                <g transform={`translate(${xScale(x)},${yScale(y)})`}>
+                  <text fontWeight="100" stroke="#bbb" fontSize="12">
+                    {id}
+                  </text>
+                  <motion.circle
+                    r={3}
+                    strokeWidth={3}
+                    fill="pink"
+                    stroke={hovered === point ? 'green' : 'red'}
+                  />
+                </g>
+
+                <path
+                  opacity={0.5}
+                  fill="none"
+                  stroke="teal"
+                  pointerEvents="all"
+                  d={voronoi.renderCell(i)}
+                  onMouseEnter={() => setHovered(point)}
+                  //onMouseLeave={() => setHovered(null)}
                 />
               </g>
+            );
+          })}
 
-              <path
-                opacity={0.5}
-                fill="none"
-                stroke="teal"
-                pointerEvents="all"
-                d={voronoi.renderCell(i)}
-                onMouseEnter={() => setHovered(point)}
-                //onMouseLeave={() => setHovered(null)}
-              />
-            </g>
-          );
-        })}
-
-        {hovered && (
-          <motion.foreignObject
-            initial={false}
-            animate={{
-              x: xScale(hovered.x),
-              y: yScale(hovered.y),
-            }}
-            style={{ height: 200, width: 100 }}
-          >
-            <section style={{ background: '#eaeaea' }}>
-              {hovered?.x}:{hovered?.y}:{hovered?.id}
-            </section>
-            <motion.circle
-              initial={{
-                fill: 'teal',
-                r: 30,
-                opacity: 0,
-              }}
+          {hovered && (
+            <motion.foreignObject
+              initial={false}
               animate={{
-                fill: 'green',
-                r: 100,
-                opacity: 1,
+                x: xScale(hovered.x),
+                y: yScale(hovered.y),
               }}
-              strokeWidth={3}
-            />
-          </motion.foreignObject>
-        )}
-      </g>
-    </svg>
+              style={{ height: 200, width: 100 }}
+            >
+              <section style={{ background: '#eaeaea' }}>
+                {hovered?.x}:{hovered?.y}:{hovered?.id}
+              </section>
+              <motion.circle
+                initial={{
+                  fill: 'teal',
+                  r: 30,
+                  opacity: 0,
+                }}
+                animate={{
+                  fill: 'green',
+                  r: 100,
+                  opacity: 1,
+                }}
+                strokeWidth={3}
+              />
+            </motion.foreignObject>
+          )}
+        </g>
+      </svg>
+    </div>
   );
 };
 

@@ -4,8 +4,10 @@ import { useAtom } from 'jotai';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 import MyD3Charts from '../charts/d3/App';
-import { timeAtom } from '../charts/d3/jotai/Somethings';
 import LineChart from '../charts/d3/LineChart/LineChart';
+import { useWindowSize } from 'react-use';
+import { useElementSize } from '@mantine/hooks';
+import VoronoiHoverTracker from '../charts/d3/Voronoi/Voronoi';
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 
@@ -20,17 +22,17 @@ Page.getLayout = function getLayout(page: ReactElement) {
 export default Page;
 
 function Settings() {
-  const [names, setStuff] = useAtom(timeAtom);
+  const { width, height } = useWindowSize();
+  const element = useElementSize();
 
   return (
-    <>
-      {/* <Somethings /> */}
-      <LineChart />
-      <button onClick={() => setStuff((prev) => [...prev, new Date().toISOString()])}>
-        Add Time
-      </button>
+    <div ref={element.ref}>
+      <VoronoiHoverTracker width={element.width} height={600} />
+
       <MyD3Charts />
-    </>
+
+      <LineChart width={element.width} height={500} />
+    </div>
   );
 }
 

@@ -4,7 +4,7 @@ import { Layout } from '../components/Layout/Layout';
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 
-Page.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(_page: ReactElement) {
   return (
     <Layout>
       <>Booker</>
@@ -15,10 +15,5 @@ Page.getLayout = function getLayout(page: ReactElement) {
 export default Page;
 
 export async function getServerSideProps() {
-  // Fetch data from external API
-  // const res = await fetch(`https://.../data`);
-  // const data = await res.json();
-
-  // Pass data to the page via props
   return { props: {} };
 }
