@@ -9,8 +9,6 @@ export function getLowo() {
 }
 
 
-// export {Button, TextField, CardTailWindExample} from "./components"
-// export * from "../components/CardTailWindExample";
 // export * from "../components/HelloWorld";
 // export * from "../components/TextField";
 // export * from "../components/Page";

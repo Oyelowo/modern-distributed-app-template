@@ -90,7 +90,7 @@ export default function SignInForm() {
           onClick={() => setAuthType('register')}
           size="xs"
         >
-          Don't have an account? Register
+          Don{"'"}t have an account? Register
         </Anchor>
         <Button type="submit">Login</Button>
       </Group>

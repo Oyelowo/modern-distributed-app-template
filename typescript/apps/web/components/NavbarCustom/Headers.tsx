@@ -62,22 +62,22 @@ export const useStylesHeader = createStyles((theme) => ({
 }));
 
 interface HeaderSimpleProps {
-  links: { link: string; label: string }[];
+  links: { href: string; label: string }[];
 }
 
 export function HeaderSimple({ links }: HeaderSimpleProps) {
-//   const [opened, toggleOpened] = useBooleanToggle(false);
-   const { opened, toggleNav, setNavState } = useNavToggleAtom();
+  //   const [opened, toggleOpened] = useBooleanToggle(false);
+  const { opened, toggleNav, setNavState } = useNavToggleAtom();
   const { classes, cx } = useStylesHeader();
   const { isActive } = useActiveLinkStyle();
 
   const items = links.map((link) => (
-    <Link href={link.link}>
+    <Link href={link.href} key={link.href}>
       <Button
         key={link.label}
         component="a"
         variant="subtle"
-        className={cx(classes.link, { [classes.linkActive]: isActive(link.link) })}
+        className={cx(classes.link, { [classes.linkActive]: isActive(link.href) })}
       >
         {link.label}
       </Button>

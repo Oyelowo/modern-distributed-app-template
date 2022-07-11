@@ -1,4 +1,3 @@
-// pages/404.js
 export default function Custom404() {
   return <NotFoundImage />;
 }
@@ -61,14 +60,14 @@ export function NotFoundImage() {
   return (
     <Container className={classes.root}>
       <SimpleGrid spacing={80} cols={2} breakpoints={[{ maxWidth: 'sm', cols: 1, spacing: 40 }]}>
-        <Image src={image.src} className={classes.mobileImage} />
+        <Image src={image.src} className={classes.mobileImage} alt="not found" />
 
         <div>
           <Title className={classes.title}>Page Not Found</Title>
           <Text color="dimmed" size="lg">
-            The page you entered does not exist. Check that you properly typed in the address. It's
-            also possible that the page has been moved to another address. Contact us if you think
-            this is an error. Thanks!
+            The page you entered does not exist. Check that you properly typed in the address. It
+            {"'"}s also possible that the page has been moved to another address. Contact us if you
+            think this is an error. Thanks!
           </Text>
 
           <SimpleGrid style={{ maxWidth: 230 }}>
@@ -85,7 +84,7 @@ export function NotFoundImage() {
             </Link>
           </SimpleGrid>
         </div>
-        <Image src={image.src} className={classes.desktopImage} />
+        <Image src={image.src} className={classes.desktopImage} alt="not found" />
       </SimpleGrid>
     </Container>
   );

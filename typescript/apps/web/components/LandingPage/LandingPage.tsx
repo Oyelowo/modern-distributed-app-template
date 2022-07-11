@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   createStyles,
   Image,
@@ -111,7 +111,7 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
                 <b>Simple</b> – You dont need to be a rocket scientist to use important info
               </List.Item>
               <List.Item>
-                <b>Detailed</b> – The only app you will ever need. Don't believe? Try yourself
+                <b>Detailed</b> – The only app you will ever need. Don{"'"}t believe? Try yourself
               </List.Item>
             </List>
 

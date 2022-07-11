@@ -98,13 +98,11 @@
 │   │   │   ├── styles
 │   │   │   │   ├── Home.module.css
 │   │   │   │   └── globals.css
-│   │   │   ├── tailwind.config.js
 │   │   │   └── tsconfig.json
 │   │   └── libraries-core
 │   │       ├── package.json
 │   │       ├── src
 │   │       │   ├── components
-│   │       │   │   ├── CardTailWindExample.tsx
 │   │       │   │   ├── HelloWorld.tsx
 │   │       │   │   └── TextField.tsx
 │   │       │   └── index.ts
