@@ -1,13 +1,12 @@
-import React, { ReactElement } from 'react';
-import { useAtom } from 'jotai';
+import { ReactElement } from 'react';
 
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
-import MyD3Charts from '../charts/d3/App';
 import LineChart from '../charts/d3/LineChart/LineChart';
 import { useWindowSize } from 'react-use';
 import { useElementSize } from '@mantine/hooks';
 import VoronoiHoverTracker from '../charts/d3/Voronoi/Voronoi';
+import { Divider, Space } from '@mantine/core';
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 
@@ -27,20 +26,10 @@ function Settings() {
 
   return (
     <div ref={element.ref}>
-      <VoronoiHoverTracker width={element.width} height={600} />
+      <VoronoiHoverTracker width={element.width} height={400} />
 
-      <MyD3Charts />
-
-      <LineChart width={element.width} height={500} />
+      <Space h="lg" />
+      <LineChart width={element.width} height={400} />
     </div>
   );
 }
-
-// export async function getServerSideProps() {
-//   // Fetch data from external API
-//   // const res = await fetch(`https://.../data`);
-//   // const data = await res.json();
-
-//   // Pass data to the page via props
-//   return { props: {} };
-// }

@@ -1,38 +1,7 @@
 import * as d3 from 'd3';
-import React, { StrictMode, useEffect, useState } from 'react';
-
 import { animated, useSpring } from '@react-spring/web';
-import LineChart from './LineChart/LineChart';
-import VoronoiHoverTracker from './Voronoi/Voronoi';
 
-const MyD3Charts = (): JSX.Element => {
-  return (
-    <>
-      <div
-        style={{
-          display: 'grid',
-          justifyItems: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <p>this</p>
-
-        
-        <SpringPlay />
-        {/*         <Somethings />
-          <Gesture />
-          <Spring />
-          <Chart /> */}
-
-        {/* <Space /> */}
-      </div>
-    </>
-  );
-};
-
-export default MyD3Charts;
-
-export const SpringPlay = () => {
+export const SquareRoot = () => {
   const props = useSpring({
     testNumber: 1,
     from: { testNumber: 0 },

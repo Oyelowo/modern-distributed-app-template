@@ -46,10 +46,10 @@ const data = [
 type CoolDatum = typeof data[number];
 
 const margins = {
-  TOP: 130,
+  TOP: 10,
   RIGHT: 40,
   LEFT: 40,
-  BOTTOM: 100,
+  BOTTOM: 10,
 };
 
 const svgProps = {

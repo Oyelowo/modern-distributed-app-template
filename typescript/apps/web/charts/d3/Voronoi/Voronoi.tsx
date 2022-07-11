@@ -52,10 +52,10 @@ const svgProps = {
 type CoolDatum = typeof data[number];
 
 const margins = {
-  TOP: 130,
+  TOP: 10,
   RIGHT: 40,
   LEFT: 40,
-  BOTTOM: 100,
+  BOTTOM: 10,
 };
 const VoronoiHoverTracker = ({ width: w, height: h = 500 }: { width: number; height: number }) => {
   const width = Math.max(w, 100);
