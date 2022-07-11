@@ -1,5 +1,18 @@
 import React, { useState } from 'react';
-import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Group } from '@mantine/core';
+import {
+  Navbar,
+  Center,
+  Tooltip,
+  UnstyledButton,
+  createStyles,
+  Group,
+  Drawer,
+  Button,
+  Affix,
+  ActionIcon,
+  Burger,
+} from '@mantine/core';
+import { useBooleanToggle } from '@mantine/hooks';
 import {
   Icon as TablerIcon,
   Home2,
@@ -12,9 +25,11 @@ import {
   Logout,
   SwitchHorizontal,
 } from 'tabler-icons-react';
-import { Globe } from 'tabler-icons-react';
+import { Globe, ArrowLeft, ArrowRight } from 'tabler-icons-react';
 import { linkData, useActiveLinkStyle } from './Navlinks';
 import Link from 'next/link';
+import { atom, useAtom } from 'jotai';
+import { useStylesHeader } from './Headers';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -67,18 +82,20 @@ function NavbarLink({ icon, label, active, onClick, href = '#' }: NavbarLinkProp
   );
 }
 
-const mockdata = [
-  { icon: Home2, label: 'Home' },
-  { icon: Gauge, label: 'Dashboard' },
-  { icon: DeviceDesktopAnalytics, label: 'Analytics' },
-  { icon: CalendarStats, label: 'Releases' },
-  { icon: User, label: 'Account' },
-  { icon: Fingerprint, label: 'Security' },
-  { icon: Settings, label: 'Settings' },
-];
+const navToggleAtom = atom(true);
+export function useNavToggleAtom() {
+  const [opened, setIsOpened] = useAtom(navToggleAtom);
 
-export function NavbarCustom() {
+  return {
+    opened,
+    toggleNav: () => setIsOpened(!opened),
+    setNavState: (value: boolean) => setIsOpened(value),
+  };
+}
+export function SideNavbarSlim() {
   const [active, setActive] = useState(2);
+  const { classes } = useStylesHeader();
+  const { opened, toggleNav, setNavState } = useNavToggleAtom();
 
   const links = linkData.map((link, index) => (
     <NavbarLink
@@ -91,21 +108,40 @@ export function NavbarCustom() {
   ));
 
   return (
-    <Navbar /* height={750} */ width={{ base: 80 }} p="md">
-      <Center>
-        <Globe />
-      </Center>
-      <Navbar.Section grow mt={50}>
-        <Group direction="column" align="center" spacing={0}>
-          {links}
-        </Group>
-      </Navbar.Section>
-      <Navbar.Section>
-        <Group direction="column" align="center" spacing={0}>
-          <NavbarLink icon={<SwitchHorizontal />} label="Change account" />
-          <NavbarLink icon={<Logout />} label="Logout" />
-        </Group>
-      </Navbar.Section>
-    </Navbar>
+    <>
+      <Affix position={{ top:-5, left: opened ? 60 : 0 }} zIndex={33334}>
+        <Burger opened={opened} onClick={() => toggleNav()} size="sm" />
+      </Affix>
+      <Drawer
+        opened={opened}
+        onClose={() => setNavState(false)}
+        // title="Register"
+        // padding="xl"
+        // size="xl"
+        withOverlay={false}
+        size={80}
+        withCloseButton={false}
+      >
+        <Navbar /* height={750} */ width={{ base: 80 }} p="md">
+          <Center>
+            <Globe />
+          </Center>
+          <Navbar.Section grow mt={50}>
+            <Group direction="column" align="center" spacing={0}>
+              {links}
+            </Group>
+          </Navbar.Section>
+          <Navbar.Section>
+            <Group direction="column" align="center" spacing={0}>
+              <NavbarLink icon={<SwitchHorizontal />} label="Change account" />
+              <NavbarLink icon={<Logout />} label="Logout" />
+            </Group>
+          </Navbar.Section>
+        </Navbar>
+      </Drawer>
+
+      {/* <Group position="center">
+      </Group> */}
+    </>
   );
 }

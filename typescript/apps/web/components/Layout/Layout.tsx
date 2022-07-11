@@ -32,7 +32,7 @@ import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
 import { linkData, Navlinks } from '../NavbarCustom/Navlinks';
-import { NavbarCustom } from '../NavbarCustom/NavbarCustom';
+import { SideNavbarSlim } from '../NavbarCustom/SideNavbarSlim';
 import { HeaderSimple } from '../NavbarCustom/Headers';
 
 export function Layout({ children }: { children: ReactElement }) {
@@ -60,7 +60,7 @@ export function Layout({ children }: { children: ReactElement }) {
           navbarOffsetBreakpoint="sm"
           asideOffsetBreakpoint="sm"
           fixed
-          navbar={<NavbarCustom />}
+          navbar={<SideNavbarSlim />}
           //   footer={
           //     <Footer height={60} p="md">
           //       <Container>
@@ -70,7 +70,7 @@ export function Layout({ children }: { children: ReactElement }) {
           //       </Container>
           //     </Footer>
           //   }
-          header={<HeaderSimple links={linkData} />}
+        //   header={<HeaderSimple links={linkData} />}
         >
           {children}
           <ScrollToTop />

@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { createStyles, Header, Container, Group, Burger, Anchor, Button } from '@mantine/core';
+import {
+  createStyles,
+  Header,
+  Container,
+  Group,
+  Burger,
+  Anchor,
+  Button,
+  Collapse,
+} from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import { Globe } from 'tabler-icons-react';
 import Link from 'next/link';
 import { useActiveLinkStyle } from './Navlinks';
+import { useNavToggleAtom } from './SideNavbarSlim';
 
-const useStyles = createStyles((theme) => ({
+export const useStylesHeader = createStyles((theme) => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -56,10 +66,10 @@ interface HeaderSimpleProps {
 }
 
 export function HeaderSimple({ links }: HeaderSimpleProps) {
-  const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
-  const { classes, cx } = useStyles();
-  const { getActiveBg, getActiveStyle, isActive } = useActiveLinkStyle();
+//   const [opened, toggleOpened] = useBooleanToggle(false);
+   const { opened, toggleNav, setNavState } = useNavToggleAtom();
+  const { classes, cx } = useStylesHeader();
+  const { isActive } = useActiveLinkStyle();
 
   const items = links.map((link) => (
     <Link href={link.link}>
@@ -69,26 +79,24 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
         variant="subtle"
         className={cx(classes.link, { [classes.linkActive]: isActive(link.link) })}
       >
-        <Anchor>{link.label}</Anchor>
+        {link.label}
       </Button>
     </Link>
   ));
 
   return (
-    <Header height={60} mb={120}>
-      <Container className={classes.header}>
-        <Globe />
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened()}
-          className={classes.burger}
-          size="sm"
-        />
-      </Container>
-    </Header>
+    <>
+      <Collapse in={opened} transitionDuration={1000} transitionTimingFunction="linear">
+        <Header height={60} mb={120}>
+          <Container className={classes.header}>
+            <div />
+            <Group spacing={5} className={classes.links}>
+              {items}
+            </Group>
+          </Container>
+        </Header>
+      </Collapse>
+      {/* <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm" /> */}
+    </>
   );
 }

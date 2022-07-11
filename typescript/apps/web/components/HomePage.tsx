@@ -19,7 +19,7 @@ import { multiChartOptions } from '../charts/echarts/chartMulti';
 import { useCandleChart } from '../charts/echarts/useCandleChart';
 import { useEffect } from 'react';
 import { taChartOption } from '../charts/echarts/TAChart';
-import { NavbarCustom } from './NavbarCustom/NavbarCustom';
+import { SideNavbarSlim } from './NavbarCustom/SideNavbarSlim';
 
 // import Box from "../3D/Box";
 
