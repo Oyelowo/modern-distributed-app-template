@@ -10,15 +10,12 @@ import {
   Affix,
   Burger,
 } from '@mantine/core';
-import {
-  Logout,
-  SwitchHorizontal,
- Globe } from 'tabler-icons-react';
+import { Logout, SwitchHorizontal, Globe } from 'tabler-icons-react';
 import Link from 'next/link';
 import { atom, useAtom } from 'jotai';
 import { linkData, useActiveLinkStyle } from './Navlinks';
 import { useStylesHeader } from './Headers';
-import { useSignOut } from '../../hooks/authentication';
+import { useSignOut } from '../../hooks/authentication/useSignOut';
 
 const useStyles = createStyles((theme) => ({
   link: {

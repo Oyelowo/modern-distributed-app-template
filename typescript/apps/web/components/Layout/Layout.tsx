@@ -1,13 +1,10 @@
 import { useMeQuery } from '@oyelowo/graphql-client';
-import {
-  AppShell,
-  useMantineTheme,
-  Skeleton,
-} from '@mantine/core';
+import { AppShell, useMantineTheme, Skeleton } from '@mantine/core';
 import { ReactElement, Suspense, useState } from 'react';
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { client } from '../../config/client';
-import { useSession, useSignOut } from '../../hooks/authentication';
+import { useSession } from '../../hooks/authentication/useSession';
+import { useSignOut } from '../../hooks/authentication/useSignOut';
 import { SideNavbarSlim } from '../NavbarCustom/SideNavbarSlim';
 
 export function Layout({ children }: { children: ReactElement }) {
@@ -45,7 +42,7 @@ export function Layout({ children }: { children: ReactElement }) {
           //       </Container>
           //     </Footer>
           //   }
-        //   header={<HeaderSimple links={linkData} />}
+          //   header={<HeaderSimple links={linkData} />}
         >
           {children}
           <ScrollToTop />

@@ -16,11 +16,12 @@ import React from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
 import { PasswordStrength } from './Password';
-import { signUpSchema, useSignUp } from '../../hooks/authentication';
-import { toggleAuthAtom } from './AuthForm';
+import { signUpSchema } from '../../hooks/authentication/helpers';
+import { useSignUp } from '../../hooks/authentication/useSignUp';
+import { toggleAuthAtom } from './atoms';
 
 export function SignUpForm() {
-  const [authType, setAuthType] = useAtom(toggleAuthAtom);
+  const [_authType, setAuthType] = useAtom(toggleAuthAtom);
   const { width, ref } = useElementSize<HTMLFormElement>();
 
   const { signUpCustom, error, isLoading } = useSignUp({

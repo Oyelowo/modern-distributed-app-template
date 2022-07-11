@@ -2,19 +2,12 @@ import z from 'zod';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
 import { useForceUpdate } from '@mantine/hooks';
-import {
-  PasswordInput,
-  TextInput,
-  Button,
-  Group,
-  Anchor,
-  LoadingOverlay,
-} from '@mantine/core';
+import { PasswordInput, TextInput, Button, Group, Anchor, LoadingOverlay } from '@mantine/core';
 import { AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
-import { useSignIn } from '../hooks/authentication';
-import { toggleAuthAtom } from './AuthForm';
+import { useSignIn } from '../../hooks/authentication/useSignIn';
+import { toggleAuthAtom } from './atoms';
 
 export const signInSchema = z.object({
   username: z

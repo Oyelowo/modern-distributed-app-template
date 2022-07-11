@@ -10,15 +10,14 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { BrandGithub } from 'tabler-icons-react';
-import { atom, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { DOMAIN_BASE } from '../../config/client';
 import SignInForm from './SignInForm';
 import { SignUpForm } from './SignUpForm';
 import { GoogleIcon } from '../icons/GoogleIcon';
+import { toggleAuthAtom } from './atoms';
 
-export const toggleAuthAtom = atom<'login' | 'register'>('login');
-
-export default function AuthenticationForm(props: PaperProps<'div'>) {
+export function AuthenticationForm(props: PaperProps<'div'>) {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);
   // const [type, toggle] = useToggle<'login' | 'register'>('login', ['login', 'register']);
   const { colorScheme } = useMantineColorScheme();

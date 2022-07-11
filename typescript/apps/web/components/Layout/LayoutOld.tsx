@@ -24,7 +24,8 @@ import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { client } from '../../config/client';
-import { useSession, useSignOut } from '../../hooks/authentication';
+import { useSession } from '../../hooks/useSession';
+import { useSignOut } from '../../hooks/useSignOut';
 import { Navlinks } from '../NavbarCustom/Navlinks';
 
 export default function Home({ children }: { children: ReactElement }) {

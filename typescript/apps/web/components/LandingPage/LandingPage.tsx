@@ -15,7 +15,8 @@ import { Check } from 'tabler-icons-react';
 import { useAtom } from 'jotai';
 import { WorldAtFingerTips } from '../Illustrations/WorldInHand';
 // import { SignUpFormModal } from '../components/SignUpForm';
-import AuthenticationForm, { toggleAuthAtom } from '../AuthForm';
+import { AuthenticationForm } from '../Authentication/AuthForm';
+import { toggleAuthAtom } from '../Authentication/atoms';
 
 const useStyles = createStyles((theme) => ({
   inner: {

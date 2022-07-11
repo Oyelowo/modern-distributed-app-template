@@ -1,11 +1,7 @@
-import {
-  useMantineTheme,
-  Space,
-  Skeleton,
-} from '@mantine/core';
+import { useMantineTheme, Space, Skeleton } from '@mantine/core';
 import { ReactElement, useState } from 'react';
-import { useSession } from '../hooks/authentication';
-import HomePage from '../components/HomePage';
+import { useSession } from '../hooks/authentication/useSession';
+import HomePage from '../components/Homepage/HomePage';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 import LandingPage from '../components/LandingPage/LandingPage';
