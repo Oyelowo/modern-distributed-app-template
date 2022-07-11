@@ -12,12 +12,13 @@ import {
   ThemeIcon,
   Modal,
   ButtonProps,
+  LoadingOverlay,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
-import image from './image.svg';
+import { useAtomValue } from 'jotai';
 import { WorldAtFingerTips } from '../components/Illustrations/WorldInHand';
 // import { SignUpFormModal } from '../components/SignUpForm';
-import AuthenticationForm from '../components/AuthForm';
+import AuthenticationForm, { toggleAuthAtom } from '../components/AuthForm';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -131,11 +132,17 @@ export default function HeroBullets() {
     Welcome to Oyelowo App, {type} with
 */
 export function GetStarted(props: ButtonProps<'button'>) {
+  const authType = useAtomValue(toggleAuthAtom);
   const [opened, setOpened] = useState(false);
 
   return (
     <>
-      <Modal size={'sm'} opened={opened} onClose={() => setOpened(false)} title="Welcome!">
+      <Modal
+        size={'xs'}
+        opened={opened}
+        onClose={() => setOpened(false)}
+        title={`Welcome! ${authType} with`}
+      >
         <AuthenticationForm />
       </Modal>
 

@@ -61,7 +61,7 @@ export function PasswordStrength({
 
   const strength = getStrength(value);
   const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
-
+  console.log('otherProps.width', otherProps.width);
   return (
     <Popover
       opened={popoverOpened}
@@ -69,22 +69,25 @@ export function PasswordStrength({
       placement="start"
       withArrow
       trapFocus={false}
+      styles={{ popover: { width: '100%' } }}
       transition="pop-top-left"
       onFocusCapture={() => setPopoverOpened(true)}
       onBlurCapture={() => setPopoverOpened(false)}
       target={
-        <PasswordInput
-          required
-          label="Your password"
-          placeholder="Your password"
-          style={{ minWidth: 336 }}
-          // description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
-          //   value={value}
-          //   onChange={(event) => setValue(event.currentTarget.value)}
-          // toggleTabIndex={0}
-          icon={<Lock size={16} />}
-          {...otherProps}
-        />
+        <>
+          <PasswordInput
+            required
+            label="Your password"
+            placeholder="Your password"
+            style={{ minWidth: otherProps.width }}
+            // description="Strong password should include letters in lower and uppercase, at least 1 number, at least 1 special symbol"
+            //   value={value}
+            //   onChange={(event) => setValue(event.currentTarget.value)}
+            // toggleTabIndex={0}
+            icon={<Lock size={16} />}
+            {...otherProps}
+          />
+        </>
       }
     >
       <Progress color={color} value={strength} size={5} style={{ marginBottom: 10 }} />

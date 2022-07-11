@@ -2,6 +2,7 @@
 import { signUpSchema, useSignUp } from '../hooks/authentication';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
+import { useElementSize } from '@mantine/hooks';
 import {
   NumberInput,
   TextInput,
@@ -14,11 +15,12 @@ import {
   Grid,
   SimpleGrid,
   Anchor,
+  LoadingOverlay,
 } from '@mantine/core';
 import z from 'zod';
 import { EyeCheck, EyeOff } from 'tabler-icons-react';
 import { PasswordStrength } from './Password';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import { useAtom } from 'jotai';
@@ -26,6 +28,7 @@ import { toggleAuthAtom } from './AuthForm';
 
 export function SignUpForm() {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);
+  const { width, ref } = useElementSize<HTMLFormElement>();
 
   const { signUpCustom, error, isLoading } = useSignUp({
     onError: (e) => {
@@ -71,7 +74,9 @@ export function SignUpForm() {
           socialMedia: ['yevibes'],
         });
       })}
+      ref={ref}
     >
+      {/* <LoadingOverlay visible={isLoading} /> */}
       <TextInput label="Email" placeholder="email@example.com" {...form.getInputProps('email')} />
 
       <TextInput
@@ -88,6 +93,7 @@ export function SignUpForm() {
         label="Password"
         placeholder="Password"
         required
+        width={width}
         {...form.getInputProps('password')}
       />
 
@@ -135,6 +141,12 @@ export function SignUpForm() {
         {...form.getInputProps('termsOfService', { type: 'checkbox' })}
       />
 
+      {/* <Group position="right" mt="xl">
+        <Button type="submit" loading={isLoading}>
+          Sign Up
+        </Button>
+      </Group> */}
+
       <Group position="apart" mt="xl">
         <Anchor
           component="button"
@@ -143,7 +155,7 @@ export function SignUpForm() {
           onClick={() => setAuthType('login')}
           size="xs"
         >
-          Already have an account? Login
+          Have an account? Login
         </Anchor>
         <Button type="submit">Sign Up</Button>
       </Group>

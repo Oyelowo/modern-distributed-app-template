@@ -14,6 +14,7 @@ import {
   Alert,
   createStyles,
   Anchor,
+  LoadingOverlay,
 } from '@mantine/core';
 import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
@@ -63,16 +64,18 @@ export default function SignInForm() {
 
   return (
     <form onSubmit={form.onSubmit(signInCustom)}>
+      <LoadingOverlay visible={isLoading} />
       <TextInput
         label="Username"
         placeholder="Username"
         {...form.getInputProps('username')}
         // error={error.getDetails()}
       />
-
       <br />
       <PasswordInput label="Password" placeholder="Password" {...form.getInputProps('password')} />
-
+      {/* <Group position="right" mt="xl">
+        <Button type="submit" loading={isLoading}>Login</Button>
+      </Group> */}
       <Group position="apart" mt="xl">
         <Anchor
           component="button"

@@ -17,7 +17,10 @@ import {
   ActionIcon,
   Grid,
   MantineTheme,
+  Footer,
   useMantineColorScheme,
+  LoadingOverlay,
+  Space,
 } from '@mantine/core';
 import { BrandGoogle, BrandGithub } from 'tabler-icons-react';
 import { DOMAIN_BASE } from '../config/client';
@@ -59,14 +62,15 @@ export default function AuthenticationForm(props: PaperProps<'div'>) {
       //   backgroundColor: t.colorScheme === 'dark' ? t.colors.dark[6] : t.white,
       // })}
       // mt="lg"
-      mx="auto"
+      // mx="auto"
+      // style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column' }}
       {...props}
     >
       {/* <Text size="lg" weight={500}>
         Welcome to Oyelowo App, {type} with
       </Text> */}
 
-      <SimpleGrid cols={2} style={{ justifyItems: 'center' }} mt="md">
+      <SimpleGrid cols={2} style={{ justifyItems: 'center' }}>
         <Button
           radius="lg"
           sx={sxOauthBtn}
@@ -94,9 +98,32 @@ export default function AuthenticationForm(props: PaperProps<'div'>) {
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-      <Group direction="column" grow>
+      {authType === 'login' ? <SignInForm /> : <SignUpForm />}
+      {/* <Group direction="column" grow>
         {authType === 'login' ? <SignInForm /> : <SignUpForm />}
-      </Group>
+      </Group> */}
+
+      {/* <Footer
+        height={25}
+        mt="lg"
+        style={{
+          marginTop: 'auto',
+          // alignSelf: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Group position="apart" mt="xl">
+          <Anchor
+            component="button"
+            type="button"
+            color="gray"
+            onClick={() => setAuthType((t) => (t === 'login' ? 'register' : 'login'))}
+            size="xs"
+          >
+            Don't have an account? {authType}
+          </Anchor>
+        </Group>
+      </Footer> */}
     </Paper>
   );
 }
