@@ -14,8 +14,7 @@ import { useRouter } from 'next/router';
 import { MutationCache, QueryCache, QueryClient, UseQueryOptions } from 'react-query';
 import { client } from '../config/client';
 import { useCookie } from 'react-use';
-import { signInSchema } from '../components/SignInForm';
-import { useForceUpdate } from '@react-spring/shared';
+import { signInSchema } from '../components/Authentication/SignInForm';
 
 export function useSignOut() {
   const router = useRouter();
@@ -100,7 +99,6 @@ export function useSignIn({
           client.refetchQueries(['session']);
           onSuccess(data);
           router.push('/');
-
         },
         onError: (e) => {
           onError(new GraphqlIoError(e));

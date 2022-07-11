@@ -5,11 +5,11 @@ import {
 } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useChart } from '../charts/echarts/ChartWithHooks';
-import ReactEcharts from '../charts/echarts/ReactEcharts';
-import { tradingChartOption } from '../charts/echarts/StockChartTA';
-import { multiChartOptions } from '../charts/echarts/chartMulti';
-import { useCandleChart } from '../charts/echarts/useCandleChart';
+import { useChart } from '../../charts/echarts/ChartWithHooks';
+import ReactEcharts from '../../charts/echarts/ReactEcharts';
+import { tradingChartOption } from '../../charts/echarts/StockChartTA';
+import { multiChartOptions } from '../../charts/echarts/chartMulti';
+import { useCandleChart } from '../../charts/echarts/useCandleChart';
 
 // import Box from "../3D/Box";
 

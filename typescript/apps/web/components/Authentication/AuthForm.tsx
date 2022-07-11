@@ -11,10 +11,10 @@ import {
 } from '@mantine/core';
 import { BrandGithub } from 'tabler-icons-react';
 import { atom, useAtom } from 'jotai';
-import { DOMAIN_BASE } from '../config/client';
+import { DOMAIN_BASE } from '../../config/client';
 import SignInForm from './SignInForm';
 import { SignUpForm } from './SignUpForm';
-import { GoogleIcon } from './icons/GoogleIcon';
+import { GoogleIcon } from '../icons/GoogleIcon';
 
 export const toggleAuthAtom = atom<'login' | 'register'>('login');
 

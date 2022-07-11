@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import HomePage from '../components/HomePage';
+import HomePage from '../components/Homepage/HomePage';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 
