@@ -1,6 +1,4 @@
-import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { AppContext } from 'next/app';
-import { useThemeAtom } from '@oyelowo/ui/components';
+import { useMeQuery } from '@oyelowo/graphql-client';
 import {
   Button,
   AppShell,
@@ -15,13 +13,10 @@ import {
   Footer,
   useMantineTheme,
   ScrollArea,
-  Stack,
-  Box,
   Avatar,
   Indicator,
   Divider,
   Anchor,
-  Space,
   Tooltip,
   Skeleton,
 } from '@mantine/core';
@@ -30,7 +25,6 @@ import { ReactElement, Suspense, useState } from 'react';
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { client } from '../../config/client';
 import { useSession, useSignOut } from '../../hooks/authentication';
-import HomePage from '../HomePage';
 import { Navlinks } from '../NavbarCustom/Navlinks';
 
 export default function Home({ children }: { children: ReactElement }) {

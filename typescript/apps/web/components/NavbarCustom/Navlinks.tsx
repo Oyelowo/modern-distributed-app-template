@@ -1,12 +1,6 @@
 import React from 'react';
 import {
-  GitPullRequest,
-  AlertCircle,
-  Messages,
-  Database,
-  Dashboard,
   ChartInfographic,
-  ChartBar,
   Settings,
   Globe,
   HotelService,

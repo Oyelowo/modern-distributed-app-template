@@ -1,6 +1,5 @@
 import React from 'react';
 import { createStyles } from '@mantine/core';
-import { useSpring } from 'react-spring';
 
 const useStyles = createStyles(() => ({
   world: {},

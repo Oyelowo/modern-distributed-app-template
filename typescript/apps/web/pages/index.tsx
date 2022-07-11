@@ -1,36 +1,11 @@
-import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { AppContext } from 'next/app';
 import {
-  Button,
-  AppShell,
-  Navbar,
-  Header,
-  Container,
-  Text,
-  SimpleGrid,
-  Burger,
-  MediaQuery,
-  Aside,
-  Footer,
   useMantineTheme,
-  ScrollArea,
-  Stack,
-  Box,
-  Avatar,
-  Indicator,
-  Divider,
-  Anchor,
   Space,
-  Tooltip,
   Skeleton,
 } from '@mantine/core';
-import { Star } from 'tabler-icons-react';
-import { ReactElement, Suspense, useState } from 'react';
-import { ScrollToTop } from '../components/Scroll/ScrollToTop';
-import { client } from '../config/client';
-import { useAuth, useSession, useSignOut } from '../hooks/authentication';
+import { ReactElement, useState } from 'react';
+import { useSession } from '../hooks/authentication';
 import HomePage from '../components/HomePage';
-import { Navlinks } from '../components/NavbarCustom/Navlinks';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 import LandingPage from '../components/LandingPage/LandingPage';

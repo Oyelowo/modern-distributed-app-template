@@ -1,6 +1,6 @@
 import { ArrowUpIcon } from '@modulz/radix-icons';
 import { useWindowScroll } from '@mantine/hooks';
-import { Affix, Button, Text, Transition, ActionIcon } from '@mantine/core';
+import { Affix, Transition, ActionIcon } from '@mantine/core';
 
 export function ScrollToTop() {
   const [scroll, scrollTo] = useWindowScroll();

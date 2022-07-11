@@ -1,11 +1,7 @@
-import { Button, Highlight, Box, Modal } from '@mantine/core';
+import { Box, Modal } from '@mantine/core';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 import AuthenticationForm, { toggleAuthAtom } from '../components/AuthForm';
-import { GetStarted } from '../components/LandingPage/LandingPage';
-import SignInForm from '../components/SignInForm';
-import { SignUpForm } from '../components/SignUpForm';
-import { DOMAIN_BASE } from '../config/client';
 
 const SignIn = () => {
   const providers = ['google', 'github'] as const;

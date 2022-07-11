@@ -1,24 +1,15 @@
 import {
-  Button,
-  Divider,
-  Space,
-  Box,
   Container,
   SimpleGrid,
-  Grid,
   useMantineTheme,
 } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
-import { useEffect } from 'react';
 import { useChart } from '../charts/echarts/ChartWithHooks';
 import ReactEcharts from '../charts/echarts/ReactEcharts';
 import { tradingChartOption } from '../charts/echarts/StockChartTA';
 import { multiChartOptions } from '../charts/echarts/chartMulti';
 import { useCandleChart } from '../charts/echarts/useCandleChart';
-import { taChartOption } from '../charts/echarts/TAChart';
-import { SideNavbarSlim } from './NavbarCustom/SideNavbarSlim';
 
 // import Box from "../3D/Box";
 

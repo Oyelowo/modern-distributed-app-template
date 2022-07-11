@@ -1,4 +1,4 @@
-import { createGetInitialProps, ServerStyles, createStylesServer } from '@mantine/next';
+import { ServerStyles, createStylesServer } from '@mantine/next';
 import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 
 // const getInitialProps = createGetInitialProps();

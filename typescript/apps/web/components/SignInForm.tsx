@@ -1,21 +1,16 @@
-import z, { ZodType } from 'zod';
+import z from 'zod';
 // import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
-import { useForceUpdate, upperFirst } from '@mantine/hooks';
+import { useForceUpdate } from '@mantine/hooks';
 import {
-  NumberInput,
   PasswordInput,
   TextInput,
   Button,
-  Box,
   Group,
-  Checkbox,
-  Alert,
-  createStyles,
   Anchor,
   LoadingOverlay,
 } from '@mantine/core';
-import { AlertCircle, AlertTriangle } from 'tabler-icons-react';
+import { AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
 import { useSignIn } from '../hooks/authentication';

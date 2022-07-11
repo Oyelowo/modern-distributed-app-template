@@ -7,24 +7,13 @@ import {
   createStyles,
   Group,
   Drawer,
-  Button,
   Affix,
-  ActionIcon,
   Burger,
 } from '@mantine/core';
-import { useBooleanToggle } from '@mantine/hooks';
 import {
-  Icon as TablerIcon,
-  Home2,
-  Gauge,
-  DeviceDesktopAnalytics,
-  Fingerprint,
-  CalendarStats,
-  User,
-  Settings,
   Logout,
   SwitchHorizontal,
- Globe, ArrowLeft, ArrowRight } from 'tabler-icons-react';
+ Globe } from 'tabler-icons-react';
 import Link from 'next/link';
 import { atom, useAtom } from 'jotai';
 import { linkData, useActiveLinkStyle } from './Navlinks';

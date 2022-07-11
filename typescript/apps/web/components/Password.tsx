@@ -1,15 +1,12 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 import { CheckIcon, Cross1Icon } from '@modulz/radix-icons';
-import { Lock, Check, CrossOff, EyeCheck, EyeOff } from 'tabler-icons-react';
+import { Lock } from 'tabler-icons-react';
 import {
   PasswordInput,
   Progress,
   Text,
   Popover,
   Box,
-  SimpleGrid,
-  Container,
-  Grid,
 } from '@mantine/core';
 
 function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {

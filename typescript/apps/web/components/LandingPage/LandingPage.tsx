@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import {
   createStyles,
-  Image,
   Container,
-  ActionIcon,
   Title,
   Button,
   Group,
@@ -12,12 +10,9 @@ import {
   ThemeIcon,
   Modal,
   ButtonProps,
-  LoadingOverlay,
-  Transition,
-  Skeleton,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
-import { useAtomValue, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import { WorldAtFingerTips } from '../Illustrations/WorldInHand';
 // import { SignUpFormModal } from '../components/SignUpForm';
 import AuthenticationForm, { toggleAuthAtom } from '../AuthForm';

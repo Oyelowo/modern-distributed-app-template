@@ -3,22 +3,16 @@
 import { useForm, zodResolver } from '@mantine/form';
 import { useElementSize } from '@mantine/hooks';
 import {
-  NumberInput,
   TextInput,
   PasswordInput,
   Button,
-  Box,
   Group,
   Checkbox,
-  Modal,
-  Grid,
-  SimpleGrid,
   Anchor,
-  LoadingOverlay,
 } from '@mantine/core';
 import z from 'zod';
-import { EyeCheck, EyeOff, AlertCircle, AlertTriangle } from 'tabler-icons-react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AlertTriangle } from 'tabler-icons-react';
+import React from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
 import { PasswordStrength } from './Password';

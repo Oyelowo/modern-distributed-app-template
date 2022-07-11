@@ -1,4 +1,4 @@
-import { ActionIcon, Group, useMantineColorScheme, Affix, Transition } from '@mantine/core';
+import { ActionIcon, useMantineColorScheme, Affix, Transition } from '@mantine/core';
 import { SunIcon, MoonIcon } from '@modulz/radix-icons';
 import { useWindowScroll } from '@mantine/hooks';
 

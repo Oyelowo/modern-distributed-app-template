@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   createStyles,
   Header,
   Container,
   Group,
-  Burger,
-  Anchor,
   Button,
   Collapse,
 } from '@mantine/core';
-import { useBooleanToggle } from '@mantine/hooks';
-import { Globe } from 'tabler-icons-react';
 import Link from 'next/link';
 import { useActiveLinkStyle } from './Navlinks';
 import { useNavToggleAtom } from './SideNavbarSlim';

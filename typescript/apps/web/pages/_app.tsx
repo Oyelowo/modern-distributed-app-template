@@ -1,11 +1,10 @@
-import { atom, Provider, useAtom } from 'jotai';
+import { Provider } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { createElement, useCallback, useState } from 'react';
-import { ReactQueryDevtools, ReactQueryDevtoolsPanel } from 'react-query/devtools';
-import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
+import { useState } from 'react';
+import { useColorScheme } from '@mantine/hooks';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
-import type { GetServerSidePropsContext, NextPage } from 'next';
+import type { NextPage } from 'next';
 
 // import { getCookie, setCookies } from 'cookies-next';
 import Head from 'next/head';

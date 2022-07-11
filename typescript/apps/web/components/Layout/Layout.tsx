@@ -1,38 +1,14 @@
-import { useGetUserQuery, useGetUsersQuery, useMeQuery } from '@oyelowo/graphql-client';
-import { AppContext } from 'next/app';
+import { useMeQuery } from '@oyelowo/graphql-client';
 import {
-  Button,
   AppShell,
-  Navbar,
-  Header,
-  Container,
-  Text,
-  SimpleGrid,
-  Burger,
-  MediaQuery,
-  Aside,
-  Footer,
   useMantineTheme,
-  ScrollArea,
-  Stack,
-  Box,
-  Avatar,
-  Indicator,
-  Divider,
-  Anchor,
-  Space,
-  Tooltip,
   Skeleton,
 } from '@mantine/core';
-import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { client } from '../../config/client';
 import { useSession, useSignOut } from '../../hooks/authentication';
-import HomePage from '../HomePage';
-import { linkData, Navlinks } from '../NavbarCustom/Navlinks';
 import { SideNavbarSlim } from '../NavbarCustom/SideNavbarSlim';
-import { HeaderSimple } from '../NavbarCustom/Headers';
 
 export function Layout({ children }: { children: ReactElement }) {
   const { signOutCustom } = useSignOut();

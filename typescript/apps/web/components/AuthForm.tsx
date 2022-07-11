@@ -1,28 +1,15 @@
 import React from 'react';
-import { useForm, useToggle, upperFirst } from '@mantine/hooks';
+import { useForm } from '@mantine/hooks';
 import {
-  TextInput,
-  PasswordInput,
-  Text,
   Paper,
-  Group,
   PaperProps,
   Button,
   Divider,
-  Checkbox,
-  Anchor,
-  UnstyledButton,
-  Container,
   SimpleGrid,
   ActionIcon,
-  Grid,
-  MantineTheme,
-  Footer,
   useMantineColorScheme,
-  LoadingOverlay,
-  Space,
 } from '@mantine/core';
-import { BrandGoogle, BrandGithub } from 'tabler-icons-react';
+import { BrandGithub } from 'tabler-icons-react';
 import { atom, useAtom } from 'jotai';
 import { DOMAIN_BASE } from '../config/client';
 import SignInForm from './SignInForm';

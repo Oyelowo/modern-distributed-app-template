@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   SimpleGrid,
-  ActionIcon,
 } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
