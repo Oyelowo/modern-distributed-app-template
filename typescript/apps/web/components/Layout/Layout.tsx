@@ -1,24 +1,16 @@
 import { useMeQuery } from '@oyelowo/graphql-client';
 import { AppShell, useMantineTheme, Skeleton } from '@mantine/core';
-import { ReactElement, Suspense, useState } from 'react';
+import { ReactElement, Suspense } from 'react';
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { client } from '../../config/client';
 import { useSession } from '../../hooks/authentication/useSession';
-import { useSignOut } from '../../hooks/authentication/useSignOut';
 import { SideNavbarSlim } from '../NavbarCustom/SideNavbarSlim';
 
 export function Layout({ children }: { children: ReactElement }) {
-  const { signOutCustom } = useSignOut();
-  // const [theme] = useThemeAtom();
   const data = useSession();
   const { data: { me } = {}, isLoading } = useMeQuery(client, {}, { staleTime: 600 * 1000 });
 
   const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
-  // if (isLoading) {
-  //   return <>Loading...</>;
-  // }
-
   return (
     <Skeleton visible={isLoading}>
       <Suspense fallback={<Skeleton visible={isLoading} />}>
@@ -33,16 +25,16 @@ export function Layout({ children }: { children: ReactElement }) {
           asideOffsetBreakpoint="sm"
           fixed
           navbar={<SideNavbarSlim />}
-          //   footer={
-          //     <Footer height={60} p="md">
-          //       <Container>
-          //         <Anchor href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
-          //           Powered by Code breather
-          //         </Anchor>
-          //       </Container>
-          //     </Footer>
-          //   }
-          //   header={<HeaderSimple links={linkData} />}
+          // footer={
+          //   <Footer height={60} p="md">
+          //     <Container>
+          //       <Anchor href="https://codebreather.com" target="_blank" rel="noopener noreferrer">
+          //         Powered by Code breather
+          //       </Anchor>
+          //     </Container>
+          //   </Footer>
+          // }
+          // header={<HeaderSimple links={linkData} />}
         >
           {children}
           <ScrollToTop />

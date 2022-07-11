@@ -1,12 +1,12 @@
 import { ReactElement } from 'react';
 
+import { useWindowSize } from 'react-use';
+import { useElementSize } from '@mantine/hooks';
+import { Space } from '@mantine/core';
 import { NextPageWithLayout } from './_app';
 import { Layout } from '../components/Layout/Layout';
 import LineChart from '../charts/d3/LineChart/LineChart';
-import { useWindowSize } from 'react-use';
-import { useElementSize } from '@mantine/hooks';
 import VoronoiHoverTracker from '../charts/d3/Voronoi/Voronoi';
-import { Space } from '@mantine/core';
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 

@@ -1,9 +1,4 @@
 import React from 'react';
-import { createStyles } from '@mantine/core';
-
-const useStyles = createStyles(() => ({
-  world: {},
-}));
 
 export function WorldAtFingerTips(
   props: React.ComponentPropsWithoutRef<'svg'> & { color?: string }
@@ -15,7 +10,6 @@ export function WorldAtFingerTips(
       width="792.08621"
       height="598.8363"
       viewBox="0 0 792.08621 598.8363"
-      //   xmlns:xlink="http://www.w3.org/1999/xlink"
       {...props}
     >
       <path

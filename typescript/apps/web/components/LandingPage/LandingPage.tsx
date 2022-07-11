@@ -126,9 +126,7 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
     </div>
   );
 }
-/*
-    Welcome to Oyelowo App, {type} with
-*/
+
 export function GetStarted(props: ButtonProps<'button'>) {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);
   const [opened, setOpened] = useState(false);

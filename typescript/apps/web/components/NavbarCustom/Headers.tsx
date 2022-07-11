@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  createStyles,
-  Header,
-  Container,
-  Group,
-  Button,
-  Collapse,
-} from '@mantine/core';
+import { createStyles, Header, Container, Group, Button, Collapse } from '@mantine/core';
 import Link from 'next/link';
 import { useActiveLinkStyle } from './Navlinks';
 import { useNavToggleAtom } from './SideNavbarSlim';
@@ -92,7 +85,6 @@ export function HeaderSimple({ links }: HeaderSimpleProps) {
           </Container>
         </Header>
       </Collapse>
-      {/* <Burger opened={opened} onClick={() => toggleOpened()} className={classes.burger} size="sm" /> */}
     </>
   );
 }

@@ -88,7 +88,7 @@ export function SideNavbarSlim() {
     <NavbarLink
       {...link}
       key={link.label}
-      href={link.link}
+      href={link.href}
       active={index === active}
       onClick={() => setActive(index)}
     />
@@ -126,9 +126,6 @@ export function SideNavbarSlim() {
           </Navbar.Section>
         </Navbar>
       </Drawer>
-
-      {/* <Group position="center">
-      </Group> */}
     </>
   );
 }
