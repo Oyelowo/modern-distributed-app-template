@@ -100,6 +100,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.7",
     "eslint-plugin-testing-library": "^5.2.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "jest-environment-jsdom": "^28.1.1",
     "msw": "^0.42.1",
     "next-compose-plugins": "2.2.1",
