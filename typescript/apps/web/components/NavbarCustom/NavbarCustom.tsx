@@ -13,7 +13,8 @@ import {
   SwitchHorizontal,
 } from 'tabler-icons-react';
 import { Globe } from 'tabler-icons-react';
-import { linkData } from './Navlinks';
+import { linkData, useActiveLinkStyle } from './Navlinks';
+import Link from 'next/link';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -44,17 +45,24 @@ const useStyles = createStyles((theme) => ({
 interface NavbarLinkProps {
   icon: React.ReactNode;
   label: string;
+  href?: string;
   active?: boolean;
   onClick?(): void;
 }
 
-function NavbarLink({ icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon, label, active, onClick, href = '#' }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
+  const { isActive } = useActiveLinkStyle();
   return (
     <Tooltip label={label} position="right" withArrow transitionDuration={0}>
-      <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
-        {icon}
-      </UnstyledButton>
+      <Link href={href}>
+        <UnstyledButton
+          onClick={onClick}
+          className={cx(classes.link, { [classes.active]: isActive(href) })}
+        >
+          {icon}
+        </UnstyledButton>
+      </Link>
     </Tooltip>
   );
 }
@@ -76,6 +84,7 @@ export function NavbarCustom() {
     <NavbarLink
       {...link}
       key={link.label}
+      href={link.link}
       active={index === active}
       onClick={() => setActive(index)}
     />

@@ -31,8 +31,9 @@ import {
 import { ScrollToTop } from '../Scroll/ScrollToTop';
 import { Star } from 'tabler-icons-react';
 import { ReactElement, Suspense, useState } from 'react';
-import { Navlinks } from '../NavbarCustom/Navlinks';
+import { linkData, Navlinks } from '../NavbarCustom/Navlinks';
 import { NavbarCustom } from '../NavbarCustom/NavbarCustom';
+import { HeaderSimple } from '../NavbarCustom/Headers';
 
 export function Layout({ children }: { children: ReactElement }) {
   const { signOutCustom } = useSignOut();
@@ -69,23 +70,7 @@ export function Layout({ children }: { children: ReactElement }) {
           //       </Container>
           //     </Footer>
           //   }
-        //   header={
-        //     <Header height={70} p="md">
-        //       <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-        //         <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-        //           <Burger
-        //             opened={opened}
-        //             onClick={() => setOpened((o) => !o)}
-        //             size="sm"
-        //             color={theme.colors.gray[6]}
-        //             mr="xl"
-        //           />
-        //         </MediaQuery>
-
-        //         <Text>{data?.status === 'success' && data.data?.session.userId}</Text>
-        //       </div>
-        //     </Header>
-        //   }
+          header={<HeaderSimple links={linkData} />}
         >
           {children}
           <ScrollToTop />

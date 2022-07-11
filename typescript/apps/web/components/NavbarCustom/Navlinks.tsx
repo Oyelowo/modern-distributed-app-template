@@ -19,13 +19,27 @@ interface MainLinkProps {
   icon: React.ReactNode;
   color: string;
   label: string;
-  to: string;
+  link: string;
 }
 
-function MainLink({ icon, color, label, to }: MainLinkProps) {
+export function useActiveLinkStyle() {
   const router = useRouter();
   const getActiveBg = (theme: MantineTheme) =>
     theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0];
+
+  return {
+    getActiveStyle: (link: string, theme: MantineTheme) =>
+      router.pathname === link ? getActiveBg(theme) : '',
+    isActive: (link: string) => router.pathname === link,
+    getActiveBg,
+  };
+}
+
+function MainLink({ icon, color, label, link: to }: MainLinkProps) {
+  const { getActiveStyle, getActiveBg } = useActiveLinkStyle();
+  // const router = useRouter();
+  // const getActiveBg = (theme: MantineTheme) =>
+  //   theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0];
   return (
     <Link href={to}>
       <UnstyledButton
@@ -35,7 +49,7 @@ function MainLink({ icon, color, label, to }: MainLinkProps) {
           padding: theme.spacing.xs,
           borderRadius: theme.radius.sm,
           color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-          backgroundColor: router.pathname === to ? getActiveBg(theme) : '',
+          backgroundColor: getActiveStyle(to, theme),
 
           '&:hover': {
             backgroundColor: getActiveBg(theme),
@@ -56,10 +70,10 @@ function MainLink({ icon, color, label, to }: MainLinkProps) {
 }
 
 export const linkData = [
-  { icon: <ChartInfographic />, color: 'blue', label: 'Dashboard', to: '/dashboard' },
-  { icon: <Settings />, color: 'teal', label: 'Settings', to: '/settings' },
-  { icon: <Globe />, color: 'cyan', label: 'Maps', to: '/maps' },
-  { icon: <HotelService />, color: 'indigo', label: 'Bookings', to: '/bookings' },
+  { icon: <ChartInfographic />, color: 'blue', label: 'Dashboard', link: '/dashboard' },
+  { icon: <Settings />, color: 'teal', label: 'Settings', link: '/settings' },
+  { icon: <Globe />, color: 'cyan', label: 'Maps', link: '/maps' },
+  { icon: <HotelService />, color: 'indigo', label: 'Bookings', link: '/bookings' },
 ];
 
 export function Navlinks() {
