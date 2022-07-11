@@ -1,22 +1,13 @@
-// import { Button, TextInput } from '@mantine/core';
-// import { useFormCustom } from '../hooks/useFormCustom';
 import { useForm, zodResolver } from '@mantine/form';
 import { useElementSize } from '@mantine/hooks';
-import {
-  TextInput,
-  PasswordInput,
-  Button,
-  Group,
-  Checkbox,
-  Anchor,
-} from '@mantine/core';
+import { TextInput, PasswordInput, Button, Group, Checkbox, Anchor } from '@mantine/core';
 import z from 'zod';
 import { AlertTriangle } from 'tabler-icons-react';
 import React from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
 import { PasswordStrength } from './Password';
-import { signUpSchema } from '../../hooks/authentication/helpers';
+import { signUpSchema } from '../../hooks/authentication/useSignUp';
 import { useSignUp } from '../../hooks/authentication/useSignUp';
 import { toggleAuthAtom } from './atoms';
 
@@ -24,7 +15,7 @@ export function SignUpForm() {
   const [_authType, setAuthType] = useAtom(toggleAuthAtom);
   const { width, ref } = useElementSize<HTMLFormElement>();
 
-  const { signUpCustom, error, isLoading } = useSignUp({
+  const { signUpCustom } = useSignUp({
     onError: (e) => {
       showNotification({
         title: 'Registration Failed',
@@ -35,12 +26,7 @@ export function SignUpForm() {
       });
     },
   });
-  // const {
-  //   form.getInputProps,
-  //   handleSubmit,
-  //   getValues,
-  //   formState: { errors },
-  // } = useForm(SignUpSchema, {});
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     schema: zodResolver(signUpSchema),
     initialValues: {
@@ -135,12 +121,6 @@ export function SignUpForm() {
         {...form.getInputProps('termsOfService', { type: 'checkbox' })}
       />
 
-      {/* <Group position="right" mt="xl">
-        <Button type="submit" loading={isLoading}>
-          Sign Up
-        </Button>
-      </Group> */}
-
       <Group position="apart" mt="xl">
         <Anchor
           component="button"
@@ -156,21 +136,3 @@ export function SignUpForm() {
     </form>
   );
 }
-
-// export function SignUpFormModal() {
-//   const [opened, setOpened] = useState(false);
-
-//   return (
-//     <>
-//       <Modal opened={opened} onClose={() => setOpened(false)}>
-//         <SignUpForm />
-//       </Modal>
-
-//       <Group position="center">
-//         <Button onClick={() => setOpened(true)} variant="gradient">
-//           Create Account
-//         </Button>
-//       </Group>
-//     </>
-//   );
-// }

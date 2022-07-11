@@ -1,14 +1,4 @@
-import React from 'react';
-import { useForm } from '@mantine/hooks';
-import {
-  Paper,
-  PaperProps,
-  Button,
-  Divider,
-  SimpleGrid,
-  ActionIcon,
-  useMantineColorScheme,
-} from '@mantine/core';
+import { Paper, PaperProps, Button, Divider, SimpleGrid, ActionIcon } from '@mantine/core';
 import { BrandGithub } from 'tabler-icons-react';
 import { useAtom } from 'jotai';
 import { DOMAIN_BASE } from '../../config/client';
@@ -18,42 +8,10 @@ import { GoogleIcon } from '../icons/GoogleIcon';
 import { toggleAuthAtom } from './atoms';
 
 export function AuthenticationForm(props: PaperProps<'div'>) {
-  const [authType, setAuthType] = useAtom(toggleAuthAtom);
-  // const [type, toggle] = useToggle<'login' | 'register'>('login', ['login', 'register']);
-  const { colorScheme } = useMantineColorScheme();
-  const form = useForm({
-    initialValues: {
-      email: '',
-      name: '',
-      password: '',
-      terms: true,
-    },
-
-    validationRules: {
-      email: (val) => /^\S+@\S+$/.test(val),
-      password: (val) => val.length >= 6,
-    },
-  });
+  const [authType, _setAuthType] = useAtom(toggleAuthAtom);
 
   return (
-    <Paper
-      radius="md"
-      // p="xl"
-      // withBorder
-      // sx={(t) => ({
-      //   maxWidth: 400,
-      //   // backgroundColor: t.colorScheme === 'dark' ? '#19232d' : t.white,
-      //   backgroundColor: t.colorScheme === 'dark' ? t.colors.dark[6] : t.white,
-      // })}
-      // mt="lg"
-      // mx="auto"
-      // style={{ minHeight: '70vh', display: 'flex', flexDirection: 'column' }}
-      {...props}
-    >
-      {/* <Text size="lg" weight={500}>
-        Welcome to Oyelowo App, {type} with
-      </Text> */}
-
+    <Paper radius="md" {...props}>
       <SimpleGrid cols={2} style={{ justifyItems: 'center' }}>
         <Button
           radius="lg"
@@ -85,33 +43,7 @@ export function AuthenticationForm(props: PaperProps<'div'>) {
       </SimpleGrid>
 
       <Divider label="Or continue with email" labelPosition="center" my="lg" />
-
       {authType === 'login' ? <SignInForm /> : <SignUpForm />}
-      {/* <Group direction="column" grow>
-        {authType === 'login' ? <SignInForm /> : <SignUpForm />}
-      </Group> */}
-
-      {/* <Footer
-        height={25}
-        mt="lg"
-        style={{
-          marginTop: 'auto',
-          // alignSelf: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Group position="apart" mt="xl">
-          <Anchor
-            component="button"
-            type="button"
-            color="gray"
-            onClick={() => setAuthType((t) => (t === 'login' ? 'register' : 'login'))}
-            size="xs"
-          >
-            Don't have an account? {authType}
-          </Anchor>
-        </Group>
-      </Footer> */}
     </Paper>
   );
 }
