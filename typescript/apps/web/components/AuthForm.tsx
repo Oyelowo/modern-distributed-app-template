@@ -48,9 +48,7 @@ export default function AuthenticationForm(props: PaperProps<'div'>) {
       password: (val) => val.length >= 6,
     },
   });
-  const sxOauthBtn = (t: MantineTheme) => ({
-    backgroundColor: t.colorScheme === 'dark' ? t.colors.dark[9] : t.white,
-  });
+
   return (
     <Paper
       radius="md"
@@ -73,26 +71,30 @@ export default function AuthenticationForm(props: PaperProps<'div'>) {
       <SimpleGrid cols={2} style={{ justifyItems: 'center' }}>
         <Button
           radius="lg"
-          sx={sxOauthBtn}
           component="a"
           variant="default"
           href={`${DOMAIN_BASE}/oauth/signin/google`}
+          leftIcon={
+            <ActionIcon variant="transparent" size="sm" aria-label="google">
+              <GoogleIcon />
+            </ActionIcon>
+          }
         >
-          <ActionIcon variant="transparent" aria-label="google">
-            <GoogleIcon />
-          </ActionIcon>
+          Google
         </Button>
 
         <Button
           radius="lg"
-          sx={sxOauthBtn}
           component="a"
           variant="default"
           href={`${DOMAIN_BASE}/oauth/signin/github`}
+          leftIcon={
+            <ActionIcon variant="transparent" aria-label="github">
+              <BrandGithub />
+            </ActionIcon>
+          }
         >
-          <ActionIcon variant="transparent" aria-label="github">
-            <BrandGithub />
-          </ActionIcon>
+          Github
         </Button>
       </SimpleGrid>
 

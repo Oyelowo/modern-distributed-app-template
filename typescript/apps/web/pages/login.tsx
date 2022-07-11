@@ -1,29 +1,28 @@
-import { Button, Highlight, Box } from '@mantine/core';
+import { Button, Highlight, Box, Modal } from '@mantine/core';
 import { cx, TW } from '@oyelowo/ui/tailwind';
+import { useAtom } from 'jotai';
+import { useState } from 'react';
+import AuthenticationForm, { toggleAuthAtom } from '../components/AuthForm';
+import { GetStarted } from '../components/LandingPage/LandingPage';
 import SignInForm from '../components/SignInForm';
 import { SignUpForm } from '../components/SignUpForm';
 import { DOMAIN_BASE } from '../config/client';
 
 const SignIn = () => {
   const providers = ['google', 'github'] as const;
+    const [authType, setAuthType] = useAtom(toggleAuthAtom);
+    const [opened, setOpened] = useState(false);
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <SignInForm />
-
-      {providers.map((p) => (
-        <div key={p}>
-          <Button component="a" href={`${DOMAIN_BASE}/oauth/signin/${p}`}>
-            Sign in with {p}
-          </Button>
-          <br />
-          <br />
-        </div>
-      ))}
-
-      <Box>
-        <SignUpForm />
-      </Box>
+      <Modal
+        size={'xs'}
+        opened={true}
+        onClose={() => {}}
+        title={`Welcome! ${authType} with,`}
+      >
+        <AuthenticationForm />
+      </Modal>
     </Box>
   );
 };

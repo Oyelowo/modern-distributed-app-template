@@ -13,12 +13,13 @@ import {
   Modal,
   ButtonProps,
   LoadingOverlay,
+  Transition,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
-import { useAtomValue } from 'jotai';
-import { WorldAtFingerTips } from '../components/Illustrations/WorldInHand';
+import { useAtomValue, useAtom } from 'jotai';
+import { WorldAtFingerTips } from '../Illustrations/WorldInHand';
 // import { SignUpFormModal } from '../components/SignUpForm';
-import AuthenticationForm, { toggleAuthAtom } from '../components/AuthForm';
+import AuthenticationForm, { toggleAuthAtom } from '../AuthForm';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -132,7 +133,7 @@ export default function HeroBullets() {
     Welcome to Oyelowo App, {type} with
 */
 export function GetStarted(props: ButtonProps<'button'>) {
-  const authType = useAtomValue(toggleAuthAtom);
+  const [authType, setAuthType] = useAtom(toggleAuthAtom);
   const [opened, setOpened] = useState(false);
 
   return (
@@ -147,7 +148,14 @@ export function GetStarted(props: ButtonProps<'button'>) {
       </Modal>
 
       <Group position="center">
-        <Button onClick={() => setOpened(true)} variant="gradient" {...props}>
+        <Button
+          onClick={() => {
+            setOpened(true);
+            setAuthType('register');
+          }}
+          variant="gradient"
+          {...props}
+        >
           Get Started
         </Button>
       </Group>
