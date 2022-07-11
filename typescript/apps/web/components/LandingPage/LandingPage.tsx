@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   createStyles,
   Container,
@@ -8,15 +7,10 @@ import {
   Text,
   List,
   ThemeIcon,
-  Modal,
-  ButtonProps,
 } from '@mantine/core';
 import { Check } from 'tabler-icons-react';
-import { useAtom } from 'jotai';
 import { WorldAtFingerTips } from '../Illustrations/WorldInHand';
-// import { SignUpFormModal } from '../components/SignUpForm';
-import { AuthenticationForm } from '../Authentication/AuthForm';
-import { toggleAuthAtom } from '../Authentication/atoms';
+import { GetStarted } from './GetStarted';
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -75,7 +69,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function LandingPage({ isLoading }: { isLoading: boolean }) {
+export default function LandingPage() {
   const { classes } = useStyles();
   return (
     <div>
@@ -107,7 +101,7 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
                 <b>Simple</b> – You dont need to be a rocket scientist to use important info
               </List.Item>
               <List.Item>
-                <b>Detailed</b> – The only app you will ever need. Don't believe? Try yourself
+                <b>Detailed</b> – The only app you will ever need. Don&apos;t believe? Try yourself
               </List.Item>
             </List>
 
@@ -124,36 +118,5 @@ export default function LandingPage({ isLoading }: { isLoading: boolean }) {
         </div>
       </Container>
     </div>
-  );
-}
-
-export function GetStarted(props: ButtonProps<'button'>) {
-  const [authType, setAuthType] = useAtom(toggleAuthAtom);
-  const [opened, setOpened] = useState(false);
-
-  return (
-    <>
-      <Modal
-        size="xs"
-        opened={opened}
-        onClose={() => setOpened(false)}
-        title={`Welcome! ${authType} with`}
-      >
-        <AuthenticationForm />
-      </Modal>
-
-      <Group position="center">
-        <Button
-          onClick={() => {
-            setOpened(true);
-            setAuthType('register');
-          }}
-          variant="gradient"
-          {...props}
-        >
-          Get Started
-        </Button>
-      </Group>
-    </>
   );
 }

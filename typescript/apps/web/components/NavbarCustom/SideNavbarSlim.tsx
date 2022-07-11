@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Navbar,
   Center,
@@ -12,10 +11,9 @@ import {
 } from '@mantine/core';
 import { Logout, SwitchHorizontal, Globe } from 'tabler-icons-react';
 import Link from 'next/link';
-import { atom, useAtom } from 'jotai';
 import { linkData, useActiveLinkStyle } from './Navlinks';
-import { useStylesHeader } from './Headers';
 import { useSignOut } from '../../hooks/authentication/useSignOut';
+import { useNavToggleAtom } from './atoms';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -47,11 +45,10 @@ interface NavbarLinkProps {
   icon: React.ReactNode;
   label: string;
   href?: string;
-  active?: boolean;
   onClick?(): void;
 }
 
-function NavbarLink({ icon, label, active, onClick, href = '#' }: NavbarLinkProps) {
+function NavbarLink({ icon, label, onClick, href = '#' }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   const { isActive } = useActiveLinkStyle();
   return (
@@ -68,31 +65,11 @@ function NavbarLink({ icon, label, active, onClick, href = '#' }: NavbarLinkProp
   );
 }
 
-const navToggleAtom = atom(true);
-export function useNavToggleAtom() {
-  const [opened, setIsOpened] = useAtom(navToggleAtom);
-
-  return {
-    opened,
-    toggleNav: () => setIsOpened(!opened),
-    setNavState: (value: boolean) => setIsOpened(value),
-  };
-}
 export function SideNavbarSlim() {
-  const [active, setActive] = useState(2);
-  const { classes } = useStylesHeader();
   const { opened, toggleNav, setNavState } = useNavToggleAtom();
   const { signOutCustom } = useSignOut();
 
-  const links = linkData.map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      href={link.href}
-      active={index === active}
-      onClick={() => setActive(index)}
-    />
-  ));
+  const links = linkData.map((link) => <NavbarLink {...link} key={link.label} href={link.href} />);
 
   return (
     <>

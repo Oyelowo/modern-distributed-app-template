@@ -17,7 +17,7 @@ const HomePage: NextPage = () => {
   });
   const { CandleStickCharts } = useCandleChart({ theme });
 
-  const { ReactCharts: MultiChart, chart } = useChart({
+  const { ReactCharts: MultiChart, chart: _ } = useChart({
     option: multiChartOptions,
     theme,
   });

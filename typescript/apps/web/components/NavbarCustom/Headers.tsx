@@ -1,8 +1,7 @@
-import React from 'react';
 import { createStyles, Header, Container, Group, Button, Collapse } from '@mantine/core';
 import Link from 'next/link';
 import { useActiveLinkStyle } from './Navlinks';
-import { useNavToggleAtom } from './SideNavbarSlim';
+import { useNavToggleAtom } from './atoms';
 
 export const useStylesHeader = createStyles((theme) => ({
   header: {
@@ -55,8 +54,7 @@ interface HeaderSimpleProps {
 }
 
 export function HeaderSimple({ links }: HeaderSimpleProps) {
-  //   const [opened, toggleOpened] = useBooleanToggle(false);
-  const { opened, toggleNav, setNavState } = useNavToggleAtom();
+  const { opened } = useNavToggleAtom();
   const { classes, cx } = useStylesHeader();
   const { isActive } = useActiveLinkStyle();
 

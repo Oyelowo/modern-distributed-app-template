@@ -4,7 +4,7 @@ import { useWindowScroll } from '@mantine/hooks';
 
 export function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
-  const [scroll, scrollTo] = useWindowScroll();
+  const [scroll, _scrollTo] = useWindowScroll();
 
   return (
     <Affix position={{ top: 5, right: 10 }}>
