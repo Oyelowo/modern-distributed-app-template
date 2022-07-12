@@ -15,7 +15,7 @@ export function SignUpForm() {
   const [_authType, setAuthType] = useAtom(toggleAuthAtom);
   const { width, ref } = useElementSize<HTMLFormElement>();
 
-  const { signUpCustom } = useSignUp({
+  const { signUpCustom, isLoading } = useSignUp({
     onError: (e) => {
       showNotification({
         title: 'Registration Failed',
@@ -45,7 +45,6 @@ export function SignUpForm() {
         value === password ? null : 'Password does not match',
     },
   });
-
 
   return (
     <form
@@ -135,7 +134,9 @@ export function SignUpForm() {
         >
           Have an account? Login
         </Anchor>
-        <Button type="submit">Sign Up</Button>
+        <Button type="submit" loading={isLoading}>
+          Sign Up
+        </Button>
       </Group>
     </form>
   );

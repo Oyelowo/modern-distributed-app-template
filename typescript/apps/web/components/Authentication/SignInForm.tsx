@@ -44,7 +44,7 @@ export default function SignInForm() {
 
   return (
     <form onSubmit={form.onSubmit(signInCustom)}>
-      <LoadingOverlay visible={isLoading} />
+      {/* <LoadingOverlay visible={isLoading} /> */}
       <TextInput label="Username" placeholder="Username" {...form.getInputProps('username')} />
       <br />
       <PasswordInput label="Password" placeholder="Password" {...form.getInputProps('password')} />
@@ -58,7 +58,9 @@ export default function SignInForm() {
         >
           Don't have an account? Register
         </Anchor>
-        <Button type="submit">Login</Button>
+        <Button type="submit" loading={isLoading}>
+          Login
+        </Button>
       </Group>
     </form>
   );
