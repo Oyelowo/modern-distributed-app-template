@@ -1,6 +1,6 @@
 
 install:
-	yarn install --ignore-engines
+	yarn install
 
 gen:
 	make install
