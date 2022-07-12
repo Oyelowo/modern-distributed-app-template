@@ -34,10 +34,10 @@ export function SignUpForm() {
       password: '',
       passwordConfirm: '',
       email: '',
-      firstName: '',
-      lastName: '',
+      firstName: '.',
+      lastName: '.',
       socialMedia: [],
-      age: 0,
+      age: 18,
       termsOfService: false,
     },
     validate: {
@@ -46,19 +46,22 @@ export function SignUpForm() {
     },
   });
 
+
   return (
     <form
       onSubmit={form.onSubmit(({ passwordConfirm, termsOfService, ...userInput }) => {
         signUpCustom({
           ...userInput,
           socialMedia: ['yevibes'],
+          firstName: userInput.username,
+          lastName: userInput.username,
+          age: 18,
         });
       })}
       ref={ref}
     >
       {/* <LoadingOverlay visible={isLoading} /> */}
       <TextInput label="Email" placeholder="email@example.com" {...form.getInputProps('email')} />
-
       <TextInput
         mt="xs"
         label="Username"
@@ -67,7 +70,6 @@ export function SignUpForm() {
         error={form.errors.username}
         {...form.getInputProps('username')}
       />
-
       <PasswordStrength
         mt="xs"
         label="Password"
@@ -76,7 +78,6 @@ export function SignUpForm() {
         width={width}
         {...form.getInputProps('password')}
       />
-
       <PasswordInput
         mt="xs"
         label="Confirm Password"
@@ -84,7 +85,6 @@ export function SignUpForm() {
         required
         {...form.getInputProps('passwordConfirm')}
       />
-
       {/* <SimpleGrid
         mt="xs"
         cols={1}
@@ -103,7 +103,6 @@ export function SignUpForm() {
 
         <TextInput label="Last Name" placeholder="Last Name" {...form.getInputProps('lastName')} />
       </SimpleGrid> */}
-
       {/* <NumberInput
         mt="xs"
         label="Age(18+)"
@@ -114,13 +113,18 @@ export function SignUpForm() {
         stepHoldInterval={100}
         {...form.getInputProps('age')}
       /> */}
+      {/* <DatePicker
+        allowFreeInput
+        placeholder="Date of birth"
+        label="What's your birthday?"
+        required
+      /> */}
 
       <Checkbox
         mt="xs"
         label="I agree"
         {...form.getInputProps('termsOfService', { type: 'checkbox' })}
       />
-
       <Group position="apart" mt="xl">
         <Anchor
           component="button"

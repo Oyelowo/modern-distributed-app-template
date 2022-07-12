@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { CheckIcon, Cross1Icon } from '@modulz/radix-icons';
 import { Lock } from 'tabler-icons-react';
-import {
-  PasswordInput,
-  Progress,
-  Text,
-  Popover,
-  Box,
-} from '@mantine/core';
+import { PasswordInput, Progress, Text, Popover, Box } from '@mantine/core';
 
 function PasswordRequirement({ meets, label }: { meets: boolean; label: string }) {
   return (
@@ -58,7 +52,6 @@ export function PasswordStrength({
 
   const strength = getStrength(value);
   const color = strength === 100 ? 'teal' : strength > 50 ? 'yellow' : 'red';
-  console.log('otherProps.width', otherProps.width);
   return (
     <Popover
       opened={popoverOpened}
