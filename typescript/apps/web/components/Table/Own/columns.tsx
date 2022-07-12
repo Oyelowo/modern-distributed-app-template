@@ -12,6 +12,7 @@ export function useColumns() {
         header: 'Id',
         accessorKey: 'id',
         footer: (props) => props.column.id,
+        filterFn: stringFilterFn,
       },
       {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
@@ -28,43 +29,43 @@ export function useColumns() {
         footer: (props) => props.column.id,
         filterFn: stringFilterFn,
       },
-      {
-        accessorFn: (row) => `${row.firstName} ${row.lastName}`,
-        id: 'fullName',
-        header: 'Full Name',
-        cell: (info) => info.getValue(),
-        footer: (props) => props.column.id,
-        filterFn: stringFilterFn,
-        // filterFn: fuzzyFilter,
-        sortingFn: fuzzySort,
-        // aggregatedCell
-      },
+      //   {
+      //     accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+      //     id: 'fullName',
+      //     header: 'Full Name',
+      //     cell: (info) => info.getValue(),
+      //     footer: (props) => props.column.id,
+      //     filterFn: stringFilterFn,
+      //     // filterFn: fuzzyFilter,
+      //     sortingFn: fuzzySort,
+      //     // aggregatedCell
+      //   },
 
-      {
-        accessorKey: 'age',
-        header: () => 'Age',
-        footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
-      },
+      //   {
+      //     accessorKey: 'age',
+      //     header: () => 'Age',
+      //     footer: (props) => props.column.id,
+      //     filterFn: numberFilterFn,
+      //   },
 
-      {
-        accessorKey: 'visits',
-        header: () => <span>Visits</span>,
-        footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-        footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
-      },
-      {
-        accessorKey: 'progress',
-        header: 'Profile Progress',
-        footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
-      },
+      //   {
+      //     accessorKey: 'visits',
+      //     header: () => <span>Visits</span>,
+      //     footer: (props) => props.column.id,
+      //     filterFn: numberFilterFn,
+      //   },
+      //   {
+      //     accessorKey: 'status',
+      //     header: 'Status',
+      //     footer: (props) => props.column.id,
+      //     filterFn: numberFilterFn,
+      //   },
+      //   {
+      //     accessorKey: 'progress',
+      //     header: 'Profile Progress',
+      //     footer: (props) => props.column.id,
+      //     filterFn: numberFilterFn,
+      //   },
     ],
     []
   );

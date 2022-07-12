@@ -4,7 +4,7 @@ import { FilterFn } from "@tanstack/react-table";
 import { Person } from "../../makeData";
 
 
-type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq";
+type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | "fuzzy";
 type FilterValue = {
     operator: OperatorNumber;
     value: string;
@@ -12,7 +12,7 @@ type FilterValue = {
 
 
 export const numberFilterFn: FilterFn<Person> = (row, columnId, filter: FilterValue, addMeta) => {
-    const { operator = "eq", value } = filter;
+    const { operator = "fuzzy", value } = filter;
     const rowValue = Number(row.getValue(columnId));
     const searchFilterValue = Number(value);
 

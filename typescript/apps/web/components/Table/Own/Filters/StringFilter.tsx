@@ -15,6 +15,7 @@ import { useSetState } from '@mantine/hooks';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
+import { FilterOperationString } from './helpers/stringFilter';
 
 const StringFilter = ({
   column,
@@ -26,23 +27,23 @@ const StringFilter = ({
   // const {
   //   column: { filterValue, setFilter },
   // } = column.getFilterValue();
-  const filterValue = column.getFilterValue();
+  const filterValue: FilterOperationString = column.getFilterValue() as FilterOperationString;
   const setFilter = column.setFilterValue;
   // console.log('column.getFilterValue()', column.getFilterValue());
   // console.log('column.setFilterValue', column.setFilterValue);
   const [opened, setOpened] = useState(false);
-  const [state, setState] = useSetState({ operator: 'cont', value: '' });
-  // const [state, setState] = useSetState(filterValue || { operator: 'cont', value: '' });
+  // const [state, setState] = useSetState<FilterOperationString>({ operator: 'contains', value: '' });
+  const [state, setState] = useSetState(filterValue || { operator: 'contains', value: '' });
 
   const handleClose = () => {
-    setState({ operator: 'cont', value: '' });
-    // setState(filterValue || { operator: 'cont', value: '' });
+    // setState({ operator: 'contains', value: '' });
+    setState(filterValue || { operator: 'contains', value: '' });
     setOpened(false);
   };
 
   const handleClear = () => {
     setFilter(undefined);
-    setState({ operator: 'cont', value: '' });
+    setState({ operator: 'contains', value: '' });
     setOpened(false);
   };
 
@@ -62,7 +63,7 @@ const StringFilter = ({
           <FilterIcon />
         </ActionIcon>
       }
-      opened={true}
+      opened={opened}
       onClose={handleClose}
       onClick={(e) => e.stopPropagation()}
       position="bottom"
@@ -74,14 +75,12 @@ const StringFilter = ({
         // variant="vertical"
         size="sm"
         value={state.operator}
-        onChange={(o) => setState({ operator: o })}
+        onChange={(o: FilterOperationString['operator']) => setState({ operator: o })}
       >
-        <Radio value="cont">Contains</Radio>
-        <Radio value="not_cont">Does not contain</Radio>
-        <Radio value="start">Starts with</Radio>
-        <Radio value="end">Ends with</Radio>
-        <Radio value="eq">Equals</Radio>
-        <Radio value="not_eq">Not equal</Radio>
+        {getRadios().map(({ operator, name }) => (
+          <Radio value={operator} label={name} />
+        ))}
+
       </RadioGroup>
       <Divider my="sm" />
       <TextInput
@@ -102,3 +101,36 @@ const StringFilter = ({
 };
 
 export default StringFilter;
+
+function getRadios() {
+  const stringOperations: Array<{
+    operator: FilterOperationString['operator'];
+    name: string;
+  }> = [
+    {
+      operator: 'contains',
+      name: 'Contains',
+    },
+    {
+      operator: 'not_contain',
+      name: 'Does not Contain',
+    },
+    {
+      operator: 'starts_with',
+      name: 'Starts with',
+    },
+    {
+      operator: 'ends_with',
+      name: 'Ends with',
+    },
+    {
+      operator: 'equals',
+      name: 'Equals',
+    },
+    {
+      operator: 'not_equal',
+      name: 'Not equal',
+    },
+  ];
+  return stringOperations;
+}

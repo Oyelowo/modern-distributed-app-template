@@ -12,8 +12,8 @@ export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta): boole
   // Rank the item
   // console.log("row", row)
   // console.log("columnId", columnId)
-  // console.log("value", value)
-  // console.log("row.getValue(columnId)", row.getValue(columnId))
+  console.log("value", value)
+  console.log("row.getValue(columnId)", row.getValue(columnId))
   const itemRank = rankItem(row.getValue(columnId), value);
 
   // Store the itemRank info

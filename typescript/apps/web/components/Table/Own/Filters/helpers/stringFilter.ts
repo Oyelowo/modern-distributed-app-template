@@ -4,12 +4,12 @@ import { Person } from "../../makeData";
 
 
 type OperatorString = "contains" | "not_contain" | "starts_with" | "ends_with" | "equals" | "not_equal" | "fuzzy";
-type FilterValue = {
+export type FilterOperationString = {
     operator: OperatorString;
     value: string;
 }
 
-export const stringFilterFn: FilterFn<Person> = (row, columnId, filter: FilterValue, addMeta) => {
+export const stringFilterFn: FilterFn<Person> = (row, columnId, filter: FilterOperationString, addMeta) => {
     const { operator = "fuzzy", value } = filter;
     const rowValue = String(row.getValue(columnId)).toLocaleLowerCase();
     const searchFilterValue = String(value).toLocaleLowerCase();
