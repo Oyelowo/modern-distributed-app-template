@@ -5,7 +5,7 @@ import { Layout } from '../components/Layout/Layout';
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 
-Page.getLayout = function getLayout(page: ReactElement) {
+Page.getLayout = function getLayout(_page: ReactElement) {
   return (
     <Layout>
       <HomePage />

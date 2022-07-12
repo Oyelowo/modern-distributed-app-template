@@ -47,7 +47,7 @@ export function SignUpForm() {
 
   return (
     <form
-      onSubmit={form.onSubmit(({ passwordConfirm, termsOfService, ...userInput }) => {
+      onSubmit={form.onSubmit(({ passwordConfirm: _p, termsOfService: _t, ...userInput }) => {
         signUpCustom({
           ...userInput,
           socialMedia: ['yevibes'],

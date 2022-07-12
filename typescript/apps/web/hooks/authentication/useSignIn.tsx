@@ -3,8 +3,15 @@ import { SignInMutation, useSignInMutation } from '@oyelowo/graphql-client';
 import { useRouter } from 'next/router';
 import { QueryClient } from 'react-query';
 import { client } from '../../config/client';
-import { signInSchema } from '../../components/Authentication/SignInForm';
 import { GraphqlIoError, GraphqlErrorResponse } from './helpers';
+
+export const signInSchema = z.object({
+  username: z
+    .string()
+    .min(1, { message: 'Username Must be provided' })
+    .max(30, { message: 'Username too long' }),
+  password: z.string().min(1, { message: 'Password is empty' }),
+});
 
 export function useSignIn({
   onError,

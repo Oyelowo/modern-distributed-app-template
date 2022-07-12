@@ -5,19 +5,11 @@ import { PasswordInput, TextInput, Button, Group, Anchor } from '@mantine/core';
 import { AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
-import { useSignIn } from '../../hooks/authentication/useSignIn';
+import { signInSchema, useSignIn } from '../../hooks/authentication/useSignIn';
 import { toggleAuthAtom } from './atoms';
 
-export const signInSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: 'Username Must be provided' })
-    .max(30, { message: 'Username too long' }),
-  password: z.string().min(1, { message: 'Password is empty' }),
-});
-
 export default function SignInForm() {
-  const [authType, setAuthType] = useAtom(toggleAuthAtom);
+  const [_authType, setAuthType] = useAtom(toggleAuthAtom);
   const forceRerender = useForceUpdate();
   const form = useForm<z.infer<typeof signInSchema>>({
     schema: zodResolver(signInSchema),
@@ -27,7 +19,7 @@ export default function SignInForm() {
     },
   });
 
-  const { signInCustom, error, isLoading } = useSignIn({
+  const { signInCustom, isLoading } = useSignIn({
     onError: (e) => {
       showNotification({
         title: 'Authentication Failed',
@@ -56,7 +48,7 @@ export default function SignInForm() {
           onClick={() => setAuthType('register')}
           size="xs"
         >
-          Don't have an account? Register
+          Don&apos;t have an account? Register
         </Anchor>
         <Button type="submit" loading={isLoading}>
           Login
