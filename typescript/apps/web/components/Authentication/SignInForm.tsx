@@ -1,7 +1,7 @@
 import z from 'zod';
 import { useForm, zodResolver } from '@mantine/form';
 import { useForceUpdate } from '@mantine/hooks';
-import { PasswordInput, TextInput, Button, Group, Anchor, LoadingOverlay } from '@mantine/core';
+import { PasswordInput, TextInput, Button, Group, Anchor } from '@mantine/core';
 import { AlertTriangle } from 'tabler-icons-react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';

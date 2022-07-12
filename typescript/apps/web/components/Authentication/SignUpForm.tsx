@@ -7,8 +7,7 @@ import React from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useAtom } from 'jotai';
 import { PasswordStrength } from './Password';
-import { signUpSchema } from '../../hooks/authentication/useSignUp';
-import { useSignUp } from '../../hooks/authentication/useSignUp';
+import { signUpSchema, useSignUp } from '../../hooks/authentication/useSignUp';
 import { toggleAuthAtom } from './atoms';
 
 export function SignUpForm() {
