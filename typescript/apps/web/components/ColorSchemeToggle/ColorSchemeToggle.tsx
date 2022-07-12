@@ -7,7 +7,7 @@ export function ColorSchemeToggle() {
   const [scroll, _scrollTo] = useWindowScroll();
 
   return (
-    <Affix position={{ top: 5, right: 10 }}>
+    <Affix position={{ top: 5, right: 10 }} zIndex={3333}>
       <Transition transition="slide-up" mounted={scroll.y < 5}>
         {(transitionStyles) => (
           <ActionIcon variant="filled" style={transitionStyles} onClick={() => toggleColorScheme()}>
