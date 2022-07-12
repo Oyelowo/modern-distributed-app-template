@@ -41,7 +41,6 @@ function MainLink({ icon, color, label, href }: MainLinkProps) {
             backgroundColor: getActiveBg(theme),
           },
         })}
-        //   component="a"
       >
         <Group>
           <ThemeIcon color={color} variant="light">
