@@ -18,13 +18,7 @@ import { FilterConditionDateSimple } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
 import { DatePicker } from '@mantine/dates';
 
-export const DateFilterSimple = ({
-  column,
-  table,
-}: {
-  column: Column<unknown, unknown>;
-  table: ReactTable<unknown>;
-}) => {
+export const DateFilterSimple = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
   const form = useForm<FilterConditionDateSimple>({
     initialValues: {
       filter: null,
@@ -99,13 +93,7 @@ export const DateFilterSimple = ({
   );
 };
 
-export const DateFilterSimple2 = ({
-  column,
-  table,
-}: {
-  column: Column<unknown, unknown>;
-  table: ReactTable<unknown>;
-}) => {
+export const DateFilterSimple2 = ({ column }: { column: Column<unknown, unknown> }) => {
   const form = useForm<FilterConditionDateSimple>({
     initialValues: {
       filter: null,

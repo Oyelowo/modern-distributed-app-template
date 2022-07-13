@@ -60,6 +60,13 @@ export function useColumns() {
         ...getFilterFn('date_single'),
       },
       {
+        accessorKey: 'dateOfBirth',
+        header: () => ' DOB',
+        footer: (props) => props.column.id,
+        cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
+        ...getFilterFn('date_range'),
+      },
+      {
         accessorKey: 'age',
         header: () => 'Age',
         footer: (props) => props.column.id,
@@ -78,12 +85,12 @@ export function useColumns() {
         footer: (props) => props.column.id,
         ...getFilterFn('enum'),
       },
-      {
-        accessorKey: 'progress',
-        header: 'Profile Progress',
-        footer: (props) => props.column.id,
-        ...getFilterFn('number_single'),
-      },
+      // {
+      //   accessorKey: 'progress',
+      //   header: 'Profile Progress',
+      //   footer: (props) => props.column.id,
+      //   ...getFilterFn('number_single'),
+      // },
     ],
     []
   );

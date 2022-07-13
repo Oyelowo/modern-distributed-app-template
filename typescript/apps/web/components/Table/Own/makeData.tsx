@@ -5,9 +5,9 @@ export type Person = {
   firstName: string;
   lastName: string;
   createdAt: Date;
+  dateOfBirth: Date;
   age: number;
   visits: number;
-  progress: number;
   status: 'relationship' | 'complicated' | 'single';
   subRows?: Person[];
 };
@@ -26,9 +26,9 @@ const newPerson = (): Person => {
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
     createdAt: faker.date.between('2020-01-01T00:00:00.000Z', '2030-01-01T00:00:00.000Z'),
+    dateOfBirth: faker.date.between('1967-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
     age: faker.datatype.number(40),
     visits: faker.datatype.number(1000),
-    progress: faker.datatype.number(100),
     status: faker.helpers.shuffle<Person['status']>(['relationship', 'complicated', 'single'])[0]!,
   };
 };

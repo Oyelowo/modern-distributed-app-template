@@ -1,16 +1,5 @@
 import { useState } from 'react';
-import {
-  ActionIcon,
-  Anchor,
-  Button,
-  Group,
-  Popover,
-  Box,
-  Text,
-  Code,
-  Select,
-  NumberInput,
-} from '@mantine/core';
+import { ActionIcon, Anchor, Button, Group, Popover, Box, Text, Code, Select } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
@@ -21,12 +10,12 @@ import { AndOr, FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
 import { DatePicker } from '@mantine/dates';
 
-type Props = {
-  column: Column<unknown, unknown>;
-  table: Table<unknown>;
+type Props<T> = {
+  column: Column<T, unknown>;
+  // table: Table<T>;
 };
 
-export const NumberFilterCompound = ({ column, table }: Props) => {
+export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
@@ -91,7 +80,7 @@ export const NumberFilterCompound = ({ column, table }: Props) => {
         {...form.getListInputProps('operations', index, 'filter')}
       />
 
-      {/* <NumberInput
+      {/* <DateInput
         placeholder="John Doe"
         required
         // sx={{ flex: 1 }}

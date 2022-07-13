@@ -8,6 +8,9 @@ import { numberFilterSimpleFn } from '../NumberFilter/numberFilterSimpleFn';
 import { stringFilterFn } from '../Filters/helpers/stringFilter';
 import { dateFilterFn } from '../Filters/helpers/dateFilter';
 import { numberFilterCompoundFn } from '../NumberFilter/numberFilterCompoundFn';
+import { dateFilterCompoundFn } from './DateFilter/dateFilterCompoundFn';
+import { DateFilterCompound } from './DateFilter/DateFilterCompound';
+import { DateFilterSimple } from './DateFilter/DateFilterSimple';
 
 type Props<T> = {
   //   columnId: keyof Person;
@@ -26,9 +29,9 @@ export function FiltersAll<T>({ column, table }: Props<T>) {
     case 'number_single':
       return <NumberFilterSimple column={column} table={table} />;
     case 'date_single':
-      return <DateFilter column={column} table={table} />;
+      return <DateFilterSimple column={column} />;
     case 'date_range':
-      return <DateFilter column={column} table={table} />;
+      return <DateFilterCompound column={column} />;
     case 'enum':
       return <StringFilter column={column} table={table} />;
     case null:
@@ -47,9 +50,9 @@ function assertUnreachable(x: never): never {
 type FilterType = Exclude<ColumnMeta['filterType'], null>;
 
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
-  date_range: dateFilterFn,
+  date_range: dateFilterCompoundFn,
   date_single: dateFilterFn,
-  enum: dateFilterFn,
+  enum: stringFilterFn,
   string: stringFilterFn,
   number_range: numberFilterCompoundFn,
   number_single: numberFilterSimpleFn,
