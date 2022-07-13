@@ -3,12 +3,12 @@ import { ActionIcon, Anchor, Button, Group, Popover, Box, Text, Code, Select } f
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
-// import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
-import { Column, Table } from '@tanstack/react-table';
-import { AndOr, FilterConditionDateCompound } from './shared';
+import { Column } from '@tanstack/react-table';
+import { FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
 import { DatePicker } from '@mantine/dates';
+import { logicalOperators } from '../helpers';
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -41,15 +41,13 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
     setOpened(false);
   };
 
-  const andOrData: AndOr[] = ['and', 'or'];
-
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
       {index !== 0 ? (
         <Select
           label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
-          data={andOrData}
+          data={logicalOperators}
           sx={{ flex: 0.9 }}
         />
       ) : (

@@ -9,29 +9,28 @@ import {
   Text,
   Code,
   Select,
-  TextInput,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
-// import { BiFilterAlt as FilterIcon } from "react-icons/bi";
-import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
+import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table } from '@tanstack/react-table';
-import { FilterConditionStringCompound } from './shared';
-import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
-import { logicalOperators } from '../../helpers';
+import { AndOr, FilterConditionNumberCompound } from './shared';
+import { Person } from '../makeData';
+import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
-type Props<T> = {
-  column: Column<T, unknown>;
-  // table: Table<T>;
+type Props = {
+  column: Column<any, unknown>;
+  table: Table<Person>;
 };
 
-export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) => {
+export const NumberFilterCompound = ({ column, table }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionStringCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: '', key: randomId() },
+      operations: formList<FilterConditionNumberCompound & { key: string }>([
+        { logical: null, operator: 'fuzzy', filter: 0, key: randomId() },
       ]),
     },
   });
@@ -52,13 +51,15 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
     setOpened(false);
   };
 
+  const andOrData: AndOr[] = ['and', 'or'];
+
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
       {index !== 0 ? (
         <Select
           label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
-          data={logicalOperators}
+          data={andOrData}
           sx={{ flex: 0.9 }}
         />
       ) : (
@@ -79,12 +80,10 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
         sx={{ flex: 2 }}
       />
 
-      <TextInput
-        icon={<CalendarIcon />}
-        placeholder="Pick String"
-        mb="sm"
-        // withSelect
-        // zIndex={100001}
+      <NumberInput
+        placeholder="John Doe"
+        required
+        // sx={{ flex: 1 }}
         {...form.getListInputProps('operations', index, 'filter')}
       />
 
@@ -123,9 +122,9 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
           <Button
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'fuzzy',
+                operator: 'eq',
                 logical: 'and',
-                filter: null,
+                filter: 0,
                 key: randomId(),
               })
             }

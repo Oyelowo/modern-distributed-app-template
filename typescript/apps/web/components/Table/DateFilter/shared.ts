@@ -1,8 +1,8 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { FilterMeta } from '@tanstack/react-table';
-import { FilterFn } from '@tanstack/react-table';
-import { Person } from '../makeData';
+
 import dayjs from 'dayjs';
+import { FilterConditionCompound, FilterConditionSimple } from '../helpers';
 
 export type OperatorDate =
     | 'is_same'
@@ -14,32 +14,7 @@ export type OperatorDate =
     | 'fuzzy';
 
 // Logical
-export type AndOr = 'and' | 'or';
-
-type FilterValueType = number | string | Date;
-export type FilterConidtionSimple<
-    Operator extends string,
-    Filter extends FilterValueType
-    > = {
-        /**  operator */
-        operator: Operator;
-        /**  The input value used that value is being filtered by */
-        filter: Filter | null;
-    };
-
-export type FilterConditionCompound<
-    Operator extends string,
-    Filter extends FilterValueType
-    > = FilterConidtionSimple<Operator, Filter> & { logical: AndOr | null };
-
-// export type FilterConditionDateSimple = {
-//     /**  Date operator */
-//     operator: OperatorDate;
-//     /**  The input value used that value is being filtered by */
-//     filter: Date | null;
-// }
-
-export type FilterConditionDateSimple = FilterConidtionSimple<OperatorDate, Date>;
+export type FilterConditionDateSimple = FilterConditionSimple<OperatorDate, Date>;
 export type FilterConditionDateCompound = FilterConditionCompound<OperatorDate, Date>;
 
 export type FilterProps = {

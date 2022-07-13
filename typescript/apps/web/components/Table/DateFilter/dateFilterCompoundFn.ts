@@ -1,7 +1,11 @@
-import { FilterConditionDateCompound as DateFilterCondition, filterDateBySingleCondition, FilterProps, OperatorDate } from './shared';
+import {
+    FilterConditionDateCompound as DateFilterCondition,
+    filterDateBySingleCondition,
+    FilterProps,
+    OperatorDate,
+} from './shared';
 import { FilterFn } from '@tanstack/react-table';
 
-// type Condition = FilterCompoundOperationDate["conditions"];
 export const dateFilterCompoundFn: FilterFn<unknown> = (
     row,
     columnId,
@@ -9,12 +13,11 @@ export const dateFilterCompoundFn: FilterFn<unknown> = (
     addMeta
 ) => {
     const rowValue = new Date(row.getValue<string>(columnId));
-    // const rowValue = Date(row.getValue(columnId));
 
     return filterDateByConditions({
         conditions: filters,
         rowValue,
-        addMeta
+        addMeta,
     });
 };
 
@@ -23,7 +26,7 @@ dateFilterCompoundFn.autoRemove = (val) => !val;
 export type DateFilterCompoundProps = {
     conditions: DateFilterCondition[];
     rowValue: Date;
-    addMeta: FilterProps["addMeta"]
+    addMeta: FilterProps['addMeta'];
 };
 
 export function filterDateByConditions({
@@ -36,41 +39,42 @@ export function filterDateByConditions({
     // This determines if a row should be filtered out or not
     // e.g [true, false, true, false] => false
     // e.g [true, true, true, true] => true
-    const res = conditions.reduce((acc, curr,) => {
+    const res = conditions.reduce((acc, curr) => {
         return filterNumByCompoundCond({
-            currentCondition: curr, previousAggregatedFilter: acc, rowValue, addMeta
+            currentCondition: curr,
+            previousAggregatedFilter: acc,
+            rowValue,
+            addMeta,
         });
     }, true);
 
     return res;
 }
 
-
 type FilterCompoundFnProps = {
     currentCondition: DateFilterCondition;
     previousAggregatedFilter: boolean;
     rowValue: Date;
-    addMeta: FilterProps["addMeta"]
-}
+    addMeta: FilterProps['addMeta'];
+};
 
 function filterNumByCompoundCond({
     currentCondition,
     previousAggregatedFilter,
     rowValue,
-    addMeta
+    addMeta,
 }: FilterCompoundFnProps): boolean {
     const common = {
         rowValue: rowValue,
         addMeta,
-    }
+    };
     const currentFilter = filterDateBySingleCondition({
         ...common,
         condition: {
             operator: currentCondition.operator,
             filter: currentCondition.filter,
         },
-    })
-
+    });
 
     if (currentCondition.logical === 'and') {
         return previousAggregatedFilter && currentFilter;
@@ -80,11 +84,8 @@ function filterNumByCompoundCond({
         return previousAggregatedFilter || currentFilter;
     }
 
-    return currentFilter
+    return currentFilter;
 }
-
-
-
 
 export const operatorsValuesAndLabels: Array<{
     value: OperatorDate;
@@ -114,5 +115,4 @@ export const operatorsValuesAndLabels: Array<{
             value: 'fuzzy',
             label: 'Fuzzy',
         },
-
     ];

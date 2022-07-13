@@ -1,0 +1,93 @@
+import { useState } from 'react';
+import {
+  ActionIcon,
+  Anchor,
+  Button,
+  Divider,
+  Group,
+  Popover,
+  Radio,
+  RadioGroup,
+  TextInput,
+} from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { Filter as FilterIcon } from 'tabler-icons-react';
+import { Column } from '@tanstack/react-table';
+import { FilterConditionStringSimple } from './shared';
+import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
+
+export const StringFilterSimple = <T extends unknown>({
+  column,
+}: {
+  column: Column<T, unknown>;
+}) => {
+  const form = useForm<FilterConditionStringSimple>({
+    initialValues: {
+      filter: "",
+      operator: 'fuzzy',
+    },
+  });
+  const [opened, setOpened] = useState(false);
+
+  const handleClose = () => {
+    form.reset();
+    setOpened(false);
+  };
+
+  const handleClear = () => {
+    column.setFilterValue(undefined);
+    form.reset();
+    setOpened(false);
+  };
+
+  const handleApply = () => {
+    column.setFilterValue(form.values);
+    setOpened(false);
+  };
+
+  return (
+    <Popover
+      target={
+        <ActionIcon
+          variant={column.getFilterValue() ? 'light' : 'hover'}
+          color={column.getFilterValue() ? 'blue' : 'gray'}
+          onClick={() => setOpened((o) => !o)}
+        >
+          <FilterIcon />
+        </ActionIcon>
+      }
+      opened={opened}
+      onClose={handleClose}
+      onClick={(e) => e.stopPropagation()}
+      position="bottom"
+      transition="scale-y"
+      // zIndex={10000}
+    >
+      <RadioGroup
+        description="Select your option"
+        orientation="vertical"
+        size="sm"
+        {...form.getInputProps('operator')}
+      >
+        {operatorsValuesAndLabels.map(({ value, label }) => (
+          <Radio key={value} value={value} label={label} />
+        ))}
+      </RadioGroup>
+      <Divider my="sm" />
+
+      <TextInput
+        placeholder="Filter By"
+        mb="sm"
+        // zIndex={100001}
+        {...form.getInputProps('filter')}
+      />
+
+      <Group position="apart">
+        <Anchor component="button" color="gray" onClick={handleClear}>
+          Clear
+        </Anchor>
+        <Button onClick={handleApply}>Apply</Button>
+      </Group>
+    </Popover>
+  );
+};

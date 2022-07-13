@@ -2,7 +2,6 @@ import { FilterConditionNumberCompound as NumberFilterCondition, filterNumBySing
 import { Person } from '../makeData';
 import { FilterFn } from '@tanstack/react-table';
 
-// type Condition = FilterCompoundOperationNumber["conditions"];
 export const numberFilterCompoundFn: FilterFn<Person> = (
     row,
     columnId,

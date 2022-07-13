@@ -11,20 +11,21 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
-// import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
 import { FilterConditionNumberSimple } from './shared';
 import { Person } from '../makeData';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
+type Props = {
+  column: Column<any, unknown>;
+  table: ReactTable<Person>;
+};
+
 export const NumberFilterSimple = ({
   column,
   table,
-}: {
-  column: Column<Person, unknown>;
-  table: ReactTable<Person>;
-}) => {
+}: Props) => {
   const form = useForm<FilterConditionNumberSimple>({
     initialValues: {
       filter: null,
@@ -94,4 +95,3 @@ export const NumberFilterSimple = ({
     </Popover>
   );
 };
- 

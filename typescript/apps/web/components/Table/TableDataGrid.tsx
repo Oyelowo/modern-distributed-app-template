@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   useReactTable,
   ColumnFiltersState,
@@ -9,31 +9,23 @@ import {
   getFacetedMinMaxValues,
   getPaginationRowModel,
   getSortedRowModel,
-  ColumnDef,
   flexRender,
   Table,
-  //   Header,
 } from '@tanstack/react-table';
 import { makeData, Person } from './makeData';
-import { DebouncedInput } from './DebouncedInput';
-import { Filter } from './Filter';
-import { fuzzyFilter, fuzzySort } from './ReactTable';
-import { Group } from '@mantine/core';
+import { fuzzyFilter } from './helpers';
+import { TextInput } from '@mantine/core';
 import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
-import StringFilter from './Filters/StringFilter';
-import { FiltersAll } from './Filters/FiltersAll';
+import { ColumnFilters } from './ColumFilters';
+
+const data = makeData(50000);
 
 export function TableDataGrid() {
   const { columns } = useColumns();
-  const rerender = React.useReducer(() => ({}), {})[1];
-
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = React.useState('');
-
-  const [data, setData] = React.useState(() => makeData(50000));
-  const refreshData = () => setData((old) => makeData(50000));
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   const table = useReactTable<Person>({
     data,
@@ -57,7 +49,7 @@ export function TableDataGrid() {
     debugColumns: false,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     //   Sets fullName column as sorting
     if (table.getState().columnFilters[0]?.id === 'fullName') {
       if (table.getState().sorting[0]?.id !== 'fullName') {
@@ -69,7 +61,7 @@ export function TableDataGrid() {
   return (
     <div>
       <div>
-        <DebouncedInput
+        <TextInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
           //   placeholder="Search all columns..."
@@ -125,11 +117,7 @@ function Header({ table }: { table: Table<Person> }) {
 
                     {h.column.getCanFilter() && (
                       <div>
-                        <FiltersAll column={h.column} table={table} />
-                        {/* <StringFilter column={h.column} table={table} /> */}
-                        {/* <Filter column={h.column} table={table} /> */}
-                        {/* <StringFilter2 column={h.column} table={table} /> */}
-                        {/* <StringFilter2 /> */}
+                        <ColumnFilters column={h.column} table={table} />
                       </div>
                     )}
                   </>

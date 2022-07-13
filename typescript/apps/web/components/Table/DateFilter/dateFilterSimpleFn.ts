@@ -9,7 +9,6 @@ export const dateFilterSimpleFn: FilterFn<unknown> = (
     { operator = 'fuzzy', filter }: FilterConditionDateSimple,
     addMeta
 ) => {
-    // const rowValue = row.getValue<Date>(columnId));
     const rowValue = new Date(row.getValue<Date>(columnId));
 
     return filterDateBySingleCondition({

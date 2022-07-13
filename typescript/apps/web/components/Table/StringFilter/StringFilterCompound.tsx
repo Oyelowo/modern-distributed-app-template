@@ -9,29 +9,28 @@ import {
   Text,
   Code,
   Select,
-  NumberInput,
+  TextInput,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
-// import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column, Table } from '@tanstack/react-table';
-import { AndOr, FilterConditionNumberCompound } from './shared';
-import { Person } from '../makeData';
-import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { Column } from '@tanstack/react-table';
+import { FilterConditionStringCompound } from './shared';
+import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
+import { logicalOperators } from '../helpers';
 
-type Props = {
-  column: Column<Person, unknown>;
-  table: Table<Person>;
+type Props<T> = {
+  column: Column<T, unknown>;
+  // table: Table<T>;
 };
 
-export const NumberFilterCompound = ({ column, table }: Props) => {
+export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionNumberCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: 0, key: randomId() },
+      operations: formList<FilterConditionStringCompound & { key: string }>([
+        { logical: null, operator: 'fuzzy', filter: '', key: randomId() },
       ]),
     },
   });
@@ -52,15 +51,13 @@ export const NumberFilterCompound = ({ column, table }: Props) => {
     setOpened(false);
   };
 
-  const andOrData: AndOr[] = ['and', 'or'];
-
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
       {index !== 0 ? (
         <Select
           label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
-          data={andOrData}
+          data={logicalOperators}
           sx={{ flex: 0.9 }}
         />
       ) : (
@@ -81,10 +78,10 @@ export const NumberFilterCompound = ({ column, table }: Props) => {
         sx={{ flex: 2 }}
       />
 
-      <NumberInput
-        placeholder="John Doe"
-        required
-        // sx={{ flex: 1 }}
+      <TextInput
+        placeholder="Filter By"
+        mb="sm"
+        // zIndex={100001}
         {...form.getListInputProps('operations', index, 'filter')}
       />
 
@@ -123,9 +120,9 @@ export const NumberFilterCompound = ({ column, table }: Props) => {
           <Button
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'eq',
+                operator: 'fuzzy',
                 logical: 'and',
-                filter: 0,
+                filter: null,
                 key: randomId(),
               })
             }

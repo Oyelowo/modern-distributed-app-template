@@ -1,10 +1,10 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { FilterMeta } from '@tanstack/react-table';
-import { FilterConditionCompound, FilterConidtionSimple } from '../DateFilter/shared';
+import { FilterConditionCompound, FilterConditionSimple } from '../helpers';
 
 export type OperatorString = "contains" | "not_contain" | "starts_with" | "ends_with" | "equals" | "not_equal" | "fuzzy";
 
-export type FilterConditionStringSimple = FilterConidtionSimple<OperatorString, string>;
+export type FilterConditionStringSimple = FilterConditionSimple<OperatorString, string>;
 export type FilterConditionStringCompound = FilterConditionCompound<OperatorString, string>;
 
 export type FilterProps = {

@@ -1,13 +1,9 @@
 import { useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { Person } from './makeData';
-import { fuzzyFilter, fuzzySort } from './ReactTable';
-import { stringFilterFn } from './Filters/helpers/stringFilter';
-import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
-import { dateFilterFn } from './Filters/helpers/dateFilter';
+import { fuzzySort } from './helpers';
 import dayjs from 'dayjs';
-import { numberFilterCompoundFn } from './NumberFilter/numberFilterCompoundFn';
-import { getFilterFn } from './Filters/FiltersAll';
+import { getFilterFn } from './ColumFilters';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -85,12 +81,6 @@ export function useColumns() {
         footer: (props) => props.column.id,
         ...getFilterFn('enum'),
       },
-      // {
-      //   accessorKey: 'progress',
-      //   header: 'Profile Progress',
-      //   footer: (props) => props.column.id,
-      //   ...getFilterFn('number_single'),
-      // },
     ],
     []
   );
