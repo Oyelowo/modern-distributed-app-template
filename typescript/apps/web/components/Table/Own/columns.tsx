@@ -7,7 +7,7 @@ import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
 import dayjs from 'dayjs';
 import { numberFilterCompoundFn } from './NumberFilter/numberFilterCompoundFn';
-import { getFilterFn } from './getFilterFn';
+import { getFilterFn } from './Filters/FiltersAll';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
