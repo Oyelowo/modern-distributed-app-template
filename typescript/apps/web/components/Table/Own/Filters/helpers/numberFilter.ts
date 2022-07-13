@@ -5,13 +5,13 @@ import { Person } from "../../makeData";
 
 
 type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | "fuzzy";
-type FilterValue = {
+export type FilterOperationNumber = {
     operator: OperatorNumber;
     value: string;
 }
 
 
-export const numberFilterFn: FilterFn<Person> = (row, columnId, filter: FilterValue, addMeta) => {
+export const numberFilterFn: FilterFn<Person> = (row, columnId, filter: FilterOperationNumber, addMeta) => {
     const { operator = "fuzzy", value } = filter;
     const rowValue = Number(row.getValue(columnId));
     const searchFilterValue = Number(value);

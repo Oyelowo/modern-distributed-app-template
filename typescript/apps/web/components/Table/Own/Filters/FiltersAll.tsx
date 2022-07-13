@@ -1,5 +1,6 @@
 import { Column, Table } from '@tanstack/react-table';
 import { Person } from '../makeData';
+import NumberFilter from './NumberFilter';
 import StringFilter from './StringFilter';
 
 export function FiltersAll({
@@ -11,30 +12,31 @@ export function FiltersAll({
   column: Column<Person, unknown>;
   table: Table<Person>;
 }) {
-  const k = column.id as keyof Person | "fullName";
-  console.log('kfdddffk', k);
-  switch (k) {
-    case 'id':
+  const k = column.id as keyof Person | 'fullName';
+  const filterType = column.columnDef.meta?.filterType;
+  //   if (filterType === undefined) {
+  //     throw new Error('Filter type has to be specified at path <columnDef>.<col>.meta.filterTypes');
+  //   }
+  console.log('filterType', filterType);
+  switch (filterType) {
+    case 'string':
       return <StringFilter column={column} table={table} />;
-    case 'firstName':
+    case 'number_range':
+      return <NumberFilter column={column} table={table} />;
+    case 'number_single':
+      return <NumberFilter column={column} table={table} />;
+    case 'date_single':
       return <StringFilter column={column} table={table} />;
-    case 'lastName':
+    case 'date_range':
       return <StringFilter column={column} table={table} />;
-    case 'progress':
+    case 'enum':
       return <StringFilter column={column} table={table} />;
-    case 'status':
-      return <StringFilter column={column} table={table} />;
-    case 'subRows':
-      return <StringFilter column={column} table={table} />;
-    case 'visits':
-      return <StringFilter column={column} table={table} />;
-    case 'age':
-      return <StringFilter column={column} table={table} />;
-    case 'fullName':
-      return <StringFilter column={column} table={table} />;
+    case null:
+    case undefined:
+      return <></>;
 
     default:
-      assertUnreachable(k);
+      assertUnreachable(filterType);
   }
 }
 

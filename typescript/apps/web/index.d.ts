@@ -28,7 +28,7 @@ declare module '@mantine/core' {
 
 
 
-type FilterDataType = "number_single" | "number_range" | "date_single" | "date_range" | "string" | null
+type FilterDataType = "number_single" | "number_range" | "date_single" | "date_range" | "string" | "enum" | null
 
 declare module '@tanstack/table-core' {
     interface ColumnMeta {

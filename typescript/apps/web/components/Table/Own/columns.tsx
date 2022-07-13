@@ -70,24 +70,33 @@ export function useColumns() {
         },
       },
 
-      //   {
-      //     accessorKey: 'visits',
-      //     header: () => <span>Visits</span>,
-      //     footer: (props) => props.column.id,
-      //     filterFn: numberFilterFn,
-      //   },
-      //   {
-      //     accessorKey: 'status',
-      //     header: 'Status',
-      //     footer: (props) => props.column.id,
-      //     filterFn: numberFilterFn,
-      //   },
-      //   {
-      //     accessorKey: 'progress',
-      //     header: 'Profile Progress',
-      //     footer: (props) => props.column.id,
-      //     filterFn: numberFilterFn,
-      //   },
+      {
+        accessorKey: 'visits',
+        header: () => <span>Visits</span>,
+        footer: (props) => props.column.id,
+        filterFn: numberFilterFn,
+        meta: {
+          filterType: 'number_single',
+        },
+      },
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        footer: (props) => props.column.id,
+        filterFn: numberFilterFn,
+        meta: {
+          filterType: 'enum',
+        },
+      },
+      {
+        accessorKey: 'progress',
+        header: 'Profile Progress',
+        footer: (props) => props.column.id,
+        filterFn: numberFilterFn,
+        meta: {
+          filterType: 'number_single',
+        },
+      },
     ],
     []
   );
