@@ -7,6 +7,7 @@ import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
 import dayjs from 'dayjs';
 import { numberFilterCompoundFn } from './NumberFilter/numberFilterCompoundFn';
+import { getFilterFn } from './getFilterFn';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -22,20 +23,14 @@ export function useColumns() {
         */
         accessorKey: 'id',
         footer: (props) => props.column.id,
-        filterFn: stringFilterFn,
-        meta: {
-          filterType: 'string',
-        },
+        ...getFilterFn('string'),
       },
       {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
         accessorKey: 'firstName',
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
-        filterFn: stringFilterFn,
-        meta: {
-          filterType: 'string',
-        },
+        ...getFilterFn('string'),
       },
       {
         accessorFn: (row) => row.lastName,
@@ -43,10 +38,7 @@ export function useColumns() {
         cell: (info) => info.getValue(),
         header: () => <span>Last Name</span>,
         footer: (props) => props.column.id,
-        filterFn: stringFilterFn,
-        meta: {
-          filterType: 'string',
-        },
+        ...getFilterFn('string'),
       },
       {
         accessorFn: (row) => `${row.firstName} ${row.lastName}`,
@@ -54,62 +46,43 @@ export function useColumns() {
         header: 'Full Name',
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
-        filterFn: stringFilterFn,
         // filterFn: fuzzyFilter,
         // aggregatedCell
         sortingFn: fuzzySort,
-        meta: {
-          filterType: 'string',
-        },
+        ...getFilterFn('string'),
       },
 
       {
         accessorKey: 'createdAt',
         header: () => 'Created At',
         footer: (props) => props.column.id,
-        filterFn: dateFilterFn,
         cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
-        meta: {
-          filterType: 'date_single',
-        },
+        ...getFilterFn('date_single'),
       },
       {
         accessorKey: 'age',
         header: () => 'Age',
         footer: (props) => props.column.id,
-        // filterFn: numberFilterFn,
-        filterFn: numberFilterCompoundFn,
-        meta: {
-          filterType: 'number_single',
-        },
+        ...getFilterFn('number_range'),
       },
 
       {
         accessorKey: 'visits',
         header: () => <span>Visits</span>,
         footer: (props) => props.column.id,
-        filterFn: numberFilterSimpleFn,
-        meta: {
-          filterType: 'number_single',
-        },
+        ...getFilterFn('number_single'),
       },
       {
         accessorKey: 'status',
         header: 'Status',
         footer: (props) => props.column.id,
-        filterFn: numberFilterSimpleFn,
-        meta: {
-          filterType: 'enum',
-        },
+        ...getFilterFn('enum'),
       },
       {
         accessorKey: 'progress',
         header: 'Profile Progress',
         footer: (props) => props.column.id,
-        filterFn: numberFilterSimpleFn,
-        meta: {
-          filterType: 'number_single',
-        },
+        ...getFilterFn('number_single'),
       },
     ],
     []

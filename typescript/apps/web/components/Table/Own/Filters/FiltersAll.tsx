@@ -18,11 +18,9 @@ export function FiltersAll({ column, table }: Props) {
     case 'string':
       return <StringFilter column={column} table={table} />;
     case 'number_range':
-      // return <NumberFilterSimple column={column} table={table} />;
       return <NumberFilterCompound column={column} table={table} />;
     case 'number_single':
-      return <NumberFilterCompound column={column} table={table} />;
-    // return <NumberFilter column={column} table={table} />;
+      return <NumberFilterSimple column={column} table={table} />;
     case 'date_single':
       return <DateFilter column={column} table={table} />;
     case 'date_range':

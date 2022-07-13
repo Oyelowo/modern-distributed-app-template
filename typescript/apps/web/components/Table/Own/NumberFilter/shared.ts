@@ -26,10 +26,8 @@ export type FilterProps = {
 }
 
 export const filterNumBySingleCondition = ({ rowValue, condition, addMeta }: FilterProps) => {
-    const searchFilterValue = condition.filter;
-    if (!searchFilterValue) {
-        return true
-    }
+    const searchFilterValue = condition.filter ?? true;
+
     switch (condition.operator) {
         case "eq":
             return rowValue === searchFilterValue;
