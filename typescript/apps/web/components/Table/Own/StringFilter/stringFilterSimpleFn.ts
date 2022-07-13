@@ -9,8 +9,7 @@ export const stringFilterSimpleFn: FilterFn<unknown> = (
     { operator = 'fuzzy', filter }: FilterConditionStringSimple,
     addMeta
 ) => {
-    // const rowValue = row.getValue<String>(columnId));
-    const rowValue = new String(row.getValue<String>(columnId));
+    const rowValue = row.getValue<string>(columnId);
 
     return filterStringBySingleCondition({
         rowValue,

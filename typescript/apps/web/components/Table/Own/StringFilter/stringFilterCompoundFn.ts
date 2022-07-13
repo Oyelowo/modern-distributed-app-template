@@ -6,15 +6,13 @@ import {
 } from './shared';
 import { FilterFn } from '@tanstack/react-table';
 
-// type Condition = FilterCompoundOperationString["conditions"];
 export const stringFilterCompoundFn: FilterFn<unknown> = (
     row,
     columnId,
     filters: FilterConditionStringCompound[],
     addMeta
 ) => {
-    const rowValue = new String(row.getValue<string>(columnId));
-    // const rowValue = String(row.getValue(columnId));
+    const rowValue = row.getValue<string>(columnId);
 
     return filterStringByConditions({
         conditions: filters,
@@ -27,7 +25,7 @@ stringFilterCompoundFn.autoRemove = (val) => !val;
 
 export type StringFilterCompoundProps = {
     conditions: FilterConditionStringCompound[];
-    rowValue: String;
+    rowValue: string;
     addMeta: FilterProps['addMeta'];
 };
 
@@ -56,7 +54,7 @@ export function filterStringByConditions({
 type FilterCompoundFnProps = {
     currentCondition: FilterConditionStringCompound;
     previousAggregatedFilter: boolean;
-    rowValue: String;
+    rowValue: string;
     addMeta: FilterProps['addMeta'];
 };
 

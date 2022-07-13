@@ -80,13 +80,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
         {...form.getListInputProps('operations', index, 'filter')}
       />
 
-      {/* <DateInput
-        placeholder="John Doe"
-        required
-        // sx={{ flex: 1 }}
-        {...form.getListInputProps('operations', index, 'filter')}
-      /> */}
-
       <ActionIcon
         color="red"
         variant="hover"
@@ -116,21 +109,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
       // zIndex={10000}
     >
       <Box sx={{ maxWidth: 500 }} mx="auto">
-        {fields.length > 0 ? (
-          <Group mb="xs">
-            <Text weight={500} size="sm" sx={{ flex: 1 }}>
-              Name
-            </Text>
-            <Text weight={500} size="sm" pr={90}>
-              Status
-            </Text>
-          </Group>
-        ) : (
-          <Text color="dimmed" align="center">
-            No one here...
-          </Text>
-        )}
-
         {fields}
 
         <Group position="center" mt="md">

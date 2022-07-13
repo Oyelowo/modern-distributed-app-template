@@ -19,6 +19,7 @@ import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-rea
 import { Column, Table } from '@tanstack/react-table';
 import { FilterConditionStringCompound } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
+import { logicalOperators } from '../../helpers';
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -30,7 +31,7 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
   const form = useForm({
     initialValues: {
       operations: formList<FilterConditionStringCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: "", key: randomId() },
+        { logical: null, operator: 'fuzzy', filter: '', key: randomId() },
       ]),
     },
   });
@@ -50,7 +51,6 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
     column.setFilterValue(form.values.operations);
     setOpened(false);
   };
-
 
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
@@ -117,21 +117,6 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
       // zIndex={10000}
     >
       <Box sx={{ maxWidth: 500 }} mx="auto">
-        {fields.length > 0 ? (
-          <Group mb="xs">
-            <Text weight={500} size="sm" sx={{ flex: 1 }}>
-              Name
-            </Text>
-            <Text weight={500} size="sm" pr={90}>
-              Status
-            </Text>
-          </Group>
-        ) : (
-          <Text color="dimmed" align="center">
-            No one here...
-          </Text>
-        )}
-
         {fields}
 
         <Group position="center" mt="md">
