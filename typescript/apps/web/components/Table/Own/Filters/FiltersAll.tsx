@@ -1,5 +1,6 @@
 import { Column, Table } from '@tanstack/react-table';
 import { Person } from '../makeData';
+import { DateFilter } from './DateFilter';
 import NumberFilter from './NumberFilter';
 import StringFilter from './StringFilter';
 
@@ -26,9 +27,9 @@ export function FiltersAll({
     case 'number_single':
       return <NumberFilter column={column} table={table} />;
     case 'date_single':
-      return <StringFilter column={column} table={table} />;
+      return <DateFilter column={column} table={table} />;
     case 'date_range':
-      return <StringFilter column={column} table={table} />;
+      return <DateFilter column={column} table={table} />;
     case 'enum':
       return <StringFilter column={column} table={table} />;
     case null:

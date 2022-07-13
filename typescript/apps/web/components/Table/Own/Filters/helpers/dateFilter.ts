@@ -17,10 +17,10 @@ export const dateFilterFn: FilterFn<Person> = (row, columnId, filter: FilterOper
 
   switch (operator) {
     case "is_same":
-      return rowValue.isSame(searchFilterValue);
+      return rowValue.isSame(searchFilterValue, "day");
 
     case "is_not_same":
-      return !rowValue.isSame(searchFilterValue);
+      return !rowValue.isSame(searchFilterValue, "day");
 
     case "is_after":
       return rowValue.isAfter(searchFilterValue);

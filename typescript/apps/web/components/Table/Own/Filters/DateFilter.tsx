@@ -19,7 +19,7 @@ import { Column, Table as ReactTable } from '@tanstack/react-table';
 import { FilterOperationDate } from './helpers/dateFilter';
 import { Person } from '../makeData';
 
-const StringFilter = ({
+export const DateFilter = ({
   column,
   table,
 }: {
@@ -121,8 +121,6 @@ const StringFilter = ({
     </Popover>
   );
 };
-
-export default StringFilter;
 
 function getRadios() {
   const stringOperations: Array<{

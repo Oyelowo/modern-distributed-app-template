@@ -5,6 +5,7 @@ import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { stringFilterFn } from './Filters/helpers/stringFilter';
 import { numberFilterFn } from './Filters/helpers/NumberFilter';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
+import dayjs from 'dayjs';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -66,6 +67,7 @@ export function useColumns() {
         header: () => 'Created At',
         footer: (props) => props.column.id,
         filterFn: dateFilterFn,
+        cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
         meta: {
           filterType: 'date_single',
         },
