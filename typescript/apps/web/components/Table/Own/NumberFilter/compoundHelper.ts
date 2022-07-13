@@ -10,13 +10,20 @@ export const numberCompoundFilterFn: FilterFn<Person> = (
     addMeta
 ) => {
     const rowValue = Number(row.getValue(columnId));
-
+    console.log("rowValue", rowValue)
+    console.log("fby", filterNumberByConditions({
+        conditions: filters,
+        rowValue,
+        addMeta
+    }))
     return filterNumberByConditions({
         conditions: filters,
         rowValue,
         addMeta
     });
 };
+
+numberCompoundFilterFn.autoRemove = (val) => !val;
 
 export type FilterCompoundOperationNumber = {
     conditions: FilterConditionNumberCompound[];
@@ -49,7 +56,7 @@ type FilterCompoundFnProps = {
 
 function filterNumByCompoundCond({
     current,
-    previous: prev,
+    previous,
     rowValue,
     addMeta
 }: FilterCompoundFnProps): boolean {
@@ -64,17 +71,19 @@ function filterNumByCompoundCond({
             filter: current.filter,
         },
     })
+
+    if (!previous) {
+        return currentFilter;
+    }
+
     const previousFilter = filterNumBySingleCondition({
         ...common,
         condition: {
-            operator: current.operator,
-            filter: current.filter,
+            operator: previous.operator,
+            filter: previous.filter,
         }
     })
 
-    if (!prev) {
-        return currentFilter;
-    }
 
     if (current.logical === 'and') {
         return previousFilter && currentFilter;

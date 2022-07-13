@@ -17,6 +17,7 @@ import {
   Text,
   Code,
   Select,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
@@ -57,7 +58,9 @@ export const NumberFilterCompound = ({
   };
 
   const handleApply = () => {
+    console.log('orm.values.operations', form.values.operations);
     column.setFilterValue(form.values.operations);
+    console.log('getFilterValue', column.getFilterValue());
     setOpened(false);
   };
 
@@ -86,7 +89,7 @@ export const NumberFilterCompound = ({
         data={operatorsValuesAndLabels}
         sx={{ flex: 2 }}
       />
-      <TextInput
+      <NumberInput
         placeholder="John Doe"
         required
         // sx={{ flex: 1 }}

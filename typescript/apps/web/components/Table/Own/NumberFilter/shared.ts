@@ -32,7 +32,6 @@ export const filterNumBySingleCondition = ({ rowValue, condition, addMeta }: Fil
     if (!searchFilterValue) {
         return true
     }
-
     switch (condition.operator) {
         case "eq":
             return rowValue === searchFilterValue;
