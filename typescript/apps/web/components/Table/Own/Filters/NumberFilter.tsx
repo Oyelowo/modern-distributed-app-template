@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   ActionIcon,
   Anchor,
@@ -8,29 +8,36 @@ import {
   NumberInput,
   Popover,
   Radio,
-  RadioGroup
-} from "@mantine/core";
-import { useSetState } from "@mantine/hooks";
-import { BiFilterAlt as FilterIcon } from "react-icons/bi";
+  RadioGroup,
+} from '@mantine/core';
+import { useSetState } from '@mantine/hooks';
+import { Filter as FilterIcon } from 'tabler-icons-react';
+import { Person } from '../makeData';
+import { Column, Table } from '@tanstack/react-table';
 
-const NumberFilter = (props) => {
+const NumberFilter = ({
+  column,
+  table,
+}: {
+  column: Column<Person, unknown>;
+  table: Table<Person>;
+}) => {
+  column.columnDef.
   const {
-    column: { filterValue, setFilter, filterOptions }
+    column: { filterValue, setFilter, filterOptions },
   } = props;
   const { min, max, step } = filterOptions || {};
   const [opened, setOpened] = useState(false);
-  const [state, setState] = useSetState(
-    filterValue || { operator: "cont", value: undefined }
-  );
+  const [state, setState] = useSetState(filterValue || { operator: 'cont', value: undefined });
 
   const handleClose = () => {
-    setState(filterValue || { operator: "cont", value: "" });
+    setState(filterValue || { operator: 'cont', value: '' });
     setOpened(false);
   };
 
   const handleClear = () => {
     setFilter(undefined);
-    setState({ operator: "cont", value: "" });
+    setState({ operator: 'cont', value: '' });
     setOpened(false);
   };
 
@@ -43,8 +50,8 @@ const NumberFilter = (props) => {
     <Popover
       target={
         <ActionIcon
-          variant={filterValue ? "light" : "hover"}
-          color={filterValue ? "blue" : "gray"}
+          variant={filterValue ? 'light' : 'hover'}
+          color={filterValue ? 'blue' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
@@ -59,7 +66,7 @@ const NumberFilter = (props) => {
     >
       <RadioGroup
         description="Select your option"
-        variant="vertical"
+        orientation="vertical"
         size="sm"
         value={state.operator}
         onChange={(o) => setState({ operator: o })}

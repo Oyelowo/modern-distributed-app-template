@@ -6,13 +6,23 @@ import { stringFilterFn } from './Filters/helpers/stringFilter';
 import { numberFilterFn } from './Filters/helpers/NumberFilter';
 
 export function useColumns() {
-  const columns: ColumnDef<Person>[] = useMemo<ColumnDef<Person>[]>(
+  const columns = useMemo<ColumnDef<Person>[]>(
     () => [
       {
         header: 'Id',
+        /* 
+         Remember, the accessed value is what is used to sort, filter, etc. 
+         so you'll want to make sure your accessor function returns a primitive 
+         value that can be manipulated in a meaningful way. If you return a 
+         non-primitive value like an object or array, you will need the appropriate 
+         filter/sort/grouping functions to manipulate them, or even supply your own
+        */
         accessorKey: 'id',
         footer: (props) => props.column.id,
         filterFn: stringFilterFn,
+        meta: {
+          filterType: 'string',
+        },
       },
       {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
@@ -20,6 +30,9 @@ export function useColumns() {
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
         filterFn: stringFilterFn,
+        meta: {
+          filterType: 'string',
+        },
       },
       {
         accessorFn: (row) => row.lastName,
@@ -28,25 +41,34 @@ export function useColumns() {
         header: () => <span>Last Name</span>,
         footer: (props) => props.column.id,
         filterFn: stringFilterFn,
+        meta: {
+          filterType: 'string',
+        },
       },
-      //   {
-      //     accessorFn: (row) => `${row.firstName} ${row.lastName}`,
-      //     id: 'fullName',
-      //     header: 'Full Name',
-      //     cell: (info) => info.getValue(),
-      //     footer: (props) => props.column.id,
-      //     filterFn: stringFilterFn,
-      //     // filterFn: fuzzyFilter,
-      //     sortingFn: fuzzySort,
-      //     // aggregatedCell
-      //   },
+      {
+        accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+        id: 'fullName',
+        header: 'Full Name',
+        cell: (info) => info.getValue(),
+        footer: (props) => props.column.id,
+        filterFn: stringFilterFn,
+        // filterFn: fuzzyFilter,
+        // aggregatedCell
+        sortingFn: fuzzySort,
+        meta: {
+          filterType: 'string',
+        },
+      },
 
-      //   {
-      //     accessorKey: 'age',
-      //     header: () => 'Age',
-      //     footer: (props) => props.column.id,
-      //     filterFn: numberFilterFn,
-      //   },
+      {
+        accessorKey: 'age',
+        header: () => 'Age',
+        footer: (props) => props.column.id,
+        filterFn: numberFilterFn,
+        meta: {
+          filterType: 'number_single',
+        },
+      },
 
       //   {
       //     accessorKey: 'visits',

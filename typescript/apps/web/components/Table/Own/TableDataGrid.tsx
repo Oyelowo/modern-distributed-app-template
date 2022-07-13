@@ -21,9 +21,9 @@ import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { Group } from '@mantine/core';
 import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
-import { StringFilter2 } from './StringFilter';
 import { useColumns } from './columns';
 import StringFilter from './Filters/StringFilter';
+import { FiltersAll } from './Filters/FiltersAll';
 
 export function TableDataGrid() {
   const { columns } = useColumns();
@@ -125,7 +125,8 @@ function Header({ table }: { table: Table<Person> }) {
 
                     {h.column.getCanFilter() && (
                       <div>
-                        <StringFilter column={h.column} table={table} />
+                        <FiltersAll column={h.column} table={table} />
+                        {/* <StringFilter column={h.column} table={table} /> */}
                         {/* <Filter column={h.column} table={table} /> */}
                         {/* <StringFilter2 column={h.column} table={table} /> */}
                         {/* <StringFilter2 /> */}

@@ -16,13 +16,14 @@ import { useSetState } from '@mantine/hooks';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
 import { FilterOperationString } from './helpers/stringFilter';
+import { Person } from '../makeData';
 
 const StringFilter = ({
   column,
   table,
 }: {
-  column: Column<any, unknown>;
-  table: ReactTable<any>;
+  column: Column<Person, unknown>;
+  table: ReactTable<Person>;
 }) => {
   // const {
   //   column: { filterValue, setFilter },
@@ -72,15 +73,14 @@ const StringFilter = ({
     >
       <RadioGroup
         description="Select your option"
-        // variant="vertical"
+        orientation="vertical"
         size="sm"
         value={state.operator}
         onChange={(o: FilterOperationString['operator']) => setState({ operator: o })}
       >
         {getRadios().map(({ operator, name }) => (
-          <Radio value={operator} label={name} />
+          <Radio key={operator} value={operator} label={name} />
         ))}
-
       </RadioGroup>
       <Divider my="sm" />
       <TextInput

@@ -26,3 +26,12 @@ declare module '@mantine/core' {
     // MantineStyleSystemValue
 }
 
+
+
+type FilterDataType = "number_single" | "number_range" | "date_single" | "date_range" | "string" | null
+
+declare module '@tanstack/table-core' {
+    interface ColumnMeta {
+        filterType: FilterDataType;
+    }
+}
