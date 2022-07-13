@@ -2,6 +2,7 @@ import { Column, Table } from '@tanstack/react-table';
 import { Person } from '../makeData';
 import { DateFilter } from './DateFilter';
 import NumberFilter from './NumberFilter';
+import {NumberFilterCompound} from './NumberFilterCompound';
 import StringFilter from './StringFilter';
 
 export function FiltersAll({
@@ -25,7 +26,8 @@ export function FiltersAll({
     case 'number_range':
       return <NumberFilter column={column} table={table} />;
     case 'number_single':
-      return <NumberFilter column={column} table={table} />;
+      return <NumberFilterCompound column={column} table={table} />;
+      // return <NumberFilter column={column} table={table} />;
     case 'date_single':
       return <DateFilter column={column} table={table} />;
     case 'date_range':

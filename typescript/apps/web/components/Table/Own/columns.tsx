@@ -3,9 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Person } from './makeData';
 import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { stringFilterFn } from './Filters/helpers/stringFilter';
-import { numberFilterFn } from './Filters/helpers/NumberFilter';
+import { numberFilterFn } from './Filters/helpers/numberFilter';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
 import dayjs from 'dayjs';
+import { numberCompoundFilterFn } from './Filters/helpers/compountFilter';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -76,7 +77,8 @@ export function useColumns() {
         accessorKey: 'age',
         header: () => 'Age',
         footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
+        // filterFn: numberFilterFn,
+        filterFn: numberCompoundFilterFn,
         meta: {
           filterType: 'number_single',
         },

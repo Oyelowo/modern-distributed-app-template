@@ -35,7 +35,7 @@ const StringFilter = ({
   const [opened, setOpened] = useState(false);
   // const [state, setState] = useSetState<FilterOperationString>({ operator: 'contains', value: '' });
   const [state, setState] = useSetState<FilterOperationString>(
-    filterValue ?? { operator: 'contains', value: '' }
+     { operator: 'contains', value: '' }
   );
 
   const handleClose = () => {

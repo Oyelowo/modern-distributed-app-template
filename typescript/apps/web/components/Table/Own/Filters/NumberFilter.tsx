@@ -3,6 +3,8 @@ import {
   ActionIcon,
   Anchor,
   Button,
+  Checkbox,
+  CheckboxGroup,
   Divider,
   Group,
   Popover,
@@ -15,7 +17,7 @@ import { useSetState } from '@mantine/hooks';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
-import { FilterOperationNumber } from './helpers/NumberFilter';
+import { FilterOperationNumber } from './helpers/numberFilter';
 import { Person } from '../makeData';
 
 const StringFilter = ({
@@ -33,6 +35,9 @@ const StringFilter = ({
   // console.log('column.getFilterValue()', column.getFilterValue());
   // console.log('column.setFilterValue', column.setFilterValue);
   const [opened, setOpened] = useState(false);
+  const [value, setValue] = useState<FilterOperationNumber[]>([]);
+  // const [value, setValue] = useState<string[]>([]);
+
   // const [state, setState] = useSetState<FilterOperationNumber>({ operator: 'contains', value: '' });
   const [state, setState] = useSetState<FilterOperationNumber>(
     filterValue ?? { operator: 'fuzzy', value: '' }
@@ -84,6 +89,23 @@ const StringFilter = ({
           <Radio key={operator} value={operator} label={name} />
         ))}
       </RadioGroup>
+
+
+      {/* <CheckboxGroup
+        description="Select your option"
+        orientation="vertical"
+        size="sm"
+        value={state.operator}
+        onChange={(o: FilterOperationNumber['operator'][]) =>
+          setValue((prev) => [...prev, { operator: o }])
+        }
+        value={value}
+        // onChange={setValue}
+      >
+        {getRadios().map(({ operator, name }) => (
+          <Checkbox key={operator} value={operator} label={name} />
+        ))}
+      </CheckboxGroup> */}
       <Divider my="sm" />
       <TextInput
         placeholder="Enter text"
@@ -140,3 +162,25 @@ function getRadios() {
   ];
   return stringOperations;
 }
+
+
+
+/* 
+
+Logical
+and_or => "and" | "or"
+
+Operators:
+  Number:
+  String:
+  Date:
+
+Value
+
+interface Searcher {
+  logical: Logical | null,
+  primitives: Operators;
+  value: Date
+}
+
+*/

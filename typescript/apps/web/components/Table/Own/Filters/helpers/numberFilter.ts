@@ -8,6 +8,9 @@ type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | 
 export type FilterOperationNumber = {
     operator: OperatorNumber;
     value: string;
+    and_or: "and" | "or";
+    right_operator: OperatorNumber;
+    right_value: string;
 }
 
 
