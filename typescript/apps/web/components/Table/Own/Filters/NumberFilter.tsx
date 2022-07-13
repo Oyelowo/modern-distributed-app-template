@@ -34,7 +34,9 @@ const StringFilter = ({
   // console.log('column.setFilterValue', column.setFilterValue);
   const [opened, setOpened] = useState(false);
   // const [state, setState] = useSetState<FilterOperationNumber>({ operator: 'contains', value: '' });
-  const [state, setState] = useSetState(filterValue || { operator: 'fuzzy', value: '' });
+  const [state, setState] = useSetState<FilterOperationNumber>(
+    filterValue ?? { operator: 'fuzzy', value: '' }
+  );
 
   const handleClose = () => {
     // setState({ operator: 'contains', value: '' });

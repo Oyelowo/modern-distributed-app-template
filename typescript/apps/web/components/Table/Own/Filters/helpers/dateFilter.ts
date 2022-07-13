@@ -4,13 +4,13 @@ import { Person } from "../../makeData";
 import dayjs from "dayjs";
 
 
-type OperatorDate = "is_same" | "is_before" | "is_after" | "is_not_same" | "on_or_before" | "on_or_after";
-type FilterValue = {
+type OperatorDate = "is_same" | "is_before" | "is_after" | "is_not_same" | "on_or_before" | "on_or_after" | "none";
+export type FilterOperationDate = {
   operator: OperatorDate;
-  value: string;
+  value: Date;
 }
 
-export const dateFilterFn: FilterFn<Person> = (row, columnId, filter: FilterValue, addMeta) => {
+export const dateFilterFn: FilterFn<Person> = (row, columnId, filter: FilterOperationDate, addMeta) => {
   const { operator = "is_same", value } = filter;
   const rowValue = dayjs(row.getValue(columnId));
   const searchFilterValue = dayjs(value);

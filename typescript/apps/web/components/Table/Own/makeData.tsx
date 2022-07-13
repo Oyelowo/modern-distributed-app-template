@@ -4,6 +4,7 @@ export type Person = {
   id: string;
   firstName: string;
   lastName: string;
+  createdAt: Date;
   age: number;
   visits: number;
   progress: number;
@@ -24,6 +25,7 @@ const newPerson = (): Person => {
     id: faker.datatype.uuid(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
+    createdAt: faker.date.between('2020-01-01T00:00:00.000Z', '2030-01-01T00:00:00.000Z'),
     age: faker.datatype.number(40),
     visits: faker.datatype.number(1000),
     progress: faker.datatype.number(100),

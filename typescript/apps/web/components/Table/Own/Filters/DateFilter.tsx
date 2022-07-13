@@ -12,10 +12,11 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useSetState } from '@mantine/hooks';
+import { DatePicker } from '@mantine/dates';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
-import { Filter as FilterIcon } from 'tabler-icons-react';
+import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
-import { FilterOperationString } from './helpers/stringFilter';
+import { FilterOperationDate } from './helpers/dateFilter';
 import { Person } from '../makeData';
 
 const StringFilter = ({
@@ -28,25 +29,25 @@ const StringFilter = ({
   // const {
   //   column: { filterValue, setFilter },
   // } = column.getFilterValue();
-  const filterValue: FilterOperationString = column.getFilterValue() as FilterOperationString;
+  const filterValue: FilterOperationDate = column.getFilterValue() as FilterOperationDate;
   const setFilter = column.setFilterValue;
   // console.log('column.getFilterValue()', column.getFilterValue());
   // console.log('column.setFilterValue', column.setFilterValue);
   const [opened, setOpened] = useState(false);
-  // const [state, setState] = useSetState<FilterOperationString>({ operator: 'contains', value: '' });
-  const [state, setState] = useSetState<FilterOperationString>(
-    filterValue ?? { operator: 'contains', value: '' }
+  // const [state, setState] = useSetState<FilterOperationDate>({ operator: 'contains', value: '' });
+  const [state, setState] = useSetState<FilterOperationDate>(
+    filterValue || { operator: 'none', value: undefined }
   );
 
   const handleClose = () => {
     // setState({ operator: 'contains', value: '' });
-    setState(filterValue || { operator: 'contains', value: '' });
+    setState(filterValue || { operator: 'none', value: '' });
     setOpened(false);
   };
 
   const handleClear = () => {
     setFilter(undefined);
-    setState({ operator: 'contains', value: '' });
+    setState({ operator: 'none', value: undefined });
     setOpened(false);
   };
 
@@ -78,20 +79,39 @@ const StringFilter = ({
         orientation="vertical"
         size="sm"
         value={state.operator}
-        onChange={(o: FilterOperationString['operator']) => setState({ operator: o })}
+        onChange={(o: FilterOperationDate['operator']) => setState({ operator: o })}
       >
         {getRadios().map(({ operator, name }) => (
           <Radio key={operator} value={operator} label={name} />
         ))}
       </RadioGroup>
       <Divider my="sm" />
-      <TextInput
+      {/* <TextInput
         placeholder="Enter text"
         mb="sm"
         data-autoFocus
         value={state.value}
         onChange={(e) => setState({ value: e.target.value })}
       />
+      <Group position="apart">
+        <Anchor component="button" color="gray" onClick={handleClear}>
+          Clear
+        </Anchor>
+        <Button onClick={handleApply}>Apply</Button>
+      </Group>
+      <Divider my="sm" /> */}
+
+      <DatePicker
+        icon={<CalendarIcon />}
+        placeholder="Pick date"
+        mb="sm"
+        // withSelect
+        // zIndex={100001}
+        withinPortal={false}
+        value={state.value}
+        onChange={(val) => setState({ value: val ?? undefined })}
+      />
+
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear
@@ -106,33 +126,37 @@ export default StringFilter;
 
 function getRadios() {
   const stringOperations: Array<{
-    operator: FilterOperationString['operator'];
+    operator: FilterOperationDate['operator'];
     name: string;
   }> = [
     {
-      operator: 'contains',
-      name: 'Contains',
+      operator: 'is_same',
+      name: 'Same day',
     },
     {
-      operator: 'not_contain',
-      name: 'Does not Contain',
+      operator: 'is_after',
+      name: 'Is after',
     },
     {
-      operator: 'starts_with',
-      name: 'Starts with',
+      operator: 'is_before',
+      name: 'is before',
     },
     {
-      operator: 'ends_with',
-      name: 'Ends with',
+      operator: 'is_not_same',
+      name: 'is not before',
     },
     {
-      operator: 'equals',
-      name: 'Equals',
+      operator: 'on_or_after',
+      name: 'On or after',
     },
     {
-      operator: 'not_equal',
-      name: 'Not equal',
+      operator: 'on_or_before',
+      name: 'On or before',
     },
+    // {
+    //   operator: '',
+    //   name: 'none',
+    // },
   ];
   return stringOperations;
 }

@@ -4,6 +4,7 @@ import { Person } from './makeData';
 import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { stringFilterFn } from './Filters/helpers/stringFilter';
 import { numberFilterFn } from './Filters/helpers/NumberFilter';
+import { dateFilterFn } from './Filters/helpers/dateFilter';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -60,6 +61,15 @@ export function useColumns() {
         },
       },
 
+      {
+        accessorKey: 'createdAt',
+        header: () => 'Created At',
+        footer: (props) => props.column.id,
+        filterFn: dateFilterFn,
+        meta: {
+          filterType: 'date_single',
+        },
+      },
       {
         accessorKey: 'age',
         header: () => 'Age',
