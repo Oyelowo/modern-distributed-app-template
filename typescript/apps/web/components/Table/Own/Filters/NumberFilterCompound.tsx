@@ -56,7 +56,9 @@ export const NumberFilterCompound = ({
   const form = useForm({
     initialValues: {
       // employees: formList([{ name: '', active: false, key: randomId() }]),
-      operations: formList<Condition & {key: string}>([{ logical: "and", operator: "fuzzy", filter: 0, key: randomId() }]),
+      operations: formList<Condition & { key: string }>([
+        { logical: 'and', operator: 'fuzzy', filter: 0, key: randomId() },
+      ]),
     },
   });
   const [operator, setOperator] = useState('');
@@ -85,20 +87,34 @@ export const NumberFilterCompound = ({
 
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
-      <Select
-        label="Operator"
-        {...form.getListInputProps('operations', index, 'logical')}
-        data={['and', 'or']}
-      />
+      {index !== 0 ? (
+        <Select
+          label="Operator"
+          {...form.getListInputProps('operations', index, 'logical')}
+          data={['and', 'or']}
+          sx={{ flex: 0.9 }}
+        />
+      ) : (
+        <Select
+          label="Operator"
+          rightSection={<></>}
+          styles={{ rightSection: { pointerEvents: 'none' } }}
+          value={null}
+          data={[]}
+          disabled
+          sx={{ flex: 0.9 }}
+        />
+      )}
       <Select
         label="Operator"
         {...form.getListInputProps('operations', index, 'operator')}
         data={getRadios()}
+        sx={{ flex: 2 }}
       />
       <TextInput
         placeholder="John Doe"
         required
-        sx={{ flex: 1 }}
+        // sx={{ flex: 1 }}
         {...form.getListInputProps('operations', index, 'filter')}
       />
       {/* <Switch label="Active" {...form.getListInputProps('operations', index, 'active')} /> */}
@@ -152,8 +168,8 @@ export const NumberFilterCompound = ({
           <Button
             onClick={() =>
               form.addListItem('operations', {
-                operator: "eq",
-                logical: "and",
+                operator: 'eq',
+                logical: 'and',
                 filter: 0,
                 key: randomId(),
               })
