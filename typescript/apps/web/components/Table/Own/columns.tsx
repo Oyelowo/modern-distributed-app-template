@@ -49,7 +49,7 @@ export function useColumns() {
         // filterFn: fuzzyFilter,
         // aggregatedCell
         sortingFn: fuzzySort,
-        ...getFilterFn('string'),
+        ...getFilterFn('string_compound'),
       },
 
       {

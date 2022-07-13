@@ -11,6 +11,8 @@ import { numberFilterCompoundFn } from '../NumberFilter/numberFilterCompoundFn';
 import { dateFilterCompoundFn } from '../DateFilter/dateFilterCompoundFn';
 import { DateFilterCompound } from '../DateFilter/DateFilterCompound';
 import { DateFilterSimple } from '../DateFilter/DateFilterSimple';
+import { stringFilterCompoundFn } from '../StringFilter/stringFilterCompoundFn';
+import { StringFilterCompound } from '../StringFilter/StringFilterCompound';
 
 type Props<T> = {
   //   columnId: keyof Person;
@@ -24,6 +26,8 @@ export function FiltersAll<T>({ column, table }: Props<T>) {
   switch (filterType) {
     case 'string':
       return <StringFilter column={column} table={table} />;
+    case 'string_compound':
+      return <StringFilterCompound column={column} />;
     case 'number_range':
       return <NumberFilterCompound column={column} table={table} />;
     case 'number_single':
@@ -54,6 +58,7 @@ const filterFunctions: Record<FilterType, FilterFn<any>> = {
   date_single: dateFilterFn,
   enum: stringFilterFn,
   string: stringFilterFn,
+  string_compound: stringFilterCompoundFn,
   number_range: numberFilterCompoundFn,
   number_single: numberFilterSimpleFn,
 };
