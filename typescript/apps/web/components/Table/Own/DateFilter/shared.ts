@@ -1,7 +1,7 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { FilterMeta } from '@tanstack/react-table';
 import { FilterFn } from '@tanstack/react-table';
-import { Person } from '../../makeData';
+import { Person } from '../makeData';
 import dayjs from 'dayjs';
 
 export type OperatorDate =

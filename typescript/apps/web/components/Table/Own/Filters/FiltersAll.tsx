@@ -8,9 +8,9 @@ import { numberFilterSimpleFn } from '../NumberFilter/numberFilterSimpleFn';
 import { stringFilterFn } from '../Filters/helpers/stringFilter';
 import { dateFilterFn } from '../Filters/helpers/dateFilter';
 import { numberFilterCompoundFn } from '../NumberFilter/numberFilterCompoundFn';
-import { dateFilterCompoundFn } from './DateFilter/dateFilterCompoundFn';
-import { DateFilterCompound } from './DateFilter/DateFilterCompound';
-import { DateFilterSimple } from './DateFilter/DateFilterSimple';
+import { dateFilterCompoundFn } from '../DateFilter/dateFilterCompoundFn';
+import { DateFilterCompound } from '../DateFilter/DateFilterCompound';
+import { DateFilterSimple } from '../DateFilter/DateFilterSimple';
 
 type Props<T> = {
   //   columnId: keyof Person;
