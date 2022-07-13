@@ -1,6 +1,6 @@
 import { Provider } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useColorScheme } from '@mantine/hooks';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
@@ -46,6 +46,24 @@ creating the QueryClient once per component lifecycle.
     The following example shows how to store color scheme in cookie with Next.js:
      */
   // setCookies('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
+
+  /* 
+  https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render
+  */
+  // START
+  const [showChild, setShowChild] = useState(false);
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
+
+  if (!showChild) {
+    return null;
+  }
+
+  if (typeof window === 'undefined') {
+    return <></>;
+  }
+  // END
 
   // return (
   // const { Component, pageProps } = props;
