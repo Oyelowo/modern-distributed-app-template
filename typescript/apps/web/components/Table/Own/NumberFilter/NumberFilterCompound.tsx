@@ -3,16 +3,8 @@ import {
   ActionIcon,
   Anchor,
   Button,
-  Checkbox,
-  CheckboxGroup,
-  Divider,
   Group,
   Popover,
-  Radio,
-  RadioGroup,
-  Table,
-  TextInput,
-  Switch,
   Box,
   Text,
   Code,
@@ -22,32 +14,30 @@ import {
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
-import { useSetState } from '@mantine/hooks';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column, Table as ReactTable } from '@tanstack/react-table';
-import { FilterConditionNumberCompound, OperatorNumber } from './shared';
+import { Column, Table } from '@tanstack/react-table';
+import { AndOr, FilterConditionNumberCompound } from './shared';
 import { Person } from '../makeData';
-import { FilterCompoundOperationNumber, operatorsValuesAndLabels } from './compoundHelper';
+import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
-export const NumberFilterCompound = ({
-  column,
-  table,
-}: {
+type Props = {
   column: Column<Person, unknown>;
-  table: ReactTable<Person>;
-}) => {
+  table: Table<Person>;
+};
+
+export const NumberFilterCompound = ({ column, table }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
       operations: formList<FilterConditionNumberCompound & { key: string }>([
-        { logical: 'and', operator: 'fuzzy', filter: 0, key: randomId() },
+        { logical: null, operator: 'fuzzy', filter: 0, key: randomId() },
       ]),
     },
   });
 
   const handleClose = () => {
-    // form.reset();
+    form.reset();
     setOpened(false);
   };
 
@@ -58,11 +48,11 @@ export const NumberFilterCompound = ({
   };
 
   const handleApply = () => {
-    console.log('orm.values.operations', form.values.operations);
     column.setFilterValue(form.values.operations);
-    console.log('getFilterValue', column.getFilterValue());
     setOpened(false);
   };
+
+  const andOrData: AndOr[] = ['and', 'or'];
 
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
@@ -70,7 +60,7 @@ export const NumberFilterCompound = ({
         <Select
           label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
-          data={['and', 'or']}
+          data={andOrData}
           sx={{ flex: 0.9 }}
         />
       ) : (
@@ -83,18 +73,21 @@ export const NumberFilterCompound = ({
           sx={{ flex: 0.9 }}
         />
       )}
+
       <Select
         label="Operator"
         {...form.getListInputProps('operations', index, 'operator')}
         data={operatorsValuesAndLabels}
         sx={{ flex: 2 }}
       />
+
       <NumberInput
         placeholder="John Doe"
         required
         // sx={{ flex: 1 }}
         {...form.getListInputProps('operations', index, 'filter')}
       />
+
       <ActionIcon
         color="red"
         variant="hover"

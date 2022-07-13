@@ -3,10 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Person } from './makeData';
 import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { stringFilterFn } from './Filters/helpers/stringFilter';
-import { numberFilterFn } from './NumberFilter/simpleHelper';
+import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
 import dayjs from 'dayjs';
-import { numberCompoundFilterFn } from './NumberFilter/compoundHelper';
+import { numberFilterCompoundFn } from './NumberFilter/numberFilterCompoundFn';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -78,7 +78,7 @@ export function useColumns() {
         header: () => 'Age',
         footer: (props) => props.column.id,
         // filterFn: numberFilterFn,
-        filterFn: numberCompoundFilterFn,
+        filterFn: numberFilterCompoundFn,
         meta: {
           filterType: 'number_single',
         },
@@ -88,7 +88,7 @@ export function useColumns() {
         accessorKey: 'visits',
         header: () => <span>Visits</span>,
         footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
+        filterFn: numberFilterSimpleFn,
         meta: {
           filterType: 'number_single',
         },
@@ -97,7 +97,7 @@ export function useColumns() {
         accessorKey: 'status',
         header: 'Status',
         footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
+        filterFn: numberFilterSimpleFn,
         meta: {
           filterType: 'enum',
         },
@@ -106,7 +106,7 @@ export function useColumns() {
         accessorKey: 'progress',
         header: 'Profile Progress',
         footer: (props) => props.column.id,
-        filterFn: numberFilterFn,
+        filterFn: numberFilterSimpleFn,
         meta: {
           filterType: 'number_single',
         },

@@ -3,26 +3,22 @@ import {
   ActionIcon,
   Anchor,
   Button,
-  Checkbox,
-  CheckboxGroup,
   Divider,
   Group,
   Popover,
   Radio,
   RadioGroup,
-  Table,
   TextInput,
 } from '@mantine/core';
-import { useSetState } from '@mantine/hooks';
 import { useForm } from '@mantine/form';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
 import { FilterConditionNumberSimple } from './shared';
 import { Person } from '../makeData';
-import { operatorsValuesAndLabels } from './compoundHelper';
+import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
-const NumberFilterSimple = ({
+export const NumberFilterSimple = ({
   column,
   table,
 }: {
@@ -98,5 +94,4 @@ const NumberFilterSimple = ({
     </Popover>
   );
 };
-
-export default NumberFilterSimple;
+ 

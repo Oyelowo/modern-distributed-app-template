@@ -4,7 +4,7 @@ import { FilterFn } from '@tanstack/react-table';
 import { Person } from '../makeData';
 
 
-export const numberFilterFn: FilterFn<Person> = (
+export const numberFilterSimpleFn: FilterFn<Person> = (
     row,
     columnId,
     filter: FilterConditionNumberSimple,
@@ -23,4 +23,4 @@ export const numberFilterFn: FilterFn<Person> = (
         addMeta,
     });
 };
-numberFilterFn.autoRemove = (val) => !val;
+numberFilterSimpleFn.autoRemove = (val) => !val;

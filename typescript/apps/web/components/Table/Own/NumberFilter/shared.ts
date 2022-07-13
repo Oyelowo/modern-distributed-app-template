@@ -1,12 +1,10 @@
 
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { FilterFn, FilterMeta } from "@tanstack/react-table";
-import { Person } from "../makeData";
-
+import { FilterMeta } from "@tanstack/react-table";
 
 export type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | "fuzzy";
 // Logical
-type AndOr = 'and' | 'or';
+export type AndOr = 'and' | 'or';
 
 export type FilterConditionNumberSimple = {
     /**  number operator */

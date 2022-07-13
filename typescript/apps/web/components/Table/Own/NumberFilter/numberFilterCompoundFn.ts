@@ -1,21 +1,16 @@
-import { FilterConditionNumberCompound, filterNumBySingleCondition, FilterProps, OperatorNumber } from './shared';
+import { FilterConditionNumberCompound as NumberFilterCondition, filterNumBySingleCondition, FilterProps, OperatorNumber } from './shared';
 import { Person } from '../makeData';
 import { FilterFn } from '@tanstack/react-table';
 
 // type Condition = FilterCompoundOperationNumber["conditions"];
-export const numberCompoundFilterFn: FilterFn<Person> = (
+export const numberFilterCompoundFn: FilterFn<Person> = (
     row,
     columnId,
-    filters: FilterConditionNumberCompound[],
+    filters: NumberFilterCondition[],
     addMeta
 ) => {
     const rowValue = Number(row.getValue(columnId));
-    console.log("rowValue", rowValue)
-    console.log("fby", filterNumberByConditions({
-        conditions: filters,
-        rowValue,
-        addMeta
-    }))
+
     return filterNumberByConditions({
         conditions: filters,
         rowValue,
@@ -23,10 +18,10 @@ export const numberCompoundFilterFn: FilterFn<Person> = (
     });
 };
 
-numberCompoundFilterFn.autoRemove = (val) => !val;
+numberFilterCompoundFn.autoRemove = (val) => !val;
 
-export type FilterCompoundOperationNumber = {
-    conditions: FilterConditionNumberCompound[];
+export type NumberFilterCompoundProps = {
+    conditions: NumberFilterCondition[];
     rowValue: number;
     addMeta: FilterProps["addMeta"]
 };
@@ -35,21 +30,27 @@ export function filterNumberByConditions({
     rowValue,
     conditions,
     addMeta,
-}: FilterCompoundOperationNumber): boolean {
+}: NumberFilterCompoundProps): boolean {
+    // let shouldFilter = true;
+    // console.log(conditions)
+    console.log("rowValue", rowValue)
     const res = conditions.reduce((acc, curr, i, arr) => {
-        const previousCondition = i === 0 ? null : arr[i - 1];
-
+        const previousCondition = i === 0 ? true : acc;
+        console.log("acc", acc)
+        console.log("curr", curr)
         return filterNumByCompoundCond({
             current: curr, previous: previousCondition, rowValue, addMeta
         });
     }, true);
 
     return res;
+    // return true
 }
 
+
 type FilterCompoundFnProps = {
-    current: FilterConditionNumberCompound;
-    previous: FilterConditionNumberCompound | null;
+    current: NumberFilterCondition;
+    previous: boolean;
     rowValue: number;
     addMeta: FilterProps["addMeta"]
 }
@@ -72,19 +73,13 @@ function filterNumByCompoundCond({
         },
     })
 
-    if (!previous) {
-        return currentFilter;
-    }
+    // if (previous === null) {
+    //     return currentFilter;
+    // }
 
-    const previousFilter = filterNumBySingleCondition({
-        ...common,
-        condition: {
-            operator: previous.operator,
-            filter: previous.filter,
-        }
-    })
+    const previousFilter = previous
 
-
+    console.log("previousFilter && currentFilter", previousFilter, currentFilter)
     if (current.logical === 'and') {
         return previousFilter && currentFilter;
     }
