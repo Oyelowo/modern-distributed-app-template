@@ -17,29 +17,21 @@ import { useSetState } from '@mantine/hooks';
 // import { BiFilterAlt as FilterIcon } from "react-icons/bi";
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column, Table as ReactTable } from '@tanstack/react-table';
-import { FilterOperationNumber } from './helpers/numberFilter';
+import { FilterConditionNumberSimple } from './shared';
 import { Person } from '../makeData';
 
-const StringFilter = ({
+const NumberFilterSimple = ({
   column,
   table,
 }: {
   column: Column<Person, unknown>;
   table: ReactTable<Person>;
 }) => {
-  // const {
-  //   column: { filterValue, setFilter },
-  // } = column.getFilterValue();
-  const filterValue: FilterOperationNumber = column.getFilterValue() as FilterOperationNumber;
+  const filterValue: FilterConditionNumberSimple =
+    column.getFilterValue() as FilterConditionNumberSimple;
   const setFilter = column.setFilterValue;
-  // console.log('column.getFilterValue()', column.getFilterValue());
-  // console.log('column.setFilterValue', column.setFilterValue);
   const [opened, setOpened] = useState(false);
-  const [value, setValue] = useState<FilterOperationNumber[]>([]);
-  // const [value, setValue] = useState<string[]>([]);
-
-  // const [state, setState] = useSetState<FilterOperationNumber>({ operator: 'contains', value: '' });
-  const [state, setState] = useSetState<FilterOperationNumber>(
+  const [state, setState] = useSetState<FilterConditionNumberSimple>(
     filterValue ?? { operator: 'fuzzy', value: '' }
   );
 
@@ -51,12 +43,13 @@ const StringFilter = ({
 
   const handleClear = () => {
     setFilter(undefined);
-    setState({ operator: 'fuzzy', value: '' });
+    setState({ operator: 'fuzzy', filter: null });
     setOpened(false);
   };
 
   const handleApply = () => {
     setFilter(state);
+    column.setFilterValue(state);
     setOpened(false);
   };
 
@@ -83,20 +76,19 @@ const StringFilter = ({
         orientation="vertical"
         size="sm"
         value={state.operator}
-        onChange={(o: FilterOperationNumber['operator']) => setState({ operator: o })}
+        onChange={(o: FilterConditionNumberSimple['operator']) => setState({ operator: o })}
       >
         {getRadios().map(({ operator, name }) => (
           <Radio key={operator} value={operator} label={name} />
         ))}
       </RadioGroup>
 
-
       {/* <CheckboxGroup
         description="Select your option"
         orientation="vertical"
         size="sm"
         value={state.operator}
-        onChange={(o: FilterOperationNumber['operator'][]) =>
+        onChange={(o: FilterConditionNumberSimple['operator'][]) =>
           setValue((prev) => [...prev, { operator: o }])
         }
         value={value}
@@ -124,11 +116,11 @@ const StringFilter = ({
   );
 };
 
-export default StringFilter;
+export default NumberFilterSimple;
 
 function getRadios() {
   const stringOperations: Array<{
-    operator: FilterOperationNumber['operator'];
+    operator: FilterConditionNumberSimple['operator'];
     name: string;
   }> = [
     {
@@ -162,8 +154,6 @@ function getRadios() {
   ];
   return stringOperations;
 }
-
-
 
 /* 
 

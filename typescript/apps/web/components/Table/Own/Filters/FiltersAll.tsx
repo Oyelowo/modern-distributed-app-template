@@ -1,8 +1,8 @@
 import { Column, Table } from '@tanstack/react-table';
 import { Person } from '../makeData';
 import { DateFilter } from './DateFilter';
-import NumberFilter from './NumberFilter';
-import {NumberFilterCompound} from './NumberFilterCompound';
+import NumberFilter from '../NumberFilter/simpleHelper';
+import {NumberFilterCompound} from '../NumberFilter/NumberFilterCompound';
 import StringFilter from './StringFilter';
 
 export function FiltersAll({

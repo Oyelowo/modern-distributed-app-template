@@ -3,10 +3,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Person } from './makeData';
 import { fuzzyFilter, fuzzySort } from './ReactTable';
 import { stringFilterFn } from './Filters/helpers/stringFilter';
-import { numberFilterFn } from './Filters/helpers/numberFilter';
+import { numberFilterFn } from './NumberFilter/simpleHelper';
 import { dateFilterFn } from './Filters/helpers/dateFilter';
 import dayjs from 'dayjs';
-import { numberCompoundFilterFn } from './Filters/helpers/compountFilter';
+import { numberCompoundFilterFn } from './NumberFilter/compoundHelper';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
