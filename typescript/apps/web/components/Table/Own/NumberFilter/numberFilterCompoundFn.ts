@@ -31,33 +31,31 @@ export function filterNumberByConditions({
     conditions,
     addMeta,
 }: NumberFilterCompoundProps): boolean {
-    // let shouldFilter = true;
-    // console.log(conditions)
-    console.log("rowValue", rowValue)
-    const res = conditions.reduce((acc, curr, i, arr) => {
-        const previousCondition = i === 0 ? true : acc;
-        console.log("acc", acc)
-        console.log("curr", curr)
+    //   Goes through the conditions list and calculates
+    // the boolean value until it reaches the last.
+    // This determines if a row should be filtered out or not
+    // e.g [true, false, true, false] => false
+    // e.g [true, true, true, true] => true
+    const res = conditions.reduce((acc, curr,) => {
         return filterNumByCompoundCond({
-            current: curr, previous: previousCondition, rowValue, addMeta
+            currentCondition: curr, previousAggregatedFilter: acc, rowValue, addMeta
         });
     }, true);
 
     return res;
-    // return true
 }
 
 
 type FilterCompoundFnProps = {
-    current: NumberFilterCondition;
-    previous: boolean;
+    currentCondition: NumberFilterCondition;
+    previousAggregatedFilter: boolean;
     rowValue: number;
     addMeta: FilterProps["addMeta"]
 }
 
 function filterNumByCompoundCond({
-    current,
-    previous,
+    currentCondition,
+    previousAggregatedFilter,
     rowValue,
     addMeta
 }: FilterCompoundFnProps): boolean {
@@ -68,24 +66,18 @@ function filterNumByCompoundCond({
     const currentFilter = filterNumBySingleCondition({
         ...common,
         condition: {
-            operator: current.operator,
-            filter: current.filter,
+            operator: currentCondition.operator,
+            filter: currentCondition.filter,
         },
     })
 
-    // if (previous === null) {
-    //     return currentFilter;
-    // }
 
-    const previousFilter = previous
-
-    console.log("previousFilter && currentFilter", previousFilter, currentFilter)
-    if (current.logical === 'and') {
-        return previousFilter && currentFilter;
+    if (currentCondition.logical === 'and') {
+        return previousAggregatedFilter && currentFilter;
     }
 
-    if (current.logical === 'or') {
-        return previousFilter || currentFilter;
+    if (currentCondition.logical === 'or') {
+        return previousAggregatedFilter || currentFilter;
     }
 
     return currentFilter
