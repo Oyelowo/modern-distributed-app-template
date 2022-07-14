@@ -1,4 +1,4 @@
-import { Column, Table, ColumnMeta, FilterFn } from '@tanstack/react-table';
+import { Column, ColumnMeta, FilterFn } from '@tanstack/react-table';
 import { NumberFilterSimple } from './NumberFilter/NumberFilterSimple';
 import { NumberFilterCompound } from './NumberFilter/NumberFilterCompound';
 import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
@@ -12,9 +12,39 @@ import { StringFilterSimple } from './StringFilter/StringFilterSimple';
 import { dateFilterSimpleFn } from './DateFilter/dateFilterSimpleFn';
 import { stringFilterSimpleFn } from './StringFilter/stringFilterSimpleFn';
 
+function assertUnreachable(_x: never): never {
+  throw new Error("Didn't expect to get here");
+}
+
+type FilterType = Exclude<ColumnMeta['filterType'], null>;
+
+const filterFunctions: Record<FilterType, FilterFn<any>> = {
+  date_range: dateFilterCompoundFn,
+  date_single: dateFilterSimpleFn,
+  string: stringFilterSimpleFn,
+  string_compound: stringFilterCompoundFn,
+  number_range: numberFilterCompoundFn,
+  number_single: numberFilterSimpleFn,
+};
+
+type ReturnTypeFn<T> = {
+  filterFn: FilterFn<T>;
+  meta: {
+    filterType: FilterType;
+  };
+};
+
+export function getFilterFn<T>(filterType: FilterType): ReturnTypeFn<T> {
+  return {
+    filterFn: filterFunctions[filterType],
+    meta: {
+      filterType,
+    },
+  };
+}
+
 type Props<T> = {
   column: Column<T, unknown>;
-  table: Table<T>;
 };
 
 export function ColumnFilter<T>({ column }: Props<T>) {
@@ -40,34 +70,4 @@ export function ColumnFilter<T>({ column }: Props<T>) {
     default:
       assertUnreachable(filterType);
   }
-}
-
-function assertUnreachable(x: never): never {
-  throw new Error("Didn't expect to get here");
-}
-
-type FilterType = Exclude<ColumnMeta['filterType'], null>;
-
-const filterFunctions: Record<FilterType, FilterFn<any>> = {
-  date_range: dateFilterCompoundFn,
-  date_single: dateFilterSimpleFn,
-  string: stringFilterSimpleFn,
-  string_compound: stringFilterCompoundFn,
-  number_range: numberFilterCompoundFn,
-  number_single: numberFilterSimpleFn,
-};
-
-type ReturnTypeFn<T> = {
-  filterFn: FilterFn<T>;
-  meta: {
-    filterType: FilterType;
-  };
-};
-export function getFilterFn<T>(filterType: FilterType): ReturnTypeFn<T> {
-  return {
-    filterFn: filterFunctions[filterType],
-    meta: {
-      filterType,
-    },
-  };
 }

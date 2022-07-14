@@ -42,7 +42,7 @@ export const filterStringBySingleCondition = ({
         case 'not_contain':
             return !rowValue.includes(searchFilterValue);
 
-        default:
+        default: {
             // Rank the item
             const itemRank = rankItem(rowValue, searchFilterValue);
 
@@ -53,13 +53,16 @@ export const filterStringBySingleCondition = ({
 
             // Return if the item should be filtered in/out
             return itemRank.passed;
+        }
     }
 };
 
 export function useUniqueColumnValues<T>(column: Column<T, unknown>) {
+    const facetedUniqValues = column.getFacetedUniqueValues();
+
     const sortedUniqueValues = useMemo(
-        () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
-        [column.getFacetedUniqueValues()]
+        () => Array.from(facetedUniqValues.keys()).sort(),
+        [facetedUniqValues]
     );
 
     return sortedUniqueValues;

@@ -6,48 +6,11 @@ import {
     OperatorDate,
 } from './shared';
 
-export const dateFilterCompoundFn: FilterFn<unknown> = (
-    row,
-    columnId,
-    filters: DateFilterCondition[],
-    addMeta
-) => {
-    const rowValue = new Date(row.getValue<string>(columnId));
-
-    return filterDateByConditions({
-        conditions: filters,
-        rowValue,
-        addMeta,
-    });
-};
-
-dateFilterCompoundFn.autoRemove = (val) => !val;
-
 export type DateFilterCompoundProps = {
     conditions: DateFilterCondition[];
     rowValue: Date;
     addMeta: AddMeta;
 };
-
-export function filterDateByConditions({
-    rowValue,
-    conditions,
-    addMeta,
-}: DateFilterCompoundProps): boolean {
-    //   Goes through the conditions list and calculates
-    // the boolean value until it reaches the last.
-    // This determines if a row should be filtered out or not
-    // e.g [true, false, true, false] => false
-    // e.g [true, true, true, true] => true
-    const res = conditions.reduce((acc, curr) => filterNumByCompoundCond({
-            currentCondition: curr,
-            previousAggregatedFilter: acc,
-            rowValue,
-            addMeta,
-        }), true);
-
-    return res;
-}
 
 type FilterCompoundFnProps = {
     currentCondition: DateFilterCondition;
@@ -56,7 +19,7 @@ type FilterCompoundFnProps = {
     addMeta: AddMeta;
 };
 
-function filterNumByCompoundCond({
+function filterDateByCompoundCond({
     currentCondition,
     previousAggregatedFilter,
     rowValue,
@@ -78,6 +41,43 @@ function filterNumByCompoundCond({
 
     return currentFilter;
 }
+
+export function filterDateByConditions({
+    rowValue,
+    conditions,
+    addMeta,
+}: DateFilterCompoundProps): boolean {
+    //   Goes through the conditions list and calculates
+    // the boolean value until it reaches the last.
+    // This determines if a row should be filtered out or not
+    // e.g [true, false, true, false] => false
+    // e.g [true, true, true, true] => true
+    const res = conditions.reduce((acc, curr) => filterDateByCompoundCond({
+        currentCondition: curr,
+        previousAggregatedFilter: acc,
+        rowValue,
+        addMeta,
+    }), true);
+
+    return res;
+}
+
+export const dateFilterCompoundFn: FilterFn<unknown> = (
+    row,
+    columnId,
+    filters: DateFilterCondition[],
+    addMeta
+) => {
+    const rowValue = new Date(row.getValue<string>(columnId));
+
+    return filterDateByConditions({
+        conditions: filters,
+        rowValue,
+        addMeta,
+    });
+};
+
+dateFilterCompoundFn.autoRemove = (val) => !val;
 
 export const operatorsValuesAndLabels: Array<{
     value: OperatorDate;

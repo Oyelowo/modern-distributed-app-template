@@ -65,7 +65,7 @@ export const filterDateBySingleCondition = ({
         case 'on_or_before':
             return isSameDay || isBefore;
 
-        default:
+        default: {
             // Rank the item
             const itemRank = rankItem(rowValue, String(singleSearchFilterValue));
 
@@ -76,5 +76,6 @@ export const filterDateBySingleCondition = ({
 
             // Return if the item should be filtered in/out
             return itemRank.passed;
+        }
     }
 };

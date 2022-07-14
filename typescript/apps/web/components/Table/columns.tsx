@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import dayjs from 'dayjs';
 import { Person } from './makeData';
 import { fuzzySort } from './helpers';
-import { getFilterFn } from './ColumFilters';
+import { getFilterFn } from './ColumFilter';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(

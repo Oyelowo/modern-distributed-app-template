@@ -30,7 +30,7 @@ export const filterNumBySingleCondition = ({
         case 'lt_or_eq':
             return rowValue <= searchFilterValue;
 
-        default:
+        default: {
             // Rank the item
             const itemRank = rankItem(rowValue, String(searchFilterValue));
 
@@ -41,5 +41,6 @@ export const filterNumBySingleCondition = ({
 
             // Return if the item should be filtered in/out
             return itemRank.passed;
+        }
     }
 };

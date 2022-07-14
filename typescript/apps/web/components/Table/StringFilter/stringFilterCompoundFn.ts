@@ -6,48 +6,11 @@ import {
     OperatorString,
 } from './shared';
 
-export const stringFilterCompoundFn: FilterFn<unknown> = (
-    row,
-    columnId,
-    filters: FilterConditionStringCompound[],
-    addMeta
-) => {
-    const rowValue = row.getValue<string>(columnId);
-
-    return filterStringByConditions({
-        conditions: filters,
-        rowValue,
-        addMeta,
-    });
-};
-
-stringFilterCompoundFn.autoRemove = (val) => !val;
-
 export type StringFilterCompoundProps = {
     conditions: FilterConditionStringCompound[];
     rowValue: string;
     addMeta: AddMeta;
 };
-
-export function filterStringByConditions({
-    rowValue,
-    conditions,
-    addMeta,
-}: StringFilterCompoundProps): boolean {
-    //   Goes through the conditions list and calculates
-    // the boolean value until it reaches the last.
-    // This determines if a row should be filtered out or not
-    // e.g [true, false, true, false] => false
-    // e.g [true, true, true, true] => true
-    const res = conditions.reduce((acc, curr) => filterNumByCompoundCond({
-            currentCondition: curr,
-            previousAggregatedFilter: acc,
-            rowValue,
-            addMeta,
-        }), true);
-
-    return res;
-}
 
 type FilterCompoundFnProps = {
     currentCondition: FilterConditionStringCompound;
@@ -57,7 +20,7 @@ type FilterCompoundFnProps = {
 };
 
 // Aggregates filters until the latest/current
-function filterNumByCompoundCond({
+function filterStringByCompoundCond({
     currentCondition,
     previousAggregatedFilter,
     rowValue,
@@ -80,6 +43,43 @@ function filterNumByCompoundCond({
 
     return currentFilter;
 }
+
+export function filterStringByConditions({
+    rowValue,
+    conditions,
+    addMeta,
+}: StringFilterCompoundProps): boolean {
+    //   Goes through the conditions list and calculates
+    // the boolean value until it reaches the last.
+    // This determines if a row should be filtered out or not
+    // e.g [true, false, true, false] => false
+    // e.g [true, true, true, true] => true
+    const res = conditions.reduce((acc, curr) => filterStringByCompoundCond({
+        currentCondition: curr,
+        previousAggregatedFilter: acc,
+        rowValue,
+        addMeta,
+    }), true);
+
+    return res;
+}
+
+export const stringFilterCompoundFn: FilterFn<unknown> = (
+    row,
+    columnId,
+    filters: FilterConditionStringCompound[],
+    addMeta
+) => {
+    const rowValue = row.getValue<string>(columnId);
+
+    return filterStringByConditions({
+        conditions: filters,
+        rowValue,
+        addMeta,
+    });
+};
+
+stringFilterCompoundFn.autoRemove = (val) => !val;
 
 export const operatorsValuesAndLabels: Array<{
     value: OperatorString;
