@@ -8,7 +8,13 @@ const SignIn = () => {
 
   return (
     <Box sx={{ maxWidth: 300 }} mx="auto">
-      <Modal size="xs" opened withCloseButton={false} onClose={() => {}} title={`Welcome! ${authType} with`}>
+      <Modal
+        size="xs"
+        opened
+        withCloseButton={false}
+        onClose={() => {}}
+        title={`Welcome! ${authType} with`}
+      >
         <AuthenticationForm />
       </Modal>
     </Box>

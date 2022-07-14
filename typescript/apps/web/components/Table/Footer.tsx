@@ -1,15 +1,8 @@
 import { Table as ReactTable } from '@tanstack/react-table';
-import {
-  Divider,
-  Group,
-  Pagination, Text,
-  TextInput,
-  Select,
-  Button,
-} from '@mantine/core';
+import { Divider, Group, Pagination, Text, TextInput, Select, Button } from '@mantine/core';
 import { Person } from './makeData';
 
-export function Footer({ table }: { table: ReactTable<Person>; }) {
+export function Footer({ table }: { table: ReactTable<Person> }) {
   return (
     <>
       <Pagination

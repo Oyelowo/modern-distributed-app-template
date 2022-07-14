@@ -5,8 +5,8 @@ import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/do
 const stylesServer = createStylesServer();
 
 export default class _Document extends Document {
-//   static getInitialProps = getInitialProps;
-   static async getInitialProps(ctx: DocumentContext) {
+  //   static getInitialProps = getInitialProps;
+  static async getInitialProps(ctx: DocumentContext) {
     const initialProps = await Document.getInitialProps(ctx);
 
     // Add your app specific logic here
