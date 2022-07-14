@@ -1,6 +1,6 @@
 import { FilterMeta } from "@tanstack/react-table";
 import { sortingFns, FilterFn, SortingFn } from '@tanstack/react-table';
-import { RankingInfo, rankItem, compareItems } from '@tanstack/match-sorter-utils';
+import { rankItem, compareItems } from '@tanstack/match-sorter-utils';
 
 export type OperatorLogical = "and" | "or";
 export const logicalOperators: OperatorLogical[] = ["and", "or"];
@@ -33,10 +33,7 @@ export type FilterProps<Operator extends string,
         condition: FilterConditionSimple<Operator, FilterType>;
         /**  For react query to add  metadata to do fuzzy search */
         addMeta: AddMeta;
-
     }
-
-
 
 
 

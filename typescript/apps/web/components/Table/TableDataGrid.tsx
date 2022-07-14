@@ -99,6 +99,7 @@ function Header({ table }: { table: ReactTable<Person> }) {
   const { classes } = useStyles();
   const Sorter = ({ isAsc }: { isAsc: boolean }) =>
     isAsc ? <SortAscending /> : <SortDescending />;
+
   return (
     <thead>
       {table.getHeaderGroups().map((headerGroup) => (

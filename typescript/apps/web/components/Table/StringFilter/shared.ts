@@ -16,11 +16,12 @@ export type FilterConditionStringSimple = FilterConditionSimple<OperatorString, 
 export type FilterConditionStringCompound = FilterConditionCompound<OperatorString, string>;
 
 export const filterStringBySingleCondition = ({
-    rowValue,
+    rowValue: rv,
     condition,
     addMeta,
 }: FilterProps<OperatorString, string>) => {
-    const searchFilterValue = condition.filter ?? '';
+    const searchFilterValue = condition.filter?.toLocaleLowerCase() ?? '';
+    const rowValue = String(rv).toLocaleLowerCase();
 
     switch (condition.operator) {
         case 'starts_with':

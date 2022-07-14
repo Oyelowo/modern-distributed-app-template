@@ -27,7 +27,7 @@ const newPerson = (): Person => {
     lastName: faker.name.lastName(),
     createdAt: faker.date.between('2020-01-01T00:00:00.000Z', '2030-01-01T00:00:00.000Z'),
     dateOfBirth: faker.date.between('1967-01-01T00:00:00.000Z', '2023-01-01T00:00:00.000Z'),
-    age: faker.datatype.number(40),
+    age: faker.datatype.number(112),
     visits: faker.datatype.number(1000),
     status: faker.helpers.shuffle<Person['status']>(['relationship', 'complicated', 'single'])[0]!,
   };

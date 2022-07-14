@@ -12,7 +12,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column, Table } from '@tanstack/react-table';
+import { Column } from '@tanstack/react-table';
 import { FilterConditionStringSimple, useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 
