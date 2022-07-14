@@ -10,11 +10,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   flexRender,
-  Table,
+  Table as ReactTable,
 } from '@tanstack/react-table';
 import { makeData, Person } from './makeData';
 import { fuzzyFilter } from './helpers';
-import { Select, TextInput } from '@mantine/core';
+import { Select, Table, TextInput } from '@mantine/core';
 import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
@@ -76,7 +76,7 @@ export function TableDataGrid() {
         ))} */}
       </div>
       <div />
-      <table>
+      <Table striped highlightOnHover>
         <Header table={table} />
 
         <tbody>
@@ -88,14 +88,14 @@ export function TableDataGrid() {
             </tr>
           ))}
         </tbody>
-      </table>
+      </Table>
 
       <Footer table={table} />
     </div>
   );
 }
 
-function Header({ table }: { table: Table<Person> }) {
+function Header({ table }: { table: ReactTable<Person> }) {
   const { classes } = useStyles();
   const Sorter = ({ isAsc }: { isAsc: boolean }) =>
     isAsc ? <SortAscending /> : <SortDescending />;
@@ -139,7 +139,7 @@ function Header({ table }: { table: Table<Person> }) {
   );
 }
 
-function Footer({ table }: { table: Table<Person> }) {
+function Footer({ table }: { table: ReactTable<Person> }) {
   return (
     <>
       <div className="h-2" />
