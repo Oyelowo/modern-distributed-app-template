@@ -1,4 +1,9 @@
-import { FilterConditionNumberCompound as NumberFilterCondition, filterNumBySingleCondition, FilterProps, OperatorNumber } from './shared';
+import { AddMeta } from './../helpers';
+import {
+    FilterConditionNumberCompound as NumberFilterCondition,
+    filterNumBySingleCondition,
+    OperatorNumber,
+} from './shared';
 import { Person } from '../makeData';
 import { FilterFn } from '@tanstack/react-table';
 
@@ -13,7 +18,7 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
     return filterNumberByConditions({
         conditions: filters,
         rowValue,
-        addMeta
+        addMeta,
     });
 };
 
@@ -22,7 +27,7 @@ numberFilterCompoundFn.autoRemove = (val) => !val;
 export type NumberFilterCompoundProps = {
     conditions: NumberFilterCondition[];
     rowValue: number;
-    addMeta: FilterProps["addMeta"]
+    addMeta: AddMeta;
 };
 
 export function filterNumberByConditions({
@@ -35,35 +40,36 @@ export function filterNumberByConditions({
     // This determines if a row should be filtered out or not
     // e.g [true, false, true, false] => false
     // e.g [true, true, true, true] => true
-    const res = conditions.reduce((acc, curr,) => {
+    const res = conditions.reduce((acc, curr) => {
         return filterNumByCompoundCond({
-            currentCondition: curr, previousAggregatedFilter: acc, rowValue, addMeta
+            currentCondition: curr,
+            previousAggregatedFilter: acc,
+            rowValue,
+            addMeta,
         });
     }, true);
 
     return res;
 }
 
-
 type FilterCompoundFnProps = {
     currentCondition: NumberFilterCondition;
     previousAggregatedFilter: boolean;
     rowValue: number;
-    addMeta: FilterProps["addMeta"]
-}
+    addMeta: AddMeta;
+};
 
 function filterNumByCompoundCond({
     currentCondition,
     previousAggregatedFilter,
     rowValue,
-    addMeta
+    addMeta,
 }: FilterCompoundFnProps): boolean {
     const currentFilter = filterNumBySingleCondition({
         rowValue,
         addMeta,
         condition: currentCondition,
-    })
-
+    });
 
     if (currentCondition.logical === 'and') {
         return previousAggregatedFilter && currentFilter;
@@ -73,11 +79,8 @@ function filterNumByCompoundCond({
         return previousAggregatedFilter || currentFilter;
     }
 
-    return currentFilter
+    return currentFilter;
 }
-
-
-
 
 export const operatorsValuesAndLabels: Array<{
     value: OperatorNumber;

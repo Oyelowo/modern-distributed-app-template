@@ -23,15 +23,17 @@ export type FilterConditionCompound<
     > = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
 
 
+export type AddMeta = (meta: FilterMeta) => void;
 export type FilterProps<Operator extends string,
-    Filter extends FilterValueType> = {
+    FilterType extends FilterValueType> = {
         /**  The row value that is being filtered against */
-        rowValue: number;
-        condition: FilterConditionSimple<Operator, Filter>;
+        rowValue: FilterType;
+        condition: FilterConditionSimple<Operator, FilterType>;
         /**  For react query to add  metadata to do fuzzy search */
-        addMeta: (meta: FilterMeta) => void
+        addMeta: AddMeta;
 
     }
+
 
 
 

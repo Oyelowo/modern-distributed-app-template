@@ -2,7 +2,7 @@ import { rankItem } from '@tanstack/match-sorter-utils';
 import { FilterMeta } from '@tanstack/react-table';
 
 import dayjs from 'dayjs';
-import { FilterConditionCompound, FilterConditionSimple } from '../helpers';
+import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
 
 export type OperatorDate =
     | 'is_same'
@@ -17,15 +17,11 @@ export type OperatorDate =
 export type FilterConditionDateSimple = FilterConditionSimple<OperatorDate, Date>;
 export type FilterConditionDateCompound = FilterConditionCompound<OperatorDate, Date>;
 
-export type FilterProps = {
-    /**  The row value that is being filtered against */
-    rowValue: Date;
-    condition: FilterConditionDateSimple;
-    /**  For react query to add  metadata to do fuzzy search */
-    addMeta: (meta: FilterMeta) => void;
-};
-
-export const filterDateBySingleCondition = ({ rowValue, condition, addMeta }: FilterProps) => {
+export const filterDateBySingleCondition = ({
+    rowValue,
+    condition,
+    addMeta,
+}: FilterProps<OperatorDate, Date>) => {
     const rowValueDayjs = dayjs(rowValue);
     const searchFilterValue = dayjs(condition.filter);
     const isSameDay = rowValueDayjs.isSame(searchFilterValue, 'day');
@@ -64,4 +60,3 @@ export const filterDateBySingleCondition = ({ rowValue, condition, addMeta }: Fi
             return itemRank.passed;
     }
 };
-

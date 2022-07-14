@@ -1,7 +1,7 @@
+import { AddMeta } from './../helpers';
 import {
     FilterConditionDateCompound as DateFilterCondition,
     filterDateBySingleCondition,
-    FilterProps,
     OperatorDate,
 } from './shared';
 import { FilterFn } from '@tanstack/react-table';
@@ -26,7 +26,7 @@ dateFilterCompoundFn.autoRemove = (val) => !val;
 export type DateFilterCompoundProps = {
     conditions: DateFilterCondition[];
     rowValue: Date;
-    addMeta: FilterProps['addMeta'];
+    addMeta: AddMeta;
 };
 
 export function filterDateByConditions({
@@ -55,7 +55,7 @@ type FilterCompoundFnProps = {
     currentCondition: DateFilterCondition;
     previousAggregatedFilter: boolean;
     rowValue: Date;
-    addMeta: FilterProps['addMeta'];
+    addMeta: AddMeta;
 };
 
 function filterNumByCompoundCond({

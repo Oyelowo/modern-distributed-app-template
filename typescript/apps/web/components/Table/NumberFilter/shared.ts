@@ -1,41 +1,33 @@
+import { rankItem } from '@tanstack/match-sorter-utils';
+import { FilterConditionSimple, FilterConditionCompound, FilterProps } from '../helpers';
 
-import { rankItem } from "@tanstack/match-sorter-utils";
-import { FilterMeta } from "@tanstack/react-table";
-import { FilterConditionSimple, FilterConditionCompound } from "../helpers";
-
-export type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | "fuzzy";
+export type OperatorNumber = 'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy';
 
 export type FilterConditionNumberSimple = FilterConditionSimple<OperatorNumber, number>;
 export type FilterConditionNumberCompound = FilterConditionCompound<OperatorNumber, number>;
 
-
-export type FilterProps = {
-    /**  The row value that is being filtered against */
-    rowValue: number;
-    condition: FilterConditionNumberSimple;
-    /**  For react query to add  metadata to do fuzzy search */
-    addMeta: (meta: FilterMeta) => void
-
-}
-
-export const filterNumBySingleCondition = ({ rowValue, condition, addMeta }: FilterProps) => {
+export const filterNumBySingleCondition = ({
+    rowValue,
+    condition,
+    addMeta,
+}: FilterProps<OperatorNumber, number>) => {
     const searchFilterValue = condition.filter ?? true;
 
     switch (condition.operator) {
-        case "eq":
+        case 'eq':
             return rowValue === searchFilterValue;
 
-        case "not_eq":
+        case 'not_eq':
             return rowValue !== searchFilterValue;
-        case "gt":
+        case 'gt':
             return rowValue > searchFilterValue;
-        case "gt_or_eq":
+        case 'gt_or_eq':
             return rowValue >= searchFilterValue;
 
-        case "lt":
+        case 'lt':
             return rowValue < searchFilterValue;
 
-        case "lt_or_eq":
+        case 'lt_or_eq':
             return rowValue <= searchFilterValue;
 
         default:
@@ -51,4 +43,3 @@ export const filterNumBySingleCondition = ({ rowValue, condition, addMeta }: Fil
             return itemRank.passed;
     }
 };
-
