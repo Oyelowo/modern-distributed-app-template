@@ -70,7 +70,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
               data={logicalOperators}
             />
           ) : (
-            <Select rightSection={<></>} value={null} data={[]} disabled />
+            <div />
           )}
         </Grid.Col>
 

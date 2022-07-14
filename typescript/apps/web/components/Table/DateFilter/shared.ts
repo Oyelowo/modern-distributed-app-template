@@ -30,6 +30,10 @@ export const filterDateBySingleCondition = ({
   condition,
   addMeta,
 }: FilterProps<OperatorDate, DateFilter>) => {
+  if (!condition.filter) {
+    return true;
+  }
+
   const rowValueDayjs = dayjs(rowValue);
 
   // if it's a date range

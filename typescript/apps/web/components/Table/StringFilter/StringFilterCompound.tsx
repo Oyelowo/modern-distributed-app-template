@@ -6,14 +6,14 @@ import {
   Group,
   Popover,
   Box,
-  Text,
-  Code,
   Select,
   Autocomplete,
+  Grid,
+  Divider,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash, Filter as FilterIcon } from 'tabler-icons-react';
+import { Trash, Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { FilterConditionStringCompound, useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
@@ -52,46 +52,48 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
   };
 
   const fields = form.values.operations.map((item, index) => (
-    <Group key={item.key} mt="xs">
-      {index !== 0 ? (
-        <Select
-          label="Operator"
-          {...form.getListInputProps('operations', index, 'logical')}
-          data={logicalOperators}
-          sx={{ flex: 0.9 }}
-        />
-      ) : (
-        <Select
-          rightSection={<></>}
-          // styles={{ rightSection: { pointerEvents: 'none' } }}
-          value={null}
-          data={[]}
-          disabled
-          sx={{ flex: 0.9 }}
-        />
-      )}
+    <>
+      <Grid key={item.key} gutter="xs" mt="xs">
+        <Grid.Col span={2}>
+          {index !== 0 ? (
+            <Select
+              {...form.getListInputProps('operations', index, 'logical')}
+              data={logicalOperators}
+            />
+          ) : (
+            <div />
+          )}
+        </Grid.Col>
 
-      <Select
-        label="Operator"
-        {...form.getListInputProps('operations', index, 'operator')}
-        data={operatorsValuesAndLabels}
-        sx={{ flex: 2 }}
-      />
+        <Grid.Col span={4}>
+          <Select
+            placeholder="Operator"
+            {...form.getListInputProps('operations', index, 'operator')}
+            data={operatorsValuesAndLabels}
+            sx={{ flex: 2 }}
+          />
+        </Grid.Col>
 
-      <Autocomplete
-        placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
-        data={sortedUniqueValues}
-        {...form.getListInputProps('operations', index, 'filter')}
-      />
+        <Grid.Col span={5}>
+          <Autocomplete
+            placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+            data={sortedUniqueValues}
+            {...form.getListInputProps('operations', index, 'filter')}
+          />
+        </Grid.Col>
 
-      <ActionIcon
-        color="red"
-        variant="hover"
-        onClick={() => form.removeListItem('operations', index)}
-      >
-        <Trash size={16} />
-      </ActionIcon>
-    </Group>
+        <Grid.Col span={1}>
+          <ActionIcon
+            color="red"
+            variant="hover"
+            onClick={() => form.removeListItem('operations', index)}
+          >
+            <Trash size={16} />
+          </ActionIcon>
+        </Grid.Col>
+      </Grid>
+      <Divider mt="md" />
+    </>
   ));
 
   return (
@@ -110,31 +112,33 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
-      <Box sx={{ maxWidth: 500 }} mx="auto">
+      <Box sx={{ maxWidth: 600 }} mx="auto">
         {fields}
 
         <Group position="center" mt="md">
           <Button
+            variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'fuzzy',
+                operator: 'contains',
                 logical: 'and',
                 filter: null,
                 key: randomId(),
               })
             }
+            rightIcon={<Plus />}
           >
-            Add+
+            Add Filter
           </Button>
         </Group>
 
-        <Text size="sm" weight={500} mt="md">
+        {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
-        <Code block>{JSON.stringify(form.values, null, 2)}</Code>
+        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
       </Box>
+
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear

@@ -88,12 +88,12 @@ export const operatorsValuesAndLabels: Array<{
   label: string;
 }> = [
   {
-    value: 'is_after',
-    label: 'After',
-  },
-  {
     value: 'between',
     label: 'Between',
+  },
+  {
+    value: 'is_after',
+    label: 'After',
   },
   {
     value: 'is_same',

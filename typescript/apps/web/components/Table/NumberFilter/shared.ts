@@ -11,7 +11,11 @@ export const filterNumBySingleCondition = ({
   condition,
   addMeta,
 }: FilterProps<OperatorNumber, number>) => {
-  const searchFilterValue = condition.filter ?? true;
+  if (!condition.filter) {
+    return true;
+  }
+
+  const searchFilterValue = condition.filter;
 
   switch (condition.operator) {
     case 'eq':

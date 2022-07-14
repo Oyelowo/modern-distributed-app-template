@@ -20,7 +20,10 @@ export const filterStringBySingleCondition = ({
   condition,
   addMeta,
 }: FilterProps<OperatorString, string>) => {
-  const searchFilterValue = condition.filter?.toLocaleLowerCase() ?? '';
+  if (!condition.filter) {
+    return true;
+  }
+  const searchFilterValue = condition.filter.toLocaleLowerCase();
   const rowValue = String(rv).toLocaleLowerCase();
 
   switch (condition.operator) {

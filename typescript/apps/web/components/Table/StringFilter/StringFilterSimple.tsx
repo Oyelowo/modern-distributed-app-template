@@ -64,7 +64,6 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
       <RadioGroup
         description="Select your option"
@@ -91,7 +90,7 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
         data={sortedUniqueValues}
         {...form.getInputProps('filter')}
       />
-      <Group position="apart">
+      <Group position="apart" mt="lg">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear
         </Anchor>

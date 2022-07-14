@@ -7,6 +7,9 @@ export const dateFilterSimpleFn: FilterFn<unknown> = (
   { operator, filter }: FilterConditionDateSimple,
   addMeta
 ) => {
+  if (!row.getValue<Date>(columnId)) {
+    console.error('Row does not exist');
+  }
   const rowValue = new Date(row.getValue<Date>(columnId));
 
   return filterDateBySingleCondition({
