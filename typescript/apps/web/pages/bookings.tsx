@@ -9,7 +9,6 @@ Page.getLayout = function getLayout(_page: ReactElement) {
   return (
     <Layout>
       <>
-        <>Booker</>
         <TableDataGrid />
       </>
     </Layout>

@@ -88,33 +88,32 @@ export const operatorsValuesAndLabels: Array<{
   value: OperatorString;
   label: string;
 }> = [
-    {
-      value: 'fuzzy',
-      label: 'Allow typo',
-    },
-    {
-      value: 'contains',
-      label: 'Contains',
-    },
-    {
-      value: 'not_contain',
-      label: 'Does not Contain',
-    },
-    {
-      value: 'starts_with',
-      label: 'Starts with',
-    },
-    {
-      value: 'ends_with',
-      label: 'Ends with',
-    },
-    {
-      value: 'equals',
-      label: 'Equals',
-    },
-    {
-      value: 'not_equal',
-      label: 'Not equal',
-    },
-
-  ];
+  {
+    value: 'fuzzy',
+    label: 'Allow typo',
+  },
+  {
+    value: 'contains',
+    label: 'Contains',
+  },
+  {
+    value: 'not_contain',
+    label: 'Does not Contain',
+  },
+  {
+    value: 'starts_with',
+    label: 'Starts with',
+  },
+  {
+    value: 'ends_with',
+    label: 'Ends with',
+  },
+  {
+    value: 'equals',
+    label: 'Equals',
+  },
+  {
+    value: 'not_equal',
+    label: 'Not equal',
+  },
+];
