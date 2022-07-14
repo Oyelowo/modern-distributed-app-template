@@ -35,6 +35,15 @@ export function useColumns() {
         ),
       },
       {
+        // accessorFn: (row) => new Date(row.dateOfBirth),
+        // id: 'dateOfBirth',
+        accessorKey: 'dateOfBirth',
+        header: () => ' DOB',
+        footer: (props) => props.column.id,
+        cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
+        ...getFilterFn('date_range'),
+      },
+      {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
         accessorKey: 'firstName',
         cell: (info) => info.getValue(),
@@ -68,15 +77,7 @@ export function useColumns() {
         cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
         ...getFilterFn('date_single'),
       },
-      {
-        // accessorFn: (row) => new Date(row.dateOfBirth),
-        // id: 'dateOfBirth',
-        accessorKey: 'dateOfBirth',
-        header: () => ' DOB',
-        footer: (props) => props.column.id,
-        cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
-        ...getFilterFn('date_range'),
-      },
+
       {
         accessorKey: 'age',
         header: () => 'Age',

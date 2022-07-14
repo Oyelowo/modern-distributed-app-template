@@ -6,8 +6,6 @@ import {
   Group,
   Popover,
   Box,
-  Text,
-  Code,
   Select,
   NumberInput,
 } from '@mantine/core';
@@ -132,10 +130,10 @@ export const NumberFilterCompound = ({ column }: Props) => {
           </Button>
         </Group>
 
-        <Text size="sm" weight={500} mt="md">
+        {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
-        <Code block>{JSON.stringify(form.values, null, 2)}</Code>
+        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
       </Box>
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>

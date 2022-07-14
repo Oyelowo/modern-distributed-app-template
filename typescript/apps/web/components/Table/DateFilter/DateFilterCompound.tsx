@@ -6,14 +6,13 @@ import {
   Group,
   Popover,
   Box,
-  Text,
-  Code,
   Select,
-  ScrollArea,
+  Divider,
+  Grid,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash, Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
+import { Trash, Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { FilterConditionDateCompound } from './shared';
@@ -62,59 +61,62 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   };
 
   const fields = form.values.operations.map((item, index) => (
-    <Group key={item.key} mt="xs">
-      {index !== 0 ? (
-        <Select
-          label="Operator"
-          {...form.getListInputProps('operations', index, 'logical')}
-          data={logicalOperators}
-          sx={{ flex: 0.9 }}
-        />
-      ) : (
-        <Select
-          rightSection={<></>}
-          // styles={{ rightSection: { pointerEvents: 'none' } }}
-          value={null}
-          data={[]}
-          disabled
-          sx={{ flex: 0.9 }}
-        />
-      )}
+    <>
+      <Grid key={item.key} gutter="xs" mt="xs">
+        <Grid.Col span={2}>
+          {index !== 0 ? (
+            <Select
+              {...form.getListInputProps('operations', index, 'logical')}
+              data={logicalOperators}
+            />
+          ) : (
+            <Select rightSection={<></>} value={null} data={[]} disabled />
+          )}
+        </Grid.Col>
 
-      <Select
-        label="Operator"
-        {...form.getListInputProps('operations', index, 'operator')}
-        data={operatorsValuesAndLabels}
-        sx={{ flex: 2 }}
-      />
+        <Grid.Col span={4}>
+          <Select
+            placeholder="Operator"
+            {...form.getListInputProps('operations', index, 'operator')}
+            data={operatorsValuesAndLabels}
+            sx={{ flex: 2 }}
+          />
+        </Grid.Col>
 
-      {form.getListInputProps('operations', index, 'operator').value === 'between' ? (
-        <DateRangePicker
-          label="Book hotel"
-          placeholder="Pick dates range"
-          {...form.getListInputProps('operations', index, 'filter')}
-          amountOfMonths={2}
-          withinPortal={false}
-        />
-      ) : (
-        <DatePicker
-          icon={<CalendarIcon />}
-          placeholder="Pick date"
-          mb="sm"
-          allowFreeInput
-          withinPortal={false}
-          {...form.getListInputProps('operations', index, 'filter')}
-        />
-      )}
-
-      <ActionIcon
-        color="red"
-        variant="hover"
-        onClick={() => form.removeListItem('operations', index)}
-      >
-        <Trash size={16} />
-      </ActionIcon>
-    </Group>
+        <Grid.Col span={5}>
+          {form.getListInputProps('operations', index, 'operator').value === 'between' ? (
+            <DateRangePicker
+              placeholder="Pick dates range"
+              {...form.getListInputProps('operations', index, 'filter')}
+              amountOfMonths={2}
+              /*
+          Popover listens for outside clicks with use-click-outside hook. This means that it is not possible to use elements that render overlays within Portal inside Popover. To use components like Autocomplete, Menu, DatePicker portal feature should be disabled for these components:
+          */
+              withinPortal={false}
+            />
+          ) : (
+            <DatePicker
+              icon={<CalendarIcon />}
+              placeholder="Pick date"
+              mb="sm"
+              allowFreeInput
+              withinPortal={false}
+              {...form.getListInputProps('operations', index, 'filter')}
+            />
+          )}
+        </Grid.Col>
+        <Grid.Col span={1}>
+          <ActionIcon
+            color="red"
+            variant="hover"
+            onClick={() => form.removeListItem('operations', index)}
+          >
+            <Trash size={16} />
+          </ActionIcon>
+        </Grid.Col>
+      </Grid>
+      <Divider mt="md" />
+    </>
   ));
 
   return (
@@ -133,32 +135,33 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
-      <Box sx={{ maxWidth: 500 }} mx="auto">
+      <Box style={{ maxWidth: 600 }}>
         {fields}
 
         <Group position="center" mt="md">
           <Button
+            variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'fuzzy',
+                operator: 'is_after',
                 logical: 'and',
                 filter: null,
                 key: randomId(),
               })
             }
+            rightIcon={<Plus />}
           >
-            Add+
+            Add Filter
           </Button>
         </Group>
-
+        {/*
         <Text size="sm" weight={300} mt="md">
           Form values:
         </Text>
         <ScrollArea style={{ height: 200 }}>
           <Code block>{JSON.stringify(form.values, null, 2)}</Code>
-        </ScrollArea>
+        </ScrollArea> */}
       </Box>
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
