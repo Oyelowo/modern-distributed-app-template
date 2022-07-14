@@ -47,7 +47,7 @@ creating the QueryClient once per component lifecycle.
      */
   // setCookies('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
 
-  /* 
+  /*
   https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render
   */
   // START

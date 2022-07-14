@@ -1,11 +1,10 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { min } from 'cypress/types/lodash';
 import isBetween from 'dayjs/plugin/isBetween';
-dayjs.extend(isBetween)
-
 
 import dayjs from 'dayjs';
 import { DateFilter, FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
+
+dayjs.extend(isBetween);
 
 export type OperatorDate =
     | 'between'
@@ -37,7 +36,7 @@ export const filterDateBySingleCondition = ({
         // '[)' includes the start date but excludes the stop
         // Granuality offers the precision on start and end inclusive checks.
         // For example including the start date on day precision you should use 'day' as 3rd parameter.
-        return rowValueDayjs.isBetween(minDate, maxDate, "day", "[]");
+        return rowValueDayjs.isBetween(minDate, maxDate, 'day', '[]');
     }
 
     const singleSearchFilterValue = dayjs(condition.filter);

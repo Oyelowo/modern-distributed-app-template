@@ -1,8 +1,6 @@
-import { FilterConditionNumberSimple } from './shared';
-import { filterNumBySingleCondition } from './shared';
 import { FilterFn } from '@tanstack/react-table';
+import { FilterConditionNumberSimple, filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
-
 
 export const numberFilterSimpleFn: FilterFn<Person> = (
     row,

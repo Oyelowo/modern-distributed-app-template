@@ -20,8 +20,7 @@ const range = (len: number) => {
   return arr;
 };
 
-const newPerson = (): Person => {
-  return {
+const newPerson = (): Person => ({
     id: faker.datatype.uuid(),
     firstName: faker.name.firstName(),
     lastName: faker.name.lastName(),
@@ -30,18 +29,15 @@ const newPerson = (): Person => {
     age: faker.datatype.number(112),
     visits: faker.datatype.number(1000),
     status: faker.helpers.shuffle<Person['status']>(['relationship', 'complicated', 'single'])[0]!,
-  };
-};
+  });
 
 export function makeData(...lens: number[]) {
   const makeDataLevel = (depth = 0): Person[] => {
     const len = lens[depth]!;
-    return range(len).map((d): Person => {
-      return {
+    return range(len).map((d): Person => ({
         ...newPerson(),
         subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
-      };
-    });
+      }));
   };
 
   return makeDataLevel();

@@ -13,8 +13,7 @@ import {
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash } from 'tabler-icons-react';
-import { Filter as FilterIcon } from 'tabler-icons-react';
+import { Trash, Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { FilterConditionNumberCompound } from './shared';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';

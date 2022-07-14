@@ -1,6 +1,5 @@
-import { FilterConditionStringSimple } from './shared';
-import { filterStringBySingleCondition } from './shared';
 import { FilterFn } from '@tanstack/react-table';
+import { FilterConditionStringSimple, filterStringBySingleCondition } from './shared';
 
 export const stringFilterSimpleFn: FilterFn<unknown> = (
     row,

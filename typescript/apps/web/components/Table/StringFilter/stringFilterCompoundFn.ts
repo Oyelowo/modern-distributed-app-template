@@ -1,10 +1,10 @@
-import { AddMeta } from './../helpers';
+import { FilterFn } from '@tanstack/react-table';
+import { AddMeta } from '../helpers';
 import {
     FilterConditionStringCompound,
     filterStringBySingleCondition,
     OperatorString,
 } from './shared';
-import { FilterFn } from '@tanstack/react-table';
 
 export const stringFilterCompoundFn: FilterFn<unknown> = (
     row,
@@ -39,14 +39,12 @@ export function filterStringByConditions({
     // This determines if a row should be filtered out or not
     // e.g [true, false, true, false] => false
     // e.g [true, true, true, true] => true
-    const res = conditions.reduce((acc, curr) => {
-        return filterNumByCompoundCond({
+    const res = conditions.reduce((acc, curr) => filterNumByCompoundCond({
             currentCondition: curr,
             previousAggregatedFilter: acc,
             rowValue,
             addMeta,
-        });
-    }, true);
+        }), true);
 
     return res;
 }

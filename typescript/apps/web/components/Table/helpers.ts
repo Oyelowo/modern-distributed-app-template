@@ -1,11 +1,10 @@
-import { FilterMeta } from "@tanstack/react-table";
-import { sortingFns, FilterFn, SortingFn } from '@tanstack/react-table';
+import { FilterMeta, sortingFns, FilterFn, SortingFn } from '@tanstack/react-table';
 import { rankItem, compareItems } from '@tanstack/match-sorter-utils';
 
-export type OperatorLogical = "and" | "or";
-export const logicalOperators: OperatorLogical[] = ["and", "or"];
+export type OperatorLogical = 'and' | 'or';
+export const logicalOperators: OperatorLogical[] = ['and', 'or'];
 
-export type DateFilter = Date | [Date, Date]
+export type DateFilter = Date | [Date, Date];
 
 type FilterValueType = number | string | DateFilter /* for date range */;
 
@@ -24,7 +23,6 @@ export type FilterConditionCompound<
     Filter extends FilterValueType
     > = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
 
-
 export type AddMeta = (meta: FilterMeta) => void;
 export type FilterProps<Operator extends string,
     FilterType extends FilterValueType> = {
@@ -33,9 +31,7 @@ export type FilterProps<Operator extends string,
         condition: FilterConditionSimple<Operator, FilterType>;
         /**  For react query to add  metadata to do fuzzy search */
         addMeta: AddMeta;
-    }
-
-
+    };
 
 export const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta): boolean => {
     // Rank the item
@@ -64,5 +60,3 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
     // Provide an alphanumeric fallback for when the item ranks are equal
     return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
-
-

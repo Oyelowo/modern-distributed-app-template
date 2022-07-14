@@ -13,8 +13,6 @@ import {
   Table as ReactTable,
   Column,
 } from '@tanstack/react-table';
-import { makeData, Person } from './makeData';
-import { fuzzyFilter } from './helpers';
 import {
   Divider,
   Group,
@@ -23,20 +21,15 @@ import {
   Text,
   TextInput,
   Select,
-  ActionIcon,
   Button,
-  Container,
-  useCss,
-  SimpleGrid,
-  Grid,
-  Paper,
-  Space,
 } from '@mantine/core';
 import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
+import { useDebouncedValue } from '@mantine/hooks';
+import { makeData, Person } from './makeData';
+import { fuzzyFilter } from './helpers';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
 import { ColumnFilter } from './ColumFilters';
-import { useDebouncedValue, useForm } from '@mantine/hooks';
 
 const data = makeData(50000);
 
@@ -122,8 +115,7 @@ function Header({ table }: { table: ReactTable<Person> }) {
       {table.getHeaderGroups().map((headerGroup) => (
         //   Header Row
         <tr key={headerGroup.id}>
-          {headerGroup.headers.map((h) => {
-            return (
+          {headerGroup.headers.map((h) => (
               <th key={h.id} colSpan={h.colSpan} style={{ minWidth: 200 }}>
                 {!h.isPlaceholder && (
                   <span style={{ display: 'flex' }}>
@@ -141,8 +133,7 @@ function Header({ table }: { table: ReactTable<Person> }) {
                   </span>
                 )}
               </th>
-            );
-          })}
+            ))}
         </tr>
       ))}
     </thead>
@@ -228,8 +219,7 @@ function Footer({ table }: { table: ReactTable<Person> }) {
               table.setPageIndex(page);
             }}
             style={{ width: 62 }}
-
-/>
+          />
         </span>
         <Text size="sm">Rows per page: </Text>
         <Select

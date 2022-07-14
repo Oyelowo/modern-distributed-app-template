@@ -1,21 +1,20 @@
 import { useMemo } from 'react';
 import { ColumnDef } from '@tanstack/react-table';
+import dayjs from 'dayjs';
 import { Person } from './makeData';
 import { fuzzySort } from './helpers';
-import dayjs from 'dayjs';
 import { getFilterFn } from './ColumFilters';
-import { Spoiler, Tooltip } from '@mantine/core';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
       {
         header: 'Id',
-        /* 
-         Remember, the accessed value is what is used to sort, filter, etc. 
-         so you'll want to make sure your accessor function returns a primitive 
-         value that can be manipulated in a meaningful way. If you return a 
-         non-primitive value like an object or array, you will need the appropriate 
+        /*
+         Remember, the accessed value is what is used to sort, filter, etc.
+         so you'll want to make sure your accessor function returns a primitive
+         value that can be manipulated in a meaningful way. If you return a
+         non-primitive value like an object or array, you will need the appropriate
          filter/sort/grouping functions to manipulate them, or even supply your own
         */
         accessorKey: 'id',

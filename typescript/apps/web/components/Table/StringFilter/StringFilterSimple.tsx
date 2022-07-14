@@ -77,7 +77,7 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
         ))}
       </RadioGroup>
       <Divider my="sm" />
-      {/* 
+      {/*
       <TextInput
         placeholder="Filter By"
         mb="sm"

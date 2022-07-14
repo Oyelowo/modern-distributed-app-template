@@ -13,12 +13,11 @@ import {
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash } from 'tabler-icons-react';
-import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
+import { Trash, Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
+import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { logicalOperators } from '../helpers';
 
 type Props<T> = {

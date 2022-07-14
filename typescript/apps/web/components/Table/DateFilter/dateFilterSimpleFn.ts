@@ -1,7 +1,5 @@
-import { FilterConditionDateSimple } from './shared';
-import { filterDateBySingleCondition } from './shared';
 import { FilterFn } from '@tanstack/react-table';
-
+import { FilterConditionDateSimple, filterDateBySingleCondition } from './shared';
 
 export const dateFilterSimpleFn: FilterFn<unknown> = (
     row,

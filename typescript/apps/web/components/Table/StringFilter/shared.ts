@@ -56,13 +56,11 @@ export const filterStringBySingleCondition = ({
     }
 };
 
-
 export function useUniqueColumnValues<T>(column: Column<T, unknown>) {
     const sortedUniqueValues = useMemo(
         () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
         [column.getFacetedUniqueValues()]
     );
 
-
-    return sortedUniqueValues
+    return sortedUniqueValues;
 }
