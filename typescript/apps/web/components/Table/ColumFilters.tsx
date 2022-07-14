@@ -14,10 +14,10 @@ import { stringFilterSimpleFn } from './StringFilter/stringFilterSimpleFn';
 
 type Props<T> = {
   column: Column<T, unknown>;
-  table: Table<unknown>;
+  table: Table<T>;
 };
 
-export function ColumnFilters<T>({ column, table }: Props<T>) {
+export function ColumnFilter<T>({ column }: Props<T>) {
   const filterType = column.columnDef.meta?.filterType;
   console.log('filterType', filterType);
 

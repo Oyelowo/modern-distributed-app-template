@@ -14,11 +14,11 @@ import {
 } from '@tanstack/react-table';
 import { makeData, Person } from './makeData';
 import { fuzzyFilter } from './helpers';
-import { TextInput } from '@mantine/core';
+import { Select, TextInput } from '@mantine/core';
 import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
-import { ColumnFilters } from './ColumFilters';
+import { ColumnFilter } from './ColumFilters';
 
 const data = makeData(50000);
 
@@ -64,8 +64,14 @@ export function TableDataGrid() {
         <TextInput
           value={globalFilter ?? ''}
           onChange={(value) => setGlobalFilter(String(value))}
-          //   placeholder="Search all columns..."
+            placeholder="Search all columns..."
         />
+        {/* {table.getAllColumns().map((c) => (
+          <>
+            column {c.id}
+            <ColumnFilter column={c} table={table} />
+          </>
+        ))} */}
       </div>
       <div />
       <table>
@@ -117,7 +123,7 @@ function Header({ table }: { table: Table<Person> }) {
 
                     {h.column.getCanFilter() && (
                       <div>
-                        <ColumnFilters column={h.column} table={table} />
+                        <ColumnFilter column={h.column} table={table} />
                       </div>
                     )}
                   </>
