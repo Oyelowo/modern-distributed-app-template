@@ -11,6 +11,7 @@ import {
   getSortedRowModel,
   flexRender,
   Table as ReactTable,
+  Column,
 } from '@tanstack/react-table';
 import { makeData, Person } from './makeData';
 import { fuzzyFilter } from './helpers';
@@ -25,8 +26,13 @@ import {
   ActionIcon,
   Button,
   Container,
+  useCss,
+  SimpleGrid,
+  Grid,
+  Paper,
+  Space,
 } from '@mantine/core';
-import { ArrowsSort, SortAscending, SortDescending, ArrowRight } from 'tabler-icons-react';
+import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
 import { ColumnFilter } from './ColumFilters';
@@ -72,45 +78,45 @@ export function TableDataGrid() {
   }, [table.getState().columnFilters[0]?.id]);
 
   return (
-    <div>
-      <div>
-        <TextInput
-          value={globalFilter}
-          onChange={(e) => setGlobalFilter(e.currentTarget.value)}
-          placeholder="Search all columns..."
-        />
-        {/* {table.getAllColumns().map((c) => (
+    <>
+      <TextInput
+        value={globalFilter}
+        onChange={(e) => setGlobalFilter(e.currentTarget.value)}
+        placeholder="Search all columns..."
+      />
+      <div style={{ overflowX: 'auto' }}>
+        <div>
+          {/* {table.getAllColumns().map((c) => (
           <>
-            column {c.id}
-            <ColumnFilter column={c} table={table} />
+          column {c.id}
+          <ColumnFilter column={c} table={table} />
           </>
         ))} */}
+        </div>
+        <div />
+        <Table striped highlightOnHover verticalSpacing="sm">
+          <Header table={table} />
+
+          <tbody>
+            {table.getRowModel().rows.map((row) => (
+              <tr key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <td style={{ minWidth: 200 }} key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+
+        <Footer table={table} />
       </div>
-      <div />
-      <Table striped highlightOnHover>
-        <Header table={table} />
-
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      <Footer table={table} />
-    </div>
+    </>
   );
 }
 
 function Header({ table }: { table: ReactTable<Person> }) {
-  const { classes } = useStyles();
-  const Sorter = ({ isAsc }: { isAsc: boolean }) =>
-    isAsc ? <SortAscending /> : <SortDescending />;
-
   return (
     <thead>
       {table.getHeaderGroups().map((headerGroup) => (
@@ -118,29 +124,21 @@ function Header({ table }: { table: ReactTable<Person> }) {
         <tr key={headerGroup.id}>
           {headerGroup.headers.map((h) => {
             return (
-              <th key={h.id} colSpan={h.colSpan}>
+              <th key={h.id} colSpan={h.colSpan} style={{ minWidth: 200 }}>
                 {!h.isPlaceholder && (
-                  <>
-                    <div
+                  <span style={{ display: 'flex' }}>
+                    <Button
+                      variant="subtle"
                       className={h.column.getCanSort() ? 'cursor-pointer select-none' : ''}
                       onClick={h.column.getToggleSortingHandler()}
+                      size="xs"
                     >
-                      {flexRender(h.column.columnDef.header, h.getContext())}
+                      <Text mr="xs">{flexRender(h.column.columnDef.header, h.getContext())}</Text>
+                      <Sorter column={h.column} />
+                    </Button>
 
-                      {h.column.getCanSort() &&
-                        (h.column.getIsSorted() ? (
-                          <Sorter isAsc={h.column.getIsSorted() === 'asc'} />
-                        ) : (
-                          <ArrowsSort className={classes.disableSortIcon} />
-                        ))}
-                    </div>
-
-                    {h.column.getCanFilter() && (
-                      <div>
-                        <ColumnFilter column={h.column} table={table} />
-                      </div>
-                    )}
-                  </>
+                    {h.column.getCanFilter() && <ColumnFilter column={h.column} table={table} />}
+                  </span>
                 )}
               </th>
             );
@@ -151,9 +149,20 @@ function Header({ table }: { table: ReactTable<Person> }) {
   );
 }
 
-function Footer({ table }: { table: ReactTable<Person> }) {
-  const [activePage, setPage] = useState(1);
+function Sorter({ column }: { column: Column<Person, unknown> }) {
+  const Sorted = ({ isAsc }: { isAsc: boolean }) =>
+    isAsc ? <SortAscending /> : <SortDescending />;
+  const { classes } = useStyles();
 
+  if (!column.getCanSort()) return null;
+
+  if (column.getIsSorted()) {
+    return <Sorted isAsc={column.getIsSorted() === 'asc'} />;
+  }
+  return <ArrowsSort className={classes.disableSortIcon} />;
+}
+
+function Footer({ table }: { table: ReactTable<Person> }) {
   return (
     <>
       <Pagination
@@ -209,7 +218,7 @@ function Footer({ table }: { table: ReactTable<Person> }) {
 
         <Divider orientation="vertical" variant="dashed" />
 
-        <span className="flex items-center gap-1">
+        <span>
           Go to page:
           <TextInput
             type="number"
@@ -218,11 +227,13 @@ function Footer({ table }: { table: ReactTable<Person> }) {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               table.setPageIndex(page);
             }}
-          />
+            style={{ width: 62 }}
+
+/>
         </span>
         <Text size="sm">Rows per page: </Text>
         <Select
-          style={{ width: '72px' }}
+          style={{ width: 72 }}
           variant="filled"
           data={[10, 20, 30, 40, 50].map(String)}
           value={table.getState().pagination.pageSize.toString()}

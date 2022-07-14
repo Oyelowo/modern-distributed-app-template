@@ -4,6 +4,7 @@ import { Person } from './makeData';
 import { fuzzySort } from './helpers';
 import dayjs from 'dayjs';
 import { getFilterFn } from './ColumFilters';
+import { Spoiler, Tooltip } from '@mantine/core';
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -20,6 +21,19 @@ export function useColumns() {
         accessorKey: 'id',
         footer: (props) => props.column.id,
         ...getFilterFn('string'),
+        cell: (info) => (
+          <div
+            title={info.getValue()}
+            style={{
+              width: 150,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            <>{info.getValue()}</>
+          </div>
+        ),
       },
       {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
