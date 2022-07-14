@@ -15,8 +15,10 @@ export type FilterConditionSimple<Operator extends string, Filter extends Filter
   filter: Filter | null;
 };
 
-export type FilterConditionCompound<Operator extends string, Filter extends FilterValueType> =
-  FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
+export type FilterConditionCompound<
+  Operator extends string,
+  Filter extends FilterValueType
+> = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
 
 export type AddMeta = (meta: FilterMeta) => void;
 export type FilterProps<Operator extends string, FilterType extends FilterValueType> = {
