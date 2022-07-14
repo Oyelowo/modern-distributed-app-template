@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   ActionIcon,
   Anchor,
@@ -9,7 +9,6 @@ import {
   Popover,
   Radio,
   RadioGroup,
-  TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
@@ -19,10 +18,10 @@ import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 
 type Props<T extends unknown> = {
   column: Column<T, unknown>;
-  table: Table<unknown>;
+  // table: Table<unknown>;
 };
 
-export const StringFilterSimple = <T extends unknown>({ column, table }: Props<T>) => {
+export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
   const form = useForm<FilterConditionStringSimple>({
     initialValues: {
       filter: '',

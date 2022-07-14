@@ -8,7 +8,6 @@ import {
   Popover,
   Radio,
   RadioGroup,
-  TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
@@ -58,7 +57,6 @@ export const DateFilterSimple = <T extends unknown>({ column }: { column: Column
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
       <RadioGroup
         description="Select your option"
@@ -76,7 +74,6 @@ export const DateFilterSimple = <T extends unknown>({ column }: { column: Column
         icon={<CalendarIcon />}
         placeholder="Pick date"
         mb="sm"
-        // zIndex={100001}
         withinPortal={false}
         {...form.getInputProps('filter')}
       />

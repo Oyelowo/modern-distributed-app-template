@@ -79,7 +79,7 @@ export function useColumns() {
         accessorKey: 'status',
         header: 'Status',
         footer: (props) => props.column.id,
-        ...getFilterFn('enum'),
+        ...getFilterFn('string'),
       },
     ],
     []

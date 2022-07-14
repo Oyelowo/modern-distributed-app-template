@@ -1,5 +1,4 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { FilterMeta } from '@tanstack/react-table';
 
 import dayjs from 'dayjs';
 import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';

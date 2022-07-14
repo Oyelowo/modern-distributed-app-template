@@ -1,5 +1,5 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { FilterMeta, Column } from '@tanstack/react-table';
+import { Column } from '@tanstack/react-table';
 import { useMemo } from 'react';
 import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
 

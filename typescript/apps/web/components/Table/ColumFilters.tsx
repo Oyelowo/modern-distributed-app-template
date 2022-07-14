@@ -1,5 +1,4 @@
 import { Column, Table, ColumnMeta, FilterFn } from '@tanstack/react-table';
-import { Person } from './makeData';
 import { NumberFilterSimple } from './NumberFilter/NumberFilterSimple';
 import { NumberFilterCompound } from './NumberFilter/NumberFilterCompound';
 import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
@@ -15,7 +14,7 @@ import { stringFilterSimpleFn } from './StringFilter/stringFilterSimpleFn';
 
 type Props<T> = {
   column: Column<T, unknown>;
-  table: Table<Person>;
+  table: Table<unknown>;
 };
 
 export function ColumnFilters<T>({ column, table }: Props<T>) {
@@ -27,12 +26,10 @@ export function ColumnFilters<T>({ column, table }: Props<T>) {
       return <StringFilterSimple column={column} />;
     case 'string_compound':
       return <StringFilterCompound column={column} />;
-    case 'enum':
-      return <StringFilterSimple column={column} />;
     case 'number_range':
-      return <NumberFilterCompound column={column} table={table} />;
+      return <NumberFilterCompound column={column} />;
     case 'number_single':
-      return <NumberFilterSimple column={column} table={table} />;
+      return <NumberFilterSimple column={column} />;
     case 'date_single':
       return <DateFilterSimple column={column} />;
     case 'date_range':
@@ -55,7 +52,6 @@ type FilterType = Exclude<ColumnMeta['filterType'], null>;
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
   date_range: dateFilterCompoundFn,
   date_single: dateFilterSimpleFn,
-  enum: stringFilterSimpleFn,
   string: stringFilterSimpleFn,
   string_compound: stringFilterCompoundFn,
   number_range: numberFilterCompoundFn,

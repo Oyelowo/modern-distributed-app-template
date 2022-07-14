@@ -9,7 +9,6 @@ import {
   Text,
   Code,
   Select,
-  TextInput,
   Autocomplete,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';

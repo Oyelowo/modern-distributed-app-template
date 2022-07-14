@@ -12,17 +12,16 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column, Table as ReactTable } from '@tanstack/react-table';
+import { Column } from '@tanstack/react-table';
 import { FilterConditionNumberSimple } from './shared';
-import { Person } from '../makeData';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
 type Props = {
   column: Column<any, unknown>;
-  table: ReactTable<unknown>;
+  // table: Table<unknown>;
 };
 
-export const NumberFilterSimple = ({ column, table }: Props) => {
+export const NumberFilterSimple = ({ column }: Props) => {
   const form = useForm<FilterConditionNumberSimple>({
     initialValues: {
       filter: null,
