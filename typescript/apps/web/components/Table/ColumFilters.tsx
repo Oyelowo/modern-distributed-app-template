@@ -11,6 +11,7 @@ import { stringFilterCompoundFn } from './StringFilter/stringFilterCompoundFn';
 import { StringFilterCompound } from './StringFilter/StringFilterCompound';
 import { StringFilterSimple } from './StringFilter/StringFilterSimple';
 import { dateFilterSimpleFn } from './DateFilter/dateFilterSimpleFn';
+import { stringFilterSimpleFn } from './StringFilter/stringFilterSimpleFn';
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -19,6 +20,7 @@ type Props<T> = {
 
 export function ColumnFilters<T>({ column, table }: Props<T>) {
   const filterType = column.columnDef.meta?.filterType;
+  console.log('filterType', filterType);
 
   switch (filterType) {
     case 'string':
@@ -53,8 +55,8 @@ type FilterType = Exclude<ColumnMeta['filterType'], null>;
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
   date_range: dateFilterCompoundFn,
   date_single: dateFilterSimpleFn,
-  enum: dateFilterSimpleFn,
-  string: dateFilterSimpleFn,
+  enum: stringFilterSimpleFn,
+  string: stringFilterSimpleFn,
   string_compound: stringFilterCompoundFn,
   number_range: numberFilterCompoundFn,
   number_single: numberFilterSimpleFn,
@@ -74,5 +76,3 @@ export function getFilterFn<T>(filterType: FilterType): ReturnTypeFn<T> {
     },
   };
 }
-
-

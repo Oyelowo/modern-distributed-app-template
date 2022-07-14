@@ -64,16 +64,10 @@ function filterNumByCompoundCond({
     rowValue,
     addMeta,
 }: FilterCompoundFnProps): boolean {
-    const common = {
-        rowValue: rowValue,
-        addMeta,
-    };
     const currentFilter = filterDateBySingleCondition({
-        ...common,
-        condition: {
-            operator: currentCondition.operator,
-            filter: currentCondition.filter,
-        },
+        rowValue,
+        addMeta,
+        condition: currentCondition,
     });
 
     if (currentCondition.logical === 'and') {

@@ -58,19 +58,18 @@ type FilterCompoundFnProps = {
     addMeta: FilterProps['addMeta'];
 };
 
+// Aggregates filters until the latest/current
 function filterNumByCompoundCond({
     currentCondition,
     previousAggregatedFilter,
     rowValue,
     addMeta,
 }: FilterCompoundFnProps): boolean {
-    const common = {
-        rowValue: rowValue,
-        addMeta,
-    };
     const currentFilter = filterStringBySingleCondition({
-        ...common,
+        rowValue,
+        addMeta,
         condition: currentCondition,
+
     });
 
     if (currentCondition.logical === 'and') {
