@@ -6,7 +6,7 @@ import { FilterFn } from '@tanstack/react-table';
 export const dateFilterSimpleFn: FilterFn<unknown> = (
     row,
     columnId,
-    { operator = 'fuzzy', filter }: FilterConditionDateSimple,
+    { operator, filter }: FilterConditionDateSimple,
     addMeta
 ) => {
     const rowValue = new Date(row.getValue<Date>(columnId));

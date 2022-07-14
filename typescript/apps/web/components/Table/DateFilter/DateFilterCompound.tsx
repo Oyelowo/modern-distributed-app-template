@@ -103,7 +103,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
           placeholder="Pick date"
           mb="sm"
           allowFreeInput
-          // zIndex={100001}
           withinPortal={false}
           {...form.getListInputProps('operations', index, 'filter')}
         />
@@ -132,7 +131,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
       }
       opened={opened}
       onClose={handleClose}
-      closeOnClickOutside={false}
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"

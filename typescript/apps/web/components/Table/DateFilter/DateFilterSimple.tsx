@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   ActionIcon,
   Anchor,
+  Box,
   Button,
   Divider,
   Group,
@@ -14,13 +15,13 @@ import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-rea
 import { Column } from '@tanstack/react-table';
 import { FilterConditionDateSimple } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, DateRangePicker } from '@mantine/dates';
 
 export const DateFilterSimple = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
   const form = useForm<FilterConditionDateSimple>({
     initialValues: {
       filter: null,
-      operator: 'fuzzy',
+      operator: 'between',
     },
   });
   const [opened, setOpened] = useState(false);
@@ -58,25 +59,38 @@ export const DateFilterSimple = <T extends unknown>({ column }: { column: Column
       position="bottom"
       transition="scale-y"
     >
-      <RadioGroup
-        description="Select your option"
-        orientation="vertical"
-        size="sm"
-        {...form.getInputProps('operator')}
-      >
-        {operatorsValuesAndLabels.map(({ value, label }) => (
-          <Radio key={value} value={value} label={label} />
-        ))}
-      </RadioGroup>
-      <Divider my="sm" />
+      <Box sx={{ maxWidth: 500 }} mx="auto">
+        <RadioGroup
+          description="Select your option"
+          orientation="vertical"
+          size="sm"
+          {...form.getInputProps('operator')}
+        >
+          {operatorsValuesAndLabels.map(({ value, label }) => (
+            <Radio key={value} value={value} label={label} />
+          ))}
+        </RadioGroup>
+        <Divider my="sm" />
 
-      <DatePicker
-        icon={<CalendarIcon />}
-        placeholder="Pick date"
-        mb="sm"
-        withinPortal={false}
-        {...form.getInputProps('filter')}
-      />
+        {form.getInputProps('operator').value === 'between' ? (
+          <DateRangePicker
+            label="Book hotel"
+            placeholder="Pick dates range"
+            {...form.getInputProps('filter')}
+            amountOfMonths={2}
+            withinPortal={false}
+          />
+        ) : (
+          <DatePicker
+            icon={<CalendarIcon />}
+            placeholder="Pick date"
+            mb="sm"
+            allowFreeInput
+            withinPortal={false}
+            {...form.getInputProps('filter')}
+          />
+        )}
+      </Box>
 
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
