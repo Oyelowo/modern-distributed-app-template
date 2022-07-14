@@ -13,8 +13,7 @@ import {
   // helper,
 } from 'echarts/core';
 
-import {helper} from 'echarts';
-
+import { helper } from 'echarts';
 
 import {
   BarChart,

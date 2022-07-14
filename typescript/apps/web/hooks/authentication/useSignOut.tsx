@@ -4,7 +4,6 @@ import { MutationCache, QueryCache, QueryClient } from 'react-query';
 import { client } from '../../config/client';
 import { useCookie } from 'react-use';
 
-
 export function useSignOut() {
   const router = useRouter();
   const { mutate: signOutMutate, data: signOutData } = useSignOutMutation(client);
@@ -25,7 +24,7 @@ export function useSignOut() {
           deleteCookie();
           router.push('/login');
         },
-        onSettled: () => { },
+        onSettled: () => {},
       }
     );
   };

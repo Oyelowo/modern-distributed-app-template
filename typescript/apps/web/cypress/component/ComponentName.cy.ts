@@ -1,5 +1,5 @@
-describe("ComponentName.cy.ts", () => {
-  it("playground", () => {
+describe('ComponentName.cy.ts', () => {
+  it('playground', () => {
     // cy.mount()
   });
 });

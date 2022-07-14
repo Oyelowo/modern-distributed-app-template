@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  Button,
-  ButtonProps,
-} from '@mantine/core';
+import { Button, ButtonProps } from '@mantine/core';
 
 export function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (

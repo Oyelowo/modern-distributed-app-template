@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Canvas, useFrame, MeshProps } from "@react-three/fiber";
+import { useRef, useState } from 'react';
+import { Canvas, useFrame, MeshProps } from '@react-three/fiber';
 
 function Box(props: MeshProps) {
   // This reference gives us direct access to the THREE.Mesh object
@@ -20,7 +20,7 @@ function Box(props: MeshProps) {
       onPointerOut={(event) => hover(false)}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+      <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
     </mesh>
   );
 }

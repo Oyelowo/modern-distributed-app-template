@@ -14,15 +14,33 @@ import { Tuple, DefaultMantineColor } from '@mantine/core';
 type ExtendedCustomColors = 'primaryColorName' | 'secondaryColorName' | DefaultMantineColor;
 
 declare module '@mantine/core' {
-    export interface MantineThemeColorsOverride {
-        colors: Record<ExtendedCustomColors, Tuple<string, 10>>;
-    }
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, Tuple<string, 10>>;
+  }
 
-    export interface MantineThemeOther {
-        myCustomProperty: string;
-        myCustomFunction: () => void;
-    }
+  export interface MantineThemeOther {
+    myCustomProperty: string;
+    myCustomFunction: () => void;
+  }
 
-    // MantineStyleSystemValue
+  // MantineStyleSystemValue
 }
 
+type FilterDataType =
+  | 'number_single'
+  | 'number_range'
+  | 'date_single'
+  | 'date_range'
+  | 'string'
+  | 'string_compound'
+  | null;
+
+declare module '@tanstack/table-core' {
+  interface ColumnMeta {
+    filterType: FilterDataType;
+  }
+
+  interface FilterMeta {
+    itemRank: RankingInfo;
+  }
+}
