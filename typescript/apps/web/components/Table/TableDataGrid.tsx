@@ -19,6 +19,7 @@ import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
 import { ColumnFilter } from './ColumFilters';
+import { useDebouncedValue, useForm } from '@mantine/hooks';
 
 const data = makeData(50000);
 
@@ -26,13 +27,14 @@ export function TableDataGrid() {
   const { columns } = useColumns();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState('');
+  const [debouncedGlobalFilter] = useDebouncedValue(globalFilter, 500);
 
   const table = useReactTable<Person>({
     data,
     columns,
     state: {
       columnFilters,
-      globalFilter,
+      globalFilter: debouncedGlobalFilter,
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
@@ -62,9 +64,9 @@ export function TableDataGrid() {
     <div>
       <div>
         <TextInput
-          value={globalFilter ?? ''}
-          onChange={(value) => setGlobalFilter(String(value))}
-            placeholder="Search all columns..."
+          value={globalFilter}
+          onChange={(e) => setGlobalFilter(e.currentTarget.value)}
+          placeholder="Search all columns..."
         />
         {/* {table.getAllColumns().map((c) => (
           <>

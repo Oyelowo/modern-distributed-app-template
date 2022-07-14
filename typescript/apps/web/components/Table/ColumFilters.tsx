@@ -19,7 +19,6 @@ type Props<T> = {
 
 export function ColumnFilter<T>({ column }: Props<T>) {
   const filterType = column.columnDef.meta?.filterType;
-  console.log('filterType', filterType);
 
   switch (filterType) {
     case 'string':
