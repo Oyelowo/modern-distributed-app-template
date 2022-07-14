@@ -10,13 +10,14 @@ import {
   Code,
   Select,
   TextInput,
+  Autocomplete,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionStringCompound } from './shared';
+import { FilterConditionStringCompound, useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 import { logicalOperators } from '../helpers';
 
@@ -34,6 +35,7 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
       ]),
     },
   });
+  const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {
     form.reset();
@@ -78,10 +80,9 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
         sx={{ flex: 2 }}
       />
 
-      <TextInput
-        placeholder="Filter By"
-        mb="sm"
-        // zIndex={100001}
+      <Autocomplete
+        placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+        data={sortedUniqueValues}
         {...form.getListInputProps('operations', index, 'filter')}
       />
 

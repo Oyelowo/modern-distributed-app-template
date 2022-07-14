@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   ActionIcon,
   Anchor,
+  Autocomplete,
   Button,
   Divider,
   Group,
@@ -12,15 +13,16 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column } from '@tanstack/react-table';
-import { FilterConditionStringSimple } from './shared';
+import { Column, Table } from '@tanstack/react-table';
+import { FilterConditionStringSimple, useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 
 type Props<T extends unknown> = {
   column: Column<T, unknown>;
+  table: Table<unknown>;
 };
 
-export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
+export const StringFilterSimple = <T extends unknown>({ column, table }: Props<T>) => {
   const form = useForm<FilterConditionStringSimple>({
     initialValues: {
       filter: '',
@@ -28,6 +30,8 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
     },
   });
   const [opened, setOpened] = useState(false);
+
+  const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {
     form.reset();
@@ -74,14 +78,20 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
         ))}
       </RadioGroup>
       <Divider my="sm" />
-
+      {/* 
       <TextInput
         placeholder="Filter By"
         mb="sm"
         // zIndex={100001}
         {...form.getInputProps('filter')}
-      />
+      /> */}
 
+      <Autocomplete
+        // label="Filter By"
+        placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+        data={sortedUniqueValues}
+        {...form.getInputProps('filter')}
+      />
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear

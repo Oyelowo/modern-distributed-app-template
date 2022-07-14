@@ -19,13 +19,10 @@ import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 
 type Props = {
   column: Column<any, unknown>;
-  table: ReactTable<Person>;
+  table: ReactTable<unknown>;
 };
 
-export const NumberFilterSimple = ({
-  column,
-  table,
-}: Props) => {
+export const NumberFilterSimple = ({ column, table }: Props) => {
   const form = useForm<FilterConditionNumberSimple>({
     initialValues: {
       filter: null,
@@ -81,7 +78,9 @@ export const NumberFilterSimple = ({
 
       <Divider my="sm" />
       <TextInput
-        placeholder="Enter text"
+        placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+          column.getFacetedMinMaxValues()?.[1]
+        })`}
         mb="sm"
         data-autoFocus
         {...form.getInputProps('filter')}

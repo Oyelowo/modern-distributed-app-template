@@ -1,7 +1,7 @@
+import { AddMeta } from './../helpers';
 import {
     FilterConditionStringCompound,
     filterStringBySingleCondition,
-    FilterProps,
     OperatorString,
 } from './shared';
 import { FilterFn } from '@tanstack/react-table';
@@ -26,7 +26,7 @@ stringFilterCompoundFn.autoRemove = (val) => !val;
 export type StringFilterCompoundProps = {
     conditions: FilterConditionStringCompound[];
     rowValue: string;
-    addMeta: FilterProps['addMeta'];
+    addMeta: AddMeta;
 };
 
 export function filterStringByConditions({
@@ -55,7 +55,7 @@ type FilterCompoundFnProps = {
     currentCondition: FilterConditionStringCompound;
     previousAggregatedFilter: boolean;
     rowValue: string;
-    addMeta: FilterProps['addMeta'];
+    addMeta: AddMeta;
 };
 
 // Aggregates filters until the latest/current

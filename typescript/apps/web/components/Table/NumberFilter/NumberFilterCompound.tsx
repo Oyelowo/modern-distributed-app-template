@@ -30,7 +30,7 @@ export const NumberFilterCompound = ({ column }: Props) => {
   const form = useForm({
     initialValues: {
       operations: formList<FilterConditionNumberCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: 0, key: randomId() },
+        { logical: null, operator: 'fuzzy', filter: null, key: randomId() },
       ]),
     },
   });
@@ -79,7 +79,9 @@ export const NumberFilterCompound = ({ column }: Props) => {
       />
 
       <NumberInput
-        placeholder="John Doe"
+        placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+          column.getFacetedMinMaxValues()?.[1]
+        })`}
         required
         // sx={{ flex: 1 }}
         {...form.getListInputProps('operations', index, 'filter')}

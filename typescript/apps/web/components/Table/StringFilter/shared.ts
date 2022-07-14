@@ -1,5 +1,6 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { FilterMeta } from '@tanstack/react-table';
+import { FilterMeta, Column } from '@tanstack/react-table';
+import { useMemo } from 'react';
 import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
 
 export type OperatorString =
@@ -53,3 +54,14 @@ export const filterStringBySingleCondition = ({
             return itemRank.passed;
     }
 };
+
+
+export function useUniqueColumnValues<T>(column: Column<T, unknown>) {
+    const sortedUniqueValues = useMemo(
+        () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
+        [column.getFacetedUniqueValues()]
+    );
+
+
+    return sortedUniqueValues
+}
