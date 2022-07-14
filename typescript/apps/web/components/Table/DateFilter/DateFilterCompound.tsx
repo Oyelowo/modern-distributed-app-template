@@ -72,7 +72,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
         icon={<CalendarIcon />}
         placeholder="Pick date"
         mb="sm"
-        // withSelect
+        allowFreeInput
         // zIndex={100001}
         withinPortal={false}
         {...form.getListInputProps('operations', index, 'filter')}
