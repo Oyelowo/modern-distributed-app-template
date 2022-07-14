@@ -1,7 +1,18 @@
 import { useState } from 'react';
-import { ActionIcon, Anchor, Button, Group, Popover, Box, Text, Code, Select } from '@mantine/core';
+import {
+  ActionIcon,
+  Anchor,
+  Button,
+  Group,
+  Popover,
+  Box,
+  Text,
+  Code,
+  Select,
+  ScrollArea,
+} from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
-import { randomId, useClickOutside } from '@mantine/hooks';
+import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
@@ -17,7 +28,6 @@ type Props<T> = {
 
 interface FormList extends FilterConditionDateCompound {
   key: string;
-  filterRange: [Date, Date];
 }
 
 export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
@@ -30,7 +40,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
           logical: null,
           operator: 'between',
           filter: new Date(),
-          filterRange: [new Date(), new Date()],
           key: randomId(),
         },
       ]),
@@ -139,7 +148,6 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
                 operator: 'fuzzy',
                 logical: 'and',
                 filter: null,
-                filterRange: [new Date(), new Date()],
                 key: randomId(),
               })
             }
@@ -148,10 +156,12 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
           </Button>
         </Group>
 
-        <Text size="sm" weight={500} mt="md">
+        <Text size="sm" weight={300} mt="md">
           Form values:
         </Text>
-        <Code block>{JSON.stringify(form.values, null, 2)}</Code>
+        <ScrollArea style={{ height: 200 }}>
+          <Code block>{JSON.stringify(form.values, null, 2)}</Code>
+        </ScrollArea>
       </Box>
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
