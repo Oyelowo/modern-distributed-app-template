@@ -14,8 +14,19 @@ import {
 } from '@tanstack/react-table';
 import { makeData, Person } from './makeData';
 import { fuzzyFilter } from './helpers';
-import { Select, Table, TextInput } from '@mantine/core';
-import { ArrowsSort, SortAscending, SortDescending } from 'tabler-icons-react';
+import {
+  Divider,
+  Group,
+  Pagination,
+  Table,
+  Text,
+  TextInput,
+  Select,
+  ActionIcon,
+  Button,
+  Container,
+} from '@mantine/core';
+import { ArrowsSort, SortAscending, SortDescending, ArrowRight } from 'tabler-icons-react';
 import { useStyles } from './styles';
 import { useColumns } from './columns';
 import { ColumnFilter } from './ColumFilters';
@@ -141,73 +152,85 @@ function Header({ table }: { table: ReactTable<Person> }) {
 }
 
 function Footer({ table }: { table: ReactTable<Person> }) {
+  const [activePage, setPage] = useState(1);
+
   return (
     <>
-      <div className="h-2" />
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
+      <Pagination
+        initialPage={1}
+        page={table.getState().pagination.pageIndex}
+        onChange={(page) => table.setPageIndex(page)}
+        total={table.getPageCount()}
+        siblings={2}
+        boundaries={2}
+      />
+
+      <Group mt="sm">
+        <Button
+          variant="default"
+          mr="xs"
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
         >
           {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
+        </Button>
+        <Button
+          variant="default"
+          mr="xs"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
           {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
+        </Button>
+        <Button
+          variant="default"
+          mr="xs"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
           {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
+        </Button>
+        <Button
+          variant="default"
+          mr="xs"
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
         >
           {'>>'}
-        </button>
-        <span className="flex items-center gap-1">
+        </Button>
+        <Divider orientation="vertical" />
+
+        <span>
           <div>Page</div>
-          <strong>
+          <Text variant="gradient">
             {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-          </strong>
+          </Text>
         </span>
+
+        <Divider orientation="vertical" variant="dashed" />
+
         <span className="flex items-center gap-1">
-          | Go to page:
-          <input
+          Go to page:
+          <TextInput
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               table.setPageIndex(page);
             }}
-            className="border p-1 rounded w-16"
           />
         </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+        <Text size="sm">Rows per page: </Text>
+        <Select
+          style={{ width: '72px' }}
+          variant="filled"
+          data={[10, 20, 30, 40, 50].map(String)}
+          value={table.getState().pagination.pageSize.toString()}
+          onChange={(value) => table.setPageSize(Number(value))}
+        />
+      </Group>
       <div>{table.getPrePaginationRowModel().rows.length} Rows</div>
-      <div>{/* <button onClick={() => rerender()}>Force Rerender</button> */}</div>
-      <div>{/* <button onClick={() => refreshData()}>Refresh Data</button> */}</div>
-      <pre>{JSON.stringify(table.getState(), null, 2)}</pre>
+      {/* <pre>{JSON.stringify(table.getState(), null, 2)}</pre> */}
     </>
   );
 }
