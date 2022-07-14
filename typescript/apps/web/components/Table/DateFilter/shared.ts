@@ -1,9 +1,14 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
+import { min } from 'cypress/types/lodash';
+import isBetween from 'dayjs/plugin/isBetween';
+dayjs.extend(isBetween)
+
 
 import dayjs from 'dayjs';
-import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
+import { DateFilter, FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
 
 export type OperatorDate =
+    | 'between'
     | 'is_same'
     | 'is_before'
     | 'is_after'
@@ -13,21 +18,36 @@ export type OperatorDate =
     | 'fuzzy';
 
 // Logical
-export type FilterConditionDateSimple = FilterConditionSimple<OperatorDate, Date>;
-export type FilterConditionDateCompound = FilterConditionCompound<OperatorDate, Date>;
+export type FilterConditionDateSimple = FilterConditionSimple<OperatorDate, DateFilter>;
+export type FilterConditionDateCompound = FilterConditionCompound<OperatorDate, DateFilter>;
 
 export const filterDateBySingleCondition = ({
     rowValue,
     condition,
     addMeta,
-}: FilterProps<OperatorDate, Date>) => {
+}: FilterProps<OperatorDate, DateFilter>) => {
     const rowValueDayjs = dayjs(rowValue);
-    const searchFilterValue = dayjs(condition.filter);
-    const isSameDay = rowValueDayjs.isSame(searchFilterValue, 'day');
-    const isAfter = rowValueDayjs.isAfter(searchFilterValue);
-    const isBefore = rowValueDayjs.isBefore(searchFilterValue);
+
+    // if it's a date range
+    if (Array.isArray(condition.filter)) {
+        const [minDate, maxDate] = condition.filter;
+        // Parameter 4 is a string with two characters; '[' means inclusive, '(' exclusive
+        // '()' excludes start and end date (default)
+        // '[]' includes start and end date
+        // '[)' includes the start date but excludes the stop
+        // Granuality offers the precision on start and end inclusive checks.
+        // For example including the start date on day precision you should use 'day' as 3rd parameter.
+        return rowValueDayjs.isBetween(minDate, maxDate, "day", "[]");
+    }
+
+    const singleSearchFilterValue = dayjs(condition.filter);
+    const isSameDay = rowValueDayjs.isSame(singleSearchFilterValue, 'day');
+    const isAfter = rowValueDayjs.isAfter(singleSearchFilterValue);
+    const isBefore = rowValueDayjs.isBefore(singleSearchFilterValue);
 
     switch (condition.operator) {
+        case 'between':
+            return isSameDay;
         case 'is_same':
             return isSameDay;
 
@@ -48,7 +68,7 @@ export const filterDateBySingleCondition = ({
 
         default:
             // Rank the item
-            const itemRank = rankItem(rowValue, String(searchFilterValue));
+            const itemRank = rankItem(rowValue, String(singleSearchFilterValue));
 
             // Store the itemRank info
             addMeta({

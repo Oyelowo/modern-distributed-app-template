@@ -5,7 +5,9 @@ import { RankingInfo, rankItem, compareItems } from '@tanstack/match-sorter-util
 export type OperatorLogical = "and" | "or";
 export const logicalOperators: OperatorLogical[] = ["and", "or"];
 
-type FilterValueType = number | string | Date;
+export type DateFilter = Date | [Date, Date]
+
+type FilterValueType = number | string | DateFilter /* for date range */;
 
 export type FilterConditionSimple<
     Operator extends string,
@@ -27,7 +29,7 @@ export type AddMeta = (meta: FilterMeta) => void;
 export type FilterProps<Operator extends string,
     FilterType extends FilterValueType> = {
         /**  The row value that is being filtered against */
-        rowValue: FilterType;
+        rowValue: number | string | Date;
         condition: FilterConditionSimple<Operator, FilterType>;
         /**  For react query to add  metadata to do fuzzy search */
         addMeta: AddMeta;

@@ -56,6 +56,8 @@ export function useColumns() {
         ...getFilterFn('date_single'),
       },
       {
+        // accessorFn: (row) => new Date(row.dateOfBirth),
+        // id: 'dateOfBirth',
         accessorKey: 'dateOfBirth',
         header: () => ' DOB',
         footer: (props) => props.column.id,

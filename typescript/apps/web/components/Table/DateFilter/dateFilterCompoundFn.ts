@@ -90,8 +90,12 @@ export const operatorsValuesAndLabels: Array<{
             label: 'After',
         },
         {
+            value: 'between',
+            label: 'Between',
+        },
+        {
             value: 'is_same',
-            label: 'Same dat',
+            label: 'Same date',
         },
         {
             value: 'is_before',

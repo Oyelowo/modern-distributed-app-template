@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { ActionIcon, Anchor, Button, Group, Popover, Box, Text, Code, Select } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
-import { randomId } from '@mantine/hooks';
+import { randomId, useClickOutside } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { DatePicker } from '@mantine/dates';
+import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { logicalOperators } from '../helpers';
 
 type Props<T> = {
@@ -15,12 +15,24 @@ type Props<T> = {
   // table: Table<T>;
 };
 
+interface FormList extends FilterConditionDateCompound {
+  key: string;
+  filterRange: [Date, Date];
+}
+
 export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
+
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionDateCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: new Date(), key: randomId() },
+      operations: formList<FormList>([
+        {
+          logical: null,
+          operator: 'between',
+          filter: new Date(),
+          filterRange: [new Date(), new Date()],
+          key: randomId(),
+        },
       ]),
     },
   });
@@ -68,15 +80,25 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
         sx={{ flex: 2 }}
       />
 
-      <DatePicker
-        icon={<CalendarIcon />}
-        placeholder="Pick date"
-        mb="sm"
-        allowFreeInput
-        // zIndex={100001}
-        withinPortal={false}
-        {...form.getListInputProps('operations', index, 'filter')}
-      />
+      {form.getListInputProps('operations', index, 'operator').value === 'between' ? (
+        <DateRangePicker
+          label="Book hotel"
+          placeholder="Pick dates range"
+          {...form.getListInputProps('operations', index, 'filter')}
+          amountOfMonths={2}
+          withinPortal={false}
+        />
+      ) : (
+        <DatePicker
+          icon={<CalendarIcon />}
+          placeholder="Pick date"
+          mb="sm"
+          allowFreeInput
+          // zIndex={100001}
+          withinPortal={false}
+          {...form.getListInputProps('operations', index, 'filter')}
+        />
+      )}
 
       <ActionIcon
         color="red"
@@ -101,6 +123,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
       }
       opened={opened}
       onClose={handleClose}
+      closeOnClickOutside={false}
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
@@ -116,6 +139,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
                 operator: 'fuzzy',
                 logical: 'and',
                 filter: null,
+                filterRange: [new Date(), new Date()],
                 key: randomId(),
               })
             }
