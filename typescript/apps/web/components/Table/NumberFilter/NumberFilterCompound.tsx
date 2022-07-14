@@ -15,17 +15,17 @@ import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Trash } from 'tabler-icons-react';
 import { Filter as FilterIcon } from 'tabler-icons-react';
-import { Column, Table } from '@tanstack/react-table';
-import { AndOr, FilterConditionNumberCompound } from './shared';
-import { Person } from '../makeData';
+import { Column } from '@tanstack/react-table';
+import { FilterConditionNumberCompound } from './shared';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { logicalOperators } from '../helpers';
 
 type Props = {
   column: Column<any, unknown>;
-  table: Table<Person>;
+  // table: Table<Person>;
 };
 
-export const NumberFilterCompound = ({ column, table }: Props) => {
+export const NumberFilterCompound = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
@@ -51,15 +51,13 @@ export const NumberFilterCompound = ({ column, table }: Props) => {
     setOpened(false);
   };
 
-  const andOrData: AndOr[] = ['and', 'or'];
-
   const fields = form.values.operations.map((item, index) => (
     <Group key={item.key} mt="xs">
       {index !== 0 ? (
         <Select
           label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
-          data={andOrData}
+          data={logicalOperators}
           sx={{ flex: 0.9 }}
         />
       ) : (

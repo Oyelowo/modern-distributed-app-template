@@ -1,19 +1,12 @@
 
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { FilterMeta } from "@tanstack/react-table";
+import { FilterConditionSimple, FilterConditionCompound } from "../helpers";
 
 export type OperatorNumber = "gt" | "lt" | "eq" | "not_eq" | "gt_or_eq" | "lt_or_eq" | "fuzzy";
-// Logical
-export type AndOr = 'and' | 'or';
 
-export type FilterConditionNumberSimple = {
-    /**  number operator */
-    operator: OperatorNumber;
-    /**  The input value used that value is being filtered by */
-    filter: number | null;
-}
-
-export type FilterConditionNumberCompound = FilterConditionNumberSimple & { logical: AndOr | null; }
+export type FilterConditionNumberSimple = FilterConditionSimple<OperatorNumber, number>;
+export type FilterConditionNumberCompound = FilterConditionCompound<OperatorNumber, number>;
 
 
 export type FilterProps = {

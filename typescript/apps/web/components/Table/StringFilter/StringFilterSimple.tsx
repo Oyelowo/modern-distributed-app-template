@@ -16,14 +16,14 @@ import { Column } from '@tanstack/react-table';
 import { FilterConditionStringSimple } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 
-export const StringFilterSimple = <T extends unknown>({
-  column,
-}: {
+type Props<T extends unknown> = {
   column: Column<T, unknown>;
-}) => {
+};
+
+export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
   const form = useForm<FilterConditionStringSimple>({
     initialValues: {
-      filter: "",
+      filter: '',
       operator: 'fuzzy',
     },
   });
