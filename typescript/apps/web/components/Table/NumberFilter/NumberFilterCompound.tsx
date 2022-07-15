@@ -11,11 +11,12 @@ import {
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash, Filter as FilterIcon } from 'tabler-icons-react';
+import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { FilterConditionNumberCompound } from './shared';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
 import { logicalOperators } from '../helpers';
+import { FilterShell } from '../FilterShell';
 
 type Props = {
   column: Column<any, unknown>;
@@ -49,49 +50,33 @@ export const NumberFilterCompound = ({ column }: Props) => {
   };
 
   const fields = form.values.operations.map((item, index) => (
-    <Group key={item.key} mt="xs">
-      {index !== 0 ? (
+    <FilterShell
+      key={item.key}
+      showLogicalSelector={index !== 0}
+      logicals={
         <Select
-          label="Operator"
           {...form.getListInputProps('operations', index, 'logical')}
           data={logicalOperators}
           sx={{ flex: 0.9 }}
         />
-      ) : (
+      }
+      operator={
         <Select
-          rightSection={<></>}
-          // styles={{ rightSection: { pointerEvents: 'none' } }}
-          value={null}
-          data={[]}
-          disabled
-          sx={{ flex: 0.9 }}
+          {...form.getListInputProps('operations', index, 'operator')}
+          data={operatorsValuesAndLabels}
         />
-      )}
-
-      <Select
-        label="Operator"
-        {...form.getListInputProps('operations', index, 'operator')}
-        data={operatorsValuesAndLabels}
-        sx={{ flex: 2 }}
-      />
-
-      <NumberInput
-        placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
-          column.getFacetedMinMaxValues()?.[1]
-        })`}
-        required
-        // sx={{ flex: 1 }}
-        {...form.getListInputProps('operations', index, 'filter')}
-      />
-
-      <ActionIcon
-        color="red"
-        variant="hover"
-        onClick={() => form.removeListItem('operations', index)}
-      >
-        <Trash size={16} />
-      </ActionIcon>
-    </Group>
+      }
+      filter={
+        <NumberInput
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
+          required
+          {...form.getListInputProps('operations', index, 'filter')}
+        />
+      }
+      onAddNewFilter={() => form.removeListItem('operations', index)}
+    />
   ));
 
   return (
@@ -110,13 +95,13 @@ export const NumberFilterCompound = ({ column }: Props) => {
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
       <Box sx={{ maxWidth: 500 }} mx="auto">
         {fields}
 
         <Group position="center" mt="md">
           <Button
+            variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
                 operator: 'eq',
@@ -125,8 +110,9 @@ export const NumberFilterCompound = ({ column }: Props) => {
                 key: randomId(),
               })
             }
+            rightIcon={<Plus />}
           >
-            Add+
+            Add
           </Button>
         </Group>
 
