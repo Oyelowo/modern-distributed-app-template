@@ -7,17 +7,16 @@ import {
   Popover,
   Box,
   Select,
-  Divider,
-  Grid,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash, Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
+import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
 import { logicalOperators } from '../helpers';
+import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -61,62 +60,47 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   };
 
   const fields = form.values.operations.map((item, index) => (
-    <>
-      <Grid key={item.key} gutter="xs" mt="xs">
-        <Grid.Col span={2}>
-          {index !== 0 ? (
-            <Select
-              {...form.getListInputProps('operations', index, 'logical')}
-              data={logicalOperators}
-            />
-          ) : (
-            <div />
-          )}
-        </Grid.Col>
-
-        <Grid.Col span={4}>
-          <Select
-            placeholder="Operator"
-            {...form.getListInputProps('operations', index, 'operator')}
-            data={operatorsValuesAndLabels}
-            sx={{ flex: 2 }}
-          />
-        </Grid.Col>
-
-        <Grid.Col span={5}>
-          {form.getListInputProps('operations', index, 'operator').value === 'between' ? (
-            <DateRangePicker
-              placeholder="Pick dates range"
-              {...form.getListInputProps('operations', index, 'filter')}
-              amountOfMonths={2}
-              /*
+    <FilterShell
+      key={item.key}
+      showLogicalSelector={index !== 0}
+      logicals={
+        <Select
+          {...form.getListInputProps('operations', index, 'logical')}
+          data={logicalOperators}
+        />
+      }
+      operator={
+        <Select
+          placeholder="Operator"
+          {...form.getListInputProps('operations', index, 'operator')}
+          data={operatorsValuesAndLabels}
+          sx={{ flex: 2 }}
+        />
+      }
+      filter={
+        form.getListInputProps('operations', index, 'operator').value === 'between' ? (
+          <DateRangePicker
+            placeholder="Pick dates range"
+            {...form.getListInputProps('operations', index, 'filter')}
+            amountOfMonths={2}
+            /*
           Popover listens for outside clicks with use-click-outside hook. This means that it is not possible to use elements that render overlays within Portal inside Popover. To use components like Autocomplete, Menu, DatePicker portal feature should be disabled for these components:
           */
-              withinPortal={false}
-            />
-          ) : (
-            <DatePicker
-              icon={<CalendarIcon />}
-              placeholder="Pick date"
-              mb="sm"
-              allowFreeInput
-              withinPortal={false}
-              {...form.getListInputProps('operations', index, 'filter')}
-            />
-          )}
-        </Grid.Col>
-        <Grid.Col span={1}>
-          <ActionIcon
-            color="red"
-            variant="hover"
-            onClick={() => form.removeListItem('operations', index)}
-          >
-            <Trash size={16} />
-          </ActionIcon>
-        </Grid.Col>
-      </Grid>
-      <Divider mt="md" />
-    </>
+            withinPortal={false}
+          />
+        ) : (
+          <DatePicker
+            icon={<CalendarIcon />}
+            placeholder="Pick date"
+            mb="sm"
+            allowFreeInput
+            withinPortal={false}
+            {...form.getListInputProps('operations', index, 'filter')}
+          />
+        )
+      }
+      onAddNewFilter={() => form.removeListItem('operations', index)}
+    />
   ));
 
   return (

@@ -63,10 +63,7 @@ export function Footer({ table }: { table: ReactTable<Person> }) {
           <TextInput
             type="number"
             defaultValue={table.getState().pagination.pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              table.setPageIndex(page);
-            }}
+            onChange={(e) => table.setPageIndex(Number(e.target.value))}
             style={{ width: 62 }}
           />
         </span>

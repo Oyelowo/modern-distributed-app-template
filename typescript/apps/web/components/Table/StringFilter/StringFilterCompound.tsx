@@ -8,16 +8,15 @@ import {
   Box,
   Select,
   Autocomplete,
-  Grid,
-  Divider,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Trash, Filter as FilterIcon, Plus } from 'tabler-icons-react';
+import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { FilterConditionStringCompound, useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
 import { logicalOperators } from '../helpers';
+import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -52,48 +51,31 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
   };
 
   const fields = form.values.operations.map((item, index) => (
-    <>
-      <Grid key={item.key} gutter="xs" mt="xs">
-        <Grid.Col span={2}>
-          {index !== 0 ? (
-            <Select
-              {...form.getListInputProps('operations', index, 'logical')}
-              data={logicalOperators}
-            />
-          ) : (
-            <div />
-          )}
-        </Grid.Col>
-
-        <Grid.Col span={4}>
-          <Select
-            placeholder="Operator"
-            {...form.getListInputProps('operations', index, 'operator')}
-            data={operatorsValuesAndLabels}
-            sx={{ flex: 2 }}
-          />
-        </Grid.Col>
-
-        <Grid.Col span={5}>
-          <Autocomplete
-            placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
-            data={sortedUniqueValues}
-            {...form.getListInputProps('operations', index, 'filter')}
-          />
-        </Grid.Col>
-
-        <Grid.Col span={1}>
-          <ActionIcon
-            color="red"
-            variant="hover"
-            onClick={() => form.removeListItem('operations', index)}
-          >
-            <Trash size={16} />
-          </ActionIcon>
-        </Grid.Col>
-      </Grid>
-      <Divider mt="md" />
-    </>
+    <FilterShell
+      key={item.key}
+      showLogicalSelector={index !== 0}
+      logicals={
+        <Select
+          {...form.getListInputProps('operations', index, 'logical')}
+          data={logicalOperators}
+        />
+      }
+      operator={
+        <Select
+          placeholder="Operator"
+          {...form.getListInputProps('operations', index, 'operator')}
+          data={operatorsValuesAndLabels}
+        />
+      }
+      filter={
+        <Autocomplete
+          placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+          data={sortedUniqueValues}
+          {...form.getListInputProps('operations', index, 'filter')}
+        />
+      }
+      onAddNewFilter={() => form.removeListItem('operations', index)}
+    />
   ));
 
   return (

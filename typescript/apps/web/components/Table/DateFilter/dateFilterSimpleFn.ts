@@ -8,7 +8,7 @@ export const dateFilterSimpleFn: FilterFn<unknown> = (
   addMeta
 ) => {
   if (!row.getValue<Date>(columnId)) {
-    console.error('Row does not exist');
+    throw new Error('Row does not exist');
   }
   const rowValue = new Date(row.getValue<Date>(columnId));
 
