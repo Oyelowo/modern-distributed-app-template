@@ -1,4 +1,4 @@
-import { RowNumber, RowCustom } from './../helpers';
+import { RowNumber } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
 
 export const filterNumBySingleCondition = ({ rowValueType, rowValue, filterValue, operator, addMeta }: RowNumber) => {
