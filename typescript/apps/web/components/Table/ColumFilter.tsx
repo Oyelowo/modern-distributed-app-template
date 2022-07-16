@@ -3,27 +3,27 @@ import { NumberFilterSingle } from './NumberFilter/NumberFilterSingle';
 import { NumberFilterMultiple } from './NumberFilter/NumberFilterMultiple';
 import { numberFilterSingleFn } from './NumberFilter/numberFilterSingleFn';
 import { numberFilterMultipleFn } from './NumberFilter/numberFilterMultipleFn';
-import { dateFilterCompoundFn } from './DateFilter/dateFilterCompoundFn';
-import { DateFilterCompound } from './DateFilter/DateFilterCompound';
-import { DateFilterSimple } from './DateFilter/DateFilterSimple';
+import { dateFilterCompoundFn } from './DateFilter/dateFilterMultipleFn';
+import { DateFilterMultiple } from './DateFilter/DateFilterMultiple';
+import { DateFilterSingle } from './DateFilter/DateFilterSingle';
 import { stringFilterCompoundFn } from './StringFilter/stringFilterMultipleFn';
 import { StringFilterMultiple } from './StringFilter/StringFilterMultiple';
 import { StringFilterSingle } from './StringFilter/StringFilterSingle';
-import { dateFilterSimpleFn } from './DateFilter/dateFilterSimpleFn';
+import { dateFilterSimpleFn } from './DateFilter/dateFilterSingleFn';
 import { stringFilterSingleFn } from './StringFilter/stringFilterSingleFn';
 
 function assertUnreachable(_x: never): never {
   throw new Error("Didn't expect to get here");
 }
 
-type FilterType = Exclude<ColumnMeta['filterType'], null>;
+type FilterType = ColumnMeta['filterType'];
 
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
-  date_range: dateFilterCompoundFn,
+  date_multiple: dateFilterCompoundFn,
   date_single: dateFilterSimpleFn,
-  string: stringFilterSingleFn,
-  string_compound: stringFilterCompoundFn,
-  number_range: numberFilterMultipleFn,
+  string_single: stringFilterSingleFn,
+  string_multiple: stringFilterCompoundFn,
+  number_multiple: numberFilterMultipleFn,
   number_single: numberFilterSingleFn,
 };
 
@@ -51,18 +51,18 @@ export function ColumnFilter<T>({ column }: Props<T>) {
   const filterType = column.columnDef.meta?.filterType;
 
   switch (filterType) {
-    case 'string':
+    case 'string_single':
       return <StringFilterSingle column={column} />;
-    case 'string_compound':
+    case 'string_multiple':
       return <StringFilterMultiple column={column} />;
-    case 'number_range':
+    case 'number_multiple':
       return <NumberFilterMultiple column={column} />;
     case 'number_single':
       return <NumberFilterSingle column={column} />;
     case 'date_single':
-      return <DateFilterSimple column={column} />;
-    case 'date_range':
-      return <DateFilterCompound column={column} />;
+      return <DateFilterSingle column={column} />;
+    case 'date_multiple':
+      return <DateFilterMultiple column={column} />;
     case null:
     case undefined:
       return <></>;

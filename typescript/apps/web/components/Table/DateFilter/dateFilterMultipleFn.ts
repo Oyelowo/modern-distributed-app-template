@@ -1,4 +1,4 @@
-import { FilterMultipleProps, filterRowByMultipleFilters, RowDate } from './../helpers';
+import { FilterMultipleProps, filterRowByMultipleFilters, RowDate } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
 import { AddMeta } from '../helpers';
 import {

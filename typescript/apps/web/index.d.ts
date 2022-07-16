@@ -28,12 +28,11 @@ declare module '@mantine/core' {
 
 type FilterDataType =
   | 'number_single'
-  | 'number_range'
+  | 'number_multiple'
   | 'date_single'
-  | 'date_range'
-  | 'string'
-  | 'string_compound'
-  | null;
+  | 'date_multiple'
+  | 'string_single'
+  | 'string_multiple';
 
 declare module '@tanstack/table-core' {
   interface ColumnMeta {

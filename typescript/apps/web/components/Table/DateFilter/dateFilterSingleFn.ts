@@ -1,4 +1,4 @@
-import { FilterSingleProps } from './../helpers';
+import { FilterSingleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
 import { filterDateRow } from './shared';
 

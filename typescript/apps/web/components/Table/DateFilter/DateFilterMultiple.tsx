@@ -5,8 +5,8 @@ import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
-import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { FilterMultipleProps, FormListCustom, logicalOperators } from '../helpers';
+import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
+import { FilterMultipleProps, RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -14,12 +14,12 @@ type Props<T> = {
   // table: Table<T>;
 };
 
-export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
+export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
 
   const form = useForm({
     initialValues: {
-      operations: formList<FormListCustom<Date>>([
+      operations: formList<RowFilterMultipleForm<Date>>([
         {
           logical: 'and',
           operator: 'between',

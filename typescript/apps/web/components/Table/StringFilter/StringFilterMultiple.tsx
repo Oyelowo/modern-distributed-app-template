@@ -15,7 +15,7 @@ import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
-import { FilterMultipleProps, logicalOperators } from '../helpers';
+import { FilterMultipleProps, RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -27,11 +27,12 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterMultipleProps<string> & { key: string }>([
+      operations: formList<RowFilterMultipleForm<string>>([
         { logical: 'and', operator: 'fuzzy', filterValue: '', key: randomId() },
       ]),
     },
   });
+
   const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {

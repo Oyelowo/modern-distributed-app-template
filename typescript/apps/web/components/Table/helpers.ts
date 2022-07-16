@@ -57,10 +57,7 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
 
-// type RowType = "string" | "number" | "date"
-type RowValueType = string | number | Date;
 
-// export type RowString<TRow extends RowType> = {
 export type RowString = {
   rowValue: string;
   operator:
@@ -77,16 +74,13 @@ export type RowString = {
 };
 
 export type RowNumber = {
-  // rowValueType: "number",
   rowValue: number;
   operator: 'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy';
-
   filterValue: number | null;
   addMeta: AddMeta;
 };
 
 export type RowDate = {
-  // rowValueType: 'date';
   rowValue: Date;
   operator:
   | 'between'
@@ -104,13 +98,15 @@ export type RowDate = {
 
 export type RowCustom = RowString | RowNumber | RowDate;
 
+type RowValueType = RowCustom["rowValue"];
+
 type ExtractRowProps<TRow extends RowValueType> = Extract<RowCustom, { rowValue: TRow }>;
 
 type LogicalProp = {
   logical: OperatorLogical;
 };
 
-export type FormListCustom<TRow extends RowValueType> = FilterMultipleProps<TRow> & {
+export type RowFilterMultipleForm<TRow extends RowValueType> = FilterMultipleProps<TRow> & {
   key: string;
 }
 

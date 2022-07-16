@@ -11,7 +11,7 @@ export const filterDateRow = ({
   filterValue,
   operator,
   addMeta,
-}: RowDate) => {
+}: RowDate): boolean => {
   if (!filterValue) {
     return true;
   }

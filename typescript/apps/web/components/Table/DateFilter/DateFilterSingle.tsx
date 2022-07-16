@@ -14,10 +14,10 @@ import { useForm } from '@mantine/form';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
-import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
+import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
 import { FilterSingleProps } from '../helpers';
 
-export const DateFilterSimple = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
+export const DateFilterSingle = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
   const form = useForm<FilterSingleProps<Date>>({
     initialValues: {
       filterValue: null,

@@ -14,7 +14,7 @@ import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
-import { FilterMultipleProps, FilterSingleProps, logicalOperators } from '../helpers';
+import { RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props = {
@@ -26,7 +26,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterMultipleProps<number> & { key: string }>([
+      operations: formList<RowFilterMultipleForm<number>>([
         { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },
