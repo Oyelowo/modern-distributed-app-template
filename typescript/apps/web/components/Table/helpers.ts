@@ -58,11 +58,10 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 };
 
 // type RowType = "string" | "number" | "date"
-type RowType = string | number | Date;
+type RowValueType = string | number | Date;
 
 // export type RowString<TRow extends RowType> = {
 export type RowString = {
-  // rowValueType: "string",
   rowValue: string;
   operator:
   | 'contains'
@@ -105,28 +104,28 @@ export type RowDate = {
 
 export type RowCustom = RowString | RowNumber | RowDate;
 
-type ExtractRowProps<TRow extends RowType> = Extract<RowCustom, { rowValue: TRow }>;
+type ExtractRowProps<TRow extends RowValueType> = Extract<RowCustom, { rowValue: TRow }>;
 
 type LogicalProp = {
   logical: OperatorLogical;
 };
 
-type ExtractFilterValue<TRow extends RowType> = Pick<
+export type FilterSingleProps<TRow extends RowValueType> = Pick<
   ExtractRowProps<TRow>,
   'filterValue' | 'operator'
 >;
 
-export type FilterProps<TRow extends RowType> = ExtractFilterValue<TRow> & LogicalProp;
+export type FilterMultipleProps<TRow extends RowValueType> = FilterSingleProps<TRow> & LogicalProp;
 
-export type FilterCompoundProps<TRow extends RowType> = {
-  filterProps: FilterProps<TRow>[];
-  onFilterRowValue: (filterProps: FilterProps<TRow>) => boolean;
+type FilterMultipleFnProps<TRow extends RowValueType> = {
+  filterProps: FilterMultipleProps<TRow>[];
+  onFilterRowValue: (filterProps: FilterMultipleProps<TRow>) => boolean;
 };
 
-export function filterRowByMultipleFilters<TRow extends RowType>({
+export function filterRowByMultipleFilters<TRow extends RowValueType>({
   filterProps,
   onFilterRowValue,
-}: FilterCompoundProps<TRow>): boolean {
+}: FilterMultipleFnProps<TRow>): boolean {
   //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
   // the boolean value until it reaches the last.
   // This determines if a row should be filtered out or not
@@ -134,7 +133,7 @@ export function filterRowByMultipleFilters<TRow extends RowType>({
   // e.g [true, true, true, true] => true
   const filterRowValue = (
     previousAggregatedFilter: boolean,
-    currentFilteProps: FilterProps<TRow>
+    currentFilteProps: FilterMultipleProps<TRow>
   ): boolean => {
     const currentFilter = onFilterRowValue(currentFilteProps);
 

@@ -2,12 +2,12 @@
 import { FilterFn } from '@tanstack/react-table';
 import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
-import { FilterProps } from './../helpers';
+import { FilterSingleProps } from './../helpers';
 
 export const numberFilterSimpleFn: FilterFn<Person> = (
   row,
   columnId,
-  filter: FilterProps<number>,
+  filter: FilterSingleProps<number>,
   addMeta
 ) => {
   const { operator = "eq", filterValue } = filter;

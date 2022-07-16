@@ -1,4 +1,4 @@
-import { RowNumber, FilterProps, filterRowByMultipleFilters } from './../helpers';
+import { RowNumber, filterRowByMultipleFilters, FilterMultipleProps } from './../helpers';
 import { FilterFn } from '@tanstack/react-table';
 import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
@@ -7,7 +7,7 @@ import { Person } from '../makeData';
 export const numberFilterCompoundFn: FilterFn<Person> = (
   row,
   columnId,
-  filters: FilterProps<number>[],
+  filters: FilterMultipleProps<number>[],
   addMeta
 ) => {
   const rowValue = Number(row.getValue(columnId));
