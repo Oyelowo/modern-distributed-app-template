@@ -1,19 +1,20 @@
-import { RowNumber } from './../helpers';
+
 import { FilterFn } from '@tanstack/react-table';
 import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
+import { FilterProps } from './../helpers';
 
 export const numberFilterSimpleFn: FilterFn<Person> = (
   row,
   columnId,
-  filter: Pick<RowNumber, "filterValue" | "operator">,
+  filter: FilterProps,
   addMeta
 ) => {
   const { operator = "gt", filterValue } = filter;
   const rowValue = Number(row.getValue(columnId));
 
   return filterNumBySingleCondition({
-    rowValueType: "number",
+    // rowValueType: "number",
     rowValue,
     filterValue: Number(filterValue),
     operator,

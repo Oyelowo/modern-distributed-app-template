@@ -13,8 +13,8 @@ import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { NumberFilterProps, operatorsValuesAndLabels } from './numberFilterCompoundFn';
-import { logicalOperators } from '../helpers';
+import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { FilterProps, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props = {
@@ -26,7 +26,7 @@ export const NumberFilterCompound = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<NumberFilterProps & { key: string }>([
+      operations: formList<FilterProps & { key: string }>([
         { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },

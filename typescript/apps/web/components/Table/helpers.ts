@@ -21,7 +21,7 @@ export type FilterConditionCompound<
   > = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
 
 export type AddMeta = (meta: FilterMeta) => void;
-export type FilterProps<Operator extends string, FilterType extends FilterValueType> = {
+export type FilterPropsOld<Operator extends string, FilterType extends FilterValueType> = {
   /**  The row value that is being filtered against */
   rowValue: number | string | Date;
   condition: FilterConditionSimple<Operator, FilterType>;
@@ -76,7 +76,7 @@ export type RowString = {
 }
 
 export type RowNumber = {
-  rowValueType: "number",
+  // rowValueType: "number",
   rowValue: number,
   operator:
   'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy',
@@ -105,3 +105,41 @@ export type RowDate = {
 
 
 export type RowCustom = RowString | RowNumber | RowDate;
+
+
+export type FilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
+  logical: OperatorLogical;
+};
+export type FilterCompoundProps = {
+  filterProps: FilterProps[];
+  onFilterRowValue: (filterProps: FilterProps) => boolean;
+};
+
+export function filterRow({
+  filterProps,
+  onFilterRowValue,
+}: FilterCompoundProps): boolean {
+  //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
+  // the boolean value until it reaches the last.
+  // This determines if a row should be filtered out or not
+  // e.g [true, false, true, false] => false
+  // e.g [true, true, true, true] => true
+  const filterRowValue = (
+    previousAggregatedFilter: boolean,
+    currentFilteProps: FilterProps,
+  ): boolean => {
+    const currentFilter = onFilterRowValue(currentFilteProps);
+
+    if (currentFilteProps.logical === 'and') {
+      return previousAggregatedFilter && currentFilter;
+    }
+
+    if (currentFilteProps.logical === 'or') {
+      return previousAggregatedFilter || currentFilter;
+    }
+
+    return currentFilter;
+  };
+
+  return filterProps.reduce(filterRowValue, true);
+}

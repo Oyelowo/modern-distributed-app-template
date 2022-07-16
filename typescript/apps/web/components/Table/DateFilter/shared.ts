@@ -6,7 +6,7 @@ import {
   DateFilter,
   FilterConditionCompound,
   FilterConditionSimple,
-  FilterProps,
+  FilterPropsOld,
 } from '../helpers';
 
 dayjs.extend(isBetween);
@@ -29,7 +29,7 @@ export const filterDateBySingleCondition = ({
   rowValue,
   condition,
   addMeta,
-}: FilterProps<OperatorDate, DateFilter>) => {
+}: FilterPropsOld<OperatorDate, DateFilter>) => {
   if (!condition.filter) {
     return true;
   }
