@@ -26,8 +26,8 @@ export const NumberFilterCompound = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<Pick<NumberFilterProps, "logical" | "operator" | "filterValue" > & { key: string }>([
-        { logical: "and", operator: 'fuzzy', filterValue: null, key: randomId() },
+      operations: formList<NumberFilterProps & { key: string }>([
+        { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },
   });

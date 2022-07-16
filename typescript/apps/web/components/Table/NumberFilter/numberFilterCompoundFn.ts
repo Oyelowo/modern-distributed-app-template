@@ -1,55 +1,53 @@
 import { RowNumber, OperatorLogical } from './../helpers';
 import { FilterFn } from '@tanstack/react-table';
 import { AddMeta } from '../helpers';
-import {
-  filterNumBySingleCondition,
-} from './shared';
+import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
 
-
-export type NumberFilterProps = RowNumber & { logical: OperatorLogical }
+export type NumberFilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
+  logical: OperatorLogical;
+};
 export type NumberFilterCompoundProps = {
   filterProps: NumberFilterProps[];
   rowValue: number;
   addMeta: AddMeta;
 };
 
-export function filterNumberByConditions({
+export function filterNumber({
   rowValue,
   filterProps,
   addMeta,
 }: NumberFilterCompoundProps): boolean {
-  //   Goes through the conditions list and calculates
+  //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
   // the boolean value until it reaches the last.
   // This determines if a row should be filtered out or not
   // e.g [true, false, true, false] => false
   // e.g [true, true, true, true] => true
-  const res = filterProps.reduce(
-    (previousAggregatedFilter, currentFilteProps) => {
-      const currentFilter = filterNumBySingleCondition({
-        rowValueType: "number",
-        operator: currentFilteProps.operator,
-        filterValue: currentFilteProps.filterValue,
-        rowValue,
-        addMeta,
-      });
+  const filterRowValue = (
+    previousAggregatedFilter: boolean,
+    currentFilteProps: NumberFilterProps,
+  ): boolean => {
+    const currentFilter = filterNumBySingleCondition({
+      rowValueType: 'number',
+      operator: currentFilteProps.operator,
+      filterValue: currentFilteProps.filterValue,
+      rowValue,
+      addMeta,
+    });
 
-      if (currentFilteProps.logical === 'and') {
-        return previousAggregatedFilter && currentFilter;
-      }
+    if (currentFilteProps.logical === 'and') {
+      return previousAggregatedFilter && currentFilter;
+    }
 
-      if (currentFilteProps.logical === 'or') {
-        return previousAggregatedFilter || currentFilter;
-      }
+    if (currentFilteProps.logical === 'or') {
+      return previousAggregatedFilter || currentFilter;
+    }
 
-      return currentFilter;
-    },
-    true
-  );
+    return currentFilter;
+  };
 
-  return res;
+  return filterProps.reduce(filterRowValue, true);
 }
-
 
 export const numberFilterCompoundFn: FilterFn<Person> = (
   row,
@@ -59,7 +57,7 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
 ) => {
   const rowValue = Number(row.getValue(columnId));
 
-  return filterNumberByConditions({
+  return filterNumber({
     filterProps: filters,
     rowValue,
     addMeta,
@@ -69,7 +67,7 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
 numberFilterCompoundFn.autoRemove = (val) => !val;
 
 export const operatorsValuesAndLabels: Array<{
-  value: RowNumber["operator"];
+  value: RowNumber['operator'];
   label: string;
 }> = [
     {
