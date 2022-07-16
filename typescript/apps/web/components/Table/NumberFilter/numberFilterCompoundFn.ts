@@ -9,14 +9,16 @@ export type NumberFilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
 };
 export type NumberFilterCompoundProps = {
   filterProps: NumberFilterProps[];
-  rowValue: number;
-  addMeta: AddMeta;
+  // rowValue: number;
+  // addMeta: AddMeta;
+  onFilterRowValue: (filterProps: NumberFilterProps) => boolean;
 };
 
-export function filterNumber({
-  rowValue,
+export function filterRow({
+  // rowValue,
   filterProps,
-  addMeta,
+  // addMeta,
+  onFilterRowValue,
 }: NumberFilterCompoundProps): boolean {
   //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
   // the boolean value until it reaches the last.
@@ -27,14 +29,7 @@ export function filterNumber({
     previousAggregatedFilter: boolean,
     currentFilteProps: NumberFilterProps,
   ): boolean => {
-    const currentFilter = filterNumBySingleCondition({
-      rowValueType: 'number',
-      operator: currentFilteProps.operator,
-      filterValue: currentFilteProps.filterValue,
-      rowValue,
-      addMeta,
-    });
-
+    const currentFilter = onFilterRowValue(currentFilteProps);
     if (currentFilteProps.logical === 'and') {
       return previousAggregatedFilter && currentFilter;
     }
@@ -57,10 +52,22 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
 ) => {
   const rowValue = Number(row.getValue(columnId));
 
-  return filterNumber({
+  // return filterNumber({
+  //   filterProps: filters,
+  //   rowValue,
+  //   addMeta,
+  // });
+  return filterRow({
+    onFilterRowValue: ({ operator, filterValue }) => {
+      const shouldFilter = filterNumBySingleCondition({
+        operator,
+        filterValue,
+        rowValue,
+        addMeta,
+      });
+      return shouldFilter;
+    },
     filterProps: filters,
-    rowValue,
-    addMeta,
   });
 };
 
