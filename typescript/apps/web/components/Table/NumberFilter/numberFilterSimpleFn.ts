@@ -1,23 +1,22 @@
+import { RowNumber } from './../helpers';
 import { FilterFn } from '@tanstack/react-table';
-import { FilterConditionNumberSimple, filterNumBySingleCondition } from './shared';
+import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
 
 export const numberFilterSimpleFn: FilterFn<Person> = (
   row,
   columnId,
-  filter: FilterConditionNumberSimple,
+  filter: Pick<RowNumber, "filterValue" | "operator">,
   addMeta
 ) => {
-  const { operator = 'fuzzy', filter: value } = filter;
+  const { operator = "gt", filterValue } = filter;
   const rowValue = Number(row.getValue(columnId));
-  const searchFilterValue = Number(value);
 
   return filterNumBySingleCondition({
+    rowValueType: "number",
     rowValue,
-    condition: {
-      filter: searchFilterValue,
-      operator,
-    },
+    filterValue: Number(filterValue),
+    operator,
     addMeta,
   });
 };

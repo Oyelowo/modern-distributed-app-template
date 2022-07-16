@@ -1,42 +1,32 @@
+import { RowNumber, RowCustom } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
-import { FilterConditionSimple, FilterConditionCompound, FilterProps } from '../helpers';
 
-export type OperatorNumber = 'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy';
+export const filterNumBySingleCondition = ({ rowValueType, rowValue, filterValue, operator, addMeta }: RowNumber) => {
 
-export type FilterConditionNumberSimple = FilterConditionSimple<OperatorNumber, number>;
-export type FilterConditionNumberCompound = FilterConditionCompound<OperatorNumber, number>;
-
-export const filterNumBySingleCondition = ({
-  rowValue,
-  condition,
-  addMeta,
-}: FilterProps<OperatorNumber, number>) => {
-  if (!condition.filter) {
+  if (!filterValue) {
     return true;
   }
 
-  const searchFilterValue = condition.filter;
-
-  switch (condition.operator) {
+  switch (operator) {
     case 'eq':
-      return rowValue === searchFilterValue;
+      return rowValue === filterValue;
 
     case 'not_eq':
-      return rowValue !== searchFilterValue;
+      return rowValue !== filterValue;
     case 'gt':
-      return rowValue > searchFilterValue;
+      return rowValue > filterValue;
     case 'gt_or_eq':
-      return rowValue >= searchFilterValue;
+      return rowValue >= filterValue;
 
     case 'lt':
-      return rowValue < searchFilterValue;
+      return rowValue < filterValue;
 
     case 'lt_or_eq':
-      return rowValue <= searchFilterValue;
+      return rowValue <= filterValue;
 
     default: {
       // Rank the item
-      const itemRank = rankItem(rowValue, String(searchFilterValue));
+      const itemRank = rankItem(rowValue, String(filterValue));
 
       // Store the itemRank info
       addMeta({

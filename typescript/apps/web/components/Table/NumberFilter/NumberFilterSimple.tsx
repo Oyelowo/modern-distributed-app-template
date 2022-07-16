@@ -13,8 +13,9 @@ import {
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionNumberSimple } from './shared';
+// import { FilterConditionNumberSimple } from './shared';
 import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { RowCustom } from '../helpers';
 
 type Props = {
   column: Column<any, unknown>;
@@ -22,9 +23,9 @@ type Props = {
 };
 
 export const NumberFilterSimple = ({ column }: Props) => {
-  const form = useForm<FilterConditionNumberSimple>({
+  const form = useForm<Pick<RowCustom, 'filterValue' | 'operator'>>({
     initialValues: {
-      filter: null,
+      filterValue: null,
       operator: 'fuzzy',
     },
   });
@@ -82,7 +83,7 @@ export const NumberFilterSimple = ({ column }: Props) => {
         })`}
         mb="sm"
         data-autoFocus
-        {...form.getInputProps('filter')}
+        {...form.getInputProps('filterValue')}
       />
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>

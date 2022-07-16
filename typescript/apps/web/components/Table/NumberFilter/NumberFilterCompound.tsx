@@ -13,8 +13,7 @@ import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionNumberCompound } from './shared';
-import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { NumberFilterCondition, operatorsValuesAndLabels } from './numberFilterCompoundFn';
 import { logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
@@ -27,8 +26,8 @@ export const NumberFilterCompound = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionNumberCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: null, key: randomId() },
+      operations: formList<Pick<NumberFilterCondition, "logical" | "operator" | "filterValue" > & { key: string }>([
+        { logical: "and", operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },
   });
@@ -72,7 +71,7 @@ export const NumberFilterCompound = ({ column }: Props) => {
             column.getFacetedMinMaxValues()?.[1]
           })`}
           required
-          {...form.getListInputProps('operations', index, 'filter')}
+          {...form.getListInputProps('operations', index, 'filterValue')}
         />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
@@ -106,7 +105,7 @@ export const NumberFilterCompound = ({ column }: Props) => {
               form.addListItem('operations', {
                 operator: 'eq',
                 logical: 'and',
-                filter: 0,
+                filterValue: 0,
                 key: randomId(),
               })
             }

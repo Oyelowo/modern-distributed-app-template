@@ -1,14 +1,17 @@
+import { RowNumber, OperatorLogical } from './../helpers';
 import { FilterFn } from '@tanstack/react-table';
 import { AddMeta } from '../helpers';
 import {
-  FilterConditionNumberCompound as NumberFilterCondition,
   filterNumBySingleCondition,
-  OperatorNumber,
 } from './shared';
 import { Person } from '../makeData';
 
-export type NumberFilterCompoundProps = {
-  conditions: NumberFilterCondition[];
+
+
+type FilterCompoundFnProps = {
+  currentCondition: RowNumber;
+  logical: OperatorLogical;
+  previousAggregatedFilter: boolean;
   rowValue: number;
   addMeta: AddMeta;
 };
@@ -17,25 +20,37 @@ function filterNumByCompoundCond({
   currentCondition,
   previousAggregatedFilter,
   rowValue,
+  logical,
   addMeta,
 }: FilterCompoundFnProps): boolean {
+
   const currentFilter = filterNumBySingleCondition({
+    rowValueType: "number",
+    operator: currentCondition.operator,
+    filterValue: currentCondition.filterValue,
     rowValue,
     addMeta,
-    condition: currentCondition,
   });
 
-  if (currentCondition.logical === 'and') {
+  if (logical === 'and') {
     return previousAggregatedFilter && currentFilter;
   }
 
-  if (currentCondition.logical === 'or') {
+  if (logical === 'or') {
     return previousAggregatedFilter || currentFilter;
   }
 
   return currentFilter;
 }
 
+export type NumberFilterCondition = RowNumber & { logical: OperatorLogical }
+export type NumberFilterCompoundProps = {
+  conditions: NumberFilterCondition[];
+  rowValue: number;
+  addMeta: AddMeta;
+};
+
+// type Condition = {RowNumber, logical: OperatorLogical}
 export function filterNumberByConditions({
   rowValue,
   conditions,
@@ -52,6 +67,7 @@ export function filterNumberByConditions({
         currentCondition: curr,
         previousAggregatedFilter: acc,
         rowValue,
+        logical: "and",
         addMeta,
       }),
     true
@@ -60,12 +76,7 @@ export function filterNumberByConditions({
   return res;
 }
 
-type FilterCompoundFnProps = {
-  currentCondition: NumberFilterCondition;
-  previousAggregatedFilter: boolean;
-  rowValue: number;
-  addMeta: AddMeta;
-};
+
 
 export const numberFilterCompoundFn: FilterFn<Person> = (
   row,
@@ -85,35 +96,35 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
 numberFilterCompoundFn.autoRemove = (val) => !val;
 
 export const operatorsValuesAndLabels: Array<{
-  value: OperatorNumber;
+  value: RowNumber["operator"];
   label: string;
 }> = [
-  {
-    value: 'eq',
-    label: 'Equals',
-  },
-  {
-    value: 'gt',
-    label: 'Greater than',
-  },
-  {
-    value: 'gt_or_eq',
-    label: 'Greate than or Equals',
-  },
-  {
-    value: 'lt',
-    label: 'Less than',
-  },
-  {
-    value: 'lt_or_eq',
-    label: 'Less than or equal',
-  },
-  {
-    value: 'not_eq',
-    label: 'Not equal',
-  },
-  {
-    value: 'fuzzy',
-    label: 'Fuzzy',
-  },
-];
+    {
+      value: 'eq',
+      label: 'Equals',
+    },
+    {
+      value: 'gt',
+      label: 'Greater than',
+    },
+    {
+      value: 'gt_or_eq',
+      label: 'Greate than or Equals',
+    },
+    {
+      value: 'lt',
+      label: 'Less than',
+    },
+    {
+      value: 'lt_or_eq',
+      label: 'Less than or equal',
+    },
+    {
+      value: 'not_eq',
+      label: 'Not equal',
+    },
+    {
+      value: 'fuzzy',
+      label: 'Fuzzy',
+    },
+  ];
