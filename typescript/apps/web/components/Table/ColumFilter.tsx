@@ -48,6 +48,8 @@ type Props<T> = {
 };
 
 export function ColumnFilter<T>({ column }: Props<T>) {
+  // The filterType is defined when creating
+  // column definition and the type definition was added to index.d.ts
   const filterType = column.columnDef.meta?.filterType;
 
   switch (filterType) {
