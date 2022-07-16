@@ -86,7 +86,7 @@ export type RowNumber = {
 };
 
 export type RowDate = {
-  rowValueType: 'date';
+  // rowValueType: 'date';
   rowValue: Date;
   operator:
   | 'between'
@@ -98,7 +98,7 @@ export type RowDate = {
   | 'on_or_after'
   | 'fuzzy';
 
-  filterValue: Date | [Date, Date];
+  filterValue: Date | [Date, Date] | null;
   addMeta: AddMeta;
 };
 
@@ -109,6 +109,10 @@ type ExtractRowProps<TRow extends RowValueType> = Extract<RowCustom, { rowValue:
 type LogicalProp = {
   logical: OperatorLogical;
 };
+
+export type FormListCustom<TRow extends RowValueType> = FilterMultipleProps<TRow> & {
+  key: string;
+}
 
 export type FilterSingleProps<TRow extends RowValueType> = Pick<
   ExtractRowProps<TRow>,
@@ -150,3 +154,5 @@ export function filterRowByMultipleFilters<TRow extends RowValueType>({
 
   return filterProps.reduce(filterRowValue, true);
 }
+
+

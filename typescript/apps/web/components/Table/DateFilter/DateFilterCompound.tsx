@@ -1,21 +1,12 @@
 import { useState } from 'react';
-import {
-  ActionIcon,
-  Anchor,
-  Button,
-  Group,
-  Popover,
-  Box,
-  Select,
-} from '@mantine/core';
-import { useForm, formList } from '@mantine/form';
+import { ActionIcon, Anchor, Button, Group, Popover, Box, Select } from '@mantine/core';
+import { useForm, formList, FormList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
-import { FilterConditionDateCompound } from './shared';
 import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { logicalOperators } from '../helpers';
+import { FilterMultipleProps, FormListCustom, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -23,20 +14,16 @@ type Props<T> = {
   // table: Table<T>;
 };
 
-interface FormList extends FilterConditionDateCompound {
-  key: string;
-}
-
 export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
 
   const form = useForm({
     initialValues: {
-      operations: formList<FormList>([
+      operations: formList<FormListCustom<Date>>([
         {
-          logical: null,
+          logical: 'and',
           operator: 'between',
-          filter: new Date(),
+          filterValue: new Date(),
           key: randomId(),
         },
       ]),
@@ -81,7 +68,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
         form.getListInputProps('operations', index, 'operator').value === 'between' ? (
           <DateRangePicker
             placeholder="Pick dates range"
-            {...form.getListInputProps('operations', index, 'filter')}
+            {...form.getListInputProps('operations', index, 'filterValue')}
             amountOfMonths={2}
             /*
           Popover listens for outside clicks with use-click-outside hook. This means that it is not possible to use elements that render overlays within Portal inside Popover. To use components like Autocomplete, Menu, DatePicker portal feature should be disabled for these components:
@@ -95,7 +82,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
             mb="sm"
             allowFreeInput
             withinPortal={false}
-            {...form.getListInputProps('operations', index, 'filter')}
+            {...form.getListInputProps('operations', index, 'filterValue')}
           />
         )
       }
@@ -130,7 +117,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
               form.addListItem('operations', {
                 operator: 'is_after',
                 logical: 'and',
-                filter: null,
+                filterValue: null,
                 key: randomId(),
               })
             }
