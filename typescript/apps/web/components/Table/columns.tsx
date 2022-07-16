@@ -19,7 +19,7 @@ export function useColumns() {
         */
         accessorKey: 'id',
         footer: (props) => props.column.id,
-        ...getFilterFn('string'),
+        ...getFilterFn('string_single'),
         cell: (info) => (
           <div
             title={info.getValue()}
@@ -41,14 +41,14 @@ export function useColumns() {
         header: () => ' DOB',
         footer: (props) => props.column.id,
         cell: (info) => dayjs(info.getValue<Date>()).format('DD/MM/YYYY'),
-        ...getFilterFn('date_range'),
+        ...getFilterFn('date_multiple'),
       },
       {
         //   🧠 An easy way to remember: If you define a column with an accessor function, either provide a string header or provide a unique id property.
         accessorKey: 'firstName',
         cell: (info) => info.getValue(),
         footer: (props) => props.column.id,
-        ...getFilterFn('string'),
+        ...getFilterFn('string_multiple'),
       },
       {
         accessorFn: (row) => row.lastName,
@@ -56,7 +56,7 @@ export function useColumns() {
         cell: (info) => info.getValue(),
         header: () => <span>Last Name</span>,
         footer: (props) => props.column.id,
-        ...getFilterFn('string'),
+        ...getFilterFn('string_multiple'),
       },
       {
         accessorFn: (row) => `${row.firstName} ${row.lastName}`,
@@ -67,7 +67,7 @@ export function useColumns() {
         // filterFn: fuzzyFilter,
         // aggregatedCell
         sortingFn: fuzzySort,
-        ...getFilterFn('string_compound'),
+        ...getFilterFn('string_multiple'),
       },
 
       {
@@ -82,7 +82,7 @@ export function useColumns() {
         accessorKey: 'age',
         header: () => 'Age',
         footer: (props) => props.column.id,
-        ...getFilterFn('number_range'),
+        ...getFilterFn('number_multiple'),
       },
 
       {
@@ -95,7 +95,7 @@ export function useColumns() {
         accessorKey: 'status',
         header: 'Status',
         footer: (props) => props.column.id,
-        ...getFilterFn('string'),
+        ...getFilterFn('string_multiple'),
       },
     ],
     []
