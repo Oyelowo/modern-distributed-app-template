@@ -1,16 +1,16 @@
 import { Column, ColumnMeta, FilterFn } from '@tanstack/react-table';
-import { NumberFilterSimple } from './NumberFilter/NumberFilterSimple';
-import { NumberFilterCompound } from './NumberFilter/NumberFilterCompound';
-import { numberFilterSimpleFn } from './NumberFilter/numberFilterSimpleFn';
-import { numberFilterCompoundFn } from './NumberFilter/numberFilterCompoundFn';
+import { NumberFilterSingle } from './NumberFilter/NumberFilterSingle';
+import { NumberFilterMultiple } from './NumberFilter/NumberFilterMultiple';
+import { numberFilterSingleFn } from './NumberFilter/numberFilterSingleFn';
+import { numberFilterMultipleFn } from './NumberFilter/numberFilterMultipleFn';
 import { dateFilterCompoundFn } from './DateFilter/dateFilterCompoundFn';
 import { DateFilterCompound } from './DateFilter/DateFilterCompound';
 import { DateFilterSimple } from './DateFilter/DateFilterSimple';
-import { stringFilterCompoundFn } from './StringFilter/stringFilterCompoundFn';
-import { StringFilterCompound } from './StringFilter/StringFilterCompound';
-import { StringFilterSimple } from './StringFilter/StringFilterSimple';
+import { stringFilterCompoundFn } from './StringFilter/stringFilterMultipleFn';
+import { StringFilterMultiple } from './StringFilter/StringFilterMultiple';
+import { StringFilterSingle } from './StringFilter/StringFilterSingle';
 import { dateFilterSimpleFn } from './DateFilter/dateFilterSimpleFn';
-import { stringFilterSimpleFn } from './StringFilter/stringFilterSimpleFn';
+import { stringFilterSingleFn } from './StringFilter/stringFilterSingleFn';
 
 function assertUnreachable(_x: never): never {
   throw new Error("Didn't expect to get here");
@@ -21,10 +21,10 @@ type FilterType = Exclude<ColumnMeta['filterType'], null>;
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
   date_range: dateFilterCompoundFn,
   date_single: dateFilterSimpleFn,
-  string: stringFilterSimpleFn,
+  string: stringFilterSingleFn,
   string_compound: stringFilterCompoundFn,
-  number_range: numberFilterCompoundFn,
-  number_single: numberFilterSimpleFn,
+  number_range: numberFilterMultipleFn,
+  number_single: numberFilterSingleFn,
 };
 
 type ReturnTypeFn<T> = {
@@ -52,13 +52,13 @@ export function ColumnFilter<T>({ column }: Props<T>) {
 
   switch (filterType) {
     case 'string':
-      return <StringFilterSimple column={column} />;
+      return <StringFilterSingle column={column} />;
     case 'string_compound':
-      return <StringFilterCompound column={column} />;
+      return <StringFilterMultiple column={column} />;
     case 'number_range':
-      return <NumberFilterCompound column={column} />;
+      return <NumberFilterMultiple column={column} />;
     case 'number_single':
-      return <NumberFilterSimple column={column} />;
+      return <NumberFilterSingle column={column} />;
     case 'date_single':
       return <DateFilterSimple column={column} />;
     case 'date_range':

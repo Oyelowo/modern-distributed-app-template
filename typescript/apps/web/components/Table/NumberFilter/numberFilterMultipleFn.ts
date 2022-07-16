@@ -1,10 +1,9 @@
-import { RowNumber, filterRowByMultipleFilters, FilterMultipleProps } from './../helpers';
+import { RowNumber, filterRowByMultipleFilters, FilterMultipleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
-import { filterNumBySingleCondition } from './shared';
-import { Person } from '../makeData';
+import { filterNumBySingleFilter } from './shared';
 
 
-export const numberFilterCompoundFn: FilterFn<Person> = (
+export const numberFilterMultipleFn: FilterFn<any> = (
   row,
   columnId,
   filters: FilterMultipleProps<number>[],
@@ -14,7 +13,7 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
 
   return filterRowByMultipleFilters({
     onFilterRowValue: ({ operator, filterValue }) =>
-      filterNumBySingleCondition({
+      filterNumBySingleFilter({
         operator,
         filterValue,
         rowValue,
@@ -25,7 +24,7 @@ export const numberFilterCompoundFn: FilterFn<Person> = (
   });
 };
 
-numberFilterCompoundFn.autoRemove = (val) => !val;
+numberFilterMultipleFn.autoRemove = (val) => !val;
 
 export const operatorsValuesAndLabels: Array<{
   value: RowNumber['operator'];

@@ -7,32 +7,30 @@ import {
   Popover,
   Box,
   Select,
-  Autocomplete,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionStringCompound, useUniqueColumnValues } from './shared';
-import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
-import { logicalOperators } from '../helpers';
+import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
+import { FilterMultipleProps, FilterSingleProps, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
-type Props<T> = {
-  column: Column<T, unknown>;
-  // table: Table<T>;
+type Props = {
+  column: Column<any, unknown>;
+  // table: Table<Person>;
 };
 
-export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) => {
+export const NumberFilterMultiple = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionStringCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: '', key: randomId() },
+      operations: formList<FilterMultipleProps<number> & { key: string }>([
+        { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },
   });
-  const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {
     form.reset();
@@ -58,20 +56,22 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
         <Select
           {...form.getListInputProps('operations', index, 'logical')}
           data={logicalOperators}
+          sx={{ flex: 0.9 }}
         />
       }
       operator={
         <Select
-          placeholder="Operator"
           {...form.getListInputProps('operations', index, 'operator')}
           data={operatorsValuesAndLabels}
         />
       }
       filter={
-        <Autocomplete
-          placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
-          data={sortedUniqueValues}
-          {...form.getListInputProps('operations', index, 'filter')}
+        <NumberInput
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
+          required
+          {...form.getListInputProps('operations', index, 'filterValue')}
         />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
@@ -95,7 +95,7 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
       position="bottom"
       transition="scale-y"
     >
-      <Box sx={{ maxWidth: 600 }} mx="auto">
+      <Box sx={{ maxWidth: 500 }} mx="auto">
         {fields}
 
         <Group position="center" mt="md">
@@ -103,15 +103,15 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
             variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'contains',
+                operator: 'eq',
                 logical: 'and',
-                filter: null,
+                filterValue: 0,
                 key: randomId(),
               })
             }
             rightIcon={<Plus />}
           >
-            Add Filter
+            Add
           </Button>
         </Group>
 
@@ -120,7 +120,6 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
         </Text>
         <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
       </Box>
-
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear

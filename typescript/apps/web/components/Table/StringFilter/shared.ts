@@ -1,32 +1,21 @@
+import { RowString } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { Column } from '@tanstack/react-table';
 import { useMemo } from 'react';
-import { FilterConditionCompound, FilterConditionSimple, FilterProps } from '../helpers';
 
-export type OperatorString =
-  | 'contains'
-  | 'not_contain'
-  | 'starts_with'
-  | 'ends_with'
-  | 'equals'
-  | 'not_equal'
-  | 'fuzzy';
-
-export type FilterConditionStringSimple = FilterConditionSimple<OperatorString, string>;
-export type FilterConditionStringCompound = FilterConditionCompound<OperatorString, string>;
-
-export const filterStringBySingleCondition = ({
+export const filterStringBySingleFilter = ({
   rowValue: rv,
-  condition,
+  filterValue,
+  operator,
   addMeta,
-}: FilterProps<OperatorString, string>) => {
-  if (!condition.filter) {
+}: RowString) => {
+  if (!filterValue) {
     return true;
   }
-  const searchFilterValue = condition.filter.toLocaleLowerCase();
+  const searchFilterValue = filterValue.toLocaleLowerCase();
   const rowValue = String(rv).toLocaleLowerCase();
 
-  switch (condition.operator) {
+  switch (operator) {
     case 'starts_with':
       return rowValue.startsWith(searchFilterValue);
 

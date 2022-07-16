@@ -1,7 +1,7 @@
 import { RowNumber } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
 
-export const filterNumBySingleCondition = ({
+export const filterNumBySingleFilter = ({
   rowValue,
   filterValue,
   operator,

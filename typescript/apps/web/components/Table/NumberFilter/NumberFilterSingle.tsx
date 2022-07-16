@@ -13,7 +13,7 @@ import {
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
 import { RowNumber } from '../helpers';
 
 type Props = {
@@ -21,7 +21,7 @@ type Props = {
   // table: Table<unknown>;
 };
 
-export const NumberFilterSimple = ({ column }: Props) => {
+export const NumberFilterSingle = ({ column }: Props) => {
   const form = useForm<Pick<RowNumber, 'filterValue' | 'operator'>>({
     initialValues: {
       filterValue: null,

@@ -7,30 +7,32 @@ import {
   Popover,
   Box,
   Select,
-  NumberInput,
+  Autocomplete,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
-import { FilterMultipleProps, FilterSingleProps, logicalOperators } from '../helpers';
+import { useUniqueColumnValues } from './shared';
+import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
+import { FilterMultipleProps, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
-type Props = {
-  column: Column<any, unknown>;
-  // table: Table<Person>;
+type Props<T> = {
+  column: Column<T, unknown>;
+  // table: Table<T>;
 };
 
-export const NumberFilterMultiple = ({ column }: Props) => {
+export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterMultipleProps<number> & { key: string }>([
-        { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
+      operations: formList<FilterMultipleProps<string> & { key: string }>([
+        { logical: 'and', operator: 'fuzzy', filterValue: '', key: randomId() },
       ]),
     },
   });
+  const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {
     form.reset();
@@ -56,21 +58,19 @@ export const NumberFilterMultiple = ({ column }: Props) => {
         <Select
           {...form.getListInputProps('operations', index, 'logical')}
           data={logicalOperators}
-          sx={{ flex: 0.9 }}
         />
       }
       operator={
         <Select
+          placeholder="Operator"
           {...form.getListInputProps('operations', index, 'operator')}
           data={operatorsValuesAndLabels}
         />
       }
       filter={
-        <NumberInput
-          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
-            column.getFacetedMinMaxValues()?.[1]
-          })`}
-          required
+        <Autocomplete
+          placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+          data={sortedUniqueValues}
           {...form.getListInputProps('operations', index, 'filterValue')}
         />
       }
@@ -95,7 +95,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
       position="bottom"
       transition="scale-y"
     >
-      <Box sx={{ maxWidth: 500 }} mx="auto">
+      <Box sx={{ maxWidth: 600 }} mx="auto">
         {fields}
 
         <Group position="center" mt="md">
@@ -103,15 +103,15 @@ export const NumberFilterMultiple = ({ column }: Props) => {
             variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'eq',
+                operator: 'contains',
                 logical: 'and',
-                filterValue: 0,
+                filterValue: '',
                 key: randomId(),
               })
             }
             rightIcon={<Plus />}
           >
-            Add
+            Add Filter
           </Button>
         </Group>
 
@@ -120,6 +120,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
         </Text>
         <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
       </Box>
+
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear
