@@ -16,7 +16,7 @@ export type NumberFilterCompoundProps = {
 
 export function filterNumberByConditions({
   rowValue,
-  filterProps: filterProps,
+  filterProps,
   addMeta,
 }: NumberFilterCompoundProps): boolean {
   //   Goes through the conditions list and calculates
