@@ -7,53 +7,16 @@ import {
 import { Person } from '../makeData';
 
 
-
-type FilterCompoundFnProps = {
-  currentCondition: RowNumber;
-  logical: OperatorLogical;
-  previousAggregatedFilter: boolean;
-  rowValue: number;
-  addMeta: AddMeta;
-};
-
-function filterNumByCompoundCond({
-  currentCondition,
-  previousAggregatedFilter,
-  rowValue,
-  logical,
-  addMeta,
-}: FilterCompoundFnProps): boolean {
-
-  const currentFilter = filterNumBySingleCondition({
-    rowValueType: "number",
-    operator: currentCondition.operator,
-    filterValue: currentCondition.filterValue,
-    rowValue,
-    addMeta,
-  });
-
-  if (logical === 'and') {
-    return previousAggregatedFilter && currentFilter;
-  }
-
-  if (logical === 'or') {
-    return previousAggregatedFilter || currentFilter;
-  }
-
-  return currentFilter;
-}
-
-export type NumberFilterCondition = RowNumber & { logical: OperatorLogical }
+export type NumberFilterProps = RowNumber & { logical: OperatorLogical }
 export type NumberFilterCompoundProps = {
-  conditions: NumberFilterCondition[];
+  filterProps: NumberFilterProps[];
   rowValue: number;
   addMeta: AddMeta;
 };
 
-// type Condition = {RowNumber, logical: OperatorLogical}
 export function filterNumberByConditions({
   rowValue,
-  conditions,
+  filterProps: filterProps,
   addMeta,
 }: NumberFilterCompoundProps): boolean {
   //   Goes through the conditions list and calculates
@@ -61,15 +24,26 @@ export function filterNumberByConditions({
   // This determines if a row should be filtered out or not
   // e.g [true, false, true, false] => false
   // e.g [true, true, true, true] => true
-  const res = conditions.reduce(
-    (acc, curr) =>
-      filterNumByCompoundCond({
-        currentCondition: curr,
-        previousAggregatedFilter: acc,
+  const res = filterProps.reduce(
+    (previousAggregatedFilter, currentFilteProps) => {
+      const currentFilter = filterNumBySingleCondition({
+        rowValueType: "number",
+        operator: currentFilteProps.operator,
+        filterValue: currentFilteProps.filterValue,
         rowValue,
-        logical: "and",
         addMeta,
-      }),
+      });
+
+      if (currentFilteProps.logical === 'and') {
+        return previousAggregatedFilter && currentFilter;
+      }
+
+      if (currentFilteProps.logical === 'or') {
+        return previousAggregatedFilter || currentFilter;
+      }
+
+      return currentFilter;
+    },
     true
   );
 
@@ -77,17 +51,16 @@ export function filterNumberByConditions({
 }
 
 
-
 export const numberFilterCompoundFn: FilterFn<Person> = (
   row,
   columnId,
-  filters: NumberFilterCondition[],
+  filters: NumberFilterProps[],
   addMeta
 ) => {
   const rowValue = Number(row.getValue(columnId));
 
   return filterNumberByConditions({
-    conditions: filters,
+    filterProps: filters,
     rowValue,
     addMeta,
   });
