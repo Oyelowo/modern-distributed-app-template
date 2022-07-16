@@ -1,17 +1,11 @@
-import { RowDate } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import isBetween from 'dayjs/plugin/isBetween';
 import dayjs from 'dayjs';
+import { RowDate } from '../helpers';
 
 dayjs.extend(isBetween);
 
-
-export const filterDateRow = ({
-  rowValue,
-  filterValue,
-  operator,
-  addMeta,
-}: RowDate): boolean => {
+export const filterDateRow = ({ rowValue, filterValue, operator, addMeta }: RowDate): boolean => {
   if (!filterValue) {
     return true;
   }

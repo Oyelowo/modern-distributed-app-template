@@ -1,14 +1,9 @@
-import { RowString } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
 import { Column } from '@tanstack/react-table';
 import { useMemo } from 'react';
+import { RowString } from '../helpers';
 
-export const filterStringRow = ({
-  rowValue: rv,
-  filterValue,
-  operator,
-  addMeta,
-}: RowString) => {
+export const filterStringRow = ({ rowValue: rv, filterValue, operator, addMeta }: RowString) => {
   if (!filterValue) {
     return true;
   }

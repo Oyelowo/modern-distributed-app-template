@@ -15,7 +15,7 @@ import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
-import { FilterMultipleProps, RowFilterMultipleForm, logicalOperators } from '../helpers';
+import { RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {

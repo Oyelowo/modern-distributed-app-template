@@ -1,5 +1,5 @@
-import { FilterSingleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
+import { FilterSingleProps } from '../helpers';
 import { filterStringRow } from './shared';
 
 export const stringFilterSingleFn: FilterFn<unknown> = (
@@ -17,7 +17,6 @@ export const stringFilterSingleFn: FilterFn<unknown> = (
     operator,
     addMeta,
   });
-
 };
 
 stringFilterSingleFn.autoRemove = (val) => !val;

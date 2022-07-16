@@ -1,12 +1,7 @@
-import { RowNumber } from './../helpers';
 import { rankItem } from '@tanstack/match-sorter-utils';
+import { RowNumber } from '../helpers';
 
-export const filterNumberRow = ({
-  rowValue,
-  filterValue,
-  operator,
-  addMeta,
-}: RowNumber) => {
+export const filterNumberRow = ({ rowValue, filterValue, operator, addMeta }: RowNumber) => {
   if (!filterValue) {
     return true;
   }

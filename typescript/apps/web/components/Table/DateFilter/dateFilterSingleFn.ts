@@ -1,5 +1,5 @@
-import { FilterSingleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
+import { FilterSingleProps } from '../helpers';
 import { filterDateRow } from './shared';
 
 export const dateFilterSimpleFn: FilterFn<unknown> = (
@@ -8,7 +8,7 @@ export const dateFilterSimpleFn: FilterFn<unknown> = (
   filter: FilterSingleProps<Date>,
   addMeta
 ) => {
-  const { operator = "between", filterValue } = filter;
+  const { operator = 'between', filterValue } = filter;
   if (!row.getValue<Date>(columnId)) {
     throw new Error('Row does not exist');
   }

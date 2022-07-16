@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { ActionIcon, Anchor, Button, Group, Popover, Box, Select } from '@mantine/core';
-import { useForm, formList, FormList } from '@mantine/form';
+import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
-import { FilterMultipleProps, RowFilterMultipleForm, logicalOperators } from '../helpers';
+import { RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
