@@ -105,14 +105,14 @@ export type RowDate = {
 
 export type RowCustom = RowString | RowNumber | RowDate;
 
-export type ExtractRowType<TRow extends RowType> = Extract<RowCustom, { rowValue: TRow }>;
+type ExtractRowProps<TRow extends RowType> = Extract<RowCustom, { rowValue: TRow }>;
 
 type LogicalProp = {
   logical: OperatorLogical;
 };
 
 type ExtractFilterValue<TRow extends RowType> = Pick<
-  ExtractRowType<TRow>,
+  ExtractRowProps<TRow>,
   'filterValue' | 'operator'
 >;
 
@@ -123,7 +123,7 @@ export type FilterCompoundProps<TRow extends RowType> = {
   onFilterRowValue: (filterProps: FilterProps<TRow>) => boolean;
 };
 
-export function filterRow<TRow extends RowType>({
+export function filterRowByMultipleFilters<TRow extends RowType>({
   filterProps,
   onFilterRowValue,
 }: FilterCompoundProps<TRow>): boolean {
