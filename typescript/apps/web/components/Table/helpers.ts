@@ -57,11 +57,13 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
   return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir;
 };
 
+// type RowType = "string" | "number" | "date"
+type RowType = string | number | Date;
 
-
+// export type RowString<TRow extends RowType> = {
 export type RowString = {
-  rowValueType: "string",
-  rowValue: string,
+  // rowValueType: "string",
+  rowValue: string;
   operator:
   | 'contains'
   | 'not_contain'
@@ -69,26 +71,24 @@ export type RowString = {
   | 'ends_with'
   | 'equals'
   | 'not_equal'
-  | 'fuzzy',
+  | 'fuzzy';
 
-  filterValue: string,
-  addMeta: AddMeta
-}
+  filterValue: string;
+  addMeta: AddMeta;
+};
 
 export type RowNumber = {
   // rowValueType: "number",
-  rowValue: number,
-  operator:
-  'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy',
+  rowValue: number;
+  operator: 'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy';
 
-  filterValue: number | null,
-  addMeta: AddMeta
-
-}
+  filterValue: number | null;
+  addMeta: AddMeta;
+};
 
 export type RowDate = {
-  rowValueType: "date",
-  rowValue: Date,
+  rowValueType: 'date';
+  rowValue: Date;
   operator:
   | 'between'
   | 'is_same'
@@ -97,28 +97,36 @@ export type RowDate = {
   | 'is_not_same'
   | 'on_or_before'
   | 'on_or_after'
-  | 'fuzzy',
+  | 'fuzzy';
 
-  filterValue: Date | [Date, Date],
-  addMeta: AddMeta
-}
-
+  filterValue: Date | [Date, Date];
+  addMeta: AddMeta;
+};
 
 export type RowCustom = RowString | RowNumber | RowDate;
 
+export type ExtractRowType<TRow extends RowType> = Extract<RowCustom, { rowValue: TRow }>;
 
-export type FilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
+type LogicalProp = {
   logical: OperatorLogical;
 };
-export type FilterCompoundProps = {
-  filterProps: FilterProps[];
-  onFilterRowValue: (filterProps: FilterProps) => boolean;
+
+type ExtractFilterValue<TRow extends RowType> = Pick<
+  ExtractRowType<TRow>,
+  'filterValue' | 'operator'
+>;
+
+export type FilterProps<TRow extends RowType> = ExtractFilterValue<TRow> & LogicalProp;
+
+export type FilterCompoundProps<TRow extends RowType> = {
+  filterProps: FilterProps<TRow>[];
+  onFilterRowValue: (filterProps: FilterProps<TRow>) => boolean;
 };
 
-export function filterRow({
+export function filterRow<TRow extends RowType>({
   filterProps,
   onFilterRowValue,
-}: FilterCompoundProps): boolean {
+}: FilterCompoundProps<TRow>): boolean {
   //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
   // the boolean value until it reaches the last.
   // This determines if a row should be filtered out or not
@@ -126,7 +134,7 @@ export function filterRow({
   // e.g [true, true, true, true] => true
   const filterRowValue = (
     previousAggregatedFilter: boolean,
-    currentFilteProps: FilterProps,
+    currentFilteProps: FilterProps<TRow>
   ): boolean => {
     const currentFilter = onFilterRowValue(currentFilteProps);
 

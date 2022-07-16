@@ -7,14 +7,13 @@ import { FilterProps } from './../helpers';
 export const numberFilterSimpleFn: FilterFn<Person> = (
   row,
   columnId,
-  filter: FilterProps,
+  filter: FilterProps<number>,
   addMeta
 ) => {
-  const { operator = "gt", filterValue } = filter;
+  const { operator = "eq", filterValue } = filter;
   const rowValue = Number(row.getValue(columnId));
 
   return filterNumBySingleCondition({
-    // rowValueType: "number",
     rowValue,
     filterValue: Number(filterValue),
     operator,
