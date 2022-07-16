@@ -72,6 +72,8 @@ export const NumberFilterMultiple = ({ column }: Props) => {
           })`}
           required
           {...form.getListInputProps('operations', index, 'filterValue')}
+          stepHoldDelay={500}
+          stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
         />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
