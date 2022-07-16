@@ -13,18 +13,18 @@ import {
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionNumberSimple } from './shared';
-import { operatorsValuesAndLabels } from './numberFilterCompoundFn';
+import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
+import { RowNumber } from '../helpers';
 
 type Props = {
   column: Column<any, unknown>;
   // table: Table<unknown>;
 };
 
-export const NumberFilterSimple = ({ column }: Props) => {
-  const form = useForm<FilterConditionNumberSimple>({
+export const NumberFilterSingle = ({ column }: Props) => {
+  const form = useForm<Pick<RowNumber, 'filterValue' | 'operator'>>({
     initialValues: {
-      filter: null,
+      filterValue: null,
       operator: 'fuzzy',
     },
   });
@@ -62,7 +62,6 @@ export const NumberFilterSimple = ({ column }: Props) => {
       onClick={(e) => e.stopPropagation()}
       position="bottom"
       transition="scale-y"
-      // zIndex={10000}
     >
       <RadioGroup
         description="Select your option"
@@ -82,7 +81,7 @@ export const NumberFilterSimple = ({ column }: Props) => {
         })`}
         mb="sm"
         data-autoFocus
-        {...form.getInputProps('filter')}
+        {...form.getInputProps('filterValue')}
       />
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>

@@ -14,13 +14,13 @@ import { useForm } from '@mantine/form';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
-import { FilterConditionDateSimple } from './shared';
-import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
+import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
+import { FilterSingleProps } from '../helpers';
 
-export const DateFilterSimple = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
-  const form = useForm<FilterConditionDateSimple>({
+export const DateFilterSingle = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
+  const form = useForm<FilterSingleProps<Date>>({
     initialValues: {
-      filter: null,
+      filterValue: null,
       operator: 'between',
     },
   });
@@ -76,7 +76,7 @@ export const DateFilterSimple = <T extends unknown>({ column }: { column: Column
           <DateRangePicker
             label="Book hotel"
             placeholder="Pick dates range"
-            {...form.getInputProps('filter')}
+            {...form.getInputProps('filterValue')}
             amountOfMonths={2}
             withinPortal={false}
           />
@@ -87,7 +87,7 @@ export const DateFilterSimple = <T extends unknown>({ column }: { column: Column
             mb="sm"
             allowFreeInput
             withinPortal={false}
-            {...form.getInputProps('filter')}
+            {...form.getInputProps('filterValue')}
           />
         )}
       </Box>

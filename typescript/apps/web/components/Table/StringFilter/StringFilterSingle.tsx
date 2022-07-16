@@ -13,18 +13,19 @@ import {
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionStringSimple, useUniqueColumnValues } from './shared';
-import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
+import { useUniqueColumnValues } from './shared';
+import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
+import { FilterSingleProps } from '../helpers';
 
 type Props<T extends unknown> = {
   column: Column<T, unknown>;
   // table: Table<unknown>;
 };
 
-export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
-  const form = useForm<FilterConditionStringSimple>({
+export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
+  const form = useForm<FilterSingleProps<string>>({
     initialValues: {
-      filter: '',
+      filterValue: '',
       operator: 'fuzzy',
     },
   });
@@ -76,20 +77,14 @@ export const StringFilterSimple = <T extends unknown>({ column }: Props<T>) => {
         ))}
       </RadioGroup>
       <Divider my="sm" />
-      {/*
-      <TextInput
-        placeholder="Filter By"
-        mb="sm"
-        // zIndex={100001}
-        {...form.getInputProps('filter')}
-      /> */}
 
       <Autocomplete
-        // label="Filter By"
+        mb="sm"
         placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
         data={sortedUniqueValues}
-        {...form.getInputProps('filter')}
+        {...form.getInputProps('filterValue')}
       />
+
       <Group position="apart" mt="lg">
         <Anchor component="button" color="gray" onClick={handleClear}>
           Clear

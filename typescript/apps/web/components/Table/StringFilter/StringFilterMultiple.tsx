@@ -13,9 +13,9 @@ import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { FilterConditionStringCompound, useUniqueColumnValues } from './shared';
-import { operatorsValuesAndLabels } from './stringFilterCompoundFn';
-import { logicalOperators } from '../helpers';
+import { useUniqueColumnValues } from './shared';
+import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
+import { RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -23,15 +23,16 @@ type Props<T> = {
   // table: Table<T>;
 };
 
-export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) => {
+export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
   const form = useForm({
     initialValues: {
-      operations: formList<FilterConditionStringCompound & { key: string }>([
-        { logical: null, operator: 'fuzzy', filter: '', key: randomId() },
+      operations: formList<RowFilterMultipleForm<string>>([
+        { logical: 'and', operator: 'fuzzy', filterValue: '', key: randomId() },
       ]),
     },
   });
+
   const sortedUniqueValues = useUniqueColumnValues(column);
 
   const handleClose = () => {
@@ -71,7 +72,7 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
         <Autocomplete
           placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
           data={sortedUniqueValues}
-          {...form.getListInputProps('operations', index, 'filter')}
+          {...form.getListInputProps('operations', index, 'filterValue')}
         />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
@@ -105,7 +106,7 @@ export const StringFilterCompound = <T extends unknown>({ column }: Props<T>) =>
               form.addListItem('operations', {
                 operator: 'contains',
                 logical: 'and',
-                filter: null,
+                filterValue: '',
                 key: randomId(),
               })
             }

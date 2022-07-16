@@ -1,23 +1,23 @@
 import { FilterFn } from '@tanstack/react-table';
-import { FilterConditionDateSimple, filterDateBySingleCondition } from './shared';
+import { FilterSingleProps } from '../helpers';
+import { filterDateRow } from './shared';
 
 export const dateFilterSimpleFn: FilterFn<unknown> = (
   row,
   columnId,
-  { operator, filter }: FilterConditionDateSimple,
+  filter: FilterSingleProps<Date>,
   addMeta
 ) => {
+  const { operator = 'between', filterValue } = filter;
   if (!row.getValue<Date>(columnId)) {
     throw new Error('Row does not exist');
   }
   const rowValue = new Date(row.getValue<Date>(columnId));
 
-  return filterDateBySingleCondition({
+  return filterDateRow({
     rowValue,
-    condition: {
-      filter,
-      operator,
-    },
+    filterValue,
+    operator,
     addMeta,
   });
 };

@@ -1,44 +1,20 @@
 import { rankItem } from '@tanstack/match-sorter-utils';
 import isBetween from 'dayjs/plugin/isBetween';
-
 import dayjs from 'dayjs';
-import {
-  DateFilter,
-  FilterConditionCompound,
-  FilterConditionSimple,
-  FilterProps,
-} from '../helpers';
+import { RowDate } from '../helpers';
 
 dayjs.extend(isBetween);
 
-export type OperatorDate =
-  | 'between'
-  | 'is_same'
-  | 'is_before'
-  | 'is_after'
-  | 'is_not_same'
-  | 'on_or_before'
-  | 'on_or_after'
-  | 'fuzzy';
-
-// Logical
-export type FilterConditionDateSimple = FilterConditionSimple<OperatorDate, DateFilter>;
-export type FilterConditionDateCompound = FilterConditionCompound<OperatorDate, DateFilter>;
-
-export const filterDateBySingleCondition = ({
-  rowValue,
-  condition,
-  addMeta,
-}: FilterProps<OperatorDate, DateFilter>) => {
-  if (!condition.filter) {
+export const filterDateRow = ({ rowValue, filterValue, operator, addMeta }: RowDate): boolean => {
+  if (!filterValue) {
     return true;
   }
 
   const rowValueDayjs = dayjs(rowValue);
 
   // if it's a date range
-  if (Array.isArray(condition.filter)) {
-    const [minDate, maxDate] = condition.filter;
+  if (Array.isArray(filterValue)) {
+    const [minDate, maxDate] = filterValue;
     // Parameter 4 is a string with two characters; '[' means inclusive, '(' exclusive
     // '()' excludes start and end date (default)
     // '[]' includes start and end date
@@ -48,12 +24,12 @@ export const filterDateBySingleCondition = ({
     return rowValueDayjs.isBetween(minDate, maxDate, 'day', '[]');
   }
 
-  const singleSearchFilterValue = dayjs(condition.filter);
+  const singleSearchFilterValue = dayjs(filterValue);
   const isSameDay = rowValueDayjs.isSame(singleSearchFilterValue, 'day');
   const isAfter = rowValueDayjs.isAfter(singleSearchFilterValue);
   const isBefore = rowValueDayjs.isBefore(singleSearchFilterValue);
 
-  switch (condition.operator) {
+  switch (operator) {
     case 'between':
       return isSameDay;
     case 'is_same':

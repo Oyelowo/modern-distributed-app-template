@@ -7,38 +7,27 @@ import {
   Popover,
   Box,
   Select,
+  NumberInput,
 } from '@mantine/core';
 import { useForm, formList } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
-import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
+import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
-import { DatePicker, DateRangePicker } from '@mantine/dates';
-import { FilterConditionDateCompound } from './shared';
-import { operatorsValuesAndLabels } from './dateFilterCompoundFn';
-import { logicalOperators } from '../helpers';
+import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
+import { RowFilterMultipleForm, logicalOperators } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
-type Props<T> = {
-  column: Column<T, unknown>;
-  // table: Table<T>;
+type Props = {
+  column: Column<any, unknown>;
+  // table: Table<Person>;
 };
 
-interface FormList extends FilterConditionDateCompound {
-  key: string;
-}
-
-export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
+export const NumberFilterMultiple = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
-
   const form = useForm({
     initialValues: {
-      operations: formList<FormList>([
-        {
-          logical: null,
-          operator: 'between',
-          filter: new Date(),
-          key: randomId(),
-        },
+      operations: formList<RowFilterMultipleForm<number>>([
+        { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
       ]),
     },
   });
@@ -67,37 +56,25 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
         <Select
           {...form.getListInputProps('operations', index, 'logical')}
           data={logicalOperators}
+          sx={{ flex: 0.9 }}
         />
       }
       operator={
         <Select
-          placeholder="Operator"
           {...form.getListInputProps('operations', index, 'operator')}
           data={operatorsValuesAndLabels}
-          sx={{ flex: 2 }}
         />
       }
       filter={
-        form.getListInputProps('operations', index, 'operator').value === 'between' ? (
-          <DateRangePicker
-            placeholder="Pick dates range"
-            {...form.getListInputProps('operations', index, 'filter')}
-            amountOfMonths={2}
-            /*
-          Popover listens for outside clicks with use-click-outside hook. This means that it is not possible to use elements that render overlays within Portal inside Popover. To use components like Autocomplete, Menu, DatePicker portal feature should be disabled for these components:
-          */
-            withinPortal={false}
-          />
-        ) : (
-          <DatePicker
-            icon={<CalendarIcon />}
-            placeholder="Pick date"
-            mb="sm"
-            allowFreeInput
-            withinPortal={false}
-            {...form.getListInputProps('operations', index, 'filter')}
-          />
-        )
+        <NumberInput
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
+          required
+          {...form.getListInputProps('operations', index, 'filterValue')}
+          stepHoldDelay={500}
+          stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
+        />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
     />
@@ -120,7 +97,7 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
       position="bottom"
       transition="scale-y"
     >
-      <Box style={{ maxWidth: 600 }}>
+      <Box sx={{ maxWidth: 500 }} mx="auto">
         {fields}
 
         <Group position="center" mt="md">
@@ -128,24 +105,22 @@ export const DateFilterCompound = <T extends unknown>({ column }: Props<T>) => {
             variant="subtle"
             onClick={() =>
               form.addListItem('operations', {
-                operator: 'is_after',
+                operator: 'eq',
                 logical: 'and',
-                filter: null,
+                filterValue: 0,
                 key: randomId(),
               })
             }
             rightIcon={<Plus />}
           >
-            Add Filter
+            Add
           </Button>
         </Group>
-        {/*
-        <Text size="sm" weight={300} mt="md">
+
+        {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
-        <ScrollArea style={{ height: 200 }}>
-          <Code block>{JSON.stringify(form.values, null, 2)}</Code>
-        </ScrollArea> */}
+        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
       </Box>
       <Group position="apart">
         <Anchor component="button" color="gray" onClick={handleClear}>
