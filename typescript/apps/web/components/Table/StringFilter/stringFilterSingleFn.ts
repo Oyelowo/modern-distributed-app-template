@@ -1,6 +1,6 @@
 import { FilterSingleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
-import { filterStringBySingleFilter } from './shared';
+import { filterStringRow } from './shared';
 
 export const stringFilterSingleFn: FilterFn<unknown> = (
   row,
@@ -11,7 +11,7 @@ export const stringFilterSingleFn: FilterFn<unknown> = (
   const { operator = 'fuzzy', filterValue } = filter;
   const rowValue = String(row.getValue<string>(columnId));
 
-  return filterStringBySingleFilter({
+  return filterStringRow({
     rowValue,
     filterValue,
     operator,

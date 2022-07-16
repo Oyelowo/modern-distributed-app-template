@@ -1,6 +1,6 @@
 import { RowNumber, filterRowByMultipleFilters, FilterMultipleProps } from '../helpers';
 import { FilterFn } from '@tanstack/react-table';
-import { filterNumBySingleFilter } from './shared';
+import { filterNumberRow } from './shared';
 
 
 export const numberFilterMultipleFn: FilterFn<any> = (
@@ -13,7 +13,7 @@ export const numberFilterMultipleFn: FilterFn<any> = (
 
   return filterRowByMultipleFilters({
     onFilterRowValue: ({ operator, filterValue }) =>
-      filterNumBySingleFilter({
+      filterNumberRow({
         operator,
         filterValue,
         rowValue,

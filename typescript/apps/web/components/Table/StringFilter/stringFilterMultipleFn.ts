@@ -2,7 +2,7 @@ import { FilterMultipleProps, filterRowByMultipleFilters, RowString } from '../h
 import { FilterFn } from '@tanstack/react-table';
 import { AddMeta, OperatorLogical } from '../helpers';
 import {
-  filterStringBySingleFilter,
+  filterStringRow,
 } from './shared';
 
 
@@ -16,7 +16,7 @@ export const stringFilterCompoundFn: FilterFn<unknown> = (
 
   return filterRowByMultipleFilters({
     onFilterRowValue: ({ operator, filterValue }) => {
-      return filterStringBySingleFilter({
+      return filterStringRow({
         operator,
         filterValue,
         rowValue,

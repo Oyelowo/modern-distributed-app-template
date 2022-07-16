@@ -3,7 +3,7 @@ import { rankItem } from '@tanstack/match-sorter-utils';
 import { Column } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
-export const filterStringBySingleFilter = ({
+export const filterStringRow = ({
   rowValue: rv,
   filterValue,
   operator,
