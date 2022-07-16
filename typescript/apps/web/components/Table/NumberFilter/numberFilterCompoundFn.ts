@@ -4,22 +4,18 @@ import { AddMeta } from '../helpers';
 import { filterNumBySingleCondition } from './shared';
 import { Person } from '../makeData';
 
-export type NumberFilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
+export type FilterProps = Pick<RowNumber, 'filterValue' | 'operator'> & {
   logical: OperatorLogical;
 };
-export type NumberFilterCompoundProps = {
-  filterProps: NumberFilterProps[];
-  // rowValue: number;
-  // addMeta: AddMeta;
-  onFilterRowValue: (filterProps: NumberFilterProps) => boolean;
+export type FilterCompoundProps = {
+  filterProps: FilterProps[];
+  onFilterRowValue: (filterProps: FilterProps) => boolean;
 };
 
 export function filterRow({
-  // rowValue,
   filterProps,
-  // addMeta,
   onFilterRowValue,
-}: NumberFilterCompoundProps): boolean {
+}: FilterCompoundProps): boolean {
   //   Goes through the conditions list(the logical operator("and"/"or") and the number operators(">" | "<")) and calculates
   // the boolean value until it reaches the last.
   // This determines if a row should be filtered out or not
@@ -27,9 +23,10 @@ export function filterRow({
   // e.g [true, true, true, true] => true
   const filterRowValue = (
     previousAggregatedFilter: boolean,
-    currentFilteProps: NumberFilterProps,
+    currentFilteProps: FilterProps,
   ): boolean => {
     const currentFilter = onFilterRowValue(currentFilteProps);
+
     if (currentFilteProps.logical === 'and') {
       return previousAggregatedFilter && currentFilter;
     }
@@ -47,16 +44,11 @@ export function filterRow({
 export const numberFilterCompoundFn: FilterFn<Person> = (
   row,
   columnId,
-  filters: NumberFilterProps[],
+  filters: FilterProps[],
   addMeta
 ) => {
   const rowValue = Number(row.getValue(columnId));
 
-  // return filterNumber({
-  //   filterProps: filters,
-  //   rowValue,
-  //   addMeta,
-  // });
   return filterRow({
     onFilterRowValue: ({ operator, filterValue }) => {
       const shouldFilter = filterNumBySingleCondition({
