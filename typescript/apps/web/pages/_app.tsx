@@ -40,7 +40,7 @@ creating the QueryClient once per component lifecycle.
     setColorScheme(value ?? (colorScheme === 'dark' ? 'light' : 'dark'));
 
   /*
-  TODO: Remove when fixed
+  FIXME: Remove when fixed
   Issue with react not matching what was rendered on the server in react 18
   https://stackoverflow.com/questions/71706064/react-18-hydration-failed-because-the-initial-ui-does-not-match-what-was-render
   */

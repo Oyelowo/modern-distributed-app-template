@@ -79,6 +79,7 @@ const colorPalette = [
   '#8d48e3',
   '#dd79ff',
 ];
+
 export const darkTheme = {
   darkMode: true,
   color: colorPalette,
@@ -91,7 +92,6 @@ export const darkTheme = {
       color: '#817f91',
     },
     label: {
-      // TODO Contrast of label backgorundColor
       color: '#fff',
     },
   },
