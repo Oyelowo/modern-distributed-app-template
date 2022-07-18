@@ -117,7 +117,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
               form.addListItem('operations', {
                 operator: 'is_after',
                 logical: 'and',
-                filterValue: null,
+                filterValue: new Date(),
                 key: randomId(),
               })
             }

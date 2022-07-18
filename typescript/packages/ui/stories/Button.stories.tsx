@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { Button } from "../components";
+import { Button } from "../components/Button";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -18,20 +18,15 @@ const Template: ComponentStory<typeof Button> = (args) => (
 
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  className: ["btn-primary"],
-};
+Primary.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  className: ["btn-secondary"],
   // isSmall: false,
 };
 
 export const Large = Template.bind({});
-Large.args = {
-  className: ["btn-primary"],
-};
+Large.args = {};
 
 export const Small = Template.bind({});
 Small.args = {};

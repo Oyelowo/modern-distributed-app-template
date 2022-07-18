@@ -24,19 +24,17 @@ function Shown() {
     );
   }
 
-  return data.status === 'success' ? (
-    <Layout>
-      <HomePage />
-    </Layout>
-  ) : (
-    <LandingPage />
-  );
+  return data.status === 'success' ? <HomePage /> : <LandingPage />;
 }
 
 const Page: NextPageWithLayout = () => <p>hello world</p>;
 
 Page.getLayout = function getLayout(_page: ReactElement) {
-  return <Shown />;
+  return (
+    <Layout>
+      <Shown />
+    </Layout>
+  );
 };
 
 export default Page;

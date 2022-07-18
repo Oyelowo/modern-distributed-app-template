@@ -20,7 +20,7 @@ import { FilterSingleProps } from '../helpers';
 export const DateFilterSingle = <T extends unknown>({ column }: { column: Column<T, unknown> }) => {
   const form = useForm<FilterSingleProps<Date>>({
     initialValues: {
-      filterValue: null,
+      filterValue: new Date(),
       operator: 'between',
     },
   });

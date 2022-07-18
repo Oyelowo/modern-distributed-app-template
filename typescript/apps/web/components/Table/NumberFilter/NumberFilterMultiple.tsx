@@ -27,7 +27,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
   const form = useForm({
     initialValues: {
       operations: formList<RowFilterMultipleForm<number>>([
-        { logical: 'and', operator: 'fuzzy', filterValue: null, key: randomId() },
+        { logical: 'and', operator: 'fuzzy', filterValue: 0, key: randomId() },
       ]),
     },
   });
