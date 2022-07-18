@@ -2,7 +2,7 @@ import React from 'react';
 import { createStyles, Image, Container, Title, Text, Button, SimpleGrid } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import image from './404.png';
+import image from '../assets/404.png';
 
 const useStyles = createStyles((theme) => ({
   root: {
