@@ -75,7 +75,7 @@ export type RowString = {
 export type RowNumber = {
   rowValue: number;
   operator: 'gt' | 'lt' | 'eq' | 'not_eq' | 'gt_or_eq' | 'lt_or_eq' | 'fuzzy';
-  filterValue: number | null;
+  filterValue: number;
   addMeta: AddMeta;
 };
 
@@ -91,7 +91,7 @@ export type RowDate = {
     | 'on_or_after'
     | 'fuzzy';
 
-  filterValue: Date | [Date, Date] | null;
+  filterValue: Date | [Date, Date];
   addMeta: AddMeta;
 };
 

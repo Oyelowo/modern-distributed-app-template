@@ -24,7 +24,7 @@ type Props = {
 export const NumberFilterSingle = ({ column }: Props) => {
   const form = useForm<Pick<RowNumber, 'filterValue' | 'operator'>>({
     initialValues: {
-      filterValue: null,
+      filterValue: 0,
       operator: 'fuzzy',
     },
   });
