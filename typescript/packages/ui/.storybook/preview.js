@@ -12,13 +12,13 @@ export const parameters = {
     expanded: true,
   },
   backgrounds: {
-    default: "electric-ribbon",
-    values: [
-      {
-        name: "electric-ribbon",
-        value: `linear-gradient(180deg, #db00ff, #0047ff)`,
-      },
-    ],
+    // default: "electric-ribbon",
+    // values: [
+    //   {
+    //     name: "electric-ribbon",
+    //     value: `linear-gradient(180deg, #db00ff, #0047ff)`,
+    //   },
+    // ],
   },
   // Override the default dark theme
   dark: { ...themes.dark, appBg: "black" },
