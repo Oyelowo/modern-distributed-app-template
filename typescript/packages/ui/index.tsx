@@ -7,4 +7,4 @@ export function getLowo() {
 }
 
 // export * from "./components/Button";
-// export * from "./hooks/useInterval";
+export * from "./hooks/useInterval";
