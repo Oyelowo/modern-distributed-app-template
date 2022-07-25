@@ -16,6 +16,8 @@
   },
   "peerDependencies": {
     "@heroicons/react": "^1.0.6",
+    "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.4.0",
     "@mantine/core": "^4.2.12",
     "@mantine/dates": "^4.2.12",
     "@mantine/dropzone": "^4.2.12",
