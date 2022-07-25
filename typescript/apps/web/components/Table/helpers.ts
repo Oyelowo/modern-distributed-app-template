@@ -115,7 +115,7 @@ export type RowFilterMultipleForm<TRow extends RowValueType> = FilterMultiplePro
   key: string;
 };
 
-type Operations = 'operations';
+export type Operations = 'operations';
 export type FormValuesRowFilterMultiple<TRow extends RowValueType> = Record<
   Operations,
   RowFilterMultipleForm<TRow>[]

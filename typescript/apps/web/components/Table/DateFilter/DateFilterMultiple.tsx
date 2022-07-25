@@ -6,13 +6,20 @@ import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-ico
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
-import { logicalOperators, FormValuesRowFilterMultiple } from '../helpers';
+import {
+  logicalOperators,
+  FormValuesRowFilterMultiple,
+  OperationInputKey,
+  Operations,
+} from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
   column: Column<T, unknown>;
   // table: Table<T>;
 };
+
+type InputParam = OperationInputKey<Date>;
 
 export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
@@ -46,23 +53,20 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
     setOpened(false);
   };
 
-  const getOperationsInputProps = (
-    index: number,
-    field: keyof typeof form.values.operations[0]
-  ) => {
-    const operations: keyof typeof form.values = 'operations';
-    return form.getInputProps(`${operations}.${index}.${field}`);
-  };
-
   const fields = form.values.operations.map((item, index) => (
     <FilterShell
       key={item.key}
       showLogicalSelector={index !== 0}
-      logicals={<Select {...getOperationsInputProps(index, 'logical')} data={logicalOperators} />}
+      logicals={
+        <Select
+          {...form.getInputProps<InputParam>(`operations.${index}.logical`)}
+          data={logicalOperators}
+        />
+      }
       operator={
         <Select
           placeholder="Operator"
-          {...getOperationsInputProps(index, 'operator')}
+          {...form.getInputProps<InputParam>(`operations.${index}.operator`)}
           data={operatorsValuesAndLabels}
           sx={{ flex: 2 }}
         />
@@ -71,7 +75,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
         form.values.operations[0].operator === 'between' ? (
           <DateRangePicker
             placeholder="Pick dates range"
-            {...getOperationsInputProps(index, 'filterValue')}
+            {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
             amountOfMonths={2}
           />
         ) : (
@@ -80,11 +84,11 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
             placeholder="Pick date"
             mb="sm"
             allowFreeInput
-            {...getOperationsInputProps(index, 'filterValue')}
+            {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
           />
         )
       }
-      onAddNewFilter={() => form.removeListItem('operations', index)}
+      onAddNewFilter={() => form.removeListItem<Operations>('operations', index)}
     />
   ));
 
