@@ -86,7 +86,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
   ));
 
   return (
-    <Popover opened={opened} withArrow position="bottom" shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}

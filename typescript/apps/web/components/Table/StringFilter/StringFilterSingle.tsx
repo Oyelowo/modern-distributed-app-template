@@ -28,6 +28,7 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
       operator: 'fuzzy',
     },
   });
+  type InputParams = keyof typeof form.values;
   const [opened, setOpened] = useState(false);
 
   const sortedUniqueValues = useUniqueColumnValues(column);
@@ -48,14 +49,8 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
     setOpened(false);
   };
 
-  //  opened={opened}
-  //     onClose={handleClose}
-  //     onClick={(e) => e.stopPropagation()}
-  //     position="bottom"
-  //     transition="scale-y"
-
   return (
-    <Popover opened={opened} withArrow position="bottom" shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'transparent'}
@@ -71,7 +66,7 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
           description="Select your option"
           orientation="vertical"
           size="sm"
-          {...form.getInputProps('operator')}
+          {...form.getInputProps<InputParams>('operator')}
         >
           {operatorsValuesAndLabels.map(({ value, label }) => (
             <Radio key={value} value={value} label={label} />
@@ -83,7 +78,7 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
           mb="sm"
           placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
           data={sortedUniqueValues}
-          {...form.getInputProps('filterValue')}
+          {...form.getInputProps<InputParams>('filterValue')}
         />
 
         <Group position="apart" mt="lg">

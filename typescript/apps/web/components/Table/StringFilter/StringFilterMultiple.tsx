@@ -85,7 +85,7 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
   ));
 
   return (
-    <Popover opened={opened} withArrow position="bottom" shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}

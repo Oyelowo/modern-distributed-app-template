@@ -27,6 +27,8 @@ export const NumberFilterSingle = ({ column }: Props) => {
       operator: 'fuzzy',
     },
   });
+  type InputParam = keyof typeof form.values;
+
   const [opened, setOpened] = useState(false);
 
   const handleClose = () => {
@@ -46,7 +48,7 @@ export const NumberFilterSingle = ({ column }: Props) => {
   };
 
   return (
-    <Popover opened={opened} withArrow position="bottom" shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'transparent'}
@@ -75,7 +77,7 @@ export const NumberFilterSingle = ({ column }: Props) => {
           })`}
           mb="sm"
           data-autoFocus
-          {...form.getInputProps('filterValue')}
+          {...form.getInputProps<InputParam>('filterValue')}
         />
         <Group position="apart">
           <Anchor component="button" color="gray" onClick={handleClear}>

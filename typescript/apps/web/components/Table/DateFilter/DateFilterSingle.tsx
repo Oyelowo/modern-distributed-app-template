@@ -15,6 +15,7 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
     },
   });
   const [opened, setOpened] = useState(false);
+  type InputParams = keyof typeof form.values;
 
   const handleClose = () => {
     form.reset();
@@ -33,7 +34,7 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
   };
 
   return (
-    <Popover width={500} position="bottom" withArrow shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus position="bottom" withArrow shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'transparent'}
@@ -50,7 +51,7 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
             description="Select your option"
             orientation="vertical"
             size="sm"
-            {...form.getInputProps('operator')}
+            {...form.getInputProps<InputParams>('operator')}
           >
             {operatorsValuesAndLabels.map(({ value, label }) => (
               <Radio key={value} value={value} label={label} />

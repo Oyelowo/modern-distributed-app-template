@@ -93,7 +93,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   ));
 
   return (
-    <Popover opened={opened} position="bottom" withArrow shadow="md">
+    <Popover opened={opened} onChange={setOpened} trapFocus position="bottom" withArrow shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}
@@ -111,7 +111,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
             <Button
               variant="subtle"
               onClick={() =>
-                form.insertListItem('operations', {
+                form.insertListItem<Operations>('operations', {
                   operator: 'is_after',
                   logical: 'and',
                   filterValue: new Date(),
