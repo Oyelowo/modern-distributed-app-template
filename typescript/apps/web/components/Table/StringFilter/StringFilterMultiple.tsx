@@ -15,7 +15,12 @@ import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
-import { logicalOperators, OperationInputKey, FormValuesRowFilterMultiple } from '../helpers';
+import {
+  logicalOperators,
+  OperationInputKey,
+  FormValuesRowFilterMultiple,
+  Operations,
+} from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -58,7 +63,6 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
       logicals={
         <Select
           {...form.getInputProps<InputParam>(`operations.${index}.logical`)}
-          // {...form.getInputProps<'erer'>('operations', index, 'logical')}
           data={logicalOperators}
         />
       }
@@ -76,7 +80,7 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
           {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
         />
       }
-      onAddNewFilter={() => form.removeListItem('operations', index)}
+      onAddNewFilter={() => form.removeListItem<Operations>('operations', index)}
     />
   ));
 

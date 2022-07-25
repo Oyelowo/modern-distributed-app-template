@@ -14,7 +14,12 @@ import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { operatorsValuesAndLabels } from './numberFilterMultipleFn';
-import { logicalOperators, FormValuesRowFilterMultiple, OperationInputKey } from '../helpers';
+import {
+  logicalOperators,
+  FormValuesRowFilterMultiple,
+  OperationInputKey,
+  Operations,
+} from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props = {
@@ -106,7 +111,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
             <Button
               variant="subtle"
               onClick={() =>
-                form.insertListItem('operations', {
+                form.insertListItem<Operations>('operations', {
                   operator: 'eq',
                   logical: 'and',
                   filterValue: 0,
