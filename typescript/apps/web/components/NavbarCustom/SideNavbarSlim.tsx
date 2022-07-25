@@ -4,10 +4,10 @@ import {
   Tooltip,
   UnstyledButton,
   createStyles,
-  Group,
   Drawer,
   Affix,
   Burger,
+  Stack,
 } from '@mantine/core';
 import { Logout, SwitchHorizontal, Globe } from 'tabler-icons-react';
 import Link from 'next/link';
@@ -74,32 +74,32 @@ export function SideNavbarSlim() {
   return (
     <>
       <Affix position={{ top: -5, left: opened ? 60 : 0 }} zIndex={33334}>
-        <Burger opened={opened} onClick={() => toggleNav()} size="sm" />
+        <Burger opened={opened} onClick={() => toggleNav()} size="sm" color="green" />
       </Affix>
       <Drawer
         opened={opened}
         onClose={() => setNavState(false)}
-        // title="Register"
-        // padding="xl"
-        // size="xl"
+        title="Surf"
         withOverlay={false}
         size={80}
+        withinPortal={false}
         withCloseButton={false}
+        zIndex={0}
       >
         <Navbar width={{ base: 80 }} p="md">
           <Center>
             <Globe />
           </Center>
           <Navbar.Section grow mt={50}>
-            <Group direction="column" align="center" spacing={0}>
+            <Stack align="center" spacing={0}>
               {links}
-            </Group>
+            </Stack>
           </Navbar.Section>
           <Navbar.Section>
-            <Group direction="column" align="center" spacing={0}>
+            <Stack align="center" spacing={0}>
               <NavbarLink icon={<SwitchHorizontal />} label="Change account" />
               <NavbarLink onClick={signOutCustom} icon={<Logout />} label="Logout" />
-            </Group>
+            </Stack>
           </Navbar.Section>
         </Navbar>
       </Drawer>

@@ -17,6 +17,7 @@ import {
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+// import { RouterTransition } from '../components/RouterTransition/RouterTransition';
 
 const myCache = createEmotionCache({ key: 'oyelowo' });
 
@@ -82,6 +83,7 @@ creating the QueryClient once per component lifecycle.
               >
                 <NotificationsProvider position="bottom-right">
                   <ColorSchemeToggle />
+                  {/* <RouterTransition /> */}
                   {getLayout(<Component {...pageProps} />)}
                 </NotificationsProvider>
               </MantineProvider>
