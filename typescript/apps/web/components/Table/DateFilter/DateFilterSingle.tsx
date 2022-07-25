@@ -59,7 +59,7 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
           </Radio.Group>
           <Divider my="sm" />
 
-          {form.getInputProps('operator').value === 'between' ? (
+          {form.getInputProps<InputParams>('operator').value === 'between' ? (
             <DateRangePicker
               label="Book hotel"
               placeholder="Pick dates range"
