@@ -19,6 +19,7 @@ async function doSomething() {
       },
       config: {
         fetcher: "graphql-request",
+        addInfiniteQuery: true,
       },
       // customFetch: "graphql-request",
     },
@@ -26,5 +27,4 @@ async function doSomething() {
   );
 }
 
-
-doSomething()
+doSomething();
