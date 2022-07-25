@@ -27,7 +27,7 @@ export function FilterShell({
         <Grid.Col span={5}>{filter}</Grid.Col>
 
         <Grid.Col span={1}>
-          <ActionIcon color="red" variant="hover" onClick={onAddNewFilter}>
+          <ActionIcon color="red" variant="subtle" onClick={onAddNewFilter}>
             <Trash size={16} />
           </ActionIcon>
         </Grid.Col>

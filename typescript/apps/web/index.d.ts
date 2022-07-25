@@ -1,5 +1,3 @@
-import { Tuple } from '@mantine/core';
-
 // type CustomColors = 'primaryColorName' | 'secondaryColorName';
 
 // declare module '@mantine/core' {
