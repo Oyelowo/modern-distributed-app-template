@@ -1,6 +1,7 @@
 import { Provider, useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useEffect, useState } from 'react';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
@@ -12,10 +13,12 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineThemeOverride,
+  createEmotionCache,
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+
+const myCache = createEmotionCache({ key: 'oyelowo' });
 
 const overridenTheme: MantineThemeOverride = {
   primaryColor: 'cyan',
@@ -72,9 +75,7 @@ creating the QueryClient once per component lifecycle.
           <Hydrate state={pageProps?.dehydratedState}>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
               <MantineProvider
-                emotionOptions={{
-                  key: 'oyelowo',
-                }}
+                emotionCache={myCache}
                 theme={{ colorScheme, ...overridenTheme }}
                 withGlobalStyles
                 withNormalizeCSS

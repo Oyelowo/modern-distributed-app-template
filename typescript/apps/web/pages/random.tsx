@@ -3,7 +3,7 @@ import { useGetUsersQuery, useCreateUserMutation } from '@oyelowo/graphql-client
 import { getLowo } from '@oyelowo/ui';
 import Link from 'next/link';
 import React from 'react';
-import { useQueryClient } from 'react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { client } from '../config/client';
 
 export default function RandomUsers() {

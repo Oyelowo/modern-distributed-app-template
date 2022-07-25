@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { SignInMutation, useSignInMutation } from '@oyelowo/graphql-client';
 import { useRouter } from 'next/router';
-import { QueryClient } from 'react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { client } from '../../config/client';
 import { GraphqlIoError, GraphqlErrorResponse } from './helpers';
 

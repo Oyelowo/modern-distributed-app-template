@@ -3,9 +3,9 @@ import { render, RenderOptions } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import '../styles/globals.css';
 import { Provider } from 'jotai';
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ReactQueryDevtools } from 'react-query/devtools';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 

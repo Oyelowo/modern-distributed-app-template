@@ -1,6 +1,6 @@
 import { SessionQuery, useSessionQuery } from '@oyelowo/graphql-client';
 import { useRouter } from 'next/router';
-import { UseQueryOptions } from 'react-query';
+import { UseQueryOptions } from '@tanstack/react-query';
 import { client } from '../../config/client';
 import { GraphqlErrorResponse, mapToServerData } from './helpers';
 

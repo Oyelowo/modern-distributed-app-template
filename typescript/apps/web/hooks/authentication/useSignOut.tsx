@@ -1,6 +1,6 @@
 import { useSignOutMutation } from '@oyelowo/graphql-client';
 import { useRouter } from 'next/router';
-import { MutationCache, QueryCache, QueryClient } from 'react-query';
+import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 import { client } from '../../config/client';
 import { useCookie } from 'react-use';
 
