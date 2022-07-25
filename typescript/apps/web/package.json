@@ -32,6 +32,7 @@
     "@mantine/prism": "^5.0.0",
     "@mantine/rte": "^5.0.0",
     "@mantine/spotlight": "^5.0.0",
+    "@modulz/radix-icons": "^4.0.0",
     "@oyelowo/graphql-client": "*",
     "@oyelowo/ui": "*",
     "@react-spring/animated": "9.5.2",

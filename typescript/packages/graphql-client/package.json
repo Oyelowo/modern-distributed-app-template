@@ -6,8 +6,6 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:ui": "next dev",
-    "dev": "export SET NODE_OPTIONS=--openssl-legacy-provider && start-storybook -p 6006",
     "build": "tsc",
     "build:old": "next build",
     "start": "next start",
@@ -24,6 +22,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
+  "dependencies": {
+  },
   "peerDependencies": {
     "fuse.js": "6.6.2",
     "graphql": "16.5.0",
@@ -31,7 +31,7 @@
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-query": "3.39.2"
+    "@tanstack/react-query": "^4.0.10"
   },
   "devDependencies": {
     "@graphql-codegen/add": "3.2.0",

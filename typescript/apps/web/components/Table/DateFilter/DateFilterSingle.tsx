@@ -1,15 +1,5 @@
 import { useState } from 'react';
-import {
-  ActionIcon,
-  Anchor,
-  Box,
-  Button,
-  Divider,
-  Group,
-  Popover,
-  Radio,
-  RadioGroup,
-} from '@mantine/core';
+import { ActionIcon, Anchor, Box, Button, Divider, Group, Popover, Radio } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon, Calendar as CalendarIcon } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
@@ -42,62 +32,62 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
     setOpened(false);
   };
 
+  //  opened={opened}
+  //     onClose={handleClose}
+  //     onClick={(e) => e.stopPropagation()}
+  //     position="bottom"
+  //     transition="scale-y"
+
   return (
-    <Popover
-      target={
+    <Popover width={500} position="bottom" withArrow shadow="md">
+      <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'hover'}
+          variant={column.getFilterValue() ? 'light' : 'transparent'}
           color={column.getFilterValue() ? 'blue' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
-      }
-      opened={opened}
-      onClose={handleClose}
-      onClick={(e) => e.stopPropagation()}
-      position="bottom"
-      transition="scale-y"
-    >
-      <Box sx={{ maxWidth: 500 }} mx="auto">
-        <RadioGroup
-          description="Select your option"
-          orientation="vertical"
-          size="sm"
-          {...form.getInputProps('operator')}
-        >
-          {operatorsValuesAndLabels.map(({ value, label }) => (
-            <Radio key={value} value={value} label={label} />
-          ))}
-        </RadioGroup>
-        <Divider my="sm" />
+      </Popover.Target>
 
-        {form.getInputProps('operator').value === 'between' ? (
-          <DateRangePicker
-            label="Book hotel"
-            placeholder="Pick dates range"
-            {...form.getInputProps('filterValue')}
-            amountOfMonths={2}
-            withinPortal={false}
-          />
-        ) : (
-          <DatePicker
-            icon={<CalendarIcon />}
-            placeholder="Pick date"
-            mb="sm"
-            allowFreeInput
-            withinPortal={false}
-            {...form.getInputProps('filterValue')}
-          />
-        )}
-      </Box>
+      <Popover.Dropdown>
+        <Box sx={{ maxWidth: 500 }} mx="auto">
+          <Radio.Group
+            description="Select your option"
+            orientation="vertical"
+            size="sm"
+            {...form.getInputProps('operator')}
+          >
+            {operatorsValuesAndLabels.map(({ value, label }) => (
+              <Radio key={value} value={value} label={label} />
+            ))}
+          </Radio.Group>
+          <Divider my="sm" />
 
-      <Group position="apart">
-        <Anchor component="button" color="gray" onClick={handleClear}>
-          Clear
-        </Anchor>
-        <Button onClick={handleApply}>Apply</Button>
-      </Group>
+          {form.getInputProps('operator').value === 'between' ? (
+            <DateRangePicker
+              label="Book hotel"
+              placeholder="Pick dates range"
+              {...form.getInputProps('filterValue')}
+              amountOfMonths={2}
+            />
+          ) : (
+            <DatePicker
+              icon={<CalendarIcon />}
+              placeholder="Pick date"
+              mb="sm"
+              allowFreeInput
+              {...form.getInputProps('filterValue')}
+            />
+          )}
+        </Box>
+        <Group position="apart">
+          <Anchor component="button" color="gray" onClick={handleClear}>
+            Clear
+          </Anchor>
+          <Button onClick={handleApply}>Apply</Button>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   );
 };

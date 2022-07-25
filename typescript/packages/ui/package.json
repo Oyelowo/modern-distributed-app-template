@@ -18,8 +18,8 @@
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.4.0",
     "@heroicons/react": "^1.0.6",
-    "@mantine/core": "^4.2.12",
     "@mantine/carousel": "^5.0.0",
+    "@mantine/core": "^4.2.12",
     "@mantine/dates": "^4.2.12",
     "@mantine/dropzone": "^4.2.12",
     "@mantine/form": "^4.2.12",
@@ -72,5 +72,6 @@
     "typescript": "4.7.4"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.0.10"
   }
 }

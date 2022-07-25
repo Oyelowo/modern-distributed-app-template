@@ -9,13 +9,13 @@ import {
   Select,
   Autocomplete,
 } from '@mantine/core';
-import { useForm, formList } from '@mantine/form';
+import { useForm } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { useUniqueColumnValues } from './shared';
 import { operatorsValuesAndLabels } from './stringFilterMultipleFn';
-import { RowFilterMultipleForm, logicalOperators } from '../helpers';
+import { logicalOperators, OperationInputKey, FormValuesRowFilterMultiple } from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -23,13 +23,13 @@ type Props<T> = {
   // table: Table<T>;
 };
 
+type InputParam = OperationInputKey<string>;
+
 export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
-  const form = useForm({
+  const form = useForm<FormValuesRowFilterMultiple<string>>({
     initialValues: {
-      operations: formList<RowFilterMultipleForm<string>>([
-        { logical: 'and', operator: 'fuzzy', filterValue: '', key: randomId() },
-      ]),
+      operations: [{ logical: 'and', operator: 'fuzzy', filterValue: '', key: randomId() }],
     },
   });
 
@@ -57,14 +57,15 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
       showLogicalSelector={index !== 0}
       logicals={
         <Select
-          {...form.getListInputProps('operations', index, 'logical')}
+          {...form.getInputProps<InputParam>(`operations.${index}.logical`)}
+          // {...form.getInputProps<'erer'>('operations', index, 'logical')}
           data={logicalOperators}
         />
       }
       operator={
         <Select
           placeholder="Operator"
-          {...form.getListInputProps('operations', index, 'operator')}
+          {...form.getInputProps<InputParam>(`operations.${index}.operator`)}
           data={operatorsValuesAndLabels}
         />
       }
@@ -72,62 +73,65 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
         <Autocomplete
           placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
           data={sortedUniqueValues}
-          {...form.getListInputProps('operations', index, 'filterValue')}
+          {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
         />
       }
       onAddNewFilter={() => form.removeListItem('operations', index)}
     />
   ));
 
+  //  opened={opened}
+  //   onClose={handleClose}
+  //   onClick={(e) => e.stopPropagation()}
+  //   position="bottom"
+  //   transition="scale-y"
+
   return (
-    <Popover
-      target={
+    <Popover>
+      <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'hover'}
+          variant={column.getFilterValue() ? 'light' : 'transparent'}
           color={column.getFilterValue() ? 'blue' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
-      }
-      opened={opened}
-      onClose={handleClose}
-      onClick={(e) => e.stopPropagation()}
-      position="bottom"
-      transition="scale-y"
-    >
-      <Box sx={{ maxWidth: 600 }} mx="auto">
-        {fields}
+      </Popover.Target>
 
-        <Group position="center" mt="md">
-          <Button
-            variant="subtle"
-            onClick={() =>
-              form.addListItem('operations', {
-                operator: 'contains',
-                logical: 'and',
-                filterValue: '',
-                key: randomId(),
-              })
-            }
-            rightIcon={<Plus />}
-          >
-            Add Filter
-          </Button>
-        </Group>
+      <Popover.Dropdown>
+        <Box sx={{ maxWidth: 600 }} mx="auto">
+          {fields}
 
-        {/* <Text size="sm" weight={500} mt="md">
+          <Group position="center" mt="md">
+            <Button
+              variant="subtle"
+              onClick={() =>
+                form.insertListItem('operations', {
+                  operator: 'contains',
+                  logical: 'and',
+                  filterValue: '',
+                  key: randomId(),
+                })
+              }
+              rightIcon={<Plus />}
+            >
+              Add Filter
+            </Button>
+          </Group>
+
+          {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
         <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
-      </Box>
+        </Box>
 
-      <Group position="apart">
-        <Anchor component="button" color="gray" onClick={handleClear}>
-          Clear
-        </Anchor>
-        <Button onClick={handleApply}>Apply</Button>
-      </Group>
+        <Group position="apart">
+          <Anchor component="button" color="gray" onClick={handleClear}>
+            Clear
+          </Anchor>
+          <Button onClick={handleApply}>Apply</Button>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   );
 };
