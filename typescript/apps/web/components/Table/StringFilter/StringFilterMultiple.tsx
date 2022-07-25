@@ -84,18 +84,12 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
     />
   ));
 
-  //  opened={opened}
-  //   onClose={handleClose}
-  //   onClick={(e) => e.stopPropagation()}
-  //   position="bottom"
-  //   transition="scale-y"
-
   return (
-    <Popover>
+    <Popover opened={opened} withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'transparent'}
-          color={column.getFilterValue() ? 'blue' : 'gray'}
+          variant={column.getFilterValue() ? 'light' : 'subtle'}
+          color={column.getFilterValue() ? 'cyan' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />

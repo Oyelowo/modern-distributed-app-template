@@ -32,12 +32,6 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
     setOpened(false);
   };
 
-  //  opened={opened}
-  //     onClose={handleClose}
-  //     onClick={(e) => e.stopPropagation()}
-  //     position="bottom"
-  //     transition="scale-y"
-
   return (
     <Popover width={500} position="bottom" withArrow shadow="md">
       <Popover.Target>

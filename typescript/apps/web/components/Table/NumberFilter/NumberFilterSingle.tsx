@@ -45,13 +45,8 @@ export const NumberFilterSingle = ({ column }: Props) => {
     setOpened(false);
   };
 
-      // opened={opened}
-      // onClose={handleClose}
-      // onClick={(e) => e.stopPropagation()}
-      // position="bottom"
-      // transition="scale-y"
   return (
-    <Popover>
+    <Popover opened={opened} withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'transparent'}
@@ -88,7 +83,8 @@ export const NumberFilterSingle = ({ column }: Props) => {
           </Anchor>
           <Button onClick={handleApply}>Apply</Button>
         </Group>
-      </Popover.Dropdown>s
+      </Popover.Dropdown>
+      s
     </Popover>
   );
 };

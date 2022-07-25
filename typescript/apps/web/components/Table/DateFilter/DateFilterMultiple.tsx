@@ -93,18 +93,18 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   ));
 
   return (
-    <Popover width={200} position="bottom" withArrow shadow="md">
+    <Popover opened={opened} position="bottom" withArrow shadow="md">
       <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'transparent'}
-          color={column.getFilterValue() ? 'blue' : 'gray'}
+          variant={column.getFilterValue() ? 'light' : 'subtle'}
+          color={column.getFilterValue() ? 'cyan' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
       </Popover.Target>
       <Popover.Dropdown>
-        <Box style={{ maxWidth: 600 }}>
+        <Box style={{ maxWidth: 500 }}>
           {fields}
 
           <Group position="center" mt="md">
@@ -132,7 +132,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
         </ScrollArea> */}
         </Box>
         <Group position="apart">
-          <Anchor component="button" color="gray" onClick={handleClear}>
+          <Anchor component="button" variant="text" onClick={handleClear}>
             Clear
           </Anchor>
           <Button onClick={handleApply}>Apply</Button>

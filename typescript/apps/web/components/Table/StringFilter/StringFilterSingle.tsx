@@ -55,11 +55,11 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
   //     transition="scale-y"
 
   return (
-    <Popover>
+    <Popover opened={opened} withArrow position="bottom" shadow="md">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'transparent'}
-          color={column.getFilterValue() ? 'blue' : 'gray'}
+          color={column.getFilterValue() ? 'cyan' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
