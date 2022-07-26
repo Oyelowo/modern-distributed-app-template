@@ -7,7 +7,7 @@ import { SignUpForm } from './SignUpForm';
 import { GoogleIcon } from '../icons/GoogleIcon';
 import { toggleAuthAtom } from './atoms';
 
-export function AuthenticationForm(props: PaperProps<'div'>) {
+export function AuthenticationForm(props: PaperProps) {
   const [authType, _setAuthType] = useAtom(toggleAuthAtom);
 
   return (

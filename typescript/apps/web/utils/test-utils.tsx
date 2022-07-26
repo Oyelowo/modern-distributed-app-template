@@ -1,10 +1,8 @@
-import React, { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import '../styles/globals.css';
 import { Provider } from 'jotai';
 import { Hydrate, QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
@@ -26,7 +24,6 @@ const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'wrapper'>
   render(ui, { wrapper: AllTheProviders, ...options });
 
 export * from '@testing-library/react';
-import '@testing-library/jest-dom';
 export { customRender as render };
 export { rest };
 export { setupServer };

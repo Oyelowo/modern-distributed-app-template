@@ -33,7 +33,7 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
 
   const sortedUniqueValues = useUniqueColumnValues(column);
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };

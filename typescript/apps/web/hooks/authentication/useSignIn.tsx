@@ -22,8 +22,7 @@ export function useSignIn({
 }) {
   const router = useRouter();
 
-  const { mutate, data, error, status, isLoading } =
-    useSignInMutation<GraphqlErrorResponse>(client);
+  const { mutate, data, error, isLoading } = useSignInMutation<GraphqlErrorResponse>(client);
 
   const signInCustom = ({ username, password }: z.infer<typeof signInSchema>) => {
     mutate(
@@ -34,10 +33,10 @@ export function useSignIn({
         },
       },
       {
-        onSuccess: (data) => {
-          const client = new QueryClient();
-          client.refetchQueries(['session']);
-          onSuccess(data);
+        onSuccess: (responseData) => {
+          const queryClient = new QueryClient();
+          queryClient.refetchQueries(['session']);
+          onSuccess(responseData);
           router.push('/');
         },
         onError: (e) => {

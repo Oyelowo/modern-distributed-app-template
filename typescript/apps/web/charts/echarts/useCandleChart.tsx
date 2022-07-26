@@ -1,5 +1,3 @@
-import { CallbackDataParams } from 'echarts/types/dist/shared';
-import { useEffect } from 'react';
 import { ThemeOfECharts, useChart } from './ChartWithHooks';
 import { taChartOption } from './TAChart';
 
