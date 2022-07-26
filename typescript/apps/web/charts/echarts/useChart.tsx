@@ -55,8 +55,8 @@ import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 // import { vintage } from './themes/vintage';
 // import { blackTheme } from './themes/black';
-import { darkTheme } from './themes/dark';
 import { Paper } from '@mantine/core';
+import { darkTheme } from './themes/dark';
 
 // Register the required components
 const chartComponentsInUse = [
