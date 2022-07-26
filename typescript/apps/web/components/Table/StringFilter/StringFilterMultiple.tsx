@@ -40,7 +40,7 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
 
   const sortedUniqueValues = useUniqueColumnValues(column);
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };
@@ -85,7 +85,15 @@ export const StringFilterMultiple = <T extends unknown>({ column }: Props<T>) =>
   ));
 
   return (
-    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
+    <Popover
+      opened={opened}
+      onChange={setOpened}
+      trapFocus
+      withArrow
+      position="bottom"
+      shadow="md"
+      transition="scale-y"
+    >
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}

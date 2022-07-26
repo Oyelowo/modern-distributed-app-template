@@ -37,7 +37,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
     },
   });
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };
@@ -53,7 +53,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
     setOpened(false);
   };
 
-  const fields = form.values.operations.map((item, index) => (
+  const formFields = form.values.operations.map((item, index) => (
     <FilterShell
       key={item.key}
       showLogicalSelector={index !== 0}
@@ -93,7 +93,14 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   ));
 
   return (
-    <Popover opened={opened} onChange={setOpened} trapFocus position="bottom" withArrow shadow="md">
+    <Popover
+      opened={opened}
+      position="bottom"
+      withArrow
+      shadow="md"
+      trapFocus
+      transition="scale-y"
+    >
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}
@@ -105,7 +112,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
       </Popover.Target>
       <Popover.Dropdown>
         <Box style={{ maxWidth: 500 }}>
-          {fields}
+          {formFields}
 
           <Group position="center" mt="md">
             <Button
