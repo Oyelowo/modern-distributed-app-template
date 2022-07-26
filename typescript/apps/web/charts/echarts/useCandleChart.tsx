@@ -1,4 +1,4 @@
-import { ThemeOfECharts, useChart } from './ChartWithHooks';
+import { ThemeOfECharts, useChart } from './useChart';
 import { taChartOption } from './TAChart';
 
 export const useCandleChart = ({ theme }: { theme: ThemeOfECharts }) => {

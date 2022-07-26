@@ -1,29 +1,30 @@
-import { ECOption } from './ChartWithHooks';
+import { ECOption } from './useChart';
 import { rawData } from './stockchartTAData';
 
 type DataItem = (number | string)[];
 
 function calculateMA(dayCount: number, data: DataItem[]) {
-  var result = [];
-  for (var i = 0, len = data.length; i < len; i++) {
+  const result = [];
+  for (let i = 0, len = data.length; i < len; i += 1) {
     if (i < dayCount) {
       result.push('-');
-      continue;
+      let sum = 0;
+      for (let j = 0; j < dayCount; j += 1) {
+        sum += Number(data[i - j]?.[1]);
+      }
+      result.push(sum / dayCount);
     }
-    var sum = 0;
-    for (var j = 0; j < dayCount; j++) {
-      sum += +data[i - j][1];
-    }
-    result.push(sum / dayCount);
   }
   return result;
 }
 
-const dates = rawData.map(function (item) {
-  return item[0];
-});
-
-const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
+const dates = rawData.map((item) => item[0]);
+// time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
+const data = rawData.map(
+  ([_date, open, close, _delta, _percentageChange, low, high, _volume, _trans, _sign]) =>
+    [open, close, low, high].map(Number)
+);
+// const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
 
 export const tradingChartOption: ECOption = {
   // backgroundColor: "#19232d",
@@ -82,7 +83,7 @@ export const tradingChartOption: ECOption = {
     {
       type: 'candlestick',
       name: 'Day',
-      data: data,
+      data,
       itemStyle: {
         color: '#FD1050',
         color0: '#0CF49B',

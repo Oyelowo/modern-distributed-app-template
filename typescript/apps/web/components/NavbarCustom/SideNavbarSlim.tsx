@@ -85,6 +85,7 @@ export function SideNavbarSlim() {
         withinPortal={false}
         withCloseButton={false}
         zIndex={0}
+        lockScroll={false}
       >
         <Navbar width={{ base: 80 }} p="md">
           <Center>
