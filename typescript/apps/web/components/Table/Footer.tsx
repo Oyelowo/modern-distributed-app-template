@@ -1,8 +1,15 @@
 import { Table as ReactTable } from '@tanstack/react-table';
 import { Divider, Group, Pagination, Text, TextInput, Select, Button } from '@mantine/core';
+import { useHotkeys } from '@mantine/hooks';
 import { Person } from './makeData';
 
 export function Footer({ table }: { table: ReactTable<Person> }) {
+  useHotkeys([
+    ['mod+J', () => console.log('Toggle color scheme')],
+    ['N', table.nextPage],
+    ['P', table.previousPage],
+    ['ctrl+K', () => console.log('Trigger search')],
+  ]);
   return (
     <>
       <Pagination
