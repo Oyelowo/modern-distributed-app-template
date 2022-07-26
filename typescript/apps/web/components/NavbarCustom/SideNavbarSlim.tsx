@@ -82,7 +82,7 @@ export function SideNavbarSlim() {
         title="Well"
         withOverlay={false}
         size={80}
-        style={{ border: '1px solid red', width: 80 }}
+        style={{ width: 80 }}
         withCloseButton={false}
         lockScroll={false}
       >
