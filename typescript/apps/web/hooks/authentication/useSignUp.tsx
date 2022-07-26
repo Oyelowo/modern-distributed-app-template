@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { useSignUpMutation } from '@oyelowo/graphql-client';
 import { useRouter } from 'next/router';
-import { QueryClient } from 'react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { client } from '../../config/client';
 import { GraphqlIoError, GraphqlErrorResponse } from './helpers';
 
@@ -32,12 +32,12 @@ export function useSignUp({ onError }: { onError: (e: GraphqlIoError) => void })
       },
       {
         onSuccess: () => {
-          const client = new QueryClient();
+          const _client = new QueryClient();
           // the generated useSessionQuery graphql hook uses `session` as the key
           router.push('/');
           // client.refetchQueries(["session"]);
         },
-        onError: (e) => {
+        onError: (e: GraphqlErrorResponse) => {
           onError(new GraphqlIoError(e));
         },
       }

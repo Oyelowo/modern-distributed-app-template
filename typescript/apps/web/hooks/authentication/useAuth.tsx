@@ -1,6 +1,5 @@
 import { SessionQuery, useSessionQuery } from '@oyelowo/graphql-client';
-import { useRouter } from 'next/router';
-import { UseQueryOptions } from 'react-query';
+import { UseQueryOptions } from '@tanstack/react-query';
 import { client } from '../../config/client';
 import { GraphqlErrorResponse, mapToServerData } from './helpers';
 
@@ -9,25 +8,15 @@ export interface UseSessionProps {
 }
 
 export function useAuth() {
-  // const { queryConfig = { staleTime: 0 } } = props ?? {};
-  // const { queryConfig = { staleTime: 0 } } = props ?? {};
-  const router = useRouter();
+  const { data, status, isLoading, error } = useSessionQuery<SessionQuery, GraphqlErrorResponse>(
+    client,
+    undefined,
+    {
+      staleTime: 0,
+    }
+  );
 
-  const { data, status, isLoading, isIdle, isFetching, error } = useSessionQuery<
-    SessionQuery,
-    GraphqlErrorResponse
-  >(client, undefined, {
-    staleTime: 0,
-    // onSettled(data, error) {
-    //   // if (queryConfig.onSettled) queryConfig.onSettled(data, error);
-    //   const hasError = !!error;
-    //   if (!data?.session.userId && error?.response.data) {
-    //     router.push('/login/?error=SessionExpired');
-    //   }
-    // },
-  });
-
-  let mappedData = mapToServerData({
+  const _mappedData = mapToServerData({
     status,
     data,
     error,

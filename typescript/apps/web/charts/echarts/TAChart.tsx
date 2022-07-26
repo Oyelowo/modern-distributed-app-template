@@ -1,8 +1,38 @@
+/* eslint-disable prefer-destructuring */
 //数据模型 time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
 
-import { graphic } from 'echarts/core';
+// import { graphic } from 'echarts/core';
 import { ECOption } from './ChartWithHooks';
 
+function splitData(
+  rawData: Array<[string, number, number, number, number, number, number, number, number, number]>
+) {
+  const datas = [];
+  const times = [];
+  const opens = [];
+  const vols = [];
+  const macds = [];
+  const difs = [];
+  const deas = [];
+  for (let i = 0; i < rawData.length; i += 1) {
+    datas.push(rawData[i]);
+    times.push(rawData[i].splice(0, 1)[0]);
+    opens.push(rawData[i][1]);
+    vols.push(rawData[i][4]);
+    macds.push(rawData[i][6]);
+    difs.push(rawData[i][7]);
+    deas.push(rawData[i][8]);
+  }
+  return {
+    datas,
+    opens,
+    times,
+    vols,
+    macds,
+    difs,
+    deas,
+  };
+}
 //['2015-10-19',18.56,18.25,18.19,18.56,55.00,0,-0.00,0.08,0.09]
 const data = splitData([
   ['2015-10-16', 18.4, 18.58, 18.33, 18.79, 67.0, 1, 0.04, 0.11, 0.09],
@@ -307,51 +337,23 @@ const data = splitData([
   ['2017-01-03', 17.6, 17.92, 17.57, 17.98, 28.0, 1, 0.0, 0.0, 0.0],
 ]);
 
-function splitData(
-  rawData: Array<[string, number, number, number, number, number, number, number, number, number]>
-) {
-  const datas = [];
-  const times = [];
-  const opens = [];
-  const vols = [];
-  const macds = [];
-  const difs = [];
-  const deas = [];
-  for (let i = 0; i < rawData.length; i++) {
-    datas.push(rawData[i]);
-    times.push(rawData[i].splice(0, 1)[0]);
-    opens.push(rawData[i][1]);
-    vols.push(rawData[i][4]);
-    macds.push(rawData[i][6]);
-    difs.push(rawData[i][7]);
-    deas.push(rawData[i][8]);
-  }
-  return {
-    datas,
-    opens,
-    times,
-    vols,
-    macds,
-    difs,
-    deas,
-  };
-}
-
 function fenduans() {
-  let markLineData = [];
+  const markLineData = [];
   let idx = 0;
   let tag = 0;
   let vols = 0;
-  for (let i = 0; i < data.times.length; i++) {
-    if (data.datas[i][5] != 0 && tag == 0) {
+  for (let i = 0; i < data.times.length; i += 1) {
+    if (data.datas[i][5] !== 0 && tag === 0) {
       idx = i;
+      // [, , , vols] = data.datas[i];
+      // eslint-disable-next-line prefer-destructuring
       vols = data.datas[i][4];
       tag = 1;
     }
-    if (tag == 1) {
+    if (tag === 1) {
       vols += data.datas[i][4];
     }
-    if (data.datas[i][5] != 0 && tag == 1) {
+    if (data.datas[i][5] !== 0 && tag === 1) {
       markLineData.push([
         {
           xAxis: idx,
@@ -374,10 +376,10 @@ function fenduans() {
       tag = 2;
     }
 
-    if (tag == 2) {
+    if (tag === 2) {
       vols += data.datas[i][4];
     }
-    if (data.datas[i][5] != 0 && tag == 2) {
+    if (data.datas[i][5] !== 0 && tag === 2) {
       markLineData.push([
         {
           xAxis: idx,
@@ -385,7 +387,7 @@ function fenduans() {
             data.datas[idx][1] > Number(data.datas[idx][0])
               ? data.datas[idx][3].toFixed(2)
               : data.datas[idx][2].toFixed(2),
-          value: (vols / (i - idx + 1)).toFixed(2) + ' M',
+          value: `${(vols / (i - idx + 1)).toFixed(2)} M`,
         },
         {
           xAxis: i,
@@ -404,16 +406,15 @@ function fenduans() {
 
 function calculateMA(dayCount: number) {
   const result = [];
-  for (let i = 0, len = data.times.length; i < len; i++) {
-    if (i < dayCount) {
+  for (let i = 0, len = data.times.length; i < len; i += 1) {
+    if (i > dayCount) {
       result.push('-');
-      continue;
+      let sum = 0;
+      for (let j = 0; j < dayCount; j += 1) {
+        sum += data.datas[i - j][1];
+      }
+      result.push((sum / dayCount).toFixed(2));
     }
-    let sum = 0;
-    for (let j = 0; j < dayCount; j++) {
-      sum += data.datas[i - j][1];
-    }
-    result.push((sum / dayCount).toFixed(2));
   }
   return result;
 }

@@ -20,17 +20,15 @@ export const SquareRoot = () => {
   ]);
 
   return (
-    /*  <animated.div>
-      {props.testNumber.to((val) => val.toFixed(2))}
-
-     
-    </animated.div> */
-    <animated.svg stroke="red" fill="none">
-      <path
-        d={String(p)}
-        strokeDashoffset={someX.to((val) => val.toFixed(0)).get()}
-        strokeDasharray={400}
-      />
-    </animated.svg>
+    <>
+      <animated.div>{props.testNumber.to((val) => val.toFixed(2))}</animated.div> */
+      <animated.svg stroke="red" fill="none">
+        <path
+          d={String(p)}
+          strokeDashoffset={someX.to((val) => val.toFixed(0)).get()}
+          strokeDasharray={400}
+        />
+      </animated.svg>
+    </>
   );
 };

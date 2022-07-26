@@ -1,6 +1,6 @@
-let uploadedDataURL = "/asset/get/s/data-1495424877698-SJLOJ1gbZ.json";
-
+// let uploadedDataURL = "/asset/get/s/data-1495424877698-SJLOJ1gbZ.json";
 //  ：(open), (close), (lowest)，(highest)
+
 let data0 = splitData([
     ['2016-05-20', 3.781, 3.81, 3.761, 3.82],
     ['2016-05-23', 3.81, 3.84, 3.81, 3.849],

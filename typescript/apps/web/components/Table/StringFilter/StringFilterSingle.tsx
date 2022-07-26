@@ -8,7 +8,6 @@ import {
   Group,
   Popover,
   Radio,
-  RadioGroup,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { Filter as FilterIcon } from 'tabler-icons-react';
@@ -29,11 +28,12 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
       operator: 'fuzzy',
     },
   });
+  type InputParams = keyof typeof form.values;
   const [opened, setOpened] = useState(false);
 
   const sortedUniqueValues = useUniqueColumnValues(column);
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };
@@ -50,47 +50,44 @@ export const StringFilterSingle = <T extends unknown>({ column }: Props<T>) => {
   };
 
   return (
-    <Popover
-      target={
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
+      <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'hover'}
-          color={column.getFilterValue() ? 'blue' : 'gray'}
+          variant={column.getFilterValue() ? 'light' : 'transparent'}
+          color={column.getFilterValue() ? 'cyan' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
-      }
-      opened={opened}
-      onClose={handleClose}
-      onClick={(e) => e.stopPropagation()}
-      position="bottom"
-      transition="scale-y"
-    >
-      <RadioGroup
-        description="Select your option"
-        orientation="vertical"
-        size="sm"
-        {...form.getInputProps('operator')}
-      >
-        {operatorsValuesAndLabels.map(({ value, label }) => (
-          <Radio key={value} value={value} label={label} />
-        ))}
-      </RadioGroup>
-      <Divider my="sm" />
+      </Popover.Target>
 
-      <Autocomplete
-        mb="sm"
-        placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
-        data={sortedUniqueValues}
-        {...form.getInputProps('filterValue')}
-      />
+      <Popover.Dropdown>
+        <Radio.Group
+          description="Select your option"
+          orientation="vertical"
+          size="sm"
+          {...form.getInputProps<InputParams>('operator')}
+        >
+          {operatorsValuesAndLabels.map(({ value, label }) => (
+            <Radio key={value} value={value} label={label} />
+          ))}
+        </Radio.Group>
+        <Divider my="sm" />
 
-      <Group position="apart" mt="lg">
-        <Anchor component="button" color="gray" onClick={handleClear}>
-          Clear
-        </Anchor>
-        <Button onClick={handleApply}>Apply</Button>
-      </Group>
+        <Autocomplete
+          mb="sm"
+          placeholder={`Filter.. (${column.getFacetedUniqueValues().size})`}
+          data={sortedUniqueValues}
+          {...form.getInputProps<InputParams>('filterValue')}
+        />
+
+        <Group position="apart" mt="lg">
+          <Anchor component="button" color="gray" onClick={handleClear}>
+            Clear
+          </Anchor>
+          <Button onClick={handleApply}>Apply</Button>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   );
 };

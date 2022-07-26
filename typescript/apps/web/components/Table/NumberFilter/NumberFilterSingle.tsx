@@ -7,7 +7,6 @@ import {
   Group,
   Popover,
   Radio,
-  RadioGroup,
   TextInput,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
@@ -28,6 +27,8 @@ export const NumberFilterSingle = ({ column }: Props) => {
       operator: 'fuzzy',
     },
   });
+  type InputParam = keyof typeof form.values;
+
   const [opened, setOpened] = useState(false);
 
   const handleClose = () => {
@@ -47,48 +48,45 @@ export const NumberFilterSingle = ({ column }: Props) => {
   };
 
   return (
-    <Popover
-      target={
+    <Popover opened={opened} onChange={setOpened} trapFocus withArrow position="bottom" shadow="md">
+      <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'hover'}
+          variant={column.getFilterValue() ? 'light' : 'transparent'}
           color={column.getFilterValue() ? 'blue' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
-      }
-      opened={opened}
-      onClose={handleClose}
-      onClick={(e) => e.stopPropagation()}
-      position="bottom"
-      transition="scale-y"
-    >
-      <RadioGroup
-        description="Select your option"
-        orientation="vertical"
-        size="sm"
-        {...form.getInputProps('operator')}
-      >
-        {operatorsValuesAndLabels.map(({ value, label }) => (
-          <Radio key={value} value={value} label={label} />
-        ))}
-      </RadioGroup>
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Radio.Group
+          description="Select your option"
+          orientation="vertical"
+          size="sm"
+          {...form.getInputProps('operator')}
+        >
+          {operatorsValuesAndLabels.map(({ value, label }) => (
+            <Radio key={value} value={value} label={label} />
+          ))}
+        </Radio.Group>
 
-      <Divider my="sm" />
-      <TextInput
-        placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
-          column.getFacetedMinMaxValues()?.[1]
-        })`}
-        mb="sm"
-        data-autoFocus
-        {...form.getInputProps('filterValue')}
-      />
-      <Group position="apart">
-        <Anchor component="button" color="gray" onClick={handleClear}>
-          Clear
-        </Anchor>
-        <Button onClick={handleApply}>Apply</Button>
-      </Group>
+        <Divider my="sm" />
+        <TextInput
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
+          mb="sm"
+          data-autoFocus
+          {...form.getInputProps<InputParam>('filterValue')}
+        />
+        <Group position="apart">
+          <Anchor component="button" color="gray" onClick={handleClear}>
+            Clear
+          </Anchor>
+          <Button onClick={handleApply}>Apply</Button>
+        </Group>
+      </Popover.Dropdown>
+      s
     </Popover>
   );
 };

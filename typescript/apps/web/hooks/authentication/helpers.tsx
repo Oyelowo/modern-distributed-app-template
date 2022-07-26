@@ -1,42 +1,39 @@
-export type GraphqlErrorResponse = {
-  response: {
-    data: null;
-    errors: Array<{
-      message: string;
-      locations: Array<{ line: number; column: number }>;
-      extenstions: {
-        code: number;
-        details: string;
-      };
-    }>;
-  };
-};
+import z from 'zod';
+
+const GraphqlErrorResponseSchema = z.object({
+  response: z.object({
+    data: z.null(),
+    errors: z.array(
+      z.object({
+        message: z.string(),
+        locations: z.array(z.object({ line: z.number(), column: z.number() })),
+        path: z.array(z.string()),
+        extensions: z.object({
+          code: z.number(),
+          details: z.string(),
+        }),
+      })
+    ),
+  }),
+});
+
+export type GraphqlErrorResponse = z.infer<typeof GraphqlErrorResponseSchema>;
 
 export class GraphqlIoError {
   constructor(private errorResponse: GraphqlErrorResponse | null) {
-    this.errorResponse = errorResponse;
+    this.errorResponse = GraphqlErrorResponseSchema.parse(errorResponse);
   }
 
   getTitle = () => {
     const firstError = this.errorResponse?.response.errors?.[0];
-    return firstError?.extenstions?.details ?? firstError?.message;
+    return firstError?.extensions?.details ?? firstError?.message;
   };
 
   getDetails = () => {
     const firstError = this.errorResponse?.response.errors?.[0];
-    return firstError?.extenstions?.details ?? firstError?.message;
+    return firstError?.extensions?.details ?? firstError?.message;
   };
 }
-
-type UserData = {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  socialMedia: string;
-  age: number;
-};
 
 type ServerTypeProps<TData, TError> = {
   status: 'loading' | 'error' | 'success' | 'idle';

@@ -43,30 +43,28 @@ const contrastColor = '#B9B8CE';
 // const backgroundColor = '#100C2A';
 const backgroundColor = '#19232d';
 
-const axisCommon = function () {
-  return {
-    axisLine: {
-      lineStyle: {
-        color: contrastColor,
-      },
+const axisCommon = () => ({
+  axisLine: {
+    lineStyle: {
+      color: contrastColor,
     },
-    splitLine: {
-      lineStyle: {
-        color: '#484753',
-      },
+  },
+  splitLine: {
+    lineStyle: {
+      color: '#484753',
     },
-    splitArea: {
-      areaStyle: {
-        color: ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)'],
-      },
+  },
+  splitArea: {
+    areaStyle: {
+      color: ['rgba(255,255,255,0.02)', 'rgba(255,255,255,0.05)'],
     },
-    minorSplitLine: {
-      lineStyle: {
-        color: '#20203B',
-      },
+  },
+  minorSplitLine: {
+    lineStyle: {
+      color: '#20203B',
     },
-  };
-};
+  },
+});
 
 const colorPalette = [
   '#4992ff',

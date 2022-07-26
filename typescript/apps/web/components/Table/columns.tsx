@@ -22,7 +22,7 @@ export function useColumns() {
         ...getFilterFn('string_single'),
         cell: (info) => (
           <div
-            title={info.getValue()}
+            title={info.getValue<string>()}
             style={{
               width: 150,
               whiteSpace: 'nowrap',

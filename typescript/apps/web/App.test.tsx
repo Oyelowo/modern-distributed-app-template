@@ -1,9 +1,7 @@
 import { render, screen, setupServer, rest } from './utils/test-utils';
 
 const server = setupServer(
-  rest.get('/greeting', (req, res, ctx) => {
-    return res(ctx.json({ greeting: 'hello there' }));
-  })
+  rest.get('/greeting', (req, res, ctx) => res(ctx.json({ greeting: 'hello there' })))
 );
 
 beforeAll(() => server.listen());

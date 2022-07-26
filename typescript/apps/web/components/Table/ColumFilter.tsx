@@ -16,7 +16,7 @@ function assertUnreachable(_x: never): never {
   throw new Error("Didn't expect to get here");
 }
 
-type FilterType = ColumnMeta['filterType'];
+type FilterType = ColumnMeta<unknown, unknown>['filterType'];
 
 const filterFunctions: Record<FilterType, FilterFn<any>> = {
   date_multiple: dateFilterCompoundFn,

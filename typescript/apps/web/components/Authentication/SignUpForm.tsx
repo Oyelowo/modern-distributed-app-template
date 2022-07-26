@@ -27,7 +27,7 @@ export function SignUpForm() {
   });
 
   const form = useForm<z.infer<typeof signUpSchema>>({
-    schema: zodResolver(signUpSchema),
+    validateInputOnChange: true,
     initialValues: {
       username: '',
       password: '',
@@ -40,6 +40,7 @@ export function SignUpForm() {
       termsOfService: false,
     },
     validate: {
+      ...zodResolver(signUpSchema),
       passwordConfirm: (value, { password }) =>
         value === password ? null : 'Password does not match',
     },

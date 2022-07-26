@@ -12,7 +12,7 @@ export default function SignInForm() {
   const [_authType, setAuthType] = useAtom(toggleAuthAtom);
   const forceRerender = useForceUpdate();
   const form = useForm<z.infer<typeof signInSchema>>({
-    schema: zodResolver(signInSchema),
+    validate: zodResolver(signInSchema),
     initialValues: {
       username: '',
       password: '',

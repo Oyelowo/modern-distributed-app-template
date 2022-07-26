@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { ActionIcon, Anchor, Button, Group, Popover, Box, Select } from '@mantine/core';
-import { useForm, formList } from '@mantine/form';
+import { useForm } from '@mantine/form';
 import { randomId } from '@mantine/hooks';
 import { Filter as FilterIcon, Calendar as CalendarIcon, Plus } from 'tabler-icons-react';
 import { Column } from '@tanstack/react-table';
 import { DatePicker, DateRangePicker } from '@mantine/dates';
 import { operatorsValuesAndLabels } from './dateFilterMultipleFn';
-import { RowFilterMultipleForm, logicalOperators } from '../helpers';
+import {
+  logicalOperators,
+  FormValuesRowFilterMultiple,
+  OperationInputKey,
+  Operations,
+} from '../helpers';
 import { FilterShell } from '../FilterShell';
 
 type Props<T> = {
@@ -14,23 +19,25 @@ type Props<T> = {
   // table: Table<T>;
 };
 
+type InputParam = OperationInputKey<Date>;
+
 export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   const [opened, setOpened] = useState(false);
 
-  const form = useForm({
+  const form = useForm<FormValuesRowFilterMultiple<Date>>({
     initialValues: {
-      operations: formList<RowFilterMultipleForm<Date>>([
+      operations: [
         {
           logical: 'and',
           operator: 'between',
           filterValue: new Date(),
           key: randomId(),
         },
-      ]),
+      ],
     },
   });
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };
@@ -46,34 +53,30 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
     setOpened(false);
   };
 
-  const fields = form.values.operations.map((item, index) => (
+  const formFields = form.values.operations.map((item, index) => (
     <FilterShell
       key={item.key}
       showLogicalSelector={index !== 0}
       logicals={
         <Select
-          {...form.getListInputProps('operations', index, 'logical')}
+          {...form.getInputProps<InputParam>(`operations.${index}.logical`)}
           data={logicalOperators}
         />
       }
       operator={
         <Select
           placeholder="Operator"
-          {...form.getListInputProps('operations', index, 'operator')}
+          {...form.getInputProps<InputParam>(`operations.${index}.operator`)}
           data={operatorsValuesAndLabels}
           sx={{ flex: 2 }}
         />
       }
       filter={
-        form.getListInputProps('operations', index, 'operator').value === 'between' ? (
+        form.values.operations[0].operator === 'between' ? (
           <DateRangePicker
             placeholder="Pick dates range"
-            {...form.getListInputProps('operations', index, 'filterValue')}
+            {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
             amountOfMonths={2}
-            /*
-          Popover listens for outside clicks with use-click-outside hook. This means that it is not possible to use elements that render overlays within Portal inside Popover. To use components like Autocomplete, Menu, DatePicker portal feature should be disabled for these components:
-          */
-            withinPortal={false}
           />
         ) : (
           <DatePicker
@@ -81,65 +84,67 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
             placeholder="Pick date"
             mb="sm"
             allowFreeInput
-            withinPortal={false}
-            {...form.getListInputProps('operations', index, 'filterValue')}
+            {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
           />
         )
       }
-      onAddNewFilter={() => form.removeListItem('operations', index)}
+      onAddNewFilter={() => form.removeListItem<Operations>('operations', index)}
     />
   ));
 
   return (
     <Popover
-      target={
+      opened={opened}
+      position="bottom"
+      withArrow
+      shadow="md"
+      trapFocus
+      transition="scale-y"
+    >
+      <Popover.Target>
         <ActionIcon
-          variant={column.getFilterValue() ? 'light' : 'hover'}
-          color={column.getFilterValue() ? 'blue' : 'gray'}
+          variant={column.getFilterValue() ? 'light' : 'subtle'}
+          color={column.getFilterValue() ? 'cyan' : 'gray'}
           onClick={() => setOpened((o) => !o)}
         >
           <FilterIcon />
         </ActionIcon>
-      }
-      opened={opened}
-      onClose={handleClose}
-      onClick={(e) => e.stopPropagation()}
-      position="bottom"
-      transition="scale-y"
-    >
-      <Box style={{ maxWidth: 600 }}>
-        {fields}
+      </Popover.Target>
+      <Popover.Dropdown>
+        <Box style={{ maxWidth: 500 }}>
+          {formFields}
 
-        <Group position="center" mt="md">
-          <Button
-            variant="subtle"
-            onClick={() =>
-              form.addListItem('operations', {
-                operator: 'is_after',
-                logical: 'and',
-                filterValue: new Date(),
-                key: randomId(),
-              })
-            }
-            rightIcon={<Plus />}
-          >
-            Add Filter
-          </Button>
-        </Group>
-        {/*
+          <Group position="center" mt="md">
+            <Button
+              variant="subtle"
+              onClick={() =>
+                form.insertListItem<Operations>('operations', {
+                  operator: 'is_after',
+                  logical: 'and',
+                  filterValue: new Date(),
+                  key: randomId(),
+                })
+              }
+              rightIcon={<Plus />}
+            >
+              Add Filter
+            </Button>
+          </Group>
+          {/*
         <Text size="sm" weight={300} mt="md">
           Form values:
         </Text>
         <ScrollArea style={{ height: 200 }}>
           <Code block>{JSON.stringify(form.values, null, 2)}</Code>
         </ScrollArea> */}
-      </Box>
-      <Group position="apart">
-        <Anchor component="button" color="gray" onClick={handleClear}>
-          Clear
-        </Anchor>
-        <Button onClick={handleApply}>Apply</Button>
-      </Group>
+        </Box>
+        <Group position="apart">
+          <Anchor component="button" variant="text" onClick={handleClear}>
+            Clear
+          </Anchor>
+          <Button onClick={handleApply}>Apply</Button>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   );
 };

@@ -70,7 +70,7 @@ const apiReducer: ApiReducer = (state, action) => {
 
 const ImpossibleState = () => {
   const [state, dispatch] = useReducer(apiReducer, { status: 'idle' });
-  const { status } = state;
+  const { status: _st } = state;
 
   useEffect(() => {
     dispatch({ type: 'request' });
@@ -84,15 +84,15 @@ const ImpossibleState = () => {
 
   if (state.status === 'success') {
     const {
-      status,
-      data: { name },
+      status: _s,
+      data: { name: _n },
     } = state;
-    const kk = state.data;
+    const _kk = state.data;
   }
   if (state.status === 'failure') {
-    const { status, error } = state;
+    const { status: _s, error: _e } = state;
   }
-  return <div></div>;
+  return <div>x</div>;
 };
 
 export default ImpossibleState;

@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { AuthenticationForm } from '../Authentication/AuthForm';
 import { toggleAuthAtom } from '../Authentication/atoms';
 
-export function GetStarted(props: ButtonProps<'button'>) {
+export function GetStarted(props: ButtonProps) {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);
   const [opened, setOpened] = useState(false);
 

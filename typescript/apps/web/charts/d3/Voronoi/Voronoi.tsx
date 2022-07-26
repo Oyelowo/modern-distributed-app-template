@@ -36,21 +36,6 @@ const data: Datum[] = [
   { category: 'cold', x: 17.2, y: 408, id: 23 },
 ];
 
-const svgProps = {
-  HEIGHT: 500,
-  WIDTH: 700,
-};
-// const height = 700;
-// const width = 700;
-
-// const margin = {
-//   left: 70,
-//   right: 70,
-//   top: 70,
-//   bottom: 70,
-// };
-type CoolDatum = typeof data[number];
-
 const margins = {
   TOP: 10,
   RIGHT: 40,
@@ -161,44 +146,3 @@ const VoronoiHoverTracker = ({ width: w, height: h = 500 }: { width: number; hei
 };
 
 export default VoronoiHoverTracker;
-{
-  /* 
-  <path
-  pointerEvents="none"
-  d={voronoi.render()}
-  stroke="#eee"
-  strokeWidth="2"
-  fill="none"
-/>
-<path
-  pointerEvents="none"
-  d={voronoi.renderBounds()}
-  stroke="#eaeaea"
-  strokeWidth="2"
-  fill="none"
-/> 
-
-*/
-}
-
-/* {data.map(({ x, y, category }, i) => (
-  <polygon
-    points={voronoi
-      .cellPolygon(i)
-      .map(([x, y]) => `${x}, ${y}`)
-      .join(" ")}
-    stroke="#fff"
-    strokeWidth="2"
-    fill="none"
-    onMouseEnter={() => {
-      setHoveredDatum({ x, y, category });
-    }}
-    onMouseLeave={() => {
-      setHoveredDatum((currentDatum) =>
-        currentDatum === {x,y,category} ? null : currentDatum
-      );
-    }}
-    // This wont work. Should be all
-    pointerEvents="visibleStroke"
-  />
-))} */

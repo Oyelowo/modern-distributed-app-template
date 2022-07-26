@@ -13,7 +13,7 @@ import {
   // helper,
 } from 'echarts/core';
 
-import { helper } from 'echarts';
+// import { helper } from 'echarts';
 
 import {
   BarChart,
@@ -51,10 +51,10 @@ import {
   ToolboxComponent,
 } from 'echarts/components';
 
-import { LabelLayout, UniversalTransition } from 'echarts/features';
-import { CanvasRenderer, SVGRenderer } from 'echarts/renderers';
-import { vintage } from './themes/vintage';
-import { blackTheme } from './themes/black';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+// import { vintage } from './themes/vintage';
+// import { blackTheme } from './themes/black';
 import { darkTheme } from './themes/dark';
 
 // Register the required components
@@ -123,7 +123,7 @@ export interface ReactEChartsProps {
 
 export function useChart({ option, style, settings, loading, theme }: ReactEChartsProps) {
   const chartRef = useRef<HTMLDivElement>(null);
-  const [chart, setChart] = useState<ECharts>();
+  const [chart, setChart] = useState<ECharts | null>(null);
 
   useEffect(() => {
     use(chartComponentsInUse);
@@ -131,12 +131,12 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
 
   useEffect(() => {
     // Initialize chart
-    let chart: ECharts | undefined;
+    let chartInit: ECharts | undefined;
     if (chartRef.current !== null) {
       // registerTheme('vintage', vintage);
       // registerTheme('dark', blackTheme);
       registerTheme('dark', darkTheme);
-      chart = init(chartRef.current, theme);
+      chartInit = init(chartRef.current, theme);
 
       // chart.on("legendselectchanged", function (params) {
       //   if (params.name === "lineData") {
@@ -165,19 +165,19 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
       //     }
       //   }
       // }
-      setChart(chart);
+      setChart(chartInit);
     }
 
     // Add chart resize listener
     // ResizeObserver is leading to a bit janky UX
     function resizeChart() {
-      chart?.resize();
+      chartInit?.resize();
     }
     window.addEventListener('resize', resizeChart);
 
     // Return cleanup function
     return () => {
-      chart?.dispose();
+      chartInit?.dispose();
       window.removeEventListener('resize', resizeChart);
     };
   }, [theme]);
@@ -185,22 +185,22 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = getInstanceByDom(chartRef.current);
-      chart?.setOption(option, settings);
+      const chartInstance = getInstanceByDom(chartRef.current);
+      chartInstance?.setOption(option, settings);
     }
   }, [option, settings, theme]); // Whenever theme changes we need to add option and setting due to it being deleted in cleanup function
 
   useEffect(() => {
     // Update chart
     if (chartRef.current !== null) {
-      const chart = getInstanceByDom(chartRef.current);
-      loading === true ? chart?.showLoading() : chart?.hideLoading();
+      const chartInstance = getInstanceByDom(chartRef.current);
+      loading === true ? chartInstance?.showLoading() : chartInstance?.hideLoading();
     }
   }, [loading, theme]);
 
   const ReactCharts = useCallback(
     () => <div ref={chartRef} style={{ width: '100%', height: '100%', ...style }} />,
-    [theme]
+    [style]
   );
   return {
     ReactCharts,
