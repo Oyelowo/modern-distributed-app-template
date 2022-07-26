@@ -1,7 +1,7 @@
 // QQ:996192181
 
 import { data } from './chartMultiData';
-import { ECOption } from './ChartWithHooks';
+import { ECOption } from './useChart';
 
 let KNAME = '';
 // let macd;

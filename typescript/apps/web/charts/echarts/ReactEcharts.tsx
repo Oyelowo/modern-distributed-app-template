@@ -1,6 +1,6 @@
 import { useInterval } from '@oyelowo/ui';
 import { useState } from 'react';
-import { ECOption, ThemeOfECharts, useChart } from './ChartWithHooks';
+import { ECOption, ThemeOfECharts, useChart } from './useChart';
 
 const dataset = {
   dimensions: ['name', 'score'],

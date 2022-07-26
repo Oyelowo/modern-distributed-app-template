@@ -1,4 +1,4 @@
-import { ECOption } from './ChartWithHooks';
+import { ECOption } from './useChart';
 import { rawData } from './stockchartTAData';
 
 type DataItem = (number | string)[];

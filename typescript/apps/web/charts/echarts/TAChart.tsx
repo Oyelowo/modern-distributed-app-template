@@ -2,7 +2,7 @@
 //数据模型 time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
 
 // import { graphic } from 'echarts/core';
-import { ECOption } from './ChartWithHooks';
+import { ECOption } from './useChart';
 
 function splitData(
   rawData: Array<[string, number, number, number, number, number, number, number, number, number]>

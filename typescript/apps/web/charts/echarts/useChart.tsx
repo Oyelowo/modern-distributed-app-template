@@ -56,6 +56,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 // import { vintage } from './themes/vintage';
 // import { blackTheme } from './themes/black';
 import { darkTheme } from './themes/dark';
+import { Paper } from '@mantine/core';
 
 // Register the required components
 const chartComponentsInUse = [
@@ -199,7 +200,14 @@ export function useChart({ option, style, settings, loading, theme }: ReactEChar
   }, [loading, theme]);
 
   const ReactCharts = useCallback(
-    () => <div ref={chartRef} style={{ width: '100%', height: '100%', ...style }} />,
+    () => (
+      <Paper
+        shadow="md"
+        p="sm"
+        ref={chartRef}
+        style={{ width: '100%', height: '100%', ...style }}
+      />
+    ),
     [style]
   );
   return {
