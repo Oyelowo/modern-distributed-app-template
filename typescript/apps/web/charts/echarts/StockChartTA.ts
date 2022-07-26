@@ -10,7 +10,7 @@ function calculateMA(dayCount: number, data: DataItem[]) {
       result.push('-');
       let sum = 0;
       for (let j = 0; j < dayCount; j += 1) {
-        sum += +data[i - j][1];
+        sum += Number(data[i - j]?.[1]);
       }
       result.push(sum / dayCount);
     }
@@ -19,8 +19,12 @@ function calculateMA(dayCount: number, data: DataItem[]) {
 }
 
 const dates = rawData.map((item) => item[0]);
-
-const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
+// time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
+const data = rawData.map(
+  ([_date, open, close, _delta, _percentageChange, low, high, _volume, _trans, _sign]) =>
+    [open, close, low, high].map(Number)
+);
+// const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
 
 export const tradingChartOption: ECOption = {
   // backgroundColor: "#19232d",

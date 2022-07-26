@@ -8,10 +8,10 @@ const dataset = {
     ['Oyelowo Oyedayo', 314],
     ['Maria Koko', 351],
     ['Samuel Koiv ', 287],
-    ['Saul Paul', 219],
+    ['Vuokko Mika', 219],
     ['Sakar Sark', 253],
-    ['Alexi Lab', 165],
-    ['Port Proxy', 318],
+    ['Alexi Rikki', 165],
+    ['Timo Kimo', 318],
     ['Service Mesh', 366],
   ],
 };
