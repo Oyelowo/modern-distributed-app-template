@@ -1,12 +1,11 @@
 // import * as d3 from "d3-shape";
-import * as d3 from 'd3';
-// import { extent } from "d3-array";
+import { line, curveCardinal } from 'd3';
+import { extent, max, min } from 'd3-array';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { scaleLinear, scaleTime } from 'd3-scale';
-import { ReactNode } from 'react';
 import { animated, useSpring } from '@react-spring/web';
 
-const { extent, line } = d3;
+// const { extent, line } = d3;
 interface Datum {
   date: Date;
   value: number;
@@ -19,7 +18,7 @@ const margin = {
   top: 55,
 };
 
-const padding = {
+const _padding = {
   left: 5,
   right: 5,
   bottom: 5,
@@ -53,11 +52,11 @@ export const Chart = () => {
   const xScale = scaleTime().domain(extentX).range([0, chartWidth]).nice();
   const yScale = scaleLinear().domain(extentY).range([0, chartHeight]).nice();
 
-  const xAxis = axisBottom(xScale);
-  const yAxis = axisLeft(yScale);
+  const _xAxis = axisBottom(xScale);
+  const _yAxis = axisLeft(yScale);
 
   const generateLine = line<Datum>()
-    .curve(d3.curveCardinal)
+    .curve(curveCardinal)
     .x((d) => xScale(d.date))
     .y((d) => yScale(d.value));
 
@@ -91,11 +90,11 @@ export const Chart = () => {
 
           {/* X-axis */}
           <g transform={`translate(0, ${chartHeight + 13}) rotate(90)`}>
-            <text x={xScale(d3.min(data, (d) => d.date)!)} y={0} dx="0em">
-              {d3.min(data, (d) => d.date)?.toLocaleDateString()}
+            <text x={xScale(min(data, (d) => d.date)!)} y={0} dx="0em">
+              {min(data, (d) => d.date)?.toLocaleDateString()}
             </text>
-            <text x={xScale(d3.max(data, (d) => d.date)!)} y={0}>
-              {d3.max(data, (d) => d.date)?.toLocaleDateString()}
+            <text x={xScale(max(data, (d) => d.date)!)} y={0}>
+              {max(data, (d) => d.date)?.toLocaleDateString()}
             </text>
           </g>
         </animated.g>
