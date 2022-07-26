@@ -3,8 +3,10 @@ import { RequestInit } from "graphql-request/dist/types.dom";
 import {
   useMutation,
   useQuery,
+  useInfiniteQuery,
   UseMutationOptions,
   UseQueryOptions,
+  UseInfiniteQueryOptions,
 } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -452,6 +454,27 @@ export const useSessionQuery = <TData = SessionQuery, TError = unknown>(
     ),
     options
   );
+export const useInfiniteSessionQuery = <TData = SessionQuery, TError = unknown>(
+  _pageParamKey: keyof SessionQueryVariables,
+  client: GraphQLClient,
+  variables?: SessionQueryVariables,
+  options?: UseInfiniteQueryOptions<SessionQuery, TError, TData>,
+  headers?: RequestInit["headers"]
+) =>
+  useInfiniteQuery<SessionQuery, TError, TData>(
+    variables === undefined
+      ? ["session.infinite"]
+      : ["session.infinite", variables],
+    (metaData) =>
+      fetcher<SessionQuery, SessionQueryVariables>(
+        client,
+        SessionDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+        headers
+      )(),
+    options
+  );
+
 export const CreateUserDocument = `
     mutation createUser($userInput: UserInput!) {
   createUser(userInput: $userInput) {
@@ -523,6 +546,30 @@ export const useGetUsersQuery = <TData = GetUsersQuery, TError = unknown>(
     ),
     options
   );
+export const useInfiniteGetUsersQuery = <
+  TData = GetUsersQuery,
+  TError = unknown
+>(
+  _pageParamKey: keyof GetUsersQueryVariables,
+  client: GraphQLClient,
+  variables?: GetUsersQueryVariables,
+  options?: UseInfiniteQueryOptions<GetUsersQuery, TError, TData>,
+  headers?: RequestInit["headers"]
+) =>
+  useInfiniteQuery<GetUsersQuery, TError, TData>(
+    variables === undefined
+      ? ["GetUsers.infinite"]
+      : ["GetUsers.infinite", variables],
+    (metaData) =>
+      fetcher<GetUsersQuery, GetUsersQueryVariables>(
+        client,
+        GetUsersDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+        headers
+      )(),
+    options
+  );
+
 export const GetUserDocument = `
     query getUser($UserBy: UserBy!) {
   getUser(userBy: $UserBy) {
@@ -557,6 +604,25 @@ export const useGetUserQuery = <TData = GetUserQuery, TError = unknown>(
     ),
     options
   );
+export const useInfiniteGetUserQuery = <TData = GetUserQuery, TError = unknown>(
+  _pageParamKey: keyof GetUserQueryVariables,
+  client: GraphQLClient,
+  variables: GetUserQueryVariables,
+  options?: UseInfiniteQueryOptions<GetUserQuery, TError, TData>,
+  headers?: RequestInit["headers"]
+) =>
+  useInfiniteQuery<GetUserQuery, TError, TData>(
+    ["getUser.infinite", variables],
+    (metaData) =>
+      fetcher<GetUserQuery, GetUserQueryVariables>(
+        client,
+        GetUserDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+        headers
+      )(),
+    options
+  );
+
 export const MeDocument = `
     query me {
   me {
@@ -591,5 +657,23 @@ export const useMeQuery = <TData = MeQuery, TError = unknown>(
   useQuery<MeQuery, TError, TData>(
     variables === undefined ? ["me"] : ["me", variables],
     fetcher<MeQuery, MeQueryVariables>(client, MeDocument, variables, headers),
+    options
+  );
+export const useInfiniteMeQuery = <TData = MeQuery, TError = unknown>(
+  _pageParamKey: keyof MeQueryVariables,
+  client: GraphQLClient,
+  variables?: MeQueryVariables,
+  options?: UseInfiniteQueryOptions<MeQuery, TError, TData>,
+  headers?: RequestInit["headers"]
+) =>
+  useInfiniteQuery<MeQuery, TError, TData>(
+    variables === undefined ? ["me.infinite"] : ["me.infinite", variables],
+    (metaData) =>
+      fetcher<MeQuery, MeQueryVariables>(
+        client,
+        MeDocument,
+        { ...variables, ...(metaData.pageParam ?? {}) },
+        headers
+      )(),
     options
   );
