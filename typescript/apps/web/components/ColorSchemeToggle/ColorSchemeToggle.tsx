@@ -1,10 +1,12 @@
 import { ActionIcon, useMantineColorScheme, Affix, Transition } from '@mantine/core';
 import { SunIcon, MoonIcon } from '@modulz/radix-icons';
-import { useWindowScroll } from '@mantine/hooks';
+import { useHotkeys, useWindowScroll } from '@mantine/hooks';
 
 export function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const [scroll, _scrollTo] = useWindowScroll();
+
+  useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
   return (
     <Affix position={{ top: 5, right: 10 }} zIndex={3333}>

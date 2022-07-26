@@ -76,7 +76,7 @@ export const NumberFilterSingle = ({ column }: Props) => {
             column.getFacetedMinMaxValues()?.[1]
           })`}
           mb="sm"
-          data-autoFocus
+          data-autofocus
           {...form.getInputProps<InputParam>('filterValue')}
         />
         <Group position="apart">

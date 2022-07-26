@@ -79,12 +79,11 @@ export function SideNavbarSlim() {
       <Drawer
         opened={opened}
         onClose={() => setNavState(false)}
-        title="Surf"
+        title="Well"
         withOverlay={false}
         size={80}
-        withinPortal={false}
+        style={{ border: '1px solid red', width: 80 }}
         withCloseButton={false}
-        zIndex={0}
         lockScroll={false}
       >
         <Navbar width={{ base: 80 }} p="md">

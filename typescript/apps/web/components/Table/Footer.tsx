@@ -1,19 +1,29 @@
 import { Table as ReactTable } from '@tanstack/react-table';
-import { Divider, Group, Pagination, Text, TextInput, Select, Button } from '@mantine/core';
+import { Divider, Group, Pagination, Text, TextInput, Select, Button, Kbd } from '@mantine/core';
+import { useHotkeys } from '@mantine/hooks';
 import { Person } from './makeData';
 
 export function Footer({ table }: { table: ReactTable<Person> }) {
+  useHotkeys([
+    ['N', table.nextPage],
+    ['P', table.previousPage],
+  ]);
   return (
     <>
-      <Pagination
-        initialPage={1}
-        page={table.getState().pagination.pageIndex}
-        onChange={(page) => table.setPageIndex(page)}
-        total={table.getPageCount()}
-        siblings={2}
-        boundaries={2}
-      />
+      <Group>
+        <Pagination
+          initialPage={1}
+          page={table.getState().pagination.pageIndex}
+          onChange={(page) => table.setPageIndex(page)}
+          total={table.getPageCount()}
+          siblings={2}
+          boundaries={2}
+        />
 
+        <Text color="dimmed">
+          Press <Kbd>N</Kbd> / <Kbd>P</Kbd> to go to next/previous page
+        </Text>
+      </Group>
       <Group mt="sm">
         <Button
           variant="default"
