@@ -31,7 +31,7 @@ export const NumberFilterSingle = ({ column }: Props) => {
 
   const [opened, setOpened] = useState(false);
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };

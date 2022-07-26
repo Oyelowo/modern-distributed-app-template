@@ -18,7 +18,7 @@ export type FilterConditionSimple<Operator extends string, Filter extends Filter
 export type FilterConditionCompound<
   Operator extends string,
   Filter extends FilterValueType
-  > = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
+> = FilterConditionSimple<Operator, Filter> & { logical: OperatorLogical | null };
 
 export type AddMeta = (meta: FilterMeta) => void;
 export type FilterPropsOld<Operator extends string, FilterType extends FilterValueType> = {
@@ -60,13 +60,13 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 export type RowString = {
   rowValue: string;
   operator:
-  | 'contains'
-  | 'not_contain'
-  | 'starts_with'
-  | 'ends_with'
-  | 'equals'
-  | 'not_equal'
-  | 'fuzzy';
+    | 'contains'
+    | 'not_contain'
+    | 'starts_with'
+    | 'ends_with'
+    | 'equals'
+    | 'not_equal'
+    | 'fuzzy';
 
   filterValue: string;
   addMeta: AddMeta;
@@ -82,14 +82,14 @@ export type RowNumber = {
 export type RowDate = {
   rowValue: Date;
   operator:
-  | 'between'
-  | 'is_same'
-  | 'is_before'
-  | 'is_after'
-  | 'is_not_same'
-  | 'on_or_before'
-  | 'on_or_after'
-  | 'fuzzy';
+    | 'between'
+    | 'is_same'
+    | 'is_before'
+    | 'is_after'
+    | 'is_not_same'
+    | 'on_or_before'
+    | 'on_or_after'
+    | 'fuzzy';
 
   filterValue: Date | [Date, Date];
   addMeta: AddMeta;

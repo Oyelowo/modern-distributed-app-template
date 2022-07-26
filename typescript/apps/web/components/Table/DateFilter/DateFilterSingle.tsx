@@ -17,7 +17,7 @@ export const DateFilterSingle = <T extends unknown>({ column }: { column: Column
   const [opened, setOpened] = useState(false);
   type InputParams = keyof typeof form.values;
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };

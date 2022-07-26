@@ -37,7 +37,7 @@ export const NumberFilterMultiple = ({ column }: Props) => {
     },
   });
 
-  const handleClose = () => {
+  const _handleClose = () => {
     form.reset();
     setOpened(false);
   };

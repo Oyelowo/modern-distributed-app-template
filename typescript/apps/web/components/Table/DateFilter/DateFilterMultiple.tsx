@@ -93,14 +93,7 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
   ));
 
   return (
-    <Popover
-      opened={opened}
-      position="bottom"
-      withArrow
-      shadow="md"
-      trapFocus
-      transition="scale-y"
-    >
+    <Popover opened={opened} position="bottom" withArrow shadow="md" trapFocus transition="scale-y">
       <Popover.Target>
         <ActionIcon
           variant={column.getFilterValue() ? 'light' : 'subtle'}
