@@ -1,6 +1,4 @@
 # Update gitignore
-npx goops
-
 mongo
 use graphql-mongo-database
 db.auth("username0","password0")
