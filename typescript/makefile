@@ -1,24 +1,34 @@
-
+#############
+## STANDARD
+#############
 install:
 	yarn install
 
-gen:
+upgrade:
+	yarn upgrade-interactive
+
+sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
-	yarn workspace @oyelowo/graphql-client generate  
-	# npm run generate --workspace=@oyelowo/graphql-client
+	yarn generate
 
 dev:
+# Example usage: make dev app=web
 	make gen
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-	yarn workspace web dev
+	yarn workspace $(app) dev
 
-lint:
-	yarn lint
+format:
+	yarn prettier-fix
+	yarn lint-fix
+	
+check:
+	yarn lint-check
+	yarn prettier-check
 
 test:
 	yarn test
@@ -32,6 +42,7 @@ build:
 run:
 	yarn start
 
+####### OTHERS
 build-web-image:
 	docker build -f Dockerfile.production --target web  -t oyelowo/web .
 

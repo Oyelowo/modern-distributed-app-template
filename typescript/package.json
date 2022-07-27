@@ -7,16 +7,21 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npx turbo run build",
+    "build": "turbo run build",
+    "install": "turbo run install",
+    "upgrade-interactive": "yarn workspaces run upgrade-interactive",
     "dev": "turbo run dev --parallel",
     "test:watch": "turbo run test --parallel",
     "test": "turbo run test:ci --parallel",
     "test-e2e": "turbo run cypress:run --parallel",
-    "lint": "turbo run lint",
-    "prettier": "turbo run prettier",
-    "format": "prettier --write '**/*.{ts,tsx,.md,json}'",
-    "start": "next start",
-    "generate": "turbo run generate --scope=@oyelowo/graphql-client",
+    "lint": "turbo run lint  --parallel",
+    "lint-fix": "turbo run lint-fix  --parallel",
+    "lint-check": "turbo run lint-check  --parallel",
+    "prettier-fix": "turbo run prettier-fix  --parallel",
+    "prettier-check": "turbo run prettier-check  --parallel",
+    "start": "next start  --parallel",
+    "generate": "turbo run generate --parallel",
+    "generate-scoped": "turbo run generate --scope=@oyelowo/graphql-client",
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {

@@ -6,7 +6,12 @@
     "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "npx eslint . --ext .js,.ts",
+    "lint-check": "next lint",
+    "lint-fix": "next lint . --ext .js,.ts",
+    "prettier-fix": "prettier --write .",
+    "prettier-check": "prettier --check .",
+    "upgrade-interactive": "yarn upgrade-interactive --latest"
   },
   "dependencies": {
     "@oyelowo/ui": "*",

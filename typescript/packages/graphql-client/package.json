@@ -9,7 +9,10 @@
     "build": "tsc",
     "build:old": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint-check": "next lint",
+    "lint-fix": "next lint . --ext .js,.ts",
+    "prettier-fix": "prettier --write .",
+    "prettier-check": "prettier --check .",
     "compile": "tsc",
     "generate:old": "graphql-codegen --config codegen.yml",
     "generate": "node codegen.js",
@@ -20,7 +23,8 @@
     "test": "jest --watch",
     "#test:ci": "jest --ci",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "upgrade-interactive": "yarn upgrade-interactive --latest"
   },
   "dependencies": {},
   "peerDependencies": {
