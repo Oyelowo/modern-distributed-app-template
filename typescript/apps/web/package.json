@@ -14,8 +14,9 @@
     "cypress:run": "cypress run --config video=false",
     "lint-check": "next lint",
     "lint-fix": "next lint",
-    "prettier": "npx prettier --write .",
-    "prettier-check": "npx prettier --check ."
+    "prettier": "prettier --write .",
+    "prettier-check": "prettier --check .",
+    "upgrade-interactive": "yarn upgrade-interactive --latest"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

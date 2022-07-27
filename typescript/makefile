@@ -4,6 +4,9 @@
 install:
 	yarn install
 
+upgrade:
+	yarn upgrade-interactive
+
 sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this

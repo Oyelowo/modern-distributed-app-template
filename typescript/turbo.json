@@ -6,7 +6,7 @@
     },
     "test": {
       "outputs": ["coverage/**"],
-      "dependsOn": []
+      "dependsOn": ["lint-check", "prettier-check", "build"]
     },
     "test:ci": {
       "outputs": ["coverage/**"],
@@ -29,6 +29,14 @@
       "outputs": []
     },
     "prettier-fix": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "install": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "upgrade-interactive": {
       "dependsOn": [],
       "outputs": []
     },

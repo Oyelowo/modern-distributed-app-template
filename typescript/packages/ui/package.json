@@ -16,7 +16,8 @@
     "lint-fix": "next lint",
     "lint-check": "next lint",
     "prettier-fix": "prettier --write .",
-    "prettier-check": "prettier --check ."
+    "prettier-check": "prettier --check .",
+    "upgrade-interactive": "yarn upgrade-interactive --latest"
   },
   "peerDependencies": {
     "@emotion/react": "^11.9.3",
