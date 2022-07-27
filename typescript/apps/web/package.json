@@ -8,11 +8,14 @@
     "start": "cross-env next start",
     "start:old": "cross-env next start",
     "typecheck": "tsc --noEmit",
-    "lint": "next lint",
     "test": "cross-env jest --watch",
     "test:ci": "jest --ci",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --config video=false"
+    "cypress:run": "cypress run --config video=false",
+    "lint-check": "next lint",
+    "lint-fix": "next lint",
+    "prettier": "npx prettier --write .",
+    "prettier-check": "npx prettier --check ."
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

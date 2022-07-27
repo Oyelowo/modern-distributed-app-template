@@ -16,8 +16,20 @@
       "outputs": ["coverage/**"],
       "dependsOn": []
     },
-    "lint": {
+    "lint-check": {
       "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "lint-fix": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "prettier-check": {
+      "dependsOn": [],
+      "outputs": []
+    },
+    "prettier-fix": {
+      "dependsOn": [],
       "outputs": []
     },
     "dev": {

@@ -13,10 +13,13 @@
     "test": "turbo run test:ci --parallel",
     "test-e2e": "turbo run cypress:run --parallel",
     "lint": "turbo run lint",
-    "prettier": "turbo run prettier",
-    "format": "prettier --write '**/*.{ts,tsx,.md,json}'",
+    "lint-fix": "turbo run lint-fix",
+    "lint-check": "turbo run lint-check",
+    "prettier-fix": "turbo run prettier-fix",
+    "prettier-check": "turbo run prettier-check",
     "start": "next start",
-    "generate": "turbo run generate --scope=@oyelowo/graphql-client",
+    "generate": "turbo run generate --parallel",
+    "generate-scoped": "turbo run generate --scope=@oyelowo/graphql-client",
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {
