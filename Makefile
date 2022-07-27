@@ -1,20 +1,36 @@
+#############
+## STANDARD
+#############
 setup:
 	chmod +x ./install-tools.sh
 	./install-tools.sh
 
-gen:
-	(cd kubernetes && make gen)
-	(cd rust && make gen)
-	(cd typescript && make gen)
+install:
+	chmod +x ./install-tools.sh
+	./install-tools.sh
+
+upgrade:
+	cargo update
+
+sync:
+	(cd kubernetes && make sync)
+	(cd rust && make sync)
+	(cd typescript && make sync)
 
 dev:
 	(cd kubernetes && make dev)
 
-mergekubeconfig:
-	# E.g Usage: `make mergekubeconfig file=./test-cluster-kubeconfig.yml`
-	echo "Merging config: $(file)"
-	cp ~/.kube/config ~/.kube/config.bak && KUBECONFIG=~/.kube/config:$(file) kubectl config view --flatten > /tmp/config && mv /tmp/config ~/.kube/config
+format:
+	(cd kubernetes && make format)
+	(cd rust && make format)
+	(cd typescript && make format)
+	
+check:
+	(cd kubernetes && make check)
+	(cd rust && make check)
+	(cd typescript && make check)
 
-	echo "Successfully merged configs. See new config!!!!!! 🎉"
-	cat ~/.kube/config
-
+test:
+	(cd kubernetes && make test)
+	(cd rust && make test)
+	(cd typescript && make test)
