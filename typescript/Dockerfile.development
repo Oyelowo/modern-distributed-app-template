@@ -23,13 +23,34 @@ COPY . .
 
 ######### START WEB SERVICE  #################
 ################################################################
-FROM builder-base AS web
+FROM builder-base as builder-web
+RUN yarn build -- --scope=web
+
+
+FROM node:18.4.0-alpine AS web
+# FROM node:16.14.0-alpine3.15 AS web
+# Create a group and user
+# RUN addgroup -S 10000 && adduser -S appuser -G 10000
+# # Tell docker that all future commands should run as the appuser user
+# USER appuser
+# RUN useradd --uid 10000 runner
+# USER 10000
 WORKDIR /app
 EXPOSE 3000
 
 
+# Automatically leverage output traces to reduce image size 
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder-web /app/apps/web/.next/standalone ./
 
-CMD ["yarn", "workspace", "web", "dev"]
-# CMD ["yarn", "dev", "--scope=web"]
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder-web /app/apps/web/next.config.js ./apps/web
+COPY --from=builder-web /app/apps/web/public ./apps/web/public
+COPY --from=builder-web /app/apps/web/package.json ./apps/web/package.json
+
+# Also copy the static files into the standalone for nodejs server to serve. This can also be
+# served over the CDN or nginx.
+COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
+CMD ["node", "./apps/web/server.js"]
 ######### END WEB SERVICE  #################
 ############################################################## 
