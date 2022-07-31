@@ -10,6 +10,10 @@ const withTM = require('next-transpile-modules')([
   '@oyelowo/graphql-client',
 ]);
 
+import * as url from 'url';
+
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 /** @type {import('next').NextConfig} */
 module.exports = withTM({
   output: 'standalone',
