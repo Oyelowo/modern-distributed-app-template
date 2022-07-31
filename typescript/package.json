@@ -8,7 +8,6 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "install": "turbo run install",
     "upgrade-interactive": "yarn workspaces run upgrade-interactive",
     "dev": "turbo run dev --parallel",
     "test:watch": "turbo run test --parallel",

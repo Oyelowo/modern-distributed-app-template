@@ -21,7 +21,8 @@ export type GraphqlErrorResponse = z.infer<typeof GraphqlErrorResponseSchema>;
 
 export class GraphqlIoError {
   constructor(private errorResponse: GraphqlErrorResponse | null) {
-    this.errorResponse = GraphqlErrorResponseSchema.parse(errorResponse);
+    // this.errorResponse = GraphqlErrorResponseSchema.parse(errorResponse);
+    this.errorResponse = errorResponse;
   }
 
   getTitle = () => {
