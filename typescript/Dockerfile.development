@@ -8,9 +8,9 @@ RUN mkdir /json && find . -type f -name package.json -not -path '*/node_modules/
 
 FROM $BASE_IMAGE AS cacher
 WORKDIR /app
-COPY --from=planner /app/yarn.lock .
+COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .
-RUN yarn install
+RUN npm install
 
 
 FROM $BASE_IMAGE AS builder-base
@@ -24,7 +24,7 @@ COPY . .
 ######### START WEB SERVICE  #################
 ################################################################
 FROM builder-base as builder-web
-RUN yarn build -- --scope=web
+RUN npm run build -- --scope=web
 
 
 FROM node:18.4.0-alpine AS web
