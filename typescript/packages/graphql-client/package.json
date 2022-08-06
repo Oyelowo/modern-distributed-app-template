@@ -24,7 +24,7 @@
     "#test:ci": "jest --ci",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "upgrade": "npm update --save"
+    "upgrade": "npm update --save --force"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^4.0.10",

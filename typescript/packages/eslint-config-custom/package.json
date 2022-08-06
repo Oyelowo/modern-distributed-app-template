@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "upgrade": "npm update --save"
+    "upgrade": "npm update --save --force"
   },
   "dependencies": {
     "@typescript-eslint/parser": "^5.32.0",

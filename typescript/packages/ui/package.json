@@ -17,7 +17,7 @@
     "lint-check": "next lint",
     "prettier-fix": "prettier --write .",
     "prettier-check": "prettier --check .",
-    "upgrade": "npm update --save"
+    "upgrade": "npm update --save --force"
   },
   "peerDependencies": {
     "@emotion/react": "^11.9.3",

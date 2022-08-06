@@ -11,7 +11,7 @@
     "lint-fix": "next lint . --ext .js,.ts",
     "prettier-fix": "prettier --write .",
     "prettier-check": "prettier --check .",
-    "upgrade": "npm update --save"
+    "upgrade": "npm update --save --force"
   },
   "dependencies": {
     "@oyelowo/ui": "^1.0.0",
