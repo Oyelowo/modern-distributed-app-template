@@ -24,7 +24,8 @@ COPY . .
 ######### START WEB SERVICE  #################
 ################################################################
 FROM builder-base as builder-web
-RUN yarn build -- --scope=web
+ARG NEXT_PUBLIC_API_URL
+RUN NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL yarn build -- --scope=web
 
 
 FROM node:18.4.0-alpine AS web
