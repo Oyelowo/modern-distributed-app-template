@@ -2,10 +2,11 @@
 ## STANDARD
 #############
 install:
-	npm install --force --workspaces
+	npm install --force
 
 upgrade:
 	npm update --save --force --workspaces
+	npm update --save --force
 
 sync:
 	make install
@@ -20,7 +21,11 @@ dev:
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-	npm run workspace $(app) dev
+
+# Via turbo repo
+	npm run dev -- --scope=$(app)
+#alternative via npm directly
+	# npm run dev -w=$(app) 
 
 format:
 	npm run prettier-fix
