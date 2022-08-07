@@ -1,6 +1,8 @@
 ARG BASE_IMAGE=node:18.7.0-alpine
 
 FROM $BASE_IMAGE AS planner
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY . .
 # Copies the root and all workspaces `package.json` to /json perserving their parent directories structure
@@ -24,20 +26,23 @@ COPY . .
 ######### START WEB SERVICE  #################
 ################################################################
 FROM builder-base as builder-web
+ENV NEXT_TELEMETRY_DISABLED 1
 ARG NEXT_PUBLIC_API_URL
 RUN NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL npm run build -- --scope=web
 
 
-FROM node:18.4.0-alpine AS web
-# FROM node:16.14.0-alpine3.15 AS web
+FROM node:18.7.0-alpine AS web
 # Create a group and user
+# RUN addgroup --system --gid 1001 nodejs
+# RUN adduser --system --uid 1001 nextjs
+
 # RUN addgroup -S 10000 && adduser -S appuser -G 10000
 # # Tell docker that all future commands should run as the appuser user
 # USER appuser
 # RUN useradd --uid 10000 runner
 # USER 10000
 WORKDIR /app
-EXPOSE 3000
+
 
 
 # Automatically leverage output traces to reduce image size 
@@ -52,6 +57,9 @@ COPY --from=builder-web /app/apps/web/package.json ./apps/web/package.json
 # Also copy the static files into the standalone for nodejs server to serve. This can also be
 # served over the CDN or nginx.
 COPY --from=builder-web /app/apps/web/.next/static ./apps/web/.next/static
+
+EXPOSE 3000
+ENV PORT 3000
 CMD ["node", "./apps/web/server.js"]
 ######### END WEB SERVICE  #################
 ############################################################## 
