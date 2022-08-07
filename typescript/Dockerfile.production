@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=node:18.4.0-alpine
+ARG BASE_IMAGE=node:18.7.0-alpine
 
 FROM $BASE_IMAGE AS planner
 WORKDIR /app
