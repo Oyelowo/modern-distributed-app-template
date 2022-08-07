@@ -36,7 +36,7 @@
       "dependsOn": [],
       "outputs": []
     },
-    "upgrade-interactive": {
+    "upgrade": {
       "dependsOn": [],
       "outputs": []
     },

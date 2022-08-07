@@ -2,17 +2,18 @@
 ## STANDARD
 #############
 install:
-	yarn install
+	npm install --force
 
 upgrade:
-	yarn upgrade-interactive
+	npm update --save --force --workspaces
+	npm update --save --force
 
 sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
-	yarn generate
+	npm run generate
 
 dev:
 # Example usage: make dev app=web
@@ -20,27 +21,31 @@ dev:
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-	yarn workspace $(app) dev
+
+# Via turbo repo
+	npm run dev -- --scope=$(app)
+#alternative via npm directly
+	# npm run dev -w=$(app) 
 
 format:
-	yarn prettier-fix
-	yarn lint-fix
+	npm run prettier-fix
+	npm run lint-fix
 	
 check:
-	yarn lint-check
-	yarn prettier-check
+	npm run lint-check
+	npm run prettier-check
 
 test:
-	yarn test
+	npm run test
 
 test-e2e:
-	yarn test-e2e
+	npm run test-e2e
 
 build:
-	yarn build
+	npm run build
 
 run:
-	yarn start
+	npm run start
 
 ####### OTHERS
 build-web-image:
