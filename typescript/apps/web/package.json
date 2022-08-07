@@ -14,7 +14,7 @@
     "cypress:run": "cypress run --config video=false",
     "lint-check": "next lint",
     "lint-fix": "next lint",
-    "prettier": "prettier --write .",
+    "prettier-fix": "prettier --write .",
     "prettier-check": "prettier --check .",
     "upgrade": "npm update --save --force"
   },
