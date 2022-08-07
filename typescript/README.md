@@ -1,9 +1,11 @@
 <!-- How to install to a member -->
+
 ```sh
-npm run build -w=web 
+npm run build -w=web
 ```
 
 # Deploy
+
 ```bash
 make deploy-web
 
@@ -14,13 +16,11 @@ make build_web_image
 
 This is an official starter turborepo.
 
-
 ## What's inside?
 
-This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps: 
+This turborepo uses [NPM](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
 
-
-### Apps and Packages 
+### Apps and Packages
 
 - `docs`: a [Next.js](https://nextjs.org) app
 - `web`: another [Next.js](https://nextjs.org) app
@@ -58,7 +58,7 @@ To develop all apps and packages, run the following command:
 
 ```
 cd my-turborepo
-npm run dev 
+npm run dev
 ```
 
 ### Remote Caching
