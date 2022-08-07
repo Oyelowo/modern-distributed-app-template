@@ -16,9 +16,14 @@ node_modules/         # Installed inside container
 **/node_modules/         # Installed inside container
 **/node_modules         # Installed inside container
 **/.next
+**/.swc
+**/.swc/
 **/.next/
 **/.turbo
 **/.turbo/
+.vscode
+**/.vscode
+**/.vscode/
 nginx/
 makefile
 
