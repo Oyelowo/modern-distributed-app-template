@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@oyelowo/tsconfig": "^0.0.0",
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.16",
     "eslint": "^8.21.0",
     "eslint-config-custom": "^0.0.0",
     "next-transpile-modules": "^9.0.0",
