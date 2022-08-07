@@ -10,7 +10,7 @@ FROM $BASE_IMAGE AS cacher
 WORKDIR /app
 COPY --from=planner /app/package-lock.json .
 COPY --from=planner /json .
-RUN npm install
+RUN npm install --force
 
 
 FROM $BASE_IMAGE AS builder-base
