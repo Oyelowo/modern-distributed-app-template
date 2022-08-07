@@ -2,10 +2,10 @@
 ## STANDARD
 #############
 install:
-	npm install --force
+	npm install --force --workspaces
 
 upgrade:
-	npm update --save
+	npm update --save --force --workspaces
 
 sync:
 	make install

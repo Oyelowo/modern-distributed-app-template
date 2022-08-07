@@ -8,9 +8,7 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "upgrade-interactive": "npm run workspaces run upgrade-interactive",
-    "upgradex": "npm update --save",
-    "upgrade": "turbo run upgrade --parallel",
+    "upgrade": "npm update --save --force --workspaces",
     "dev": "turbo run dev --parallel",
     "test:watch": "turbo run test --parallel",
     "test": "turbo run test:ci --parallel",
