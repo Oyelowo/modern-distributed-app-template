@@ -22,7 +22,6 @@
     "@emotion/react": "^11.10.0",
     "@emotion/server": "^11.10.0",
     "@heroicons/react": "^1.0.6",
-    "@hookform/resolvers": "2.9.6",
     "@mantine/carousel": "^5.0.3",
     "@mantine/core": "^5.0.3",
     "@mantine/dates": "^5.0.3",
