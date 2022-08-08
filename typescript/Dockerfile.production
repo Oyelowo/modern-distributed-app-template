@@ -28,7 +28,11 @@ COPY . .
 FROM builder-base as builder-web
 ENV NEXT_TELEMETRY_DISABLED 1
 ARG NEXT_PUBLIC_API_URL
-RUN NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL && npm run build -- --scope=web
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+# Build scoping handled by turbo repo. We can also do it with npm workspace command
+# but this seems more smarter to take into consideration their dependencies. May be the same
+# for npm tho
+RUN npm run build -- --scope=web
 
 
 FROM node:18.7.0-alpine AS web
