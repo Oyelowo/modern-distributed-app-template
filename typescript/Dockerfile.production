@@ -28,7 +28,7 @@ COPY . .
 FROM builder-base as builder-web
 ENV NEXT_TELEMETRY_DISABLED 1
 ARG NEXT_PUBLIC_API_URL
-RUN NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL npm run build -- --scope=web
+RUN NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL && npm run build -- --scope=web
 
 
 FROM node:18.7.0-alpine AS web
