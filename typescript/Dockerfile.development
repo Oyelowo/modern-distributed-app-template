@@ -29,7 +29,8 @@ COPY . .
 ################################################################
 FROM builder-base as web
 ENV NEXT_TELEMETRY_DISABLED 1
-ARG NEXT_PUBLIC_API_URL=localhost:8080
+ARG NEXT_PUBLIC_API_URL
+# ARG NEXT_PUBLIC_API_URL=localhost:8080
 # RUN NEXT_PUBLIC_API_URL="localhost:8080" npm run build -- --scope=web
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 EXPOSE 3000
