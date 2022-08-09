@@ -21,7 +21,7 @@ export const SquareRoot = () => {
 
   return (
     <>
-      <animated.div>{props.testNumber.to((val) => val.toFixed(2))}</animated.div> */
+      <animated.div>{props.testNumber.to((val) => val.toFixed(2))}</animated.div>
       <animated.svg stroke="red" fill="none">
         <path
           d={String(p)}
