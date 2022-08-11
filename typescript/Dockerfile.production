@@ -32,6 +32,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 # Build scoping handled by turbo repo. We can also do it with npm workspace command
 # but this seems more smarter to take into consideration their dependencies. May be the same
 # for npm tho
+RUN apk add git
 RUN npm run build -- --scope=web
 
 
