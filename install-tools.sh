@@ -11,6 +11,6 @@ brew install kubeseal
 
 # brew install act
 # brew install step
-brew install yq
+# brew install yq
 
 cargo install cargo-edit 
