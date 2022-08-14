@@ -4,9 +4,9 @@ import { rankItem, compareItems } from '@tanstack/match-sorter-utils';
 export type OperatorLogical = 'and' | 'or';
 export const logicalOperators: OperatorLogical[] = ['and', 'or'];
 
-export type DateFilter = Date | [Date, Date];
+export type DateFilter = Date | [Date, Date]; /* for date range */
 
-type FilterValueType = number | string | DateFilter /* for date range */;
+type FilterValueType = number | string | DateFilter;
 
 export type FilterConditionSimple<Operator extends string, Filter extends FilterValueType> = {
   /**  operator */
