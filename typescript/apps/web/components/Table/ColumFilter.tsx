@@ -1,20 +1,17 @@
 import { Column, ColumnMeta, FilterFn } from '@tanstack/react-table';
-import { NumberFilterSingle } from './NumberFilter/NumberFilterSingle';
-import { NumberFilterMultiple } from './NumberFilter/NumberFilterMultiple';
-import { numberFilterSingleFn } from './NumberFilter/numberFilterSingleFn';
-import { numberFilterMultipleFn } from './NumberFilter/numberFilterMultipleFn';
-import { dateFilterCompoundFn } from './DateFilter/dateFilterMultipleFn';
+import { FilterDataType } from '../..';
 import { DateFilterMultiple } from './DateFilter/DateFilterMultiple';
+import { dateFilterCompoundFn } from './DateFilter/dateFilterMultipleFn';
 import { DateFilterSingle } from './DateFilter/DateFilterSingle';
-import { stringFilterCompoundFn } from './StringFilter/stringFilterMultipleFn';
-import { StringFilterMultiple } from './StringFilter/StringFilterMultiple';
-import { StringFilterSingle } from './StringFilter/StringFilterSingle';
 import { dateFilterSimpleFn } from './DateFilter/dateFilterSingleFn';
+import { NumberFilterMultiple } from './NumberFilter/NumberFilterMultiple';
+import { numberFilterMultipleFn } from './NumberFilter/numberFilterMultipleFn';
+import { NumberFilterSingle } from './NumberFilter/NumberFilterSingle';
+import { numberFilterSingleFn } from './NumberFilter/numberFilterSingleFn';
+import { StringFilterMultiple } from './StringFilter/StringFilterMultiple';
+import { stringFilterCompoundFn } from './StringFilter/stringFilterMultipleFn';
+import { StringFilterSingle } from './StringFilter/StringFilterSingle';
 import { stringFilterSingleFn } from './StringFilter/stringFilterSingleFn';
-
-function assertUnreachable(_x: never): never {
-  throw new Error("Didn't expect to get here");
-}
 
 type FilterType = ColumnMeta<unknown, unknown>['filterType'];
 
@@ -47,29 +44,18 @@ type Props<T> = {
   column: Column<T, unknown>;
 };
 
-export function ColumnFilter<T>({ column }: Props<T>) {
+export function ColumnFilter<T>({ column }: Props<T>): JSX.Element {
   // The filterType is defined when creating
   // column definition and the type definition was added to index.d.ts
   const filterType = column.columnDef.meta?.filterType;
 
-  switch (filterType) {
-    case 'string_single':
-      return <StringFilterSingle column={column} />;
-    case 'string_multiple':
-      return <StringFilterMultiple column={column} />;
-    case 'number_multiple':
-      return <NumberFilterMultiple column={column} />;
-    case 'number_single':
-      return <NumberFilterSingle column={column} />;
-    case 'date_single':
-      return <DateFilterSingle column={column} />;
-    case 'date_multiple':
-      return <DateFilterMultiple column={column} />;
-    case null:
-    case undefined:
-      return <></>;
-
-    default:
-      assertUnreachable(filterType);
-  }
+  const filters: Record<FilterDataType, JSX.Element> = {
+    string_single: <StringFilterSingle column={column} />,
+    string_multiple: <StringFilterMultiple column={column} />,
+    number_multiple: <NumberFilterMultiple column={column} />,
+    number_single: <NumberFilterSingle column={column} />,
+    date_single: <DateFilterSingle column={column} />,
+    date_multiple: <DateFilterMultiple column={column} />,
+  };
+  return filterType ? filters[filterType] : <></>;
 }
