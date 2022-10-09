@@ -6,8 +6,9 @@ setup:
 	./install-tools.sh
 
 install:
-	chmod +x ./install-tools.sh
-	./install-tools.sh
+	(cd kubernetes && make install)
+	(cd rust && make install)
+	(cd typescript && make install)
 
 upgrade:
 	(cd kubernetes && make upgrade)
