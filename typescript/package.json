@@ -24,8 +24,8 @@
     "prune": "turbo prune --scope=web"
   },
   "devDependencies": {
-    "@turbo/codemod": "^1.4.3",
+    "@turbo/codemod": "^1.5.5",
     "prettier": "^2.7.1",
-    "turbo": "^1.4.3"
+    "turbo": "^1.5.5"
   }
 }
