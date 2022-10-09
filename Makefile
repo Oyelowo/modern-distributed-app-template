@@ -10,7 +10,9 @@ install:
 	./install-tools.sh
 
 upgrade:
-	cargo update
+	(cd kubernetes && make upgrade)
+	(cd rust && make upgrade)
+	(cd typescript && make upgrade)
 
 sync:
 	(cd kubernetes && make sync)
