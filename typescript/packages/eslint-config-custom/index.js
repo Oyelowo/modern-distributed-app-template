@@ -8,6 +8,11 @@ module.exports = {
     "plugin:storybook/recommended",
     // "custom",
   ],
+  settings: {
+    jest: {
+      version: 29,
+    },
+  },
   rules: {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",

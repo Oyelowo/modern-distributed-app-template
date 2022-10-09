@@ -6,11 +6,14 @@ setup:
 	./install-tools.sh
 
 install:
-	chmod +x ./install-tools.sh
-	./install-tools.sh
+	(cd kubernetes && make install)
+	(cd rust && make install)
+	(cd typescript && make install)
 
 upgrade:
-	cargo update
+	(cd kubernetes && make upgrade)
+	(cd rust && make upgrade)
+	(cd typescript && make upgrade)
 
 sync:
 	(cd kubernetes && make sync)
