@@ -1,16 +1,18 @@
+# For Infrastructure/kubernetes
 brew install pulumi
 brew install pulumi/tap/crd2pulumi  
 brew install skaffold
-brew install node
-
-brew install protobuf
-cargo install sea-orm-cli
-
 # For sealed secrets
 brew install kubeseal
+
+# For rust server
+brew install protobuf
+cargo install cargo-edit 
+
+# for typesscript nodejs
+brew install node
 
 # brew install act
 # brew install step
 # brew install yq
 
-cargo install cargo-edit 

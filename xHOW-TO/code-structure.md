@@ -21,7 +21,7 @@ tree -L 3
 │       ├── middleware
 │       └── utils
 ├── examplequery.graphql
-├── graphql-mongo
+├── graphql-surrealdb
 │   ├── Cargo.toml
 │   ├── generated
 │   │   └── schema.graphql
@@ -34,36 +34,9 @@ tree -L 3
 │       ├── main.rs
 │       ├── oauth
 │       └── utils
-├── graphql-postgres
-│   ├── Cargo.lock
-│   ├── Cargo.toml
-│   ├── Dockerfile.migrations
-│   ├── Makefile
-│   ├── Migration.cli.md
-│   ├── README.md
-│   ├── env.sample
-│   ├── gql_test.graphql
-│   ├── migrations_legacy_for_reference_only
-│   │   ├── 20220201151946_setup.sql
-│   │   ├── 20220201152218_create_users_table.sql
-│   │   └── 20220201152224_create_posts_table.sql
-│   ├── sqlx-data.json
-│   ├── src
-│   │   ├── app
-│   │   ├── bin
-│   │   ├── lib.rs
-│   │   ├── main.rs
-│   │   ├── migration
-│   │   ├── tests
-│   │   └── utils
-│   ├── target
-│   │   ├── debug
-│   │   └── sqlx
-│   └── update-sqlx-data.sh
-├── grpc-mongo
+├── grpc-surrealdb
 │   ├── Cargo.toml
 │   ├── Helloworld.md
-│   ├── SQLx_Migration.md
 │   ├── build.rs
 │   ├── grpc_setting_started.md
 │   ├── grpc_setting_started.readme
