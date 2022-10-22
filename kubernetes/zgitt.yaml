@@ -1,0 +1,83 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: github-creds
+# type: Opaque
+type: kubernetes.io/basic-auth
+stringData:
+    username: Oyelowo
+    password: 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
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+    generateName: ci-example-
+spec:
+    # entrypoint is the name of the template used as the starting point of the workflow
+    entrypoint: ci-example
+    # the 'ci-example' template accepts a parameter 'revision', with a default of 'cfe12d6'.
+    # this can be overridden via argo CLI (e.g. `argo submit ci.yaml -p revision=0dea2d0`)
+    arguments:
+        parameters:
+            - name: branch
+              value: master
+            # - name: revision
+            #   value: cfe12d6
+    # a temporary volume, named workdir, will be used as a working directory
+    # for this workflow. This volume is passed around from step to step.
+    volumeClaimTemplates:
+        - metadata:
+              name: workdir
+          spec:
+              accessModes: ['ReadWriteOnce']
+              resources:
+                  requests:
+                      storage: 1Gi
+
+    templates:
+        - name: ci-example
+          inputs:
+              parameters:
+                  - name: branch
+          dag:
+            tasks:
+            - name: build
+              template: build-golang-example
+              arguments:
+                  parameters:
+                      - name: branch
+                        value: '{{inputs.parameters.branch}}'
+
+        - name: build-golang-example
+          inputs:
+              parameters:
+                  - name: branch
+              artifacts:
+                  - name: code
+                    path: /mount/typescript
+                    git:
+                        repo: https://github.com/Oyelowo/modern-distributed-app-template.git
+                        branch: '{{inputs.parameters.branch}}'
+                        usernameSecret:
+                          name: github-creds
+                          key: username
+                        passwordSecret:
+                          name: github-creds
+                          key: password
+          container:
+              image: node
+              command: [sh, -c]
+              args: [
+                      '
+                      cd /mount/typescript;
+                      echo "I dey here"
+                      ls -lart;
+                      echo "PWD: $PWD";
+                      cd typescript && make install;
+                      git status;
+                      make test;
+                      '
+                  ]
+              volumeMounts:
+                  - name: workdir
+                    mountPath: /mount
