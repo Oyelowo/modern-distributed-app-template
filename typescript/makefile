@@ -2,8 +2,8 @@
 ## STANDARD
 #############
 install:
-	npm i
-	# npm ci --force
+	# npm i
+	npm ci --force
 
 upgrade:
 	npm update --save --force --workspaces
