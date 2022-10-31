@@ -68,3 +68,49 @@ ENV PORT 3000
 CMD ["node", "./apps/web/server.js"]
 ######### END WEB SERVICE  #################
 ############################################################## 
+
+######### START DOCS SERVICE  #################
+################################################################
+FROM builder-base as builder-docs
+ENV NEXT_TELEMETRY_DISABLED 1
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+# Build scoping handled by turbo repo. We can also do it with npm workspace command
+# but this seems more smarter to take into consideration their dependencies. May be the same
+# for npm tho
+RUN apk add git
+RUN npm run build -- --scope=docs
+
+
+FROM node:18.7.0-alpine AS docs
+# Create a group and user
+# RUN addgroup --system --gid 1001 nodejs
+# RUN adduser --system --uid 1001 nextjs
+
+# RUN addgroup -S 10000 && adduser -S appuser -G 10000
+# # Tell docker that all future commands should run as the appuser user
+# USER appuser
+# RUN useradd --uid 10000 runner
+# USER 10000
+WORKDIR /app
+
+
+
+# Automatically leverage output traces to reduce image size 
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder-docs /app/apps/docs/.next/standalone ./
+
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder-docs /app/apps/docs/next.config.js ./apps/docs
+COPY --from=builder-docs /app/apps/docs/public ./apps/docs/public
+COPY --from=builder-docs /app/apps/docs/package.json ./apps/docs/package.json
+
+# Also copy the static files into the standalone for nodejs server to serve. This can also be
+# served over the CDN or nginx.
+COPY --from=builder-docs /app/apps/docs/.next/static ./apps/docs/.next/static
+
+EXPOSE 3000
+ENV PORT 3000
+CMD ["node", "./apps/docs/server.js"]
+######### END DOCS SERVICE  #################
+############################################################## 
