@@ -1,3 +1,5 @@
+import path from 'path';
+
 const withTM = require("next-transpile-modules")([
   "echarts",
   "zrender",
