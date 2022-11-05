@@ -1,83 +1,373 @@
-apiVersion: v1
-kind: Secret
-metadata:
-    name: github-creds
-# type: Opaque
-type: kubernetes.io/basic-auth
-stringData:
-    username: Oyelowo
-    password: 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
+
 ---
-apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-    generateName: ci-example-
+    name: role-namespace-admin
+    namespace: ci
+rules:
+    - apiGroups: [''] # "" indicates the core API group
+      resources: ['services', 'pods', 'deployments', 'configmaps']
+      verbs: ['get', 'watch', 'list', 'patch', 'put', 'create']
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-ci-workflow:role-namespace-admin
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: role-namespace-admin
+    apiGroup: rbac.authorization.k8s.io
+---
+# Another one
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: executor
+    namespace: ci
+rules:
+    - apiGroups: ['argoproj.io']
+      resources: ['workflowtaskresults']
+      verbs: ['create', 'patch']
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-typescript-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-typescript-ci-workflow:executor
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-typescript-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: executor
+    apiGroup: rbac.authorization.k8s.io
+---
+# # Another one ends
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#     name: argo-workflows-s3-seaweedfs
+#     namespace: ci
+# # type: Opaque
+# type: kubernetes.io/basic-auth
+# stringData:
+#     username: Oyelowo
+#     password: github_pat_xxxx
+#     accesskey: xxxx
+#     secretkey: xxx
+# ---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+    name: typescript-ci
+    namespace: ci
+    annotations:
+        workflows.argoproj.io/description: |
+            This workflows builds and tests Argo Workflows.
+
+            It demonstrates:
+
+            * Cache restore and store.
+            * Publishing test reports.
 spec:
-    # entrypoint is the name of the template used as the starting point of the workflow
-    entrypoint: ci-example
-    # the 'ci-example' template accepts a parameter 'revision', with a default of 'cfe12d6'.
-    # this can be overridden via argo CLI (e.g. `argo submit ci.yaml -p revision=0dea2d0`)
     arguments:
         parameters:
             - name: branch
               value: master
-            # - name: revision
-            #   value: cfe12d6
-    # a temporary volume, named workdir, will be used as a working directory
-    # for this workflow. This volume is passed around from step to step.
+
+    entrypoint: main
+    onExit: cache-store
+
     volumeClaimTemplates:
         - metadata:
-              name: workdir
+              name: work
           spec:
-              accessModes: ['ReadWriteOnce']
+              accessModes: [ReadWriteOnce]
               resources:
-                  requests:
-                      storage: 1Gi
+                requests:
+                  storage: 1Gi
+                  memory: 1Gi
+                  cpu: "1"
+                limits:
+                  memory: 1Gi
+                  cpu: "1"
+                  # requests:
+                  #     storage: 64Mi
 
     templates:
-        - name: ci-example
-          inputs:
-              parameters:
-                  - name: branch
+        - name: main
           dag:
-            tasks:
-            - name: build
-              template: build-golang-example
-              arguments:
-                  parameters:
-                      - name: branch
-                        value: '{{inputs.parameters.branch}}'
+              failFast: true
+              tasks:
+                  - name: setup-with-cache
+                    template: setup-with-cache
+                  - name: check
+                    template: check
+                    dependencies:
+                        - setup-with-cache
+                  - name: test
+                    template: test
+                    dependencies:
+                        - setup-with-cache
+                  - name: image
+                    template: image
+                    dependencies:
+                        - check
+                        - test
+                        # - setup-with-cache
 
-        - name: build-golang-example
+        - name: setup-with-cache
+          # continueOn:
+          #   failed: true
+          #   error: true
           inputs:
-              parameters:
-                  - name: branch
               artifacts:
+                  - name: NPM_CACHE
+                    path: /mnt/NPM_CACHE
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                        # bucket: argo-workflows
+                        # createBucketIfNotPresent:
+                        #   enabled: true
+                        #   objectLocking: true
+                  - name: TURBO_CACHE
+                    path: /mnt/TURBO_CACHE
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+                  - name: IMAGE_CACHE
+                    path: /mnt/IMAGE_CACHE
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/IMAGE_CACHE.tgz
+
                   - name: code
-                    path: /mount/typescript
+                    path: /mnt/app/src
                     git:
                         repo: https://github.com/Oyelowo/modern-distributed-app-template.git
                         branch: '{{inputs.parameters.branch}}'
                         usernameSecret:
-                          name: github-creds
-                          key: username
+                            name: argo-workflows-s3-seaweedfs
+                            key: username
                         passwordSecret:
-                          name: github-creds
-                          key: password
+                            name: argo-workflows-s3-seaweedfs
+                            key: password
+                        # revision: cfe12d6
+
           container:
-              image: node
-              command: [sh, -c]
-              args: [
-                      '
-                      cd /mount/typescript;
-                      echo "I dey here"
-                      ls -lart;
-                      echo "PWD: $PWD";
-                      cd typescript && make install;
-                      git status;
-                      make test;
-                      '
-                  ]
               volumeMounts:
-                  - name: workdir
-                    mountPath: /mount
+                  - mountPath: /app/src
+                    name: work
+                    # We use subpath here to share the "work" volume for the two mount paths. Otherwise
+                    # The second one will overwrite the first as they use the same volume(work)
+                    # Otherwise, we would have to create separate volumes for them if we dont want to use subPath
+                    # which would make things more verbose
+                    subPath: src
+                  # "npm config get cache" should be at /root/.npm
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+                  - mountPath: /app/image-cache
+                    name: work
+                    subPath: IMAGE_CACHE
+              image: node:19.0.0
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      # # echo "INFO: Copy source code from git repo to current working directory"
+                      cp -Rf /mnt/app/src/typescript/. .
+
+                      cp -Rf /mnt/IMAGE_CACHE/. /app/image-cache
+
+                      NPM_CACHE_DIR=$(npm config get cache)
+                      [ -e /mnt/NPM_CACHE ] && cp -Rf /mnt/NPM_CACHE/. $NPM_CACHE_DIR
+                      npm ci --prefer-offline
+
+                      [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE/. ./node_modules/.cache
+
+        - name: test
+          container:
+              image: node:19.0.0
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      make test
+                      echo "END: ls -lart modern-distributed-app-template"
+
+        - name: check
+          container:
+              image: node:19.0.0
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      make check
+
+        - name: cache-store
+          container:
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              image: node:19.0.0
+              workingDir: /app/src/typescript
+
+          outputs:
+              artifacts:
+                  - name: NPM_CACHE
+                    path: /root/.npm
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                  - name: TURBO_CACHE
+                    path: /app/src/typescript/node_modules/.cache
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+
+        - name: image
+          # inputs:
+          #   artifacts:
+          #       - name: IMAGE_CACHE
+          #         path: /mnt/IMAGE_CACHE
+          #         optional: true
+          #         s3:
+          #             key: github.com/{{workflow.parameters.branch}}/typescript/IMAGE_CACHE.tgz
+          #     parameters:
+          #         - name: path
+          #         - name: image
+          # Mount the configuration so we can push the image.
+          # This should create the /.docker/config.json file.
+          volumes:
+              - name: docker-config
+                secret:
+                    secretName: docker-config
+          container:
+              image: moby/buildkit:master
+              # image: moby/buildkit:v0.10.5-rootless
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+                  - name: docker-config
+                    mountPath: /.docker
+                  - mountPath: /app/image-cache
+                    name: work
+                    subPath: IMAGE_CACHE
+              workingDir: /app/src/typescript
+              securityContext:
+                privileged: true 
+              env:
+                  # - name: BUILDKITD_FLAGS
+                  #   value: --oci-worker-no-process-sandbox
+                  - name: DOCKER_CONFIG
+                    value: /.docker
+              command:
+                  - buildctl-daemonless.sh
+              args: 
+                  - build
+                  - --frontend
+                  - dockerfile.v0
+                  - --local
+                  - context=.
+                  - --local
+                  - dockerfile=.
+                  - --opt 
+                  - target=docs
+                  - --opt 
+                  - filename=Dockerfile.production
+                  - --opt 
+                  - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca 
+                  - --import-cache 
+                  - type=local,src=/app/image-cache
+                  - --export-cache
+                  - type=local,dest=/app/src/path/to/output-docker-cache
+                  - --output 
+                  - type=image,name=ghcr.io/oyelowo/docs:v5,push=true
+
+
+                  # - |
+                  #     build \
+                  #       --frontend dockerfile.v0 \
+                  #       --local context=. \
+                  #       --local dockerfile=. \
+                  #       --opt target=web \
+                  #       --opt filename=./Dockerfile.production \
+                  #       --opt build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca \
+                  #       --output type=image,name=ghcr.io/oyelowo/graphql-surrealdb:v1,push=true
+
+# - --output type=image,name=docker.io/{{inputs.parameters.image}},push=true
+
+          outputs:
+              artifacts:
+                  - name: IMAGE_CACHE
+                    path: /app/src/path/to/output-docker-cache
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/IMAGE_CACHE.tgz
+
+
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+    generateName: typescript-ci-
+    namespace: ci
+spec:
+    serviceAccountName: sa-typescript-ci-workflow
+    # synchronization:
+    #     mutex:
+    #       name: workflow
+    # artifactRepositoryRef:
+    #   configMap: my-artifact-repository # default is "artifact-repositories"
+    #   key: default-v1-s3-artifact-repository # default can be set by the `workflows.argoproj.io/default-artifact-repository` annotation in config map.
+    workflowTemplateRef:
+        name: typescript-ci

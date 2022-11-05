@@ -1,8 +1,9 @@
 import path from 'node:path';
 import yargs from 'yargs';
-import { Environment } from '../../../kubernetes/src/resources/types/ownTypes.js';
+// import { Environment } from '../../../kubernetes/src/resources/types/ownTypes.js';
 
-export const ENVIRONMENTS: Environment[] = ['production', 'staging', 'development'];
+// export const ENVIRONMENTS: Environment[] = ['production', 'staging', 'development'] as const;
+export const ENVIRONMENTS = ['production', 'staging', 'development'] as const;
 
 export const ARGV_ENVIRONMENTS = yargs(process.argv.slice(2))
     .options({
