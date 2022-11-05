@@ -80,6 +80,7 @@ roleRef:
 #     accesskey: xxxx
 #     secretkey: xxx
 # ---
+
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
@@ -160,6 +161,8 @@ spec:
                     optional: true
                     s3:
                         key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+                  # TODO: Move this cache restoration to only when tests and checks pass since we only build images after then
+                  # And it's wasteful to download this ahead when tests/checks might fail
                   - name: IMAGE_CACHE
                     path: /mnt/IMAGE_CACHE
                     optional: true
@@ -325,12 +328,15 @@ spec:
                   - filename=Dockerfile.production
                   - --opt 
                   - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca 
+                  # TODO: Separate shared base target stage and cache that separately, then import the base from shared volume
+                  # plus the final app target stage directly from S3(seaweed) since that should not be shared.
+                  # This is because I use multistage build with packages compiled and shared with various application stages
                   - --import-cache 
                   - type=local,src=/app/image-cache
                   - --export-cache
                   - type=local,dest=/app/src/path/to/output-docker-cache
                   - --output 
-                  - type=image,name=ghcr.io/oyelowo/docs:v5,push=true
+                  - type=image,name=ghcr.io/oyelowo/docs:v6,push=true
 
 
                   # - |
