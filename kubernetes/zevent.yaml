@@ -185,9 +185,12 @@ spec:
               - master
   triggers:
     - template:
-        name: github-workflow-trigger
-        k8s:
-          operation: create
+        name: argo-workflow-trigger
+        argoWorkflow:
+          operation: submit
+          # args:
+          #   - --node-field-selector
+          #   - phase=abc
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
@@ -201,6 +204,24 @@ spec:
                 serviceAccountName: sa-typescript-ci-workflow
                 workflowTemplateRef:        
                     name: typescript-ci
+  # triggers:
+  #   - template:
+  #       name: github-workflow-trigger
+  #       k8s:
+  #         operation: create
+  #         source:
+  #           resource:
+  #             apiVersion: argoproj.io/v1alpha1
+  #             kind: Workflow
+  #             metadata:
+  #               # name: github-
+  #               generateName: github-ci-pipe-
+  #               # namespace: argo-events
+  #               namespace: ci
+  #             spec:
+  #               serviceAccountName: sa-typescript-ci-workflow
+  #               workflowTemplateRef:        
+                    # name: typescript-ci
 
                 # entrypoint: whalesay
                 # arguments:
