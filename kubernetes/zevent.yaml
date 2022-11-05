@@ -158,7 +158,8 @@ spec:
               kind: Workflow
               metadata:
                 name: github-
-                namespace: argo-events
+                # namespace: argo-events
+                namespace: ci
               spec:
                 entrypoint: whalesay
                 arguments:
@@ -174,17 +175,17 @@ spec:
                         - name: pr-number
                         - name: short-sha
                     container:
-                      # image: docker/whalesay:latest
-                      # command: [cowsay]
-                      image: node:19.0.0
-                      workingDir: /app/src/typescript
-                      command: [sh, -euxc]
-                      # args: ["{{inputs.parameters.pr-title}}"]
-                      args:
-                          - |
-                            echo "TITLE starts"
-                            echo "{{inputs.parameters.pr-title}}"
-                            echo "TITLE ends"
+                      image: docker/whalesay:latest
+                      command: [cowsay]
+                      # image: node:19.0.0
+                      # workingDir: /app/src/typescript
+                      # command: [sh, -euxc]
+                      args: ["{{inputs.parameters.pr-title}}"]
+                      # args:
+                      #     - |
+                      #       echo "TITLE starts"
+                      #       echo "{{inputs.parameters.pr-title}}"
+                      #       echo "TITLE ends"
 
                       # args:
                       #   |
