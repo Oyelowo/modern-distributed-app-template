@@ -109,6 +109,42 @@ spec:
 
 
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: operate-workflow-sa
+    namespace: argo-events
+---
+# Similarly you can use a ClusterRole and ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+    name: operate-workflow-role
+rules:
+    - apiGroups:
+          - argoproj.io
+      verbs:
+          - '*'
+      resources:
+          - workflows
+          - workflowtemplates
+          - cronworkflows
+          - clusterworkflowtemplates
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+    name: operate-workflow-role-binding
+roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: operate-workflow-role
+subjects:
+    - kind: ServiceAccount
+      name: operate-workflow-sa
+      namespace: argo-events
+
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Sensor
 metadata:
@@ -118,8 +154,8 @@ metadata:
 spec:
   eventBusName: 'default'
   template:
-    serviceAccountName: argo-events-sa
-    # serviceAccountName: operate-workflow-sa
+    # serviceAccountName: argo-events-sa
+    serviceAccountName: operate-workflow-sa
   dependencies:
     - name: test-dep
       eventSourceName: github
@@ -157,35 +193,40 @@ spec:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                name: github-
+                # name: github-
+                generateName: github-ci-pipe-
                 # namespace: argo-events
                 namespace: ci
               spec:
-                entrypoint: whalesay
-                arguments:
-                  parameters:
-                    - name: pr-title
-                    - name: pr-number
-                    - name: short-sha
-                templates:
-                  - name: whalesay
-                    inputs:
-                      parameters:
-                        - name: pr-title
-                        - name: pr-number
-                        - name: short-sha
-                    container:
-                      image: docker/whalesay:latest
-                      command: [cowsay]
-                      # image: node:19.0.0
-                      # workingDir: /app/src/typescript
-                      # command: [sh, -euxc]
-                      args: ["{{inputs.parameters.pr-title}}"]
-                      # args:
-                      #     - |
-                      #       echo "TITLE starts"
-                      #       echo "{{inputs.parameters.pr-title}}"
-                      #       echo "TITLE ends"
+                serviceAccountName: sa-typescript-ci-workflow
+                workflowTemplateRef:        
+                    name: typescript-ci
+
+                # entrypoint: whalesay
+                # arguments:
+                #   parameters:
+                #     - name: pr-title
+                #     - name: pr-number
+                #     - name: short-sha
+                # templates:
+                #   - name: whalesay
+                #     inputs:
+                #       parameters:
+                #         - name: pr-title
+                #         - name: pr-number
+                #         - name: short-sha
+                #     container:
+                #       # image: docker/whalesay:latest
+                #       # command: [cowsay]
+                #       image: node:19.0.0
+                #       # workingDir: /app/src/typescript
+                #       command: [sh, -euxc]
+                #       # args: ["{{inputs.parameters.pr-title}}"]
+                #       args:
+                #           - |
+                #             echo "TITLE starts"
+                #             echo "{{inputs.parameters.pr-title}}"
+                #             echo "TITLE ends"
 
                       # args:
                       #   |
