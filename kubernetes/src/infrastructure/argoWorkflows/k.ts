@@ -128,6 +128,7 @@ const eventSensor = new Sensor('', {
                     },
 
                     argoWorkflow: {
+                        operation: '',
                         source: {
                             resource: {
 
