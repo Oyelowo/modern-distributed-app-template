@@ -78,6 +78,10 @@ const event = new EventSource('', {
     spec: {
         github: {
             modernApp: {
+                // contentType: '',
+                filter: {
+                    expression: 'body.ref === master',
+                },
                 repositories: [{
                     names: ['modern-distributed-app-template'],
                     owner: 'oyelowo'
@@ -118,7 +122,18 @@ const eventSensor = new Sensor('', {
             serviceAccountName: '',
         },
         eventBusName: '',
-        dependencies: [{ eventName: '', eventSourceName: '', name: '', filters: { data: [{ path: '', type: '', value: [], comparator: '', template: '' }], } }],
+        replicas: 1,
+        dependencies: [{
+            eventName: '', eventSourceName: '', name: '',
+            filtersLogicalOperator: 'or',
+            filters: {
+                script: `       script: |-
+          if event.body.a == "b" and event.body.d.e == "z" then return true else return false end`,
+                dataLogicalOperator: 'and', data: [{ path: '', type: '', value: [], comparator: '', template: '' }],
+
+            },
+            transform: { jq: '', script: '' }
+        }],
         triggers: [
             {
                 template: {
@@ -160,6 +175,13 @@ const k = new Workflow('', {
         }
     },
     spec: {
+        templates: [
+            {
+                dag: {
+                    tasks: [{ when: "n", name: '' }]
+                }
+            }
+        ]
 
 
     }
