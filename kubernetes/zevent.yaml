@@ -103,7 +103,7 @@ spec:
             # You should set it to false to avoid man-in-the-middle and other attacks.
             insecure: true
             # Determines if notifications are sent when the webhook is triggered
-            # active: true
+            active: false
             # The media type used to serialize the payloads
             contentType: json
 
