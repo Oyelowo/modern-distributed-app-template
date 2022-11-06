@@ -271,5 +271,5 @@ spec:
           #       dataTemplate: "{{ .Input.body.pull_request.number }}-{{ .Input.body.pull_request.head.sha | substr 0 7 }}"
           #     dest: metadata.name
           #     operation: append
-      retryStrategy:
-        steps: 3
+      # retryStrategy:
+      #   steps: 3
