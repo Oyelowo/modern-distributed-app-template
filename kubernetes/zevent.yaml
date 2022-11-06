@@ -187,7 +187,7 @@ spec:
     - template:
         name: argo-workflow-trigger
         argoWorkflow:
-          operation: create
+          operation: submit
           # args:
           #   - --node-field-selector
           #   - phase=abc
@@ -273,3 +273,4 @@ spec:
           #     operation: append
       # retryStrategy:
       #   steps: 3
+      
