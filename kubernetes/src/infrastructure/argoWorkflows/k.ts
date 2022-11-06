@@ -6,10 +6,20 @@ import type { IoArgoprojEventbusV1Alpha1EventBus, IoArgoprojSensorV1Alpha1Sensor
 import { EventBus } from "../../../generatedCrdsTs/argoproj/v1alpha1/eventBus.js";
 import { Sensor } from "../../../generatedCrdsTs/argoproj/v1alpha1/sensor.js";
 // import { FromSchema } from "json-schema-to-ts";
+import { Get } from 'type-fest'
+import { AutoPath } from 'ts-toolbelt/out/Function/_api.js'
+import { Split } from 'ts-toolbelt/out/String/_api.js'
+import { Path } from 'ts-toolbelt/out/Object/Path.js'
+// F.AutoPath<>
+// import { AutoPath } from 'ts-toolbelt/out/Function/AutoPath.js'
+
 
 declare function get<O extends object, P extends string>(
     object: O, path: AutoPath<O, P>
 ): Path<O, Split<P, '.'>>
+declare function get2<O extends object, P extends string, X extends AutoPath<O, P>, K extends string>(
+    object: O, path: AutoPath<O, P>, x: X // This is a placeholder to serve as an extra information to show the dev name of the index they're accessing
+): AutoPath<O, P>
 
 declare const user: User
 
@@ -18,8 +28,42 @@ type User = {
     friends: User[]
 }
 
+
+const kk = {
+    "spec": {
+        "serviceAccountName": "sa-typescript-ci-workflow",
+        "workflowTemplateRef": {
+            "name": "typescript-ci"
+        },
+        "entrypoint": "whalesay",
+        "arguments": {
+            "parameters": [
+                {
+                    "name": "pr-title",
+                    "value": "",
+                },
+                {
+                    "name": "pr-number"
+                    , "value": ""
+                },
+                {
+                    "name": "short-sha"
+                    , "value": ""
+                }
+            ]
+        }
+    }
+} as const
+
+// const p : Get<typeof kk, "re"> = "trr"
+const kl = kk['spec']['arguments']['parameters'][0]['name'] === "pr-title"
 // works
-const friendName = get(user, 'friends.40.name')
+// const rt = "" satisfies AutoPath<typeof kk, "spec.arguments.parameters.0.value">
+
+const friendNamez = get2(kk, 'spec.arguments.parameters.0.value', "pr-title")
+const friendNamex = get2(kk, 'spec.arguments.parameters.1.value', "pr-number")
+const friendNamec = get2(kk, 'spec.arguments.parameters.2.value', "short-sha")
+const friendName = get(kk, "spec.arguments.parameters.2")
 const friendFriendName = get(user, 'friends.40.friends.12.name')
 
 // errors
