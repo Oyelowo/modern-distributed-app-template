@@ -8,6 +8,17 @@ const argoWorkflowsValues: DeepPartial<IArgoWorkflowsArgo> = {
     crds: {
         install: true,
     },
+    artifactRepository: {
+        s3: {
+            accessKeySecret: {
+                key: ''
+            },
+            secretKeySecret: {
+                key: '',
+            },
+            insecure: true,
+        }
+    }
 };
 
 const {
