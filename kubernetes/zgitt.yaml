@@ -108,6 +108,7 @@ spec:
               name: work
           spec:
               accessModes: [ReadWriteOnce]
+              storageClassName: linodebs.csi.linode.com
               resources:
                 requests:
                   storage: 1Gi
