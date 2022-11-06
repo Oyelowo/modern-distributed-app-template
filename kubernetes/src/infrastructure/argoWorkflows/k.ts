@@ -1,7 +1,104 @@
+import { EventSource } from "../../../generatedCrdsTs/argoproj/v1alpha1/eventSource.js";
 import { Workflow } from "../../../generatedCrdsTs/argoproj/v1alpha1/workflow.js";
+import { Memory } from "../../types/ownTypes.js";
 import type { IoArgoprojWorkflowV1Alpha1Workflow, MySchema } from "./type.js";
+import type { IoArgoprojEventbusV1Alpha1EventBus, IoArgoprojSensorV1Alpha1Sensor, MySchema as ArgoEventSchema } from "../argoEvent/type.js";
+import { EventBus } from "../../../generatedCrdsTs/argoproj/v1alpha1/eventBus.js";
+import { Sensor } from "../../../generatedCrdsTs/argoproj/v1alpha1/sensor.js";
 // import { FromSchema } from "json-schema-to-ts";
 
+declare function get<O extends object, P extends string>(
+    object: O, path: AutoPath<O, P>
+): Path<O, Split<P, '.'>>
+
+declare const user: User
+
+type User = {
+    name: string
+    friends: User[]
+}
+
+// works
+const friendName = get(user, 'friends.40.name')
+const friendFriendName = get(user, 'friends.40.friends.12.name')
+
+// errors
+const friendNames = get(user, 'friends.40.names')
+const friendFriendNames = get(user, 'friends.40.friends.12.names')
+
+
+const event = new EventSource('', {
+    apiVersion: 'argoproj.io/v1alpha1',
+    kind: 'EventSource',
+    metadata: {},
+    spec: {
+        github: {
+            modernApp: {
+                repositories: [{
+                    names: ['modern-distributed-app-template'],
+                    owner: 'oyelowo'
+                }],
+                webhook: {
+                    endpoint: '/push',
+                    port: '12000',
+                    method: 'POST',
+                    url: 'http://139-144-160-239.ip.linodeusercontent.com'
+                },
+                events: ['*'],
+                apiToken: {
+                    key: '',
+                    name: '',
+                    // optional: false,
+                }
+            }
+        }
+    }
+} satisfies ArgoEventSchema)
+
+const eventBus = new EventBus('', {
+    apiVersion: 'argoproj.io/v1alpha1',
+    kind: 'EventBus',
+    metadata: {},
+    spec: {
+        jetstream: {},
+        nats: {}
+    }
+} satisfies IoArgoprojEventbusV1Alpha1EventBus)
+
+const eventSensor = new Sensor('', {
+    apiVersion: 'argoproj.io/v1alpha1',
+    kind: 'Sensor',
+    metadata: {},
+    spec: {
+        template: {
+            serviceAccountName: '',
+        },
+        eventBusName: '',
+        dependencies: [{ eventName: '', eventSourceName: '', name: '', filters: { data: [{ path: '', type: '', value: [], comparator: '', template: '' }], } }],
+        triggers: [
+            {
+                template: {
+                    name: '',
+                    k8s: {
+                        operation: ''
+                    },
+
+                    argoWorkflow: {
+                        source: {
+                            resource: {
+
+                            }
+                        },
+
+                    }
+
+                }
+            }
+        ],
+
+
+    }
+} satisfies IoArgoprojSensorV1Alpha1Sensor)
 
 const k = new Workflow('', {
     apiVersion: 'argoproj.io/v1alpha1',
@@ -23,7 +120,9 @@ const k = new Workflow('', {
     }
 })
 
-const p = {
+
+
+const p = new Workflow('', {
     apiVersion: 'argoproj.io/v1alpha1',
     kind: 'Workflow',
     metadata: {
@@ -35,15 +134,35 @@ const p = {
     },
     status: {},
     spec: {
+        serviceAccountName: '',
+        onExit: 'cache-store',
         entrypoint: '',
+        artifactRepositoryRef: { configMap: '', key: '' },
         // metrics:{
         //     // prometheus: [{}]
         // },
         artifactGC: {
             strategy: 'OnWorkflowCompletion' satisfies 'OnWorkflowCompletion' | 'OnWorkflowDeletion' | 'Never'
         },
+
+        /* 
+            - metadata:
+        name: work
+      spec:
+        accessModes: [ ReadWriteOnce ]
+        resources:
+          requests:
+            storage: 64Mi
+         */
+        volumeClaimTemplates: [{ metadata: { name: 'work' }, spec: { accessModes: ['ReadWriteOnce'], resources: { requests: { storage: '64Mi' satisfies Memory, cpu: '1' } } } }],
+
         templates: [
             {
+                failFast: true,
+                // synchronization:{
+                //     semaphore
+                // },
+
                 name: '',
                 // script: {},
                 nodeSelector: { '': '' },
@@ -74,23 +193,95 @@ const p = {
                                     // optional: false
                                 },
                                 // depth: 1
+                            },
+
+                            // optional
+
+                            s3: {
+
+                                // useSDKCreds
+                            }
+                        },
+                        {
+                            name: '',
+                            path: '',
+                            // artifactGC:{strategy: },
+                            optional: true,
+                            s3: {
+
+                                endpoint: ' ',
+                                bucket: '',
+                                insecure: true,
+                                key: '',
+                                secretKeySecret: { name: '', key: '', optional: false },
+                                accessKeySecret: { name: '', key: '', optional: false }
                             }
                         }
                     ]
+
                 },
+                outputs: {
+                    artifacts: [{
+                        name: '',
+                        path: '',
+                        subPath: '',
+                        artifactGC: {},
+                        // optional: false,
+                        // archive: { none: {} },
+                        s3: {
+                            endpoint: '',
+                            bucket: '',
+                            key: '',
+                            encryptionOptions: {
+                                enableEncryption: false
+                            },
+                            insecure: true,
+                            region: '',
+                            useSDKCreds: true,
+                            // encryptionOptions: { enableEncryption: true },
+                            createBucketIfNotPresent: {
+                                objectLocking: true,
+                                // enabled: true,
+                                // region: ''
+                            },
+                            accessKeySecret: {
+                                name: '',
+                                key: '',
+                                // optional: false
+                            },
+                            secretKeySecret: {
+                                name: '',
+                                key: ''
+                            },
+                        },
+                        // archive:{tar: {compressionLevel: 1}}
+                    }]
+                },
+                // memoize: {
+                //     key: '',
+                //     cache: {
+                //         configMap: {key: ''}
+                //     }
+                // },
+                // retryStrategy: {
+                //     limit: '3',
+                // },
                 container: {
+                    // volumeMounts:[{subPath}],
                     name: '',
                     image: '',
                     command: [],
                     args: [],
+                    workingDir: '',
+                    securityContext: { privileged: true },
                     resources: {
                         limits: {
                             memory: '32Mi',
                             cpu: '100m'
                         },
                         requests: {
-                            // memory: '32Mi',
-                            // cpu: '100m'
+                            memory: '32Mi',
+                            cpu: '100m'
                         }
                     }
                 },
@@ -102,6 +293,9 @@ const p = {
                         {
                             name: '',
                             template: '',
+                            continueOn: {
+                                failed: true,
+                            },
                             // templateRef: {},
                             arguments: {
                                 // artifacts: [{
@@ -132,9 +326,8 @@ const p = {
                 ],
             },
         ],
-
-    }
-} satisfies Required<IoArgoprojWorkflowV1Alpha1Workflow>
+    },
+})
 
 const kk = {
     "apiVersion": "argoproj.io/v1alpha1",
