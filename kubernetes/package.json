@@ -48,6 +48,7 @@
         "prettier": "^2.7.1",
         "ts-jest": "^29.0.3",
         "ts-pattern": "^4.0.5",
+        "ts-toolbelt": "^9.6.0",
         "type-fest": "^3.1.0",
         "uuid": "^9.0.0",
         "yaml": "^2.1.3"
