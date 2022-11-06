@@ -172,16 +172,16 @@ spec:
               end
               return false
           end
-          local actions = { opened , "edited", "reopened", "synchronize" }
+          local actions = { "opened" , "edited", "reopened", "synchronize" }
 
           -- if push to master master
           return (event.body["X-GitHub-Event"] == "push" and event.body.ref == "refs/heads/master") or
                   -- listen for opened pull request with master base branch
                   (
                   array_contains_value(actions, event.body.action) and 
-                  event.body["X-GitHub-Event"] == "pull_request" and 
-                  event.body.pull_request.state == "open" and
-                  event.body.pull_request.base.ref == "master"
+                  (event.body["X-GitHub-Event"] == "pull_request") and 
+                  (event.body.pull_request.state == "open") and
+                  (event.body.pull_request.base.ref == "master")
                   )
         # if event.body.a == "b" and event.body.d.e == "z" then return true else return false end
         
