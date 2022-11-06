@@ -160,29 +160,66 @@ spec:
     - name: test-dep
       eventSourceName: github
       eventName: mondern-app
+      # filtersLogicalOperator: or
       filters:
-        data:
-          # Name of the event that triggered the delivery: [pull_request, push, yadayadayada]
-          # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
-          - path: body.X-GitHub-Event
-            type: string
-            value:
-              - pull_request
-          - path: body.action
-            type: string
-            value:
-              - opened
-              - edited
-              - reopened
-              - synchronize
-          - path: body.pull_request.state
-            type: string
-            value:
-              - open
-          - path: body.pull_request.base.ref
-            type: string
-            value:
-              - master
+      # This is a luascript. You use double hyphen(--) to comment in lua
+        script: |-
+          local function array_contains_value (tab, val)
+              for index, value in ipairs(tab) do
+                  if value == val then
+                      return true
+                  end
+              end
+              return false
+          end
+          local actions = { opened , "edited", "reopened", "synchronize" }
+
+          -- if push to master master
+          return (event.body["X-GitHub-Event"] == "push" and event.body.ref == "refs/heads/master") or
+                  -- listen for opened pull request with master base branch
+                  (
+                  array_contains_value(actions, event.body.action) and 
+                  event.body["X-GitHub-Event"] == "pull_request" and 
+                  event.body.pull_request.state == "open" and
+                  event.body.pull_request.base.ref == "master"
+                  )
+        # if event.body.a == "b" and event.body.d.e == "z" then return true else return false end
+        
+        # exprLogicalOperator: and
+        # exprs:   # expr filter result: EVENT PASS
+        #   - expr: event == "push" && branch == "refs/heads/master"   # true
+        #     fields:
+        #       - name: event
+        #         path: body.X-GitHub-Event
+        #       - name: branch
+        #         path: body.ref
+          # - expr: branch == master   # true
+          #   fields:
+          #     - name: branch
+          #       path: body.ref
+        # dataLogicalOperator: and
+        # data:
+        #   # Name of the event that triggered the delivery: [pull_request, push, yadayadayada]
+        #   # https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads
+        #   - path: body.X-GitHub-Event
+        #     type: string
+        #     value:
+        #       - pull_request
+        #   - path: body.action
+        #     type: string
+        #     value:
+        #       - opened
+        #       - edited
+        #       - reopened
+        #       - synchronize
+        #   - path: body.pull_request.state
+        #     type: string
+        #     value:
+        #       - open
+        #   - path: body.pull_request.base.ref
+        #     type: string
+        #     value:
+        #       - master
   triggers:
     - template:
         name: argo-workflow-trigger
