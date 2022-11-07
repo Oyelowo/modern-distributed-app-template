@@ -189,9 +189,9 @@ spec:
 
             local actions = { "opened" , "edited", "reopened", "synchronize" }
             is_master_branch = event.body.ref == "refs/heads/master"
-            is_main_branch = event.body.ref == "refs/heads/master"
+            is_main_branch = event.body.ref == "refs/heads/main"
 
-            local is_default_branch = (event.body["X-GitHub-Event"] == "push" and (is_master_branch or is_main_branch) )
+            local is_default_branch = ( (event.body["X-GitHub-Event"] == "push") and (is_master_branch or is_main_branch) )
 
             local is_pull_request = (
                   (array_contains_value(actions, event.body.action)) and 
@@ -213,8 +213,10 @@ spec:
             event.body_custom.should_trigger_workflow = is_default_branch or is_pull_request
             event.body_custom.ref = event.body.ref
             
-            -- Get branch out of ref e.g refs/heads/master -> master
-            event.body_custom.branch = string.match(event.body.ref, "([^/]+)$")
+            if event.body.ref then
+                -- Get branch out of ref e.g refs/heads/master -> master
+                event.body_custom.branch = string.match(event.body.ref, "([^/]+)$")
+            end
 
             if is_pull_request then
                 event.body_custom.branch = event.body.pull_request.head.ref
