@@ -245,6 +245,7 @@ spec:
                 event.body_custom.branch = event.body.pull_request.head.ref
             end
 
+
             printf("Mapped info start=======")
             printf("directory_is_modified: %s", directory_is_modified)
             printf("event.body_custom.html_url: %s", event.body_custom.html_url)
