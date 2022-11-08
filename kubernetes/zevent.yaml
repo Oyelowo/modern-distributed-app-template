@@ -229,7 +229,7 @@ spec:
             event.body_custom.is_pull_request = is_pull_request
 
             local directory = "typescript/"
-            directory_is_modified = ( 
+            directory_is_modified = event.body.head_commit and ( 
                                  any_starts_with(event.body.head_commit.modified, directory) or
                                  any_starts_with(event.body.head_commit.added, directory) or
                                  any_starts_with(event.body.head_commit.removed, directory)
