@@ -378,3 +378,20 @@ spec:
     #   key: default-v1-s3-artifact-repository # default can be set by the `workflows.argoproj.io/default-artifact-repository` annotation in config map.
     workflowTemplateRef:
         name: typescript-ci
+
+
+
+
+
+
+# - path: '[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]'
+#   type: string
+#   value:
+#       - '.*service/jobs.*'
+#       - '.*service/common.*'
+
+
+# - path: "[body.commits.#.modified.#(%\"*service*\")#,body.commits.#.added.#(%\"*service*\")#,body.commits.#.removed.#(%\"*service*\")#]"
+#   type: string
+#   value:
+#     - "(\\bservice/jobs\\b)|(\\bservice/common*)"
