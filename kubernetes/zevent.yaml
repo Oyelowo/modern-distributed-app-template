@@ -187,6 +187,19 @@ spec:
                 return false
             end
 
+            function string.starts(String,Start)
+              return string.sub(String,1,string.len(Start))==Start
+            end
+
+            local function any_starts_with (tab, val)
+                for index, value in ipairs(tab) do
+                    if string.starts(value, "/typescript") then
+                        return true
+                    end
+                end
+                return false
+            end
+
             local actions = { "opened" , "edited", "reopened", "synchronize" }
             is_master_branch = event.body.ref == "refs/heads/master"
             is_main_branch = event.body.ref == "refs/heads/main"
