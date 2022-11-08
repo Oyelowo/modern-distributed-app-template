@@ -193,7 +193,7 @@ spec:
 
             local function any_starts_with (tab, val)
                 for index, value in ipairs(tab) do
-                    if string.starts(value, "/typescript") then
+                    if string.starts(value, val) then
                         return true
                     end
                 end
@@ -223,11 +223,19 @@ spec:
 
             event.body_custom.is_default_branch = is_default_branch
             event.body_custom.is_pull_request = is_pull_request
-            event.body_custom.should_trigger_workflow = is_default_branch or is_pull_request
+
+            local directory = "typescript/"
+            directory_is_modified = ( 
+                                 any_starts_with(event.body.commits.modified, directory) or
+                                 any_starts_with(event.body.commits.added, directory) or
+                                 any_starts_with(event.body.commits.removed, directory)
+                                 )
+
+            event.body_custom.should_trigger_workflow = (is_default_branch and directory_is_modified) or is_pull_request
             event.body_custom.ref = event.body.ref
             
             if event.body.ref then
-                -- Get branch out of ref e.g refs/heads/master -> master
+                -- Extract branch name out of ref field value e.g refs/heads/master -> master
                 event.body_custom.branch = string.match(event.body.ref, "([^/]+)$")
             end
 
@@ -237,6 +245,7 @@ spec:
 
             printf("Mapped info start=======")
 
+            printf("directory_is_modified: %s", directory_is_modified)
             printf("event.body_custom.html_url: %s", event.body_custom.html_url)
             printf("event.body_custom.ssh_url: %s", event.body_custom.ssh_url)
             printf("event.body_custom.clone_url: %s", event.body_custom.clone_url)
