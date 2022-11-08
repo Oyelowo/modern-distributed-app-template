@@ -246,7 +246,6 @@ spec:
             end
 
             printf("Mapped info start=======")
-
             printf("directory_is_modified: %s", directory_is_modified)
             printf("event.body_custom.html_url: %s", event.body_custom.html_url)
             printf("event.body_custom.ssh_url: %s", event.body_custom.ssh_url)
