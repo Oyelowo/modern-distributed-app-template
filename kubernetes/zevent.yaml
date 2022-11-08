@@ -192,6 +192,10 @@ spec:
             end
 
             local function any_starts_with (tab, val)
+                if tab == nil then
+                    return false
+                end
+
                 for index, value in ipairs(tab) do
                     if string.starts(value, val) then
                         return true
