@@ -214,7 +214,7 @@ spec:
                   (array_contains_value(actions, event.body.action)) and 
                   (event.body["X-GitHub-Event"] == "pull_request") and 
                   (event.body.pull_request.state == "open") and
-                  ((event.body.pull_request.base.ref == "master") or (event.body.pull_request.base.ref == "master"))
+                  ((event.body.pull_request.base.ref == "master") or (event.body.pull_request.base.ref == "main"))
                   )
 
             event.body_custom = {}
