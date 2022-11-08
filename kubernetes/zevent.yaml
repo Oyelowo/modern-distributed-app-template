@@ -214,7 +214,7 @@ spec:
                   (array_contains_value(actions, event.body.action)) and 
                   (event.body["X-GitHub-Event"] == "pull_request") and 
                   (event.body.pull_request.state == "open") and
-                  (event.body.pull_request.base.ref == "master")
+                  ((event.body.pull_request.base.ref == "master") or (event.body.pull_request.base.ref == "master"))
                   )
 
             event.body_custom = {}
@@ -241,9 +241,7 @@ spec:
             if event.body.ref then
                 -- Extract branch name out of ref field value e.g refs/heads/master -> master
                 event.body_custom.branch = string.match(event.body.ref, "([^/]+)$")
-            end
-
-            if is_pull_request then
+            elseif is_pull_request then
                 event.body_custom.branch = event.body.pull_request.head.ref
             end
 
