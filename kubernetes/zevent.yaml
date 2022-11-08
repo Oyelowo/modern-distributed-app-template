@@ -193,7 +193,7 @@ spec:
 
             local function any_starts_with (tab, val)
                 if tab == nil then
-                    return false
+                    return nil
                 end
 
                 for index, value in ipairs(tab) do
@@ -230,9 +230,9 @@ spec:
 
             local directory = "typescript/"
             directory_is_modified = ( 
-                                 any_starts_with(event.body.commits.modified, directory) or
-                                 any_starts_with(event.body.commits.added, directory) or
-                                 any_starts_with(event.body.commits.removed, directory)
+                                 any_starts_with(event.body.head_commit.modified, directory) or
+                                 any_starts_with(event.body.head_commit.added, directory) or
+                                 any_starts_with(event.body.head_commit.removed, directory)
                                  )
 
             event.body_custom.should_trigger_workflow = (is_default_branch and directory_is_modified) or is_pull_request
