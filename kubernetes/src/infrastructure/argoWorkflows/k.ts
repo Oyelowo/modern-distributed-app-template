@@ -81,6 +81,7 @@ const event = new EventSource('', {
                 // contentType: '',
                 filter: {
                     expression: 'body.ref === master',
+                    
                 },
                 repositories: [{
                     names: ['modern-distributed-app-template'],
@@ -99,7 +100,14 @@ const event = new EventSource('', {
                     // optional: false,
                 }
             }
-        }
+        },
+        // file:{
+        //     pp :{
+        //         eventType: '',
+        //         watchPathConfig:{},
+
+        //     }
+        // }
     }
 } satisfies ArgoEventSchema)
 
