@@ -11,4 +11,3 @@ make deploy-web
 
 make build_web_image
 ```
-
