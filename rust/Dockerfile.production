@@ -1,40 +1,49 @@
-ARG BASE_IMAGE=rust:1.64.0
+ARG BASE_IMAGE=rust:1.65.0
 
-FROM $BASE_IMAGE as planner
-WORKDIR /app
-# We only pay the installation cost once,
+FROM $BASE_IMAGE AS chef 
+# We only pay the installation cost once, 
 # it will be cached from the second build onwards
-RUN cargo install cargo-chef --version 0.1.45
+RUN cargo install cargo-chef --version 0.1.46
 
+WORKDIR /app
+
+
+FROM chef as planner
+# WORKDIR /app
 COPY . .
 RUN cargo chef prepare  --recipe-path recipe.json
 
 
-FROM $BASE_IMAGE as  cacher
-WORKDIR /app
-
-RUN cargo install cargo-chef --version 0.1.45
+FROM chef as  builder
+# WORKDIR /app
 COPY --from=planner /app/recipe.json recipe.json
-
 # Install cmake which is now necessary for tonic
-RUN apt-get update ; apt-get install -y clang cmake ; rustup component add rustfmt
+RUN apt-get update ; apt-get install -y clang cmake protobuf-compiler; rustup component add rustfmt
 # Build dependencies - this is the caching Docker layer! Don't build in release mode for development
 RUN cargo chef cook --release --recipe-path recipe.json 
 
 
-FROM $BASE_IMAGE as builder-base
-WORKDIR /app
-# Copy over the cached dependencies
-COPY --from=cacher /app/target target
-COPY --from=cacher $CARGO_HOME $CARGO_HOME
+# FROM $BASE_IMAGE as builder-base
+# WORKDIR /app
+# # Copy over the cached dependencies
+# COPY --from=builder /app/target target
+# COPY --from=builder $CARGO_HOME $CARGO_HOME
 
 # others
+# COPY . .
+
+FROM builder as teste
+WORKDIR /app
+# RUN apt-get update ; apt-get install -y clang cmake protobuf-compiler; rustup component add rustfmt
 COPY . .
+RUN cargo test
 
 
 ######### START GRAPHQL-SURREALDB BACKEND SERVICE  #################
 ################################################################
-FROM builder-base as builder-graphql-surrealdb
+FROM builder as builder-graphql-surrealdb
+# Build application
+COPY . .
 RUN cargo build --release --bin graphql-surrealdb
 # Run as non-privileged user after installations and builds which require privileged access
 RUN useradd --uid 10000 runner
