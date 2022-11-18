@@ -46,18 +46,18 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-    name: sa-typescript-ci-workflow # arbitrary but unique string
+    name: sa-rust-ci-workflow # arbitrary but unique string
     namespace: ci
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-    name: sa-typescript-ci-workflow:executor
+    name: sa-rust-ci-workflow:executor
     namespace: ci
 subjects:
     - kind: ServiceAccount
       # Reference to upper's `metadata.name`
-      name: sa-typescript-ci-workflow
+      name: sa-rust-ci-workflow
       # Reference to upper's `metadata.namespace`
       namespace: ci
 roleRef:
@@ -83,7 +83,7 @@ roleRef:
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-    name: typescript-ci
+    name: rust-ci
     namespace: ci
     annotations:
         workflows.argoproj.io/description: |
@@ -111,12 +111,12 @@ spec:
               # storageClassName: linode-block-storage-retain
               resources:
                   requests:
-                      storage: 1Gi
-                      memory: 1Gi
+                      storage: 2Gi
+                      memory: 2Gi
                       cpu: '1'
                   limits:
-                      memory: 1Gi
-                      cpu: '1'
+                      memory: 4Gi
+                      cpu: '2'
                       # requests:
                       #     storage: 64Mi
 
@@ -125,48 +125,43 @@ spec:
           dag:
               failFast: true
               tasks:
-                  - name: setup-and-restore-npm-cache
-                    template: setup-and-restore-npm-cache
-                  # - name: check
-                  #   template: check
-                  #   dependencies:
-                  #       - setup-and-restore-npm-cache
-                  # - name: test
-                  #   template: test
-                  #   dependencies:
-                  #       - setup-and-restore-npm-cache
+                  - name: setup-and-restore-cargo-cache
+                    template: setup-and-restore-cargo-cache
+                  - name: check
+                    template: check
+                    dependencies:
+                        - setup-and-restore-cargo-cache
+                  - name: test
+                    template: test
+                    dependencies:
+                        - setup-and-restore-cargo-cache
                   - name: build-image-base
                     template: build-image-base
                     dependencies:
-                        - setup-and-restore-npm-cache
-                    #     - check
-                    #     - test
+                        # - setup-and-restore-cargo-cache
+                        - check
+                        - test
 
-                  - name: build-image-docs
-                    template: build-image-docs
+                  - name: build-image-graphql-surrealdb
+                    template: build-image-graphql-surrealdb
                     dependencies:
                         - build-image-base
 
-        - name: setup-and-restore-npm-cache
+        - name: setup-and-restore-cargo-cache
           # continueOn:
           #   failed: true
           #   error: true
           inputs:
               artifacts:
-                  - name: NPM_CACHE
-                    path: /mnt/NPM_CACHE
+                  - name: CARGO_CACHE
+                    path: /mnt/CARGO_CACHE
                     optional: true
                     s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                        key: github.com/{{workflow.parameters.branch}}/rust/CARGO_CACHE.tgz
                         # bucket: argo-workflows
                         # createBucketIfNotPresent:
                         #   enabled: true
                         #   objectLocking: true
-                  - name: TURBO_CACHE
-                    path: /mnt/TURBO_CACHE
-                    optional: true
-                    s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
 
                   - name: code
                     path: /mnt/app/src
@@ -180,7 +175,6 @@ spec:
                             name: argo-workflows-s3-seaweedfs
                             key: password
                         # revision: cfe12d6
-
           container:
               volumeMounts:
                   - mountPath: /app/src
@@ -190,55 +184,76 @@ spec:
                     # Otherwise, we would have to create separate volumes for them if we dont want to use subPath
                     # which would make things more verbose
                     subPath: src
-                  # "npm config get cache" should be at /root/.npm
-                  - mountPath: /root/.npm
+                  # "$HOME/.cargo" should be at /root/.cargo
+                  - mountPath: /root/.cargo
                     name: work
-                    subPath: NPM_CACHE
-              image: node:19.0.0
-              workingDir: /app/src/typescript
+                    subPath: CARGO_CACHE
+              image: rust:1.65.0
+              workingDir: /app/src/rust
               command: [sh, -euxc]
               args:
                   - |
                       # # echo "INFO: Copy source code from git repo to current working directory"
-                      cp -Rf /mnt/app/src/typescript/. .
+                      cp -Rf /mnt/app/src/rust/. .
 
-                      NPM_CACHE_DIR=$(npm config get cache)
-                      [ -e /mnt/NPM_CACHE ] && cp -Rf /mnt/NPM_CACHE/. $NPM_CACHE_DIR
-                      npm ci --prefer-offline
+                      CARGO_CACHE_DIR=$HOME/.cargo
+                      echo "START $CARGO_CACHE_DIR"
+                      ls $CARGO_CACHE_DIR
+                      echo "END $CARGO_CACHE_DIR"
+                      rustup component add rustfmt
+                      rustup component add clippy
+                      # cargo test
+                      [ -e /mnt/CARGO_CACHE ] && cp -Rf /mnt/CARGO_CACHE/. $CARGO_CACHE_DIR
+                      # [ -e /mnt/CARGO_CACHE ] && cp -Rf /mnt/CARGO_CACHE/.cargo/. $CARGO_CACHE_DIR
 
-                      [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE/. ./node_modules/.cache
+                      # rustup component add rustfmt
+                      # rustup component add clippy
+                      # apt-get install libclang-dev
+
+                      ls -lart /root
+                      ls -lart /root/.cargo
+
 
         - name: test
           container:
-              image: node:19.0.0
+              image: rust:1.65.0
               volumeMounts:
                   - mountPath: /app/src
                     name: work
                     subPath: src
-                  - mountPath: /root/.npm
+                  - mountPath: /root/.cargo
                     name: work
-                    subPath: NPM_CACHE
-              workingDir: /app/src/typescript
+                    subPath: CARGO_CACHE
+              workingDir: /app/src/rust
               command: [sh, -euxc]
               args:
                   - |
+                      # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+                      # apt-get install libc6=2.31-0ubuntu9.2 libc6:i386=2.31-0ubuntu9.2
+                      apt-get update ; apt-get install -y clang cmake ; apt-get install -y protobuf-compiler; rustup component add rustfmt
+
+                      rustup component add rustfmt
+                      rustup component add clippy
                       make test
                       echo "END: ls -lart modern-distributed-app-template"
 
         - name: check
           container:
-              image: node:19.0.0
+              image: rust:1.65.0
               volumeMounts:
                   - mountPath: /app/src
                     name: work
                     subPath: src
-                  - mountPath: /root/.npm
+                  - mountPath: /root/.cargo
                     name: work
-                    subPath: NPM_CACHE
-              workingDir: /app/src/typescript
+                    subPath: CARGO_CACHE
+              workingDir: /app/src/rust
               command: [sh, -euxc]
               args:
                   - |
+                      # apt-get install libc6=2.31-0ubuntu9.2 libc6:i386=2.31-0ubuntu9.2
+                      apt-get update ; apt-get install -y clang cmake ; apt-get install -y protobuf-compiler; rustup component add rustfmt
+                      rustup component add clippy
                       make check
 
         - name: cache-store
@@ -247,24 +262,26 @@ spec:
                   - mountPath: /app/src
                     name: work
                     subPath: src
-                  - mountPath: /root/.npm
+                  - mountPath: /root/.cargo
                     name: work
-                    subPath: NPM_CACHE
-              image: node:19.0.0
-              workingDir: /app/src/typescript
-
+                    subPath: CARGO_CACHE
+              image: rust:1.65.0
+              workingDir: /app/src/rust
+              command: [sh, -euxc]
+              args:
+                  - |
+                      # Copy relevant cache: https://doc.rust-lang.org/cargo/guide/cargo-home.html#caching-the-cargo-home-in-ci
+                      cp -Rf /root/.cargo/bin /app/cargo-cache
+                      cp -Rf /root/.cargo/registry/index /app/cargo-cache
+                      cp -Rf /root/.cargo/registry/cache /app/cargo-cache
+                      cp -Rf /root/.cargo/git/db /app/cargo-cache
           outputs:
               artifacts:
-                  - name: NPM_CACHE
-                    path: /root/.npm
+                  - name: CARGO_CACHE
+                    path: /app/cargo-cache/.cargo
                     optional: true
                     s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
-                  - name: TURBO_CACHE
-                    path: /app/src/typescript/node_modules/.cache
-                    optional: true
-                    s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+                        key: github.com/{{workflow.parameters.branch}}/rust/CARGO_CACHE.tgz
 
         - name: build-image-base
           # Mount the configuration so we can push the image.
@@ -287,7 +304,7 @@ spec:
                   - mountPath: /var/lib/buildkit
                     name: work
                     subPath: IMAGE_CACHE_BASE
-              workingDir: /app/src/typescript
+              workingDir: /app/src/rust
               securityContext:
                   privileged: true
               env:
@@ -308,18 +325,18 @@ spec:
                   - --opt
                   - target=builder-base
                   - --opt
-                  - filename=Dockerfile.production
-                  - --opt
-                  - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca
+                  - filename=Dockerfile.development
+                  # - filename=Dockerfile.production
                   - --output
-                  - type=image,name=ghcr.io/oyelowo/docs-base:master-latest,push=true
+                  # replate :master with interpolated branch name
+                  - type=image,name=ghcr.io/oyelowo/rust-base:master-latest,push=true
                   - --export-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest, mode=min
+                  - type=registry,ref=ghcr.io/oyelowo/rust-base:master-latest, mode=min
                   # - type=inline:master-latest
                   - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
+                  - type=registry,ref=ghcr.io/oyelowo/rust-base:master-latest
 
-        - name: build-image-docs
+        - name: build-image-graphql-surrealdb
           # Mount the configuration so we can push the image.
           # This should create the /.docker/config.json file.
           volumes:
@@ -338,7 +355,7 @@ spec:
                   - mountPath: /var/lib/buildkit
                     name: work
                     subPath: IMAGE_CACHE_BASE
-              workingDir: /app/src/typescript
+              workingDir: /app/src/rust
               securityContext:
                   privileged: true
               env:
@@ -357,28 +374,29 @@ spec:
                   - --local
                   - dockerfile=.
                   - --opt
-                  - target=docs
+                  - target=graphql-surrealdb
                   - --opt
-                  - filename=Dockerfile.production
+                  - filename=Dockerfile.development
+                  # - filename=Dockerfile.production
                   - --opt
                   - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca
                   - --output
-                  - type=image,name=ghcr.io/oyelowo/docs:v1,push=true
+                  - type=image,name=ghcr.io/oyelowo/graphql-surrealdb:v1,push=true
                   - --export-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs:master-latest, mode=max
+                  - type=registry,ref=ghcr.io/oyelowo/graphql-surrealdb:master-latest, mode=max
                   - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
+                  - type=registry,ref=ghcr.io/oyelowo/graphql-surrealdb:master-latest
                   - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs:master-latest
+                  - type=registry,ref=ghcr.io/oyelowo/rust-base:master-latest
 
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-    generateName: typescript-ci-
+    generateName: rust-ci-
     namespace: ci
 spec:
-    serviceAccountName: sa-typescript-ci-workflow
+    serviceAccountName: sa-rust-ci-workflow
     # synchronization:
     #     mutex:
     #       name: workflow
@@ -386,7 +404,7 @@ spec:
     #   configMap: my-artifact-repository # default is "artifact-repositories"
     #   key: default-v1-s3-artifact-repository # default can be set by the `workflows.argoproj.io/default-artifact-repository` annotation in config map.
     workflowTemplateRef:
-        name: typescript-ci
+        name: rust-ci
 # - path: '[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]'
 #   type: string
 #   value:

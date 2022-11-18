@@ -46,18 +46,18 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-    name: sa-typescript-ci-workflow # arbitrary but unique string
+    name: sa-kubernetes-ci-workflow # arbitrary but unique string
     namespace: ci
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-    name: sa-typescript-ci-workflow:executor
+    name: sa-kubernetes-ci-workflow:executor
     namespace: ci
 subjects:
     - kind: ServiceAccount
       # Reference to upper's `metadata.name`
-      name: sa-typescript-ci-workflow
+      name: sa-kubernetes-ci-workflow
       # Reference to upper's `metadata.namespace`
       namespace: ci
 roleRef:
@@ -83,7 +83,7 @@ roleRef:
 apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
-    name: typescript-ci
+    name: kubernetes-ci
     namespace: ci
     annotations:
         workflows.argoproj.io/description: |
@@ -127,25 +127,20 @@ spec:
               tasks:
                   - name: setup-and-restore-npm-cache
                     template: setup-and-restore-npm-cache
-                  # - name: check
-                  #   template: check
-                  #   dependencies:
-                  #       - setup-and-restore-npm-cache
-                  # - name: test
-                  #   template: test
-                  #   dependencies:
-                  #       - setup-and-restore-npm-cache
-                  - name: build-image-base
-                    template: build-image-base
+                  - name: check
+                    template: check
                     dependencies:
                         - setup-and-restore-npm-cache
-                    #     - check
-                    #     - test
-
-                  - name: build-image-docs
-                    template: build-image-docs
+                  - name: test
+                    template: test
                     dependencies:
-                        - build-image-base
+                        - setup-and-restore-npm-cache
+
+                  - name: generate-and-push-manifests
+                    template: generate-and-push-manifests
+                    dependencies:
+                        - check
+                        - test
 
         - name: setup-and-restore-npm-cache
           # continueOn:
@@ -157,16 +152,11 @@ spec:
                     path: /mnt/NPM_CACHE
                     optional: true
                     s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                        key: github.com/{{workflow.parameters.branch}}/kubernetes/NPM_CACHE.tgz
                         # bucket: argo-workflows
                         # createBucketIfNotPresent:
                         #   enabled: true
                         #   objectLocking: true
-                  - name: TURBO_CACHE
-                    path: /mnt/TURBO_CACHE
-                    optional: true
-                    s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
 
                   - name: code
                     path: /mnt/app/src
@@ -195,18 +185,17 @@ spec:
                     name: work
                     subPath: NPM_CACHE
               image: node:19.0.0
-              workingDir: /app/src/typescript
+              workingDir: /app/src/kubernetes
               command: [sh, -euxc]
               args:
                   - |
                       # # echo "INFO: Copy source code from git repo to current working directory"
-                      cp -Rf /mnt/app/src/typescript/. .
+                      cp -Rf /mnt/app/src/kubernetes/. .
 
                       NPM_CACHE_DIR=$(npm config get cache)
                       [ -e /mnt/NPM_CACHE ] && cp -Rf /mnt/NPM_CACHE/. $NPM_CACHE_DIR
                       npm ci --prefer-offline
 
-                      [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE/. ./node_modules/.cache
 
         - name: test
           container:
@@ -218,7 +207,7 @@ spec:
                   - mountPath: /root/.npm
                     name: work
                     subPath: NPM_CACHE
-              workingDir: /app/src/typescript
+              workingDir: /app/src/kubernetes
               command: [sh, -euxc]
               args:
                   - |
@@ -235,11 +224,27 @@ spec:
                   - mountPath: /root/.npm
                     name: work
                     subPath: NPM_CACHE
-              workingDir: /app/src/typescript
+              workingDir: /app/src/kubernetes
               command: [sh, -euxc]
               args:
                   - |
                       make check
+
+        - name: generate-and-push-manifests
+          container:
+              image: node:19.0.0
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /app/src/kubernetes
+              command: [sh, -euxc]
+              args:
+                  - |
+                      make generate_manifests_ci environment=production
 
         - name: cache-store
           container:
@@ -251,7 +256,7 @@ spec:
                     name: work
                     subPath: NPM_CACHE
               image: node:19.0.0
-              workingDir: /app/src/typescript
+              workingDir: /app/src/kubernetes
 
           outputs:
               artifacts:
@@ -259,126 +264,16 @@ spec:
                     path: /root/.npm
                     optional: true
                     s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
-                  - name: TURBO_CACHE
-                    path: /app/src/typescript/node_modules/.cache
-                    optional: true
-                    s3:
-                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
-
-        - name: build-image-base
-          # Mount the configuration so we can push the image.
-          # This should create the /.docker/config.json file.
-          volumes:
-              - name: docker-config
-                secret:
-                    secretName: docker-config
-          container:
-              image: moby/buildkit:master
-              # image: moby/buildkit:v0.10.5-rootless
-              volumeMounts:
-                  - name: docker-config
-                    mountPath: /.docker
-                  - mountPath: /app/src
-                    name: work
-                    subPath: src
-
-                  # base layer cache is stored here for buildkit. For docker, equivalent is /var/lib/docker
-                  - mountPath: /var/lib/buildkit
-                    name: work
-                    subPath: IMAGE_CACHE_BASE
-              workingDir: /app/src/typescript
-              securityContext:
-                  privileged: true
-              env:
-                  # - name: BUILDKITD_FLAGS
-                  #   value: --oci-worker-no-process-sandbox
-                  - name: DOCKER_CONFIG
-                    value: /.docker
-              command:
-                  - buildctl-daemonless.sh
-              args:
-                  - build
-                  - --frontend
-                  - dockerfile.v0
-                  - --local
-                  - context=.
-                  - --local
-                  - dockerfile=.
-                  - --opt
-                  - target=builder-base
-                  - --opt
-                  - filename=Dockerfile.production
-                  - --opt
-                  - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca
-                  - --output
-                  - type=image,name=ghcr.io/oyelowo/docs-base:master-latest,push=true
-                  - --export-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest, mode=min
-                  # - type=inline:master-latest
-                  - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
-
-        - name: build-image-docs
-          # Mount the configuration so we can push the image.
-          # This should create the /.docker/config.json file.
-          volumes:
-              - name: docker-config
-                secret:
-                    secretName: docker-config
-          container:
-              image: moby/buildkit:master
-              # image: moby/buildkit:v0.10.5-rootless
-              volumeMounts:
-                  - name: docker-config
-                    mountPath: /.docker
-                  - mountPath: /app/src
-                    name: work
-                    subPath: src
-                  - mountPath: /var/lib/buildkit
-                    name: work
-                    subPath: IMAGE_CACHE_BASE
-              workingDir: /app/src/typescript
-              securityContext:
-                  privileged: true
-              env:
-                  # - name: BUILDKITD_FLAGS
-                  #   value: --oci-worker-no-process-sandbox
-                  - name: DOCKER_CONFIG
-                    value: /.docker
-              command:
-                  - buildctl-daemonless.sh
-              args:
-                  - build
-                  - --frontend
-                  - dockerfile.v0
-                  - --local
-                  - context=.
-                  - --local
-                  - dockerfile=.
-                  - --opt
-                  - target=docs
-                  - --opt
-                  - filename=Dockerfile.production
-                  - --opt
-                  - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca
-                  - --output
-                  - type=image,name=ghcr.io/oyelowo/docs:v1,push=true
-                  - --export-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs:master-latest, mode=max
-                  - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
-                  - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs:master-latest
+                        key: github.com/{{workflow.parameters.branch}}/kubernetes/NPM_CACHE.tgz
 
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-    generateName: typescript-ci-
+    generateName: kubernetes-ci-
     namespace: ci
 spec:
-    serviceAccountName: sa-typescript-ci-workflow
+    serviceAccountName: sa-kubernetes-ci-workflow
     # synchronization:
     #     mutex:
     #       name: workflow
@@ -386,7 +281,7 @@ spec:
     #   configMap: my-artifact-repository # default is "artifact-repositories"
     #   key: default-v1-s3-artifact-repository # default can be set by the `workflows.argoproj.io/default-artifact-repository` annotation in config map.
     workflowTemplateRef:
-        name: typescript-ci
+        name: kubernetes-ci
 # - path: '[body.commits.#.modified.#()#,body.commits.#.added.#()#,body.commits.#.removed.#()#]'
 #   type: string
 #   value:

@@ -312,12 +312,12 @@ spec:
                   - --opt
                   - build-arg:NEXT_PUBLIC_API_URL=oyelowo.ca
                   - --output
-                  - type=image,name=ghcr.io/oyelowo/docs-base:master-latest,push=true
+                  - type=image,name=ghcr.io/oyelowo/typescript-base:master-latest,push=true
                   - --export-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest, mode=min
+                  - type=registry,ref=ghcr.io/oyelowo/typescript-base:master-latest, mode=min
                   # - type=inline:master-latest
                   - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
+                  - type=registry,ref=ghcr.io/oyelowo/typescript-base:master-latest
 
         - name: build-image-docs
           # Mount the configuration so we can push the image.
@@ -367,7 +367,7 @@ spec:
                   - --export-cache
                   - type=registry,ref=ghcr.io/oyelowo/docs:master-latest, mode=max
                   - --import-cache
-                  - type=registry,ref=ghcr.io/oyelowo/docs-base:master-latest
+                  - type=registry,ref=ghcr.io/oyelowo/typescript-base:master-latest
                   - --import-cache
                   - type=registry,ref=ghcr.io/oyelowo/docs:master-latest
 

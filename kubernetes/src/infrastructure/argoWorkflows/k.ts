@@ -81,7 +81,7 @@ const event = new EventSource('', {
                 // contentType: '',
                 filter: {
                     expression: 'body.ref === master',
-                    
+
                 },
                 repositories: [{
                     names: ['modern-distributed-app-template'],
@@ -137,7 +137,7 @@ const eventSensor = new Sensor('', {
             filters: {
                 script: `       script: |-
           if event.body.a == "b" and event.body.d.e == "z" then return true else return false end`,
-                dataLogicalOperator: 'and', data: [{ path: '', type: '', value: [], comparator: '', template: '' }],
+                // dataLogicalOperator: 'and', data: [{ path: '', type: '', value: [], comparator: '', template: '' }],
 
             },
             transform: { jq: '', script: '' }
@@ -371,6 +371,37 @@ const p = new Workflow('', {
                             continueOn: {
                                 failed: true,
                             },
+                            onExit: '',
+                            hooks: {
+                                exit: {
+                                    template: 'http',
+                                },
+                                running: {
+                                    expression: 'workflow.status == "Running"',
+                                    arguments: {},
+                                    template: 'http'
+                                },
+                                succeeded: {
+                                    expression: 'workflow.status == "Succeeded"',
+                                    arguments: {
+                                        parameters: [
+                                            { name: "WORKFLOW_NAME", value: "{{workflow.name}}" },
+                                            { name: "WORKFLOW_STATUS", value: "{{workflow.status}}" },
+                                        ]
+                                    },
+                                    template: 'http'
+                                },
+                                failed: {
+                                    expression: 'workflow.status == "Failed"',
+                                    arguments: {},
+                                    template: 'http'
+                                },
+                                timeout: {
+                                    expression: 'workflow.status == "TimedOut"',
+                                    arguments: {},
+                                    template: 'http'
+                                },
+                            },
                             // templateRef: {},
                             arguments: {
                                 // artifacts: [{
@@ -402,7 +433,7 @@ const p = new Workflow('', {
             },
         ],
     },
-})
+} satisfies IoArgoprojWorkflowV1Alpha1Workflow)
 
 const kk = {
     "apiVersion": "argoproj.io/v1alpha1",
