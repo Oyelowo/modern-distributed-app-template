@@ -18,7 +18,7 @@ export const linodeLkeCluster = new linode.LkeCluster(`lke-cluster-${environment
     },
     pools: [
         {
-            count: 3,
+            count: 1,
             type: 'g6-standard-2',
         },
     ],

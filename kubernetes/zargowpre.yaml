@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: argo-workflows-s3-seaweedfs
+    namespace: argo
+# type: Opaque
+type: kubernetes.io/basic-auth
+stringData:
+    username: Oyelowo
+    password: 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
+    accessKey: accessKey
+    secretKey: secretKey

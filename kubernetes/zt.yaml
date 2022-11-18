@@ -1,0 +1,364 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: role-namespace-admin
+    namespace: ci
+rules:
+    - apiGroups: [''] # "" indicates the core API group
+      resources: ['services', 'pods', 'deployments']
+      verbs: ['get', 'watch', 'list', 'patch', 'put', 'create']
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-ci-workflow:role-namespace-admin
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: role-namespace-admin
+    apiGroup: rbac.authorization.k8s.io
+---
+# Another one
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: executor
+    namespace: ci
+rules:
+    - apiGroups: ['argoproj.io']
+      resources: ['workflowtaskresults']
+      verbs: ['create', 'patch']
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-ts-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-ts-ci-workflow:executor
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-ts-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: executor
+    apiGroup: rbac.authorization.k8s.io
+---
+# apiVersion: argoproj.io/v1alpha1
+# kind: Workflow
+# metadata:
+#     generateName: ci-example-
+#     namespace: ci
+# spec:
+#     # entrypoint is the name of the template used as the starting point of the workflow
+#     entrypoint: ci-example
+#     serviceAccountName: sa-ci-workflow
+#     # the 'ci-example' template accepts a parameter 'revision', with a default of 'cfe12d6'.
+#     # this can be overridden via argo CLI (e.g. `argo submit ci.yaml -p revision=0dea2d0`)
+#     arguments:
+#         parameters:
+#             - name: branch
+#               value: master
+#             # - name: revision
+#             #   value: cfe12d6
+#     # a temporary volume, named workdir, will be used as a working directory
+#     # for this workflow. This volume is passed around from step to step.
+#     volumeClaimTemplates:
+#         - metadata:
+#               name: workdir
+#           spec:
+#               accessModes: ['ReadWriteOnce']
+#               resources:
+#                   requests:
+#                       storage: 1Gi
+
+#     templates:
+#         - name: ci-example
+#           inputs:
+#               parameters:
+#                   - name: branch
+#           dag:
+#               tasks:
+#                   - name: build
+#                     template: build-golang-example
+#                     arguments:
+#                         parameters:
+#                             - name: branch
+#                               value: '{{inputs.parameters.branch}}'
+
+#         - name: build-golang-example
+#           inputs:
+#               parameters:
+#                   - name: branch
+#               artifacts:
+#                   - name: code
+#                     path: /repo
+#                     git:
+#                         repo: https://github.com/Oyelowo/modern-distributed-app-template.git
+#                         branch: '{{inputs.parameters.branch}}'
+#                         usernameSecret:
+#                             name: github-creds
+#                             key: username
+#                         passwordSecret:
+#                             name: github-creds
+#                             key: password
+
+#                   - name: froms3-cache
+#                     path: /froms3/.cache
+#                     optional: true
+#                     s3:
+#                         key: 'github.com/Oyelowo/modern-distributed-app-template/{{workflow.parameters.branch}}/typescript.tgz'
+
+#                   - name: froms3-npm-cache
+#                     path: /froms3/npm-cache
+#                     optional: true
+#                     s3:
+#                         key: 'github.com/Oyelowo/modern-distributed-app-template/{{workflow.parameters.branch}}/npm-cache.tgz'
+
+#           script:
+#             #   env:
+#             #       - name: A
+#             #           value: '{{inputs.parameters.a}}'
+#             #       - name: B
+#             #           value: '{{inputs.parameters.b}}'
+#             #       - name: C
+#             #           value: '{{inputs.parameters.c}}'
+#             #       - name: D
+#             #           value: '{{inputs.artifacts.my-input-artifact}}'
+#             #   image: debian:9.4
+#               image: node
+#               command: [bash]
+#               volumeMounts:
+#                   - name: workdir
+#                     mountPath: /mount
+#             #   workdir: /repo/typescript
+#               source: |
+#                     NPM_CACHE_DIR=$(npm config get cache)
+#                     # mkdir -p /mount/npm-cache
+#                     mkdir -p $NPM_CACHE_DIR
+
+#                     # # Restore npm-cache
+#                     # # cp -R /froms3/npm-cache
+#                     # echo "BEFORE CACHEDIR  /froms3/npm-cache "
+#                     # ls -lart /froms3/npm-cache/.npm
+#                     # cp /froms3/npm-cache/.npm/. $NPM_CACHE_DIR
+#                     # echo "AFTER CACHEDIR  /froms3/npm-cache "
+
+#                     # echo "BEFORE FROM.NOM  $/.npm "
+#                     # ls -lart ~/.npm
+#                     # echo "AFTER FROM.NOM  $/.npm "
+
+#                     # echo "BEFORE FROM.NOM  $NPM_CACHE_DIR "
+#                     # ls -lart $NPM_CACHE_DIR
+#                     # echo "AFTER FROM.NOM  $NPM_CACHE_DIR "
+
+#                     # # Copy turbo cache over
+#                     # mkdir -p /repo/typescript/node_modules/.cache
+#                     # cp -r /froms3/.cache/. /repo/typescript/node_modules/.cache
+
+#                     # cd /repo/typescript
+#                     # # make install
+#                     ls -lart /repo/typescript
+#                     cd /repo/typescript
+#                     cp -r /froms3/npm-cache/. $NPM_CACHE_DIR
+#                     npm ci --prefer-offline
+#                     # # npm ci --prefer-offline
+#                     # make test
+#                     # make check
+
+#                     # cp -Rf /repo/typescript/node_modules/.cache  /mount/tos3
+
+#                     # Copy updated npm cache over for s3
+#                     cp -r "$NPM_CACHE_DIR"  /mount/npm-cache
+
+#           outputs:
+#               artifacts:
+#                   - name: mount
+#                     # path: /mount/froms3
+#                     path: /repo/typescript/node_modules/.cache
+#                     # path: ./node_modules/.cache
+#                     # path: /repo/typescript/node_modules
+#                     # subPath: .cache
+#                     optional: true
+#                     s3:
+#                         key: 'github.com/Oyelowo/modern-distributed-app-template/{{workflow.parameters.branch}}/typescript.tgz'
+#                   - name: npm-cache
+#                     # path: /mount/froms3
+#                     path: /mount/npm-cache
+#                     # subPath: .npm
+#                     s3:
+#                         key: 'github.com/Oyelowo/modern-distributed-app-template/{{workflow.parameters.branch}}/npm-cache.tgz'
+#                         # key: 'github.com/Oyelowo/modern-distributed-app-template/{{workflow.parameters.branch}}/mountt'
+
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+    name: ts-ci
+    namespace: ci
+    annotations:
+        workflows.argoproj.io/description: |
+            This workflows builds and tests Argo Workflows.
+
+            It demonstrates:
+
+            * Cache restore and store.
+            * Publishing test reports.
+spec:
+    arguments:
+        parameters:
+            - name: branch
+              value: master
+
+    entrypoint: main
+    # onExit: cache-store
+
+    volumeClaimTemplates:
+        - metadata:
+              name: work
+          spec:
+              accessModes: [ReadWriteOnce]
+              resources:
+                  requests:
+                      storage: 64Mi
+
+    templates:
+        - name: main
+          dag:
+              tasks:
+                  - name: setup-with-cache
+                    template: setup-with-cache
+                  - name: test
+                    template: test
+                    dependencies:
+                        - setup-with-cache
+
+        - name: setup-with-cache
+          inputs:
+              artifacts:
+                  #   - name: NPM_CACHE
+                  #     path: /mnt/NPM_CACHE
+                  #     optional: true
+                  #     s3:
+                  #         key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                  #   - name: TURBO_CACHE
+                  #     path: /mnt/TURBO_CACHE
+                  #     optional: true
+                  #     s3:
+                  #         key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+
+                  - name: code
+                    path: /mnt/github.com/Oyelowo/modern-distributed-app-template
+                    git:
+                        repo: https://github.com/Oyelowo/modern-distributed-app-template.git
+                        branch: '{{inputs.parameters.branch}}'
+                        usernameSecret:
+                            name: argo-workflows-s3-seaweedfs
+                            key: username
+                        passwordSecret:
+                            name: argo-workflows-s3-seaweedfs
+                            key: password
+                        # revision: cfe12d6
+
+          container:
+              volumeMounts:
+                  #   - mountPath: /typescript
+                  - mountPath: /github.com/Oyelowo/modern-distributed-app-template
+                    name: work
+                    # We use subpath here to share the work volume for the two mount paths. Otherwise
+                    # The second one will overwrite the first as they use the same volume(work)
+                    # Otherwise, we would have to create separate volumes for them if we dont want to use subPath
+                    # which would make things more verbose
+                    subPath: src
+                  - mountPath: /npm-cache/.npm
+                    name: work
+                    subPath: NPM_CACHE
+                  #   - mountPath: /node_modules/.cache
+                  #     name: work
+                  # subPath: TURBO_CACHE
+              image: node:19.0
+              workingDir: /github.com/Oyelowo/modern-distributed-app-template/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      echo "START SETUP: ls -lart"
+                      ls -lart
+                      echo "END SETUP: ls -lart"
+
+                      cp -Rf /mnt/github.com/Oyelowo/modern-distributed-app-template/typescript /github.com/Oyelowo/modern-distributed-app-template
+
+                    #   # COPY NPM CACHE
+                    #   NPM_CACHE_DIR=$(npm config get cache)
+                    #   mkdir -p $NPM_CACHE_DIR
+                    #   # Copy cache from s3(seaweedfs) to npm cache. [ -e /path ] checks if the path exists before attempting the copy
+                    #   [ -e /mnt/NPM_CACHE_DIR ] && cp -Rf /mnt/NPM_CACHE_DIR $NPM_CACHE_DIR
+
+                    #   mkdir -p /github.com/Oyelowo/modern-distributed-app-template/node_modules
+
+                    #   # COPY TURBO_CACHE
+                    #     #   ensure that /mnt/GOCACHE
+                    #   [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE /github.com/Oyelowo/modern-distributed-app-template/node_modules
+
+                    #   ls -lart /github.com/Oyelowo/modern-distributed-app-template/node_modules
+
+                    #     #   [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE $TURBO_CACHE
+
+        - name: test
+          container:
+              image: node:19.0
+              volumeMounts:
+                  - mountPath: /github.com/Oyelowo/modern-distributed-app-template
+                    name: work
+                    subPath: src
+                  - mountPath: /npm-cache/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /github.com/Oyelowo/modern-distributed-app-template/typescript
+              #   workingDir: /github.com/Oyelowo
+
+              command: [sh, -euxc]
+              args:
+                  - |
+                      echo "START: ls -lart modern-distributed-app-template"
+                      #   cd ./modern-distributed-app-template
+                      ls -lart
+                      echo "END: ls -lart modern-distributed-app-template"
+                    #   make test
+        #   outputs:
+        #       artifacts:
+        #           - name: test-report
+        #             path: /go/src/github.com/golang/example/test-report.html
+        #             archive:
+        #                 none: {}
+        #             s3:
+        #                 key: '{{workflow.parameters.branch}}/test-report.html'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+    generateName: ts-ci-
+    namespace: ci
+spec:
+    serviceAccountName: sa-ts-ci-workflow
+    workflowTemplateRef:
+        name: ts-ci

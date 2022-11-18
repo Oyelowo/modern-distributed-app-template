@@ -40,14 +40,15 @@ function main() {
 
     const baseDir = process.cwd();
     const cloudManifestsDir = path.join(baseDir, 'generatedCloudInfra');
+    // sh.rm('-rf', cloudManifestsDir);
     sh.mkdir('-p', cloudManifestsDir);
     // https://www.pulumi.com/docs/intro/concepts/state/#logging-into-the-local-filesystem-backend
     sh.exec(`pulumi login file://${cloudManifestsDir}`);
 
     try {
-        // handleShellError(sh.rm('-rf', `${path.join(baseDir, `Pulumi.${environment}.yaml`)}`));
+        handleShellError(sh.rm('-rf', `${path.join(baseDir, `Pulumi.${environment}.yaml`)}`));
         handleShellError(
-            sh.exec(`export PULUMI_CONFIG_PASSPHRASE=${Argv.pulumiPassphrase} && pulumi stack init --stack ${environment}`)
+            sh.exec(`export PULUMI_CONFIG_PASSPHRASE='${Argv.pulumiPassphrase}' && pulumi stack init --stack ${environment}`)
         );
     } catch {
         console.log(`Already created`);
@@ -56,7 +57,7 @@ function main() {
     handleShellError(
         sh.exec(
             `
-        export PULUMI_CONFIG_PASSPHRASE="not-needed"
+        export PULUMI_CONFIG_PASSPHRASE='${Argv.pulumiPassphrase}'
         export PULUMI_NODEJS_TRANSPILE_ONLY=true
         export PULUMI_SKIP_CONFIRMATIONS=true
         export PULUMI_NODEJS_TSCONFIG_PATH=${tsConfigPath}

@@ -1,0 +1,69 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+    generateName: expression-destructure-json-
+    annotations:
+        workflows.argoproj.io/version: '>= 3.1.0'
+spec:
+    arguments:
+        parameters:
+            - name: config
+              value: '{"a": "1", "b": "2", "c": "3"}'
+    entrypoint: main
+    templates:
+        - name: main
+          #   inputs:
+          #       artifacts:
+          #           - name: my-input-artifact
+          #               path: /my-input-artifact
+          #               s3:
+          #                   key: path/in/bucket/my-input-artifact.tgz
+          inputs:
+              parameters:
+                  - name: a
+                    value: "{{=jsonpath(workflow.parameters.config, '$.a')}}"
+                  - name: b
+                    value: "{{=jsonpath(workflow.parameters.config, '$.b')}}"
+                  - name: c
+                    value: "{{=jsonpath(workflow.parameters.config, '$.c')}}"
+
+          outputs:
+              artifacts:
+                  - name: my-output-artifact
+                    path: /my-output-artifact
+                    s3:
+                        key: path/in/bucket/my-output-artifact.tgz
+
+          script:
+              env:
+                  - name: A
+                    value: '{{inputs.parameters.a}}'
+                  - name: B
+                    value: '{{inputs.parameters.b}}'
+                  - name: C
+                    value: '{{inputs.parameters.c}}'
+              image: debian:9.4
+              command: [bash]
+              source: |
+                  mkdir -p my-output-artifact
+                  echo "$A$B$C" > /my-output-artifact/out.txt
+
+# templates:
+#     - name: artifact-example
+#       inputs:
+#           artifacts:
+#               - name: my-input-artifact
+#                 path: /my-input-artifact
+#                 s3:
+#                     key: path/in/bucket/my-input-artifact.tgz
+#       outputs:
+#           artifacts:
+#               - name: my-output-artifact
+#                 path: /my-output-artifact
+#                 s3:
+#                     key: path/in/bucket/my-output-artifact.tgz
+#       container:
+#           image: debian:latest
+#           command: [sh, -c]
+#           args: ['cp -r /my-input-artifact /my-output-artifact']
+# argo-workflows-s3-seaweedfs

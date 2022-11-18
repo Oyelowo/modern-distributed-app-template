@@ -1,0 +1,151 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: first-service
+    namespace: nginxx
+spec:
+    selector:
+        key: app1
+    ports:
+        - port: 81
+          targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: first-deployment
+    namespace: nginxx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            key: app1
+    template:
+        metadata:
+            labels:
+                key: app1
+        spec:
+            containers:
+                - name: hello1
+                  image: gcr.io/google-samples/hello-app:1.0
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 8080
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: second-service
+    namespace: nginxx
+spec:
+    selector:
+        key: app2
+    ports:
+        - port: 82
+          targetPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: second-deployment
+    namespace: nginxx
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            key: app2
+    template:
+        metadata:
+            labels:
+                key: app2
+        spec:
+            containers:
+                - name: hello2
+                  image: gcr.io/google-samples/hello-app:2.0
+                  imagePullPolicy: IfNotPresent
+                  ports:
+                      - containerPort: 8080
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: nginxx
+  annotations:
+      # kubernetes.io/ingress.class: "nginx"
+      # ingress.kubernetes.io/ssl-redirect: 'false'
+      nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+      nginx.ingress.kubernetes.io/use-regex: 'true'
+      # nginx.ingress.kubernetes.io/rewrite-target: /
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      kubernetes.io/ingress.class: 'nginx'
+
+spec:
+  ingressClassName: nginx
+  rules:
+  # - host: dayo.local
+  # - host: localhost
+  - host: 139-144-160-239.ip.linodeusercontent.com
+  # - host: oyelowo.dev
+  # - host: 139-144-160-195.ip.linodeusercontent.com
+    http:
+      paths:
+      - path: /ocr
+        pathType: Prefix
+        backend:
+          service:
+            name: first-service
+            port:
+              number: 81
+      - path: /ner
+        pathType: Prefix
+        backend:
+          service:
+            name: second-service
+            port:
+              number: 82
+
+# ---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: dashboard-ingress
+#   namespace: kubernetes-dashboard
+#   annotations:
+#       # kubernetes.io/ingress.class: "nginx"
+#       ingress.kubernetes.io/ssl-redirect: 'false'
+#       nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+#     # nginx.ingress.kubernetes.io/rewrite-target: /$1
+#       nginx.ingress.kubernetes.io/rewrite-target: /
+#   labels:
+#     name: myingress
+# spec:
+#   ingressClassName: nginx
+#   rules:
+#   - host: dayo.local
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: "/"
+#         backend:
+#           service:
+#             name: kubernetes-dashboard
+#             port: 
+#               number: 80
+# ---
+# apiVersion: metallb.io/v1beta1
+# kind: IPAddressPool
+# metadata:
+#   name: production
+#   namespace: metallb
+# spec:
+#   # Production services will go here. Public IPs are expensive, so we leased
+#   # just 4 of them.
+#   addresses:
+#   - 192.168.58.2-192.168.58.5
+

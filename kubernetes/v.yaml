@@ -1,0 +1,314 @@
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+    name: role-namespace-admin
+    namespace: ci
+rules:
+    - apiGroups: [''] # "" indicates the core API group
+      resources: ['services', 'pods', 'deployments', 'configmaps']
+      verbs: ['get', 'watch', 'list', 'patch', 'put', 'create']
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-ci-workflow:role-namespace-admin
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: role-namespace-admin
+    apiGroup: rbac.authorization.k8s.io
+---
+# Another one
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+    name: executor
+    namespace: ci
+rules:
+    - apiGroups: ['argoproj.io']
+      resources: ['workflowtaskresults']
+      verbs: ['create', 'patch']
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+    name: sa-typescript-ci-workflow # arbitrary but unique string
+    namespace: ci
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+    name: sa-typescript-ci-workflow:executor
+    namespace: ci
+subjects:
+    - kind: ServiceAccount
+      # Reference to upper's `metadata.name`
+      name: sa-typescript-ci-workflow
+      # Reference to upper's `metadata.namespace`
+      namespace: ci
+roleRef:
+    kind: Role
+    name: executor
+    apiGroup: rbac.authorization.k8s.io
+---
+# Another one ends
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#     name: argo-workflows-s3-seaweedfs
+#     namespace: argo
+# # type: Opaque
+# type: kubernetes.io/basic-auth
+# stringData:
+#     username: Oyelowo
+#     password: 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
+#     accesskey: 0MHP0sShBWcEkpQn
+#     secretkey: OMwKfNu7NbE59ScloujngcEJaOdARNLA
+# ---
+# # Another one ends
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#     name: argo-workflows-s3-seaweedfs
+#     namespace: ci
+# # type: Opaque
+# type: kubernetes.io/basic-auth
+# stringData:
+#     username: Oyelowo
+#     password: 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
+#     accesskey: 0MHP0sShBWcEkpQn
+#     secretkey: OMwKfNu7NbE59ScloujngcEJaOdARNLA
+# ---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+    name: typescript-ci
+    namespace: ci
+    annotations:
+        workflows.argoproj.io/description: |
+            This workflows builds and tests Argo Workflows.
+
+            It demonstrates:
+
+            * Cache restore and store.
+            * Publishing test reports.
+spec:
+    arguments:
+        parameters:
+            - name: branch
+              value: master
+
+    entrypoint: main
+    onExit: cache-store
+
+    volumeClaimTemplates:
+        - metadata:
+              name: work
+          spec:
+              accessModes: [ReadWriteOnce]
+              resources:
+                  requests:
+                      storage: 1Gi
+                      memory: 1Gi
+                      cpu: '1'
+                  limits:
+                      memory: 2Gi
+                      # cpu: "1"
+                      # requests:
+                      #     storage: 64Mi
+
+    templates:
+        - name: main
+          dag:
+              tasks:
+                  - name: setup-with-cache
+                    template: setup-with-cache
+                  - name: check
+                    template: check
+                    dependencies:
+                        - setup-with-cache
+                  - name: test
+                    template: test
+                    dependencies:
+                        - setup-with-cache
+
+        - name: setup-with-cache
+          # continueOn:
+          #   failed: true
+          #   error: true
+          inputs:
+              artifacts:
+                  - name: NPM_CACHE
+                    path: /mnt/NPM_CACHE
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                        # bucket: argo-workflows
+                        # createBucketIfNotPresent:
+                        #   enabled: true
+                        #   objectLocking: true
+                  - name: TURBO_CACHE
+                    path: /mnt/TURBO_CACHE
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+
+                  - name: code
+                    path: /mnt/app/src
+                    git:
+                        repo: https://github.com/Oyelowo/modern-distributed-app-template.git
+                        branch: '{{inputs.parameters.branch}}'
+                        usernameSecret:
+                            name: argo-workflows-s3-seaweedfs
+                            key: username
+                        passwordSecret:
+                            name: argo-workflows-s3-seaweedfs
+                            key: password
+                        # revision: cfe12d6
+
+          container:
+              volumeMounts:
+                  #   - mountPath: /typescript
+                  - mountPath: /app/src
+                    name: work
+                    # We use subpath here to share the work volume for the two mount paths. Otherwise
+                    # The second one will overwrite the first as they use the same volume(work)
+                    # Otherwise, we would have to create separate volumes for them if we dont want to use subPath
+                    # which would make things more verbose
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+                  # - mountPath: /app/src/typescript/node_modules/.cache
+                  #   name: work
+                  #   subPath: TURBO_CACHE
+              image: node:18.7.0
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      echo "INFO: Copy source code from git repo to current working directory"
+                      cp -Rf /mnt/app/src/typescript/. .
+
+
+                      # Restore caches
+                      # COPY NPM CACHE
+                      NPM_CACHE_DIR=$(npm config get cache)
+                      mkdir -p $NPM_CACHE_DIR
+
+                      echo "INFO: Copy cache from s3(seaweedfs) to npm cache."
+                      [ -e /mnt/NPM_CACHE ] && cp -Rf /mnt/NPM_CACHE/. $NPM_CACHE_DIR
+
+                      echo "INFO: List items in npm cache"
+                      ls -lart /root/.npm
+
+                      echo "NODE VERSION"
+                      node --version
+                      echo "NODE VERSION END"
+
+                      echo "INFO: Install packages"
+                      npm ci --prefer-offline
+                      echo "INFOAFTER install: List items in npm cache"
+                      ls -lart /root/.npm
+
+                      echo "lowo inside" > $NPM_CACHE_DIR/lowo.txt
+
+
+                      echo "INFO: COPY TURBO_CACHE from s3 artifacts into ./node_modules/.cache"
+                      mkdir -p ./node_modules/.cache/turbo
+                      [ -e /mnt/TURBO_CACHE ] && cp -Rf /mnt/TURBO_CACHE/. ./node_modules/.cache
+                      ls -lart /root/.npm
+
+        - name: test
+          container:
+              image: node:18.7.0
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      echo "START: ls -lart modern-distributed-app-template"
+                      #   cd ./modern-distributed-app-template
+                      ls -lart
+                      make test
+                      echo "END: ls -lart modern-distributed-app-template"
+
+                      echo "CACHE AFTER TEST" 
+                      ls -lart ./node_modules/.cache/turbo
+                      echo "CACHE END"
+
+        - name: check
+          container:
+              image: node:18.7.0
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              workingDir: /app/src/typescript
+              command: [sh, -euxc]
+              args:
+                  - |
+                      echo "START: Run checks with lint and prettier"
+                      make check
+
+        - name: cache-store
+          container:
+              volumeMounts:
+                  - mountPath: /app/src
+                    name: work
+                    subPath: src
+                  - mountPath: /root/.npm
+                    name: work
+                    subPath: NPM_CACHE
+              image: node:18.7.0
+              workingDir: /app/src/typescript
+
+          outputs:
+              artifacts:
+                  - name: NPM_CACHE
+                    path: /root/.npm
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/NPM_CACHE.tgz
+                  - name: TURBO_CACHE
+                    path: /app/src/typescript/node_modules/.cache
+                    optional: true
+                    s3:
+                        key: github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+    generateName: typescript-ci-
+    namespace: ci
+spec:
+    serviceAccountName: sa-typescript-ci-workflow
+    # artifactRepositoryRef:
+    #   configMap: my-artifact-repository # default is "artifact-repositories"
+    #   key: default-v1-s3-artifact-repository # default can be set by the `workflows.argoproj.io/default-artifact-repository` annotation in config map.
+    workflowTemplateRef:
+        name: typescript-ci
