@@ -77,6 +77,7 @@
     "@graphql-codegen/cli": "https://esm.sh/@graphql-codegen/cli@2.13.12",
     "@graphql-typed-document-node/core": "https://esm.sh/@graphql-typed-document-node/core@3.1.1",
     "@graphql-codegen/client-preset": "https://esm.sh/@graphql-codegen/client-preset@1.1.4",
-    "graphql": "https://esm.sh/graphql@16.6.0"
+    "graphql": "https://esm.sh/graphql@16.6.0",
+    "shelljs": "https://esm.sh/shelljs@0.8.5"
   }
 }
