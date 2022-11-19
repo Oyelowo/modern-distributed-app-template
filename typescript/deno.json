@@ -13,5 +13,10 @@
     "strict": true,
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+  },
+  "lint": {
+    "files": {
+      "exclude": ["lib-graphql/src/gql.ts"]
+    }
   }
 }

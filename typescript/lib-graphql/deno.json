@@ -1,17 +1,10 @@
 {
   "tasks": {
-    "dev": "deno run  --import-map ./import_map.json --node-modules-dir  -A npm:vite",
-    "cache": "deno cache  --import-map ./import_map.json ./src/main.tsx",
-    "cache2": "deno cache  --import-map ./import_map.json   --node-modules-dir npm:vite",
-    "dev2": "deno run  --import-map ./import_map.json -A --node-modules-dir npm:vite",
-    "build": "deno run  --import-map ./import_map.json -A --node-modules-dir npm:vite build",
-    "preview": "deno run  --import-map ./import_map.json -A --node-modules-dir npm:vite preview"
+    "generate": "yarn install && yarn generate",
+    "ge": "deno lint"
   },
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "npm:react",
     "strict": true,
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+    "lib": ["es2015"]
   }
 }
