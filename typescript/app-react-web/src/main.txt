@@ -1,0 +1,162 @@
+
+import React, { useState, createContext } from "react";
+// import React, { useState, createContext } from "@t";
+import ReactDOM from "react-dom/client";
+import { Outlet, RouterProvider } from "@tanstack/react-router";
+// @ts-ignore
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+
+import { router } from "./router";
+import { Spinner } from "./components/Spinner";
+import { Avatar, MantineProvider, Text, ThemeIcon } from "@mantine/core";
+
+function App() {
+  const [isDark, setIsDark] = useState(true);
+  
+  return (
+    <>
+      <MantineProvider
+        withGlobalStyles={true}
+        withNormalizeCSS={true}
+        theme={{ colorScheme: isDark ? "dark" : "light" }}
+      >
+        <Avatar
+          color="cyan"
+          radius="xl"
+          onClick={() => setIsDark((prev) => !prev)}
+        >
+          OO
+        </Avatar>
+
+        <AuthProvider>
+          <RouterProvider
+            router={router}
+            defaultPendingElement={
+              <div className={"p-2 text-2xl"}>
+                <Spinner />
+              </div>
+            }
+          >
+            {/* Normally <Router /> acts as it's own outlet,
+            but if we pass it children, route matching is
+            deferred until the first <Outlet /> is found. */}
+
+            <Root />
+          </RouterProvider>
+          {/* <TanStackRouterDevtools router={router} position="bottom-right" /> */}
+        </AuthProvider>
+      </MantineProvider>
+    </>
+  );
+}
+
+function Root() {
+  const routerState = router.useState();
+
+  return (
+    <div className={"min-h-screen flex flex-col"}>
+      <div className={"flex items-center border-b gap-2"}>
+        <h1 className={"text-3xl p-2"}>Kitchen Sink</h1>
+        {/* Show a global spinner when the router is transitioning */}
+        <div
+          className={`text-3xl duration-300 delay-0 opacity-0 ${
+            routerState.status === "loading" || routerState.isFetching
+              ? " duration-1000 opacity-40"
+              : ""
+          }`}
+        >
+          <Spinner />
+        </div>
+      </div>
+      <div className={"flex-1 flex"}>
+        <div className={"divide-y w-56"}>
+          {(
+            [
+              [".", "Home"],
+              ["/dashboard", "Dashboard"],
+              ["/expensive", "Expensive"],
+              ["/authenticated", "Authenticated"],
+              ["/layout-a", "Layout A"],
+              ["/layout-b", "Layout B"],
+            ] as const
+          ).map(([to, label]) => {
+            return (
+              <div key={to}>
+                <router.Link
+                  to={to}
+                  activeOptions={
+                    {
+                      // If the route points to the root of it's parent,
+                      // make sure it's only active if it's exact
+                      // exact: to === '.',
+                    }
+                  }
+                  className={"block py-2 px-3 text-blue-700"}
+                  // Make "active" links bold
+                  activeProps={{ className: "font-bold" }}
+                >
+                  {label}
+                </router.Link>
+              </div>
+            );
+          })}
+        </div>
+        <div className={"flex-1 border-l border-gray-200"}>
+          {/* Render our first route match */}
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type AuthContext = {
+  login: (username: string) => void;
+  logout: () => void;
+} & AuthContextState;
+
+type AuthContextState = {
+  status: "loggedOut" | "loggedIn";
+  username?: string;
+};
+
+const AuthContext = createContext<AuthContext>(null!);
+
+export function AuthProvider(props: { children: React.ReactNode }) {
+  const [state, setState] = useState<AuthContextState>({
+    status: "loggedOut",
+  });
+
+  const login = (username: string) => {
+    setState({ status: "loggedIn", username });
+  };
+
+  const logout = () => {
+    setState({ status: "loggedOut" });
+  };
+
+  const contextValue = React.useMemo(
+    () => ({
+      ...state,
+      login,
+      logout,
+    }),
+    [state]
+  );
+
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {props.children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return React.useContext(AuthContext);
+}
+
+const rootElement = document.getElementById("app")!;
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(<App />);
+}
