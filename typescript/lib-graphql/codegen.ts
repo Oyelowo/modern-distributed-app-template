@@ -1,8 +1,11 @@
 import { CodegenConfig, generate } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  schema: "../../rust/graphql-mongo/generated/schema.graphql",
+  schema: "../../rust/graphql-surrealdb/generated/schema.graphql",
   documents: "./operations/*.graphql",
+  watch: true,
+  emitLegacyCommonJSImports: false,
+  ignoreNoDocuments: true,
   generates: {
     ["./src/"]: {
       plugins: [],
@@ -11,4 +14,4 @@ const config: CodegenConfig = {
   },
 };
 
-await generate(config, true);
+generate(config, true).catch((e) => {});
