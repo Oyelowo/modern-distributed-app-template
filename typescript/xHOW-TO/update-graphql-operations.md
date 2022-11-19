@@ -3,4 +3,3 @@
 - Add your new operation
 
 - run `make sync`
-
