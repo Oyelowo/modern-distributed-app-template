@@ -47,7 +47,6 @@
     "@react-three/drei": "https://esm.sh/@react-three/drei@9.34.3",
     "@react-three/fiber": "https://esm.sh/@react-three/fiber@8.8.9",
     "@use-gesture/react": "https://esm.sh/@use-gesture/react@10.2.20",
-    "graphql-request": "https://esm.sh/graphql-request@5.0.0",
     "d3": "https://esm.sh/d3@7.6.1",
     "d3-array": "https://esm.sh/d3-array@3.2.0",
     "d3-axis": "https://esm.sh/d3-axis@3.0.0",
@@ -73,6 +72,11 @@
     "@storybook/addon-essentials": "https://esm.sh/@storybook/addon-essentials@6.5.12",
     "@storybook/addon-links": "https://esm.sh/@storybook/addon-links@6.5.12",
     "@storybook/addon-postcss": "https://esm.sh/@storybook/addon-postcss@3.0.0-alpha.1",
-    "@storybook/react": "https://esm.sh/@storybook/react@6.5.12"
+    "@storybook/react": "https://esm.sh/@storybook/react@6.5.12",
+    "graphql-request": "https://esm.sh/graphql-request@5.0.0",
+    "@graphql-codegen/cli": "https://esm.sh/@graphql-codegen/cli@2.13.12",
+    "@graphql-typed-document-node/core": "https://esm.sh/@graphql-typed-document-node/core@3.1.1",
+    "@graphql-codegen/client-preset": "https://esm.sh/@graphql-codegen/client-preset@1.1.4",
+    "graphql": "https://esm.sh/graphql@16.6.0"
   }
 }
