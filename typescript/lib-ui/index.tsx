@@ -6,4 +6,4 @@ export function getLowo() {
   return "Oyelowo L'uomo Universale!";
 }
 
-export * from "./hooks/useInterval";
+export * from "./hooks/useInterval.ts";

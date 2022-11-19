@@ -68,6 +68,11 @@
     "@faker-js/faker": "https://esm.sh/@faker-js/faker@7.5.0",
     "cypress": "https://esm.sh/cypress@10.9.0",
     "msw": "https://esm.sh/msw@0.47.4",
-    "ts-pattern": "https://esm.sh/ts-pattern@4.0.5"
+    "ts-pattern": "https://esm.sh/ts-pattern@4.0.5",
+    "@storybook/addon-actions": "https://esm.sh/@storybook/addon-actions@6.5.12",
+    "@storybook/addon-essentials": "https://esm.sh/@storybook/addon-essentials@6.5.12",
+    "@storybook/addon-links": "https://esm.sh/@storybook/addon-links@6.5.12",
+    "@storybook/addon-postcss": "https://esm.sh/@storybook/addon-postcss@3.0.0-alpha.1",
+    "@storybook/react": "https://esm.sh/@storybook/react@6.5.12"
   }
 }
