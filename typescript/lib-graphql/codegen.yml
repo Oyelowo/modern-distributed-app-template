@@ -1,0 +1,23 @@
+# # DEPRECATED IN FAVOUR OF CODEGEN.JS
+# overwrite: true
+# # Path to the graphql-mongo backend
+# schema: "../../../rust/graphql-mongo/generated/schema.graphql"
+# # All queries, mutations and subscriptions are to be put here
+# documents: "./operations/*.graphql"
+# generates:
+#   # The grapphql code is generated here
+#   ./generated/generated.ts:
+#     plugins:
+#       # - add:
+#       #     content: "import { endpointUrl, fetchParams } from '../my-config';"
+#       - typescript
+#       - typescript-operations
+#       - typescript-react-query
+#   # ./graphql.schema.json:
+#   #   plugins:
+#   #     - "introspection"
+#     config:
+#       addInfiniteQuery: true
+#       fetcher: graphql-request
+#         # endpoint: "endpointUrl"
+#         # fetchParams: "fetchParams"

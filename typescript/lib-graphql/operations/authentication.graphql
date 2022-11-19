@@ -1,0 +1,29 @@
+mutation signIn($signInCredentials: SignInCredentials!) {
+  signIn(signInCredentials: $signInCredentials) {
+    username
+    email
+    age
+  }
+}
+
+mutation signUp($user: UserInput!) {
+  signUp(user: $user) {
+    username
+    email
+    age
+  }
+}
+
+mutation signOut {
+  signOut {
+    userId
+    message
+  }
+}
+
+query session {
+  session {
+    userId
+    expiresAt
+  }
+}
