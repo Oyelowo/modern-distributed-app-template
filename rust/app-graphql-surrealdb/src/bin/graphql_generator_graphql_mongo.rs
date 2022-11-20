@@ -1,4 +1,4 @@
-use graphql_surrealdb::utils::graphql;
+use app_graphql_surrealdb::utils::graphql;
 
 fn main() {
     let path = format!("{}/generated/schema.graphql", env!("CARGO_PKG_NAME"));
