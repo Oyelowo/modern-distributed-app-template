@@ -64,7 +64,7 @@ reqwest = { version = "0.11.12", default-features = false, features = [
 ] }
 oauth2 = "4.2.3"
 derive_more = "0.99.17"
-my-macros = { path = "../my-macros" }
+lib-my-macros = { path = "../lib-my-macros" }
 validator = { version = "0.16.0", features = ["derive"] }
 multimap = "0.8.3"
 lru = "0.7.8"
