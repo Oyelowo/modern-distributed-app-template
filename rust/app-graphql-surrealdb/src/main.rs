@@ -14,14 +14,14 @@ use lib_common::{
     oauth::{cache_storage::RedisCache, github::GithubConfig, google::GoogleConfig},
 };
 
-use backoff::future::retry;
-use graphql_surrealdb::{
+use app_graphql_surrealdb::{
     handlers::{
         healthcheck::{healthz, liveness},
         oauth::{complete_authentication, start_authentication},
     },
     utils::graphql::{graphql_handler, graphql_handler_ws, graphql_playground, setup_graphql},
 };
+use backoff::future::retry;
 use poem::{get, listener::TcpListener, middleware::Tracing, EndpointExt, Route, Server};
 
 #[tokio::main]
