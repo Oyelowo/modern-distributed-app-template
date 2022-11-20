@@ -1,8 +1,8 @@
-import { IArgoEventsArgo } from '../../../generatedHelmChartsTsTypes/argoEventsArgo.js';
+import { IArgoEventsArgo } from '../../../generatedHelmChartsTsTypes/argoEventsArgo.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { argoEventProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { argoEventProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const argoEventValues: DeepPartial<IArgoEventsArgo> = {
     crds: {

@@ -1,8 +1,8 @@
-import { createArgocdApplication } from './createArgoApplication.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
+import { createArgocdApplication } from './createArgoApplication.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
 
 // I am keeping bitnami version in the meantime for reference purpose. 26th April, 2022.
-export * from './argocdBitnami.js';
+export * from './argocdBitnami.ts';
 // export * from "./argocdOfficial.js";
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();

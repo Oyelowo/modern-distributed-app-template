@@ -1,12 +1,12 @@
-import { getIngressUrlHost } from './hosts.js';
+import { getIngressUrlHost } from './hosts.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { namespaces } from '../../types/ownTypes.js';
-import { reactWebSettings } from '../../services/react-web/settings.js';
-import { INGRESS_CLASSNAME_NGINX, NginxConfiguration } from '../../types/nginxConfigurations.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { CLUSTER_ISSUER_NAME } from '../cert-manager/index.js';
-import { nginxIngressProvider } from './settings.js';
-import { graphqlSurrealdbSettings } from '../../services/graphql-surrealdb/settings.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { reactWebSettings } from '../../services/react-web/settings.ts';
+import { INGRESS_CLASSNAME_NGINX, NginxConfiguration } from '../../types/nginxConfigurations.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { CLUSTER_ISSUER_NAME } from '../cert-manager/index.ts';
+import { nginxIngressProvider } from './settings.ts';
+import { graphqlSurrealdbSettings } from '../../services/graphql-surrealdb/settings.ts';
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 

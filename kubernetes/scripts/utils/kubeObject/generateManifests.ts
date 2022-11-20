@@ -1,13 +1,13 @@
-import { getMainBaseDir } from '../../../src/shared/directoriesManager.js';
+import { getMainBaseDir } from '../../../src/shared/directoriesManager.ts';
 import c from 'chalk';
 import p from 'node:path';
 import sh from 'shelljs';
-import { handleShellError } from '../shared.js';
-import { KubeObject } from './kubeObject.js';
-import type { TKubeObject } from './kubeObject.js';
-import path from 'node:path';
-import { Environment } from '../../../src/types/ownTypes.js';
-import { EnvironmentVariables, imageTags } from '../../../src/shared/environmentVariablesForManifests.js';
+import { handleShellError } from '../shared.ts';
+import { KubeObject } from './kubeObject.ts';
+import type { TKubeObject } from './kubeObject.ts';
+import * as path from 'path';
+import { Environment } from '../../../src/types/ownTypes.ts';
+import { EnvironmentVariables, imageTags } from '../../../src/shared/environmentVariablesForManifests.ts';
 
 /*
 GENERATE ALL KUBERNETES MANIFESTS USING PULUMI

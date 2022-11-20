@@ -1,5 +1,5 @@
-import crds from '../../../generatedCrdsTs/index.js';
-import { metalbProvider } from './settings.js';
+import crds from '../../../generatedCrdsTs/index.ts';
+import { metalbProvider } from './settings.ts';
 
 // TODO:
 export const btpAdvert = new crds.metallb.v1beta1.BGPAdvertisement(

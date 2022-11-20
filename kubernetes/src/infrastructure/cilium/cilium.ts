@@ -1,9 +1,9 @@
-import { ICiliumCilium } from '../../../generatedHelmChartsTsTypes/ciliumCilium.js';
+import { ICiliumCilium } from '../../../generatedHelmChartsTsTypes/ciliumCilium.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial } from '../../types/ownTypes.js';
-import { ciliumProvider } from './settings.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial } from '../../types/ownTypes.ts';
+import { ciliumProvider } from './settings.ts';
 
 const ciliumValues: DeepPartial<ICiliumCilium> = {};
 

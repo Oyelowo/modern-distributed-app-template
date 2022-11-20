@@ -1,9 +1,9 @@
-import { ILonghornLonghorn } from '../../../generatedHelmChartsTsTypes/longhornLonghorn.js';
+import { ILonghornLonghorn } from '../../../generatedHelmChartsTsTypes/longhornLonghorn.ts';
 import * as k8s from '@pulumi/kubernetes';
 
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { longhornOperatorProvider } from './settings.js';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { longhornOperatorProvider } from './settings.ts';
 
 const longhornOperatValues: DeepPartial<ILonghornLonghorn> = {};
 

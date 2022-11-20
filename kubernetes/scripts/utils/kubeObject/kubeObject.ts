@@ -1,20 +1,29 @@
-import fs from 'node:fs';
+// import fs from 'node:fs';
 import yaml from 'yaml';
-import { mergeUnsealedSecretToSealedSecret } from './sealedSecretsManager.js';
-import { selectSecretKubeObjectsFromPrompt } from './secretsSelectorPrompter.js';
+import { mergeUnsealedSecretToSealedSecret } from './sealedSecretsManager.ts';
+import { selectSecretKubeObjectsFromPrompt } from './secretsSelectorPrompter.ts';
 import sh from 'shelljs';
 import * as R from 'ramda';
-import path from 'node:path';
+import * as path from 'path';
 import _ from 'lodash';
 import z from 'zod';
-import { getGeneratedEnvManifestsDir } from '../../../src/shared/directoriesManager.js';
-import type { ResourceOutputDirProps } from '../../../src/shared/directoriesManager.js';
-import { getResourceAbsolutePath } from '../../../src/shared/directoriesManager.js';
-import { Environment, namespaceSchema, ResourceName } from '../../../src/types/ownTypes.js';
-import { generateManifests } from './generateManifests.js';
+import { getGeneratedEnvManifestsDir } from '../../../src/shared/directoriesManager.ts';
+import type { ResourceOutputDirProps } from '../../../src/shared/directoriesManager.ts';
+import { getResourceAbsolutePath } from '../../../src/shared/directoriesManager.ts';
+import { Environment, namespaceSchema, ResourceName } from '../../../src/types/ownTypes.ts';
+import { generateManifests } from './generateManifests.ts';
 import cliProgress from 'cli-progress';
-import { PlainSecretsManager } from '../plainSecretsManager.js';
+import { PlainSecretsManager } from '../plainSecretsManager.ts';
 import chalk from 'chalk';
+import { Buffer } from "https://deno.land/std@0.165.0/io/buffer.ts";
+import { Base64 } from "https://deno.land/x/bb64/mod.ts";
+import {
+    decode as base64Decode,
+    encode as base64Encode,
+} from 'https://deno.land/std@0.165.0/encoding/base64.ts';
+
+
+
 
 type ResourceKind =
     | 'Secret'
@@ -66,8 +75,8 @@ export type TKubeObjectBaseCommonProps<K extends ResourceKind> = KubeObjectSchem
 // have to add as above
 type KubeObjectCustom =
     | (TKubeObjectBaseCommonProps<'Secret'> & {
-          selectedSecretsForUpdate?: string[] | null;
-      })
+        selectedSecretsForUpdate?: string[] | null;
+    })
     | TKubeObjectBaseCommonProps<'SealedSecret'>
     | TKubeObjectBaseCommonProps<'CustomResourceDefinition'>
     | TKubeObjectBaseCommonProps<'Deployment'>
@@ -122,7 +131,10 @@ export class KubeObject {
         const kubeObjects: TKubeObject[] = [];
         manifestsPaths.forEach((manifestPath, i) => {
             if (!manifestPath) return;
-            const kubeObject = yaml.parse(fs.readFileSync(manifestPath, 'utf8')) as TKubeObject;
+
+            const decoder = new TextDecoder("utf-8");
+            const data = Deno.readFileSync(manifestPath);
+            const kubeObject = yaml.parse(decoder.decode(data)) as TKubeObject;
             if (_.isEmpty(kubeObject))
                 throw new Error(chalk.redBright`Manifest is empty. Check the directory that all is well`);
 
@@ -134,7 +146,9 @@ export class KubeObject {
             // ensure consistency and a single source of truth in handling the data.
             if (kubeObject.kind === 'Secret') {
                 const encodedStringData = _.mapValues(kubeObject.stringData, (v): string =>
-                    Buffer.from(v ?? '').toString('base64')
+                    base64Encode(v)
+                    // Base64.fromBase64String(v ?? '').toString()
+                    // new Buffer().from(v ?? '').toString('base64')
                 );
 
                 kubeObject.data = R.mergeDeepRight(kubeObject.data ?? {}, encodedStringData);

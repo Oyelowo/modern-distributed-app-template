@@ -1,8 +1,8 @@
-import { ILokiDistributedGrafana } from '../../../generatedHelmChartsTsTypes/lokiDistributedGrafana.js';
+import { ILokiDistributedGrafana } from '../../../generatedHelmChartsTsTypes/lokiDistributedGrafana.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { monitoringProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { monitoringProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const lokiValues: DeepPartial<ILokiDistributedGrafana> = {};
 

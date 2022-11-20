@@ -1,7 +1,7 @@
-import { PlainSecretsManager } from './utils/plainSecretsManager.js';
-import { syncCrdsCode } from './utils/syncCrdsCode.js';
-import { syncEtcHostsWithCustomHosts } from './utils/syncEtcHostsWithCustomHosts.js';
-import { syncHelmChartTypesDeclarations } from './utils/syncHelmChartTypesDeclarations.js';
+import { PlainSecretsManager } from './utils/plainSecretsManager.ts';
+import { syncCrdsCode } from './utils/syncCrdsCode.ts';
+import { syncEtcHostsWithCustomHosts } from './utils/syncEtcHostsWithCustomHosts.ts';
+import { syncHelmChartTypesDeclarations } from './utils/syncHelmChartTypesDeclarations.ts';
 
 async function main() {
     syncEtcHostsWithCustomHosts();

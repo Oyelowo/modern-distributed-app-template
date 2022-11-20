@@ -1,10 +1,10 @@
-import { ISeaweedfsOyelowo } from '../../../generatedHelmChartsTsTypes/seaweedfsOyelowo.js';
+import { ISeaweedfsOyelowo } from '../../../generatedHelmChartsTsTypes/seaweedfsOyelowo.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial } from '../../types/ownTypes.js';
-import { seaweedFsProvider } from './settings.js';
-import { seaweedFsTikvSettings } from './tikvCluster.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial } from '../../types/ownTypes.ts';
+import { seaweedFsProvider } from './settings.ts';
+import { seaweedFsTikvSettings } from './tikvCluster.ts';
 
 const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
     global: {

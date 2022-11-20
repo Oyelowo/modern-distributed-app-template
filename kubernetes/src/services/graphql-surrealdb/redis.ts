@@ -1,10 +1,10 @@
-import { IRedisBitnami } from '../../../generatedHelmChartsTsTypes/redisBitnami.js';
+import { IRedisBitnami } from '../../../generatedHelmChartsTsTypes/redisBitnami.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { graphqlSurrealdb } from './index.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { graphqlSurrealdbSettings } from './settings.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { graphqlSurrealdb } from './index.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { graphqlSurrealdbSettings } from './settings.ts';
 
 const { envVars } = graphqlSurrealdbSettings;
 const env = getEnvVarsForKubeManifests();

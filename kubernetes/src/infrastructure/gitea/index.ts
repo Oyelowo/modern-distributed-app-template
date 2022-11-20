@@ -1,3 +1,3 @@
-export * from './gitea.js';
-export * from './argoApp.js';
-export * from './settings.js';
+export * from './gitea.ts';
+export * from './argoApp.ts';
+export * from './settings.ts';

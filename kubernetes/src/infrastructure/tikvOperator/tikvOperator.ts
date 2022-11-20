@@ -1,9 +1,9 @@
-import { ITidbOperatorPingcap } from '../../../generatedHelmChartsTsTypes/tidbOperatorPingcap.js';
+import { ITidbOperatorPingcap } from '../../../generatedHelmChartsTsTypes/tidbOperatorPingcap.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial } from '../../types/ownTypes.js';
-import { tikvOperatorProvider } from './settings.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial } from '../../types/ownTypes.ts';
+import { tikvOperatorProvider } from './settings.ts';
 
 const tikvOperatValues: DeepPartial<ITidbOperatorPingcap> = {
     // advancedStatefulset : {}

@@ -1,8 +1,8 @@
-import { INatsNats } from '../../../generatedHelmChartsTsTypes/natsNats.js';
+import { INatsNats } from '../../../generatedHelmChartsTsTypes/natsNats.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { natsOperatorProvider } from './settings.js';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { natsOperatorProvider } from './settings.ts';
 
 const natsValues: DeepPartial<INatsNats> = {
     nats: {

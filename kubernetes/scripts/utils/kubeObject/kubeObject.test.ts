@@ -1,5 +1,5 @@
 import sh from 'shelljs';
-import { KubeObject } from './kubeObject.js';
+import { KubeObject } from './kubeObject.ts';
 import { expect, jest, test, describe } from '@jest/globals';
 import { info } from 'node:console';
 import { MockSTDIN, stdin } from 'mock-stdin';

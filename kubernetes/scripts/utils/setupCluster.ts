@@ -1,12 +1,12 @@
-import { Environment, namespaces } from '../../src/types/ownTypes.js';
+import { Environment, namespaces } from '../../src/types/ownTypes.ts';
 import sh from 'shelljs';
-import { promptSecretsDeletionConfirmations } from '../utils/promptSecretsDeletionConfirmations.js';
-import { helmChartsInfo } from '../../src/shared/helmChartInfo.js';
-import { ResourceName } from '../../src/types/ownTypes.js';
+import { promptSecretsDeletionConfirmations } from '../utils/promptSecretsDeletionConfirmations.ts';
+import { helmChartsInfo } from '../../src/shared/helmChartInfo.ts';
+import { ResourceName } from '../../src/types/ownTypes.ts';
 import _ from 'lodash';
-import { KubeObject } from '../utils/kubeObject/kubeObject.js';
-import { ResourceOutputDirProps } from '../../src/shared/directoriesManager.js';
-import { PlainSecretsManager } from './plainSecretsManager.js';
+import { KubeObject } from '../utils/kubeObject/kubeObject.ts';
+import { ResourceOutputDirProps } from '../../src/shared/directoriesManager.ts';
+import { PlainSecretsManager } from './plainSecretsManager.ts';
 
 export async function setupCluster(environment: Environment) {
     const { deletPlainJsonSecretsInput, deleteUnsealedSecretManifestsOutput } =

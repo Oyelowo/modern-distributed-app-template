@@ -1,11 +1,11 @@
-import path from 'node:path';
 import sh from 'shelljs';
 import yargs from 'yargs';
-import { getMainBaseDir } from '../src/shared/directoriesManager.js';
-import { ARGV_ENVIRONMENTS, tsConfigPath } from './utils/argv.js';
-import { handleShellError } from './utils/shared.js';
+import { getMainBaseDir } from '../src/shared/directoriesManager.ts';
+import { ARGV_ENVIRONMENTS, tsConfigPath } from './utils/argv.ts';
+import { handleShellError } from './utils/shared.ts';
+import * as path from "path";
 
-export const Argv = yargs(process.argv.slice(2))
+export const Argv = yargs(Deno.args.slice(2))
     .options({
         'skip-preview': {
             alias: 'sp',

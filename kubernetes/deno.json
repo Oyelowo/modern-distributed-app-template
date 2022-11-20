@@ -8,15 +8,11 @@
     "preview": "deno run  --import-map ./import_map.json -A --node-modules-dir npm:vite preview"
   },
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "npm:react",
     "strict": true,
-    "target": "esnext",
-    "lib": ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"]
+
+
   },
   "lint": {
-    "files": {
-      "exclude": ["lib-graphql/src/gql.ts"]
-    }
+    "files": {}
   }
 }

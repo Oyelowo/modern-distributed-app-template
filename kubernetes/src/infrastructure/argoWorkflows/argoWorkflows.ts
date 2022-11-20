@@ -1,8 +1,8 @@
-import { IArgoWorkflowsArgo } from '../../../generatedHelmChartsTsTypes/argoWorkflowsArgo.js';
+import { IArgoWorkflowsArgo } from '../../../generatedHelmChartsTsTypes/argoWorkflowsArgo.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { argoWorkflowsProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { argoWorkflowsProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const argoWorkflowsValues: DeepPartial<IArgoWorkflowsArgo> = {
     crds: {

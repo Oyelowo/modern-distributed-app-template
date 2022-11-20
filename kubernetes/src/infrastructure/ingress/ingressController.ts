@@ -1,9 +1,9 @@
-import { DeepPartial } from '../../types/ownTypes.js';
-import { ingressControllerPorts } from './hosts.js';
-import { INginxIngressControllerBitnami } from '../../../generatedHelmChartsTsTypes/nginxIngressControllerBitnami.js';
+import { DeepPartial } from '../../types/ownTypes.ts';
+import { ingressControllerPorts } from './hosts.ts';
+import { INginxIngressControllerBitnami } from '../../../generatedHelmChartsTsTypes/nginxIngressControllerBitnami.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { nginxIngressProvider } from './settings.js';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { nginxIngressProvider } from './settings.ts';
 
 const {
     repo,

@@ -1,6 +1,6 @@
-import { AppConfigs, AppEnvVars } from '../../types/ownTypes.js';
-import { getEnvVarsForKubeManifests, imageTags } from '../../shared/environmentVariablesForManifests.js';
-import { getIngressUrl } from '../../infrastructure/ingress/hosts.js';
+import { AppConfigs, AppEnvVars } from '../../types/ownTypes.ts';
+import { getEnvVarsForKubeManifests, imageTags } from '../../shared/environmentVariablesForManifests.ts';
+import { getIngressUrl } from '../../infrastructure/ingress/hosts.ts';
 
 const env = getEnvVarsForKubeManifests();
 

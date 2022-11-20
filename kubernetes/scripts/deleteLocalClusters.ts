@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import sh from 'shelljs';
-import { getClustersList } from './utils/promptKubernetesClusterSwitch.js';
+import { getClustersList } from './utils/promptKubernetesClusterSwitch.ts';
 
 const deleteLocalCluster = (name: string) => sh.exec(`minikube delete -p ${name}`);
 

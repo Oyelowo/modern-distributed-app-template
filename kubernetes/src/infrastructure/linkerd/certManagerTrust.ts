@@ -1,7 +1,7 @@
-import crds from '../../../generatedCrdsTs/index.js';
+import crds from '../../../generatedCrdsTs/index.ts';
 
-import { certManagerProvider } from '../cert-manager/settings.js';
-import { LINKERD_IDENTITY_TRUST_ROOTS_SECRET_NAME } from './certManagerCaIssuer.js';
+import { certManagerProvider } from '../cert-manager/settings.ts';
+import { LINKERD_IDENTITY_TRUST_ROOTS_SECRET_NAME } from './certManagerCaIssuer.ts';
 
 // Distribute the public key of the identity anchor trust trust from secrets to config maps
 // across clusters/ i.e in every namespace

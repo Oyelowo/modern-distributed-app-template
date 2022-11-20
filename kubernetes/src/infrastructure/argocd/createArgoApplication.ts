@@ -1,15 +1,15 @@
-import { Environment, Namespace, namespaces, ResourceNameSchema } from '../../types/ownTypes.js';
+import { Environment, Namespace, namespaces, ResourceNameSchema } from '../../types/ownTypes.ts';
 import * as kx from '@pulumi/kubernetesx';
 import { Resource } from '@pulumi/pulumi';
-import crds from '../../../generatedCrdsTs/index.js';
+import crds from '../../../generatedCrdsTs/index.ts';
 import {
     ResourceOutputDirProps,
     getResourceProvider,
     getResourceRelativePath,
-} from '../../shared/directoriesManager.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
-import { toBase64 } from '../../shared/helpers.js';
+} from '../../shared/directoriesManager.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
+import { toBase64 } from '../../shared/helpers.ts';
 import _ from 'lodash';
 
 type ArgocdApplicationProps = {

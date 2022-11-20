@@ -1,9 +1,9 @@
-import path from 'node:path';
+import * as path from 'path';
 import yargs from 'yargs';
-import { getMainBaseDir } from '../../src/shared/directoriesManager.js';
-import { ENVIRONMENTS_ALL } from '../utils/shared.js';
+import { getMainBaseDir } from '../../src/shared/directoriesManager.ts';
+import { ENVIRONMENTS_ALL } from '../utils/shared.ts';
 
-export const ARGV_ENVIRONMENTS = yargs(process.argv.slice(2))
+export const ARGV_ENVIRONMENTS = yargs(Deno.args.slice(2))
     .options({
         environment: {
             alias: 'e',

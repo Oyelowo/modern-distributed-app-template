@@ -1,5 +1,5 @@
-import type { TKubeObject } from './kubeObject.js';
-import type { Namespace, ResourceName } from '../../../src/types/ownTypes.js';
+import type { TKubeObject } from './kubeObject.ts';
+import type { Namespace, ResourceName } from '../../../src/types/ownTypes.ts';
 import _ from 'lodash';
 import chalk from 'chalk';
 import inquirer from 'inquirer';

@@ -1,8 +1,8 @@
-import path from 'node:path';
-import { getMainBaseDir } from './directoriesManager.js';
-import { ServiceName, TServices } from '../types/ownTypes.js';
+import * as path from 'path';
+import { getMainBaseDir } from './directoriesManager.ts';
+import { ServiceName, TServices } from '../types/ownTypes.ts';
 import * as z from 'zod';
-import { appEnvironmentsSchema } from '../types/ownTypes.js';
+import { appEnvironmentsSchema } from '../types/ownTypes.ts';
 import { Simplify, SnakeCase } from 'type-fest';
 import _ from 'lodash';
 import sh from 'shelljs';
@@ -36,7 +36,7 @@ const environmentVariablesValidator = z
 
 export type EnvironmentVariables = Simplify<z.infer<typeof environmentVariablesValidator>>;
 
-export const getEnvVarsForKubeManifests = () => environmentVariablesValidator.parse(process.env);
+export const getEnvVarsForKubeManifests = () => environmentVariablesValidator.parse(Deno.env.toObject());
 
 const mainDir = getMainBaseDir();
 const IMAGE_TAGS_DIR = path.join(mainDir, 'imageTags');

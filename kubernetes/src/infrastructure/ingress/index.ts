@@ -1,5 +1,5 @@
-export * from './ingressController.js';
-export * from './ingressRules.js';
-export * from './hosts.js';
-export * from './argoApp.js';
+export * from './ingressController.ts';
+export * from './ingressRules.ts';
+export * from './hosts.ts';
+export * from './argoApp.ts';
 // export * from "./certificate.js";

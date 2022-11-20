@@ -1,7 +1,7 @@
 import * as kx from '@pulumi/kubernetesx';
 import * as pulumi from '@pulumi/pulumi';
 import z from 'zod';
-import { AppConfigs, NamespaceOfApps, ServiceName } from '../types/ownTypes.js';
+import { AppConfigs, NamespaceOfApps, ServiceName } from '../types/ownTypes.ts';
 
 export function getFQDNFromSettings<N extends ServiceName, NS extends NamespaceOfApps>(
     config: AppConfigs<N, NS, Record<string, string>>

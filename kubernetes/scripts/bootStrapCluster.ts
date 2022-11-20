@@ -1,5 +1,5 @@
-import { promptEnvironmentSelection } from './utils/shared.js';
-import { setupCluster } from './utils/setupCluster.js';
+import { promptEnvironmentSelection } from './utils/shared.ts';
+import { setupCluster } from './utils/setupCluster.ts';
 
 /* 
 Expects that the cluster is already running and in user's local

@@ -1,9 +1,9 @@
 import sh from 'shelljs';
-import { promptKubernetesClusterSwitch } from './utils/promptKubernetesClusterSwitch.js';
-import { promptSecretsDeletionConfirmations } from './utils/promptSecretsDeletionConfirmations.js';
-import { KubeObject } from './utils/kubeObject/kubeObject.js';
-import { promptEnvironmentSelection } from './utils/shared.js';
-import { PlainSecretsManager } from './utils/plainSecretsManager.js';
+import { promptKubernetesClusterSwitch } from './utils/promptKubernetesClusterSwitch.ts';
+import { promptSecretsDeletionConfirmations } from './utils/promptSecretsDeletionConfirmations.ts';
+import { KubeObject } from './utils/kubeObject/kubeObject.ts';
+import { promptEnvironmentSelection } from './utils/shared.ts';
+import { PlainSecretsManager } from './utils/plainSecretsManager.ts';
 
 async function main() {
     const { environment } = await promptEnvironmentSelection();

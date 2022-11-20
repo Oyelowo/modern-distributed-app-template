@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import inquirer from 'inquirer';
 import _ from 'lodash';
 import sh from 'shelljs';
-import { ingressControllerPorts } from '../../src/infrastructure/ingress/hosts.js';
-import { Environment } from '../../src/types/ownTypes.js';
+import { ingressControllerPorts } from '../../src/infrastructure/ingress/hosts.ts';
+import { Environment } from '../../src/types/ownTypes.ts';
 
 const switchToCluster = (name: string) => {
     const selectContext = sh.exec(`kubectl config use-context ${name}`, { silent: true });

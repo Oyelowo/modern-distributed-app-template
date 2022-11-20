@@ -1,16 +1,16 @@
 import * as k8s from '@pulumi/kubernetes';
 import * as kx from '@pulumi/kubernetesx';
 import * as pulumi from '@pulumi/pulumi';
-import crds from '../../generatedCrdsTs/index.js';
-import { DOCKER_REGISTRY_KEY } from '../infrastructure/argocd/docker.js';
-import { createArgocdApplication } from '../infrastructure/argocd/createArgoApplication.js';
-import { getResourceAbsolutePath } from './directoriesManager.js';
-import { AppConfigs, NamespaceOfApps, NoUnion, ServiceName } from '../types/ownTypes.js';
-import { generateService } from './helpers.js';
-import { toBase64 } from './helpers.js';
+import crds from '../../generatedCrdsTs/index.ts';
+import { DOCKER_REGISTRY_KEY } from '../infrastructure/argocd/docker.ts';
+import { createArgocdApplication } from '../infrastructure/argocd/createArgoApplication.ts';
+import { getResourceAbsolutePath } from './directoriesManager.ts';
+import { AppConfigs, NamespaceOfApps, NoUnion, ServiceName } from '../types/ownTypes.ts';
+import { generateService } from './helpers.ts';
+import { toBase64 } from './helpers.ts';
 import _ from 'lodash';
 import z from 'zod';
-import { getEnvVarsForKubeManifests } from './environmentVariablesForManifests.js';
+import { getEnvVarsForKubeManifests } from './environmentVariablesForManifests.ts';
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 

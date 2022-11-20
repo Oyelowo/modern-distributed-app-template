@@ -1,7 +1,7 @@
-import { AppConfigs, AppEnvVars, OauthEnvVars, RedisDbEnvVars, SurrealDbEnvVars } from '../../types/ownTypes.js';
-import { getIngressUrl } from '../../infrastructure/ingress/hosts.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
-import { getEnvVarsForKubeManifests, imageTags } from '../../shared/environmentVariablesForManifests.js';
+import { AppConfigs, AppEnvVars, OauthEnvVars, RedisDbEnvVars, SurrealDbEnvVars } from '../../types/ownTypes.ts';
+import { getIngressUrl } from '../../infrastructure/ingress/hosts.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
+import { getEnvVarsForKubeManifests, imageTags } from '../../shared/environmentVariablesForManifests.ts';
 
 const env = getEnvVarsForKubeManifests();
 

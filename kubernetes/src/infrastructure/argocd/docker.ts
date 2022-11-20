@@ -1,11 +1,11 @@
 import c from 'chalk';
-import path from 'node:path';
+import * as path from 'path';
 import sh from 'shelljs';
-import { getResourceAbsolutePath } from '../../shared/directoriesManager.js';
-import { Environment } from '../../types/ownTypes.js';
-import { namespaces } from '../../types/ownTypes.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
+import { getResourceAbsolutePath } from '../../shared/directoriesManager.ts';
+import { Environment } from '../../types/ownTypes.ts';
+import { namespaces } from '../../types/ownTypes.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
 
 const DOCKER_SERVER = 'ghcr.io';
 export const DOCKER_REGISTRY_KEY = 'my-registry-key';

@@ -1,6 +1,6 @@
-import pc from '../../../generatedCrdsTs/index.js';
-import { graphqlSurrealdb } from './app.js';
-import { surrealdbSettings } from './surrealdb.js';
+import pc from '../../../generatedCrdsTs/index.ts';
+import { graphqlSurrealdb } from './app.ts';
+import { surrealdbSettings } from './surrealdb.ts';
 
 // TiKV acts as the persistent layer for surrealdb. Surrealdb also supports in-memory, file-based,
 // foundationdb, rocksdb etc

@@ -1,8 +1,8 @@
-import { SealedSecretTemplate } from '../../../src/types/sealedSecretTemplate.js';
-import type { TKubeObject } from './kubeObject.js';
+import { SealedSecretTemplate } from '../../../src/types/sealedSecretTemplate.ts';
+import type { TKubeObject } from './kubeObject.ts';
 import p from 'node:path';
 import sh from 'shelljs';
-import type { Namespace, ResourceName } from '../../../src/types/ownTypes.js';
+import type { Namespace, ResourceName } from '../../../src/types/ownTypes.ts';
 import _ from 'lodash';
 import z from 'zod';
 import yaml from 'yaml';

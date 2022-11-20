@@ -1,8 +1,8 @@
-import { IGrafanaGrafana } from '../../../generatedHelmChartsTsTypes/grafanaGrafana.js';
+import { IGrafanaGrafana } from '../../../generatedHelmChartsTsTypes/grafanaGrafana.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { monitoringProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { monitoringProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const grafanaValues: DeepPartial<IGrafanaGrafana> = {};
 

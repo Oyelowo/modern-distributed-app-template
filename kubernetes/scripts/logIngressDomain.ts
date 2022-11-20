@@ -1,11 +1,11 @@
-import { getIngressUrl } from '../src/infrastructure/ingress/hosts.js';
+import { getIngressUrl } from '../src/infrastructure/ingress/hosts.ts';
 
 import sh from 'shelljs';
 
 import yargs from 'yargs';
-import { ENVIRONMENTS_ALL } from './utils/shared.js';
+import { ENVIRONMENTS_ALL } from './utils/shared.ts';
 
-export const ARGV = yargs(process.argv.slice(2))
+export const ARGV = yargs(Deno.args.slice(2))
     .options({
         environment: {
             alias: 'e',

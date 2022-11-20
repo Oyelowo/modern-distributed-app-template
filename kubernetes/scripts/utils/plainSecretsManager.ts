@@ -1,12 +1,12 @@
-import { ArgoCdEnvVars, Environment, LinkerdVizEnvVars, ResourceName, TResourceCategory } from '../../src/types/ownTypes.js';
+import { ArgoCdEnvVars, Environment, LinkerdVizEnvVars, ResourceName, TResourceCategory } from '../../src/types/ownTypes.ts';
 import z from 'zod';
 import _ from 'lodash';
 import sh from 'shelljs';
-import path from 'node:path';
+import * as path from 'path';
 import * as R from 'ramda';
-import { getPlainSecretsConfigFilesBaseDir } from '../../src/shared/directoriesManager.js';
-import { GraphqlSurrealDbEnvVars } from '../../src/services/graphql-surrealdb/settings.js';
-import { GrpcSurrealDbEnvVars } from '../../src/services/grpc-surrealdb/settings.js';
+import { getPlainSecretsConfigFilesBaseDir } from '../../src/shared/directoriesManager.ts';
+import { GraphqlSurrealDbEnvVars } from '../../src/services/graphql-surrealdb/settings.ts';
+import { GrpcSurrealDbEnvVars } from '../../src/services/grpc-surrealdb/settings.ts';
 
 
 export type TResourcesEnvVars = {
@@ -32,7 +32,7 @@ export const getSecretsSample = () => {
                 OAUTH_GOOGLE_CLIENT_SECRET: '',
                 REDIS_USERNAME: '',
                 REDIS_PASSWORD: '',
-                
+
             }
             ,
             'grpc-surrealdb': {

@@ -28,6 +28,9 @@
         "typescript": "npm:typescript@.9.1-beta",
         "wait-on": "npm:wait-on@6.0.1",
         "yargs": "npm:yargs@17.6.0",
-        "zod": "npm:zod@3.19.1"
+        "zod": "npm:zod@3.19.1",
+        "type-fest": "npm:type-fest",
+        "inquirer": "https://esm.sh/inquirer@9.1.4",
+        "path": "https://deno.land/std@0.165.0/path/mod.ts"
   }
 }

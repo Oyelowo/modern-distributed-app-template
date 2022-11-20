@@ -1,8 +1,8 @@
-import { IVeleroVmwareTanzu } from '../../../generatedHelmChartsTsTypes/veleroVmwareTanzu.js';
+import { IVeleroVmwareTanzu } from '../../../generatedHelmChartsTsTypes/veleroVmwareTanzu.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { veleroProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { veleroProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const veleroValues: DeepPartial<IVeleroVmwareTanzu> = {
     backupsEnabled: true,

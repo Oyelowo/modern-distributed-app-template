@@ -1,9 +1,9 @@
-import { ServiceDeployment } from '../../shared/deployment.js';
-import { AppConfigs, AppEnvVars, TikVDbEnvVars } from '../../types/ownTypes.js';
-import { getIngressUrl } from '../../infrastructure/ingress/hosts.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { graphqlSurrealdb } from './app.js';
+import { ServiceDeployment } from '../../shared/deployment.ts';
+import { AppConfigs, AppEnvVars, TikVDbEnvVars } from '../../types/ownTypes.ts';
+import { getIngressUrl } from '../../infrastructure/ingress/hosts.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { graphqlSurrealdb } from './app.ts';
 
 const env = getEnvVarsForKubeManifests();
 

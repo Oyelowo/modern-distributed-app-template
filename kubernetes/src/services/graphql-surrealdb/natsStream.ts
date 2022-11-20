@@ -1,5 +1,5 @@
-import crds from '../../../generatedCrdsTs/index.js';
-import { graphqlSurrealdbSettings } from './settings.js';
+import crds from '../../../generatedCrdsTs/index.ts';
+import { graphqlSurrealdbSettings } from './settings.ts';
 
 export const graphqlSurrealDbUserLocationStream = new crds.jetstream.v1beta2.Stream('', {
     metadata: graphqlSurrealdbSettings.metadata,

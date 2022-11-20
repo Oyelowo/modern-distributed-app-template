@@ -1,8 +1,8 @@
-import { ITempoDistributedGrafana } from '../../../generatedHelmChartsTsTypes/tempoDistributedGrafana.js';
+import { ITempoDistributedGrafana } from '../../../generatedHelmChartsTsTypes/tempoDistributedGrafana.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { monitoringProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { monitoringProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const tempoValues: DeepPartial<ITempoDistributedGrafana> = {};
 

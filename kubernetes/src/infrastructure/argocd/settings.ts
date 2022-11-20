@@ -1,5 +1,5 @@
-import { getResourceProvider } from '../../shared/directoriesManager.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
+import { getResourceProvider } from '../../shared/directoriesManager.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 

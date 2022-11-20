@@ -1,5 +1,5 @@
-import { createArgocdApplication } from '../argocd/createArgoApplication.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
+import { createArgocdApplication } from '../argocd/createArgoApplication.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 

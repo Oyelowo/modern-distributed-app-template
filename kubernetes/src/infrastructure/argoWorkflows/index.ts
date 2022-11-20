@@ -1,3 +1,3 @@
-export * from './argoWorkflows.js';
-export * from './argoApp.js';
-export * from './settings.js';
+export * from './argoWorkflows.ts';
+export * from './argoApp.ts';
+export * from './settings.ts';

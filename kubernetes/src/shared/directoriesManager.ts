@@ -1,8 +1,8 @@
 import * as k8s from '@pulumi/kubernetes';
 // import url from 'node:url';
-import path from 'node:path';
-import { v4 as uuid } from 'uuid';
-import { Environment, InfrastructureName, ServiceName, TInfrastructure, TServices } from '../types/ownTypes.js';
+import * as path from 'path';
+import { v4 as uuid } from "https://deno.land/std@0.165.0/uuid/mod.ts";
+import { Environment, InfrastructureName, ServiceName, TInfrastructure, TServices } from '../types/ownTypes.ts';
 
 // const __filename = url.fileURLToPath(import.meta.url);
 // const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -13,8 +13,9 @@ export const getMainBaseDir = () => {
     // This is more resilient to folder structure change compared to
     // the above but requires user to actually run program from the root
     // Keep the alternative for reference purpose.
-    return process.cwd();
+    return Deno.cwd();
 };
+
 
 export const getPlainSecretsConfigFilesBaseDir = () => {
     return path.join(getMainBaseDir(), '.secrets');

@@ -1,6 +1,6 @@
-import pc from '../../../generatedCrdsTs/index.js';
-import { namespaces } from '../../types/ownTypes.js';
-import { seaweedFsProvider } from './settings.js';
+import pc from '../../../generatedCrdsTs/index.ts';
+import { namespaces } from '../../types/ownTypes.ts';
+import { seaweedFsProvider } from './settings.ts';
 
 const name = 'seaweedfs-tikv';
 export const seaweedFsTikvSettings = {

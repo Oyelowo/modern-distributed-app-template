@@ -1,21 +1,15 @@
 import c from 'chalk';
-import fs from 'node:fs';
+// import fs from 'node:fs';
 import inquirer from 'inquirer';
 import sh, { ShellString } from 'shelljs';
 import yargs from 'yargs';
-import { Environment } from '../../src/types/ownTypes.js';
+import { Environment } from '../../src/types/ownTypes.ts';
+import _ from "lodash";
 
-export function isFileEmpty(fileName: string, ignoreWhitespace = true): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-        fs.readFile(fileName, (err, data) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-
-            resolve((!ignoreWhitespace && data.length === 0) || (ignoreWhitespace && /^\s*$/.test(String(data))));
-        });
-    });
+export function isFileEmpty(fileName: string, ignoreWhitespace = true): boolean {
+    const decoder = new TextDecoder("utf-8");
+    const data = Deno.readFileSync(fileName);
+    return _.isEmpty(decoder.decode(data).trim());
 }
 
 export function handleShellError(shellCommand: ShellString) {
@@ -46,7 +40,7 @@ export async function promptEnvironmentSelection() {
 }
 
 export const getArgvEnvironments = () =>
-    yargs(process.argv.slice(2))
+    yargs(Deno.args.slice(2))
         .options({
             environment: {
                 alias: 'e',

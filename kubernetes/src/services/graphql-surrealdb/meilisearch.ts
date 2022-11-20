@@ -1,9 +1,9 @@
-import { IMeilisearchMeilisearch } from '../../../generatedHelmChartsTsTypes/meilisearchMeilisearch.js';
+import { IMeilisearchMeilisearch } from '../../../generatedHelmChartsTsTypes/meilisearchMeilisearch.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { graphqlSurrealdb } from './app.js';
-import { graphqlSurrealdbSettings } from './settings.js';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { graphqlSurrealdb } from './app.ts';
+import { graphqlSurrealdbSettings } from './settings.ts';
 
 const { envVars } = graphqlSurrealdbSettings;
 

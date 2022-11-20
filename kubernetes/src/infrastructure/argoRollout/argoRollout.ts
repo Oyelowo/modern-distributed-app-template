@@ -1,8 +1,8 @@
-import { IArgoRolloutsArgo } from '../../../generatedHelmChartsTsTypes/argoRolloutsArgo.js';
+import { IArgoRolloutsArgo } from '../../../generatedHelmChartsTsTypes/argoRolloutsArgo.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces } from '../../types/ownTypes.js';
-import { argoRolloutProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
+import { DeepPartial, namespaces } from '../../types/ownTypes.ts';
+import { argoRolloutProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
 
 const argoRolloutValues: DeepPartial<IArgoRolloutsArgo> = {};
 

@@ -1,6 +1,6 @@
-import crds from '../../../generatedCrdsTs/index.js';
-import { namespaces } from '../../types/ownTypes.js';
-import { certManagerProvider } from '../cert-manager/settings.js';
+import crds from '../../../generatedCrdsTs/index.ts';
+import { namespaces } from '../../types/ownTypes.ts';
+import { certManagerProvider } from '../cert-manager/settings.ts';
 
 // ROOT TRUST ANCHOR CERTIFICATES AND CLUSTER ISSUE
 

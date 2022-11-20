@@ -1,4 +1,4 @@
-import { Environment } from '../../types/ownTypes.js';
+import { Environment } from '../../types/ownTypes.ts';
 import getPort, { portNumbers } from 'get-port';
 
 // export const DOMAIN_NAME_SUB_ARGOCD = `argocd.${HOST_INGRESS}`;

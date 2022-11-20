@@ -1,9 +1,9 @@
-import { IMetallbBitnami } from '../../../generatedHelmChartsTsTypes/metallbBitnami.js';
+import { IMetallbBitnami } from '../../../generatedHelmChartsTsTypes/metallbBitnami.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { DeepPartial } from '../../types/ownTypes.js';
-import { metalbProvider } from './settings.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { DeepPartial } from '../../types/ownTypes.ts';
+import { metalbProvider } from './settings.ts';
 
 const metalbOperatValues: DeepPartial<IMetallbBitnami> = {};
 

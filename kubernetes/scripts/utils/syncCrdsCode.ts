@@ -1,10 +1,10 @@
 import sh from 'shelljs';
-import { helmChartsInfo } from '../../src/shared/helmChartInfo.js';
-import { getGeneratedCrdsCodeDir } from '../../src/shared/directoriesManager.js';
+import { helmChartsInfo } from '../../src/shared/helmChartInfo.ts';
+import { getGeneratedCrdsCodeDir } from '../../src/shared/directoriesManager.ts';
 import chalk from 'chalk';
 import yaml from 'yaml';
 import fs from 'node:fs';
-import path from 'node:path';
+import * as path from 'path';
 import waitOn from 'wait-on';
 
 export async function syncCrdsCode() {

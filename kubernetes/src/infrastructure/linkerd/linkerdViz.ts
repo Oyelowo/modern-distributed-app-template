@@ -1,17 +1,17 @@
-import { ILinkerdVizLinkerd } from '../../../generatedHelmChartsTsTypes/linkerdVizLinkerd.js';
+import { ILinkerdVizLinkerd } from '../../../generatedHelmChartsTsTypes/linkerdVizLinkerd.ts';
 import * as k8s from '@pulumi/kubernetes';
 import * as kx from '@pulumi/kubernetesx';
 import * as bcrypt from 'bcrypt';
-import { namespaces } from '../../types/ownTypes.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { INGRESS_CLASSNAME_NGINX, NginxConfiguration } from '../../types/nginxConfigurations.js';
-import { DeepPartial, ResourceName } from '../../types/ownTypes.js';
-import { CLUSTER_ISSUER_NAME } from '../cert-manager/clusterIssuer.js';
-import { linkerdVizProvider } from './settings.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { getIngressUrlHost } from '../ingress/hosts.js';
-import { toBase64 } from '../../shared/helpers.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
+import { namespaces } from '../../types/ownTypes.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { INGRESS_CLASSNAME_NGINX, NginxConfiguration } from '../../types/nginxConfigurations.ts';
+import { DeepPartial, ResourceName } from '../../types/ownTypes.ts';
+import { CLUSTER_ISSUER_NAME } from '../cert-manager/clusterIssuer.ts';
+import { linkerdVizProvider } from './settings.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { getIngressUrlHost } from '../ingress/hosts.ts';
+import { toBase64 } from '../../shared/helpers.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
 
 const values: DeepPartial<ILinkerdVizLinkerd> = {};
 const resourceName: ResourceName = 'linkerd-viz';

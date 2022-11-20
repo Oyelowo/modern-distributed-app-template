@@ -1,8 +1,8 @@
-import crds from '../../../generatedCrdsTs/index.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { INGRESS_CLASSNAME_NGINX } from '../../types/nginxConfigurations.js';
+import crds from '../../../generatedCrdsTs/index.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { INGRESS_CLASSNAME_NGINX } from '../../types/nginxConfigurations.ts';
 
-import { certManagerProvider } from './settings.js';
+import { certManagerProvider } from './settings.ts';
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 
 export const CLUSTER_ISSUER_NAME = 'letsencrypt-cluster-issuer';

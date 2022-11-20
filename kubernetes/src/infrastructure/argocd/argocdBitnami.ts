@@ -1,13 +1,13 @@
-import { IArgoCdBitnami } from '../../../generatedHelmChartsTsTypes/argoCdBitnami.js';
-import { annotations } from '../ingress/ingressRules.js';
+import { IArgoCdBitnami } from '../../../generatedHelmChartsTsTypes/argoCdBitnami.ts';
+import { annotations } from '../ingress/ingressRules.ts';
 import * as k8s from '@pulumi/kubernetes';
-import { DeepPartial, namespaces, STORAGE_CLASS } from '../../types/ownTypes.js';
-import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.js';
-import { argocdProvider } from './settings.js';
-import { helmChartsInfo } from '../../shared/helmChartInfo.js';
-import { getIngressUrlHost } from '../ingress/hosts.js';
-import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.js';
-import { INGRESS_CLASSNAME_NGINX } from '../../types/nginxConfigurations.js';
+import { DeepPartial, namespaces, STORAGE_CLASS } from '../../types/ownTypes.ts';
+import { getEnvVarsForKubeManifests } from '../../shared/environmentVariablesForManifests.ts';
+import { argocdProvider } from './settings.ts';
+import { helmChartsInfo } from '../../shared/helmChartInfo.ts';
+import { getIngressUrlHost } from '../ingress/hosts.ts';
+import { PlainSecretsManager } from '../../../scripts/utils/plainSecretsManager.ts';
+import { INGRESS_CLASSNAME_NGINX } from '../../types/nginxConfigurations.ts';
 
 const { ENVIRONMENT } = getEnvVarsForKubeManifests();
 const secrets = new PlainSecretsManager('infrastructure', 'argocd', ENVIRONMENT).getSecrets();
