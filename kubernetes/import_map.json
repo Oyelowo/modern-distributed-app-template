@@ -1,0 +1,33 @@
+{
+  "imports": {
+           "@pulumi/docker": "npm:@pulumi/docker@3.4.1",
+        "@pulumi/kubernetes": "npm:@pulumi/kubernetes@3.21.4",
+        "@pulumi/kubernetes-ingress-nginx": "npm:@pulumi/kubernetes-ingress-nginx@0.0.9",
+        "@pulumi/kubernetesx": "npm:@pulumi/kubernetesx@0.1.6",
+        "@pulumi/linode": "npm:@pulumi/linode@3.10.1",
+        "@pulumi/pulumi": "npm:@pulumi/pulumi@.40.3",
+        "@pulumi/random": "npm:@pulumi/random@4.8.2",
+        "bcrypt": "npm:bcrypt@5.1.0",
+        "chalk": "npm:chalk@5.1.0",
+        "cli-progress": "npm:cli-progress@3.11.2",
+        "cross-env": "npm:cross-env@7.0.3",
+        "dotenv": "npm:dotenv@16.0.3",
+        "eslint-plugin-unused-imports": "npm:eslint-plugin-unused-imports@2.0.0",
+        "find-free-port": "npm:find-free-port@2.0.0",
+        "get-port": "npm:get-port@6.1.2",
+        "json-schema-to-ts": "npm:json-schema-to-ts@2.5.5",
+        "json-schema-to-typescript": "npm:json-schema-to-typescript@11.0.2",
+        "json-to-ts": "npm:json-to-ts@1.7.0",
+        "lodash": "npm:lodash@4.17.21",
+        "lodash-es": "npm:lodash-es@4.17.21",
+        "patch-package": "npm:patch-package@6.4.7",
+        "prompt": "npm:prompt@1.3.0",
+        "ramda": "npm:ramda@0.28.0",
+        "shelljs": "npm:shelljs@0.8.5",
+        "ts-node": "npm:ts-node@10.9.1",
+        "typescript": "npm:typescript@.9.1-beta",
+        "wait-on": "npm:wait-on@6.0.1",
+        "yargs": "npm:yargs@17.6.0",
+        "zod": "npm:zod@3.19.1"
+  }
+}

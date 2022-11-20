@@ -32,7 +32,8 @@ test:
 ## INFRA SPECIFIC
 #############
 deploy:
-	npx ts-node scripts/deployCloudInfra.ts --environment=$(environment)
+	# npx ts-node scripts/deployCloudInfra.ts --environment=$(environment)
+	deno run  --import-map ./import_map.json --node-modules-dir  -A scripts/deployCloudInfra.ts --environment=$(environment)
 
 bootsrap_cluster:
 	npx ts-node scripts/bootstrapCluster.ts

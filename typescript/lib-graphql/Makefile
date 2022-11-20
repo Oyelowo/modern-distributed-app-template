@@ -1,2 +1,0 @@
-gen:
-	npm run generate
