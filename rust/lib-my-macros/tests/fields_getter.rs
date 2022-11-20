@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 #![allow(non_snake_case)]
 
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 
 #[test]

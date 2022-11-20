@@ -6,7 +6,7 @@ use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 
 use futures_util::TryStreamExt;
 use log::warn;
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default)]

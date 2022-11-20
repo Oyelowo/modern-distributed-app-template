@@ -27,7 +27,7 @@ use lib_common::oauth::client::OauthClient;
 #[derive(Debug, thiserror::Error)]
 pub(crate) enum HandlerError {
     #[error(transparent)]
-    OauthError(#[from] common::oauth::error::OauthError),
+    OauthError(#[from] lib_common::oauth::error::OauthError),
 
     #[error("Problem retrieving account")]
     GetAccountFailed,
