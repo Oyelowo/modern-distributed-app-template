@@ -8,8 +8,9 @@ version = "0.1.0"
 [dependencies]
 lib-common = { path = "../lib-common" }
 quote = "1.0"
-my-macros = { path = "../lib-my-macros" }
+lib-my-macros = { path = "../lib-my-macros" }
 surrealdb = "1.0.0-beta.8"
+surrealdb-client = { git = "https://github.com/surrealdb/surrealdb.rs", branch = "main" }
 poem = { version = "1.3.45", features = [
   "redis-session",
   "session",

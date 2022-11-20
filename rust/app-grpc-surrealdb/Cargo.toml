@@ -8,8 +8,9 @@ edition = "2021"
 
 [dependencies]
 lib-common = { path = "../lib-common" }
-my-macros = { path = "../lib-my-macros" }
+lib-my-macros = { path = "../lib-my-macros" }
 surrealdb = "1.0.0-beta.8"
+surrealdb-client = { git = "https://github.com/surrealdb/surrealdb.rs", branch = "main" }
 tonic = "0.8.2"
 # tonic = { version = "0.8.0", default-features = false, features = [
 #     "transport",
