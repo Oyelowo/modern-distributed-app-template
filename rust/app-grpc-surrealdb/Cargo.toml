@@ -18,7 +18,7 @@ tonic = "0.8.2"
 # ] }
 log = "0.4.17"
 tonic-web = "0.4"
-prost = "0.11.0"
+prost = "0.11.2"
 base64 = "0.13"
 bytes = "1.2"
 futures-core = "0.3"
@@ -30,32 +30,32 @@ tower-service = "0.3"
 tracing = "0.1"
 
 
-tokio = { version = "1.21.2", features = ["macros", "rt-multi-thread"] }
-anyhow = "1.0.65"
+tokio = { version = "1.22.0", features = ["macros", "rt-multi-thread"] }
+anyhow = "1.0.66"
 thiserror = "1.0.37"
 bson = "2.4.0"
-chrono = { version = "0.4.22", features = ["serde"] }
+chrono = { version = "0.4.23", features = ["serde"] }
 chrono-tz = "0.6.3"
-serde = { version = "1.0.145", features = ["derive"] }
-serde_json = "1.0.85"
+serde = { version = "1.0.147", features = ["derive"] }
+serde_json = "1.0.88"
 slab = "0.4.7"
 typed-builder = "0.10.0"
 url = "2.3.1"
-uuid = "1.2.1"
+uuid = "1.2.2"
 validator = { version = "0.16.0", features = ["derive"] }
 
-async-trait = "0.1.57"
+async-trait = "0.1.58"
 config = "0.13.2"
 crossbeam = "0.8.2"
 derive_more = "0.99.17"
 parking_lot = "0.12.1"
-rayon = "1.5.3"
+rayon = "1.6.0"
 ron = "0.7.1"
 serde-aux = "3.1.0"
 urlencoding = "2.1.2"
 envy = "0.4.2"
 secrecy = "0.8.0"
-futures = "0.3.24"
+futures = "0.3.25"
 
 # async-stream = "0.3"
 # prost = "0.9"
@@ -91,5 +91,5 @@ futures = "0.3.24"
 
 [build-dependencies]
 tonic-build = "0.8.2"
-anyhow = "1.0.65"
+anyhow = "1.0.66"
 thiserror = "1.0.37"
