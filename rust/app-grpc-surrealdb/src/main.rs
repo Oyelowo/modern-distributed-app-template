@@ -1,10 +1,10 @@
 use std::{net::SocketAddr, process};
 
 use anyhow::Result;
-use lib_common::configurations::application::ApplicationConfigs;
-use lib_grpc_surrealdb::app::{
+use app_grpc_surrealdb::app::{
     app_analytics::AnalyticsApp, greetings::GreeterApp, music::MusicFanApp,
 };
+use lib_common::configurations::application::ApplicationConfigs;
 use tonic::transport::Server;
 
 #[tokio::main]
