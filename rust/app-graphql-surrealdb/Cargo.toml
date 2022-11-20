@@ -54,7 +54,7 @@ async-graphql-poem = "4.0.16"
 futures = "0.3.25"
 futures-util = "0.3.25"
 tokio = { version = "1.22.0", features = ["full"] }
-redis = { version = "0.21.6", features = [
+redis = { version = "0.22.1", features = [
   "tokio-comp",
   "tokio-native-tls-comp",
 ] }
