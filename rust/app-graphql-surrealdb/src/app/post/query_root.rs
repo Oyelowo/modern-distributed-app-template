@@ -2,10 +2,10 @@ use super::model::Post;
 
 use async_graphql::*;
 use bson::oid::ObjectId;
-use lib_common::error_handling::ApiHttpStatus;
 use futures_util::TryStreamExt;
-use log::warn;
+use lib_common::error_handling::ApiHttpStatus;
 use lib_my_macros::FieldsGetter;
+use log::warn;
 
 #[derive(Default)]
 pub struct PostQueryRoot;

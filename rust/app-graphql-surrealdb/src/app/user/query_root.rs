@@ -5,8 +5,8 @@ use chrono::{DateTime, Utc};
 use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 
 use futures_util::TryStreamExt;
-use log::warn;
 use lib_my_macros::FieldsGetter;
+use log::warn;
 use serde::{Deserialize, Serialize};
 
 #[derive(Default)]
