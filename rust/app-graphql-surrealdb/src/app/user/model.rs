@@ -5,7 +5,7 @@ use chrono::{serde::ts_nanoseconds_option, DateTime, Utc};
 use lib_common::oauth::account;
 use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 use futures_util::TryStreamExt;
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 use surrealdb::Datastore;
 use typed_builder::TypedBuilder;

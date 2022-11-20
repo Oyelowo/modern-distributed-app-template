@@ -2,7 +2,7 @@
 #![allow(non_snake_case)]
 
 // For testing macros made here
-use my_macros::{FieldsGetter, HelloMacro, MyTrait};
+use lib_my_macros::{FieldsGetter, HelloMacro, MyTrait};
 use serde::{Deserialize, Serialize};
 
 #[derive(HelloMacro)]

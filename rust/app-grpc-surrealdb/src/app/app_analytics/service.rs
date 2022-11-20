@@ -1,6 +1,6 @@
 use bson::{doc, oid::ObjectId};
 use futures::TryStreamExt;
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use tonic::{Request, Response, Status};
 pub mod app_analytics {
     tonic::include_proto!("app_analytics");

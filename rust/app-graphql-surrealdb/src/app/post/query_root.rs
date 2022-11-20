@@ -5,7 +5,7 @@ use bson::oid::ObjectId;
 use lib_common::error_handling::ApiHttpStatus;
 use futures_util::TryStreamExt;
 use log::warn;
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 
 #[derive(Default)]
 pub struct PostQueryRoot;

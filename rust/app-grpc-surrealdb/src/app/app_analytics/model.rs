@@ -1,4 +1,4 @@
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 use typed_builder::TypedBuilder;
 use uuid::Uuid;

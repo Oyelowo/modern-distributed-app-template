@@ -8,7 +8,7 @@
 ├── Dockerfile.production
 ├── Makefile
 ├── README.md
-├── common
+├── lib-common
 │   ├── Cargo.toml
 │   └── src
 │       ├── authentication
@@ -20,7 +20,7 @@
 │       ├── oauth
 │       └── utils
 ├── examplequery.graphql
-├── graphql-surrealdb
+├── app-graphql-surrealdb
 │   ├── Cargo.toml
 │   ├── generated
 │   │   └── schema.graphql
@@ -32,7 +32,7 @@
 │       ├── lib.rs
 │       ├── main.rs
 │       └── utils
-├── grpc-surrealdb
+├── app-grpc-surrealdb
 │   ├── Cargo.toml
 │   ├── Helloworld.md
 │   ├── build.rs
@@ -49,7 +49,7 @@
 │       ├── lib.rs
 │       ├── main.rs
 │       └── utils
-├── my-macros
+├── lib-my-macros
 │   ├── Cargo.toml
 │   ├── derive
 │   │   ├── Cargo.toml

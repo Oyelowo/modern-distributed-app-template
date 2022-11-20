@@ -3,7 +3,7 @@ use std::path::Display;
 use async_graphql::*;
 
 // use lib_common::error_handling::ApiHttpStatus;
-use my_macros::FieldsGetter;
+use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 // use surrealdb::sql::Uuid;
 use typed_builder::TypedBuilder;
