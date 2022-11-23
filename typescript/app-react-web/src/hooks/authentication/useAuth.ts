@@ -1,16 +1,16 @@
 // import { SessionQuery, useSessionQuery } from "@oyelowo/graphql-client";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { atom } from "jotai";
-// import { client } from "../../config/client.ts";
+// import { client } from "../../config/client.js";
 import {
   GraphqlErrorResponse,
   mapReactQueryResultToImpossibleStates,
-} from "./helpers.tsx";
-import { graphql } from "../../../../lib-graphql/generated/gql.ts";
+} from "./helpers.js";
+import { graphql } from "../../../../lib-graphql/generated/gql.js";
 import { GraphQLClient } from "graphql-request";
 import fetch from "cross-fetch";
 import { createClient } from "@urql/core";
-// import { CreateUserDocument, GetUserDocument } from "../../../../lib-graphql/generated/graphql.ts";
+// import { CreateUserDocument, GetUserDocument } from "../../../../lib-graphql/generated/graphql.js";
 
 const sessionWithVariablesQueryDocument = graphql(/* GraphQL */ `
   query session {
@@ -57,7 +57,7 @@ export interface UseSessionProps {
 }
 
 const client = createClient({
-  url: "",
+  url: "localhost:8000",
   fetch,
 });
 
