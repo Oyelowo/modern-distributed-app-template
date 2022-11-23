@@ -1,0 +1,4 @@
+packages:
+  - 'app-react-web'
+  - 'lib-graphql'
+  - 'lib-ui'

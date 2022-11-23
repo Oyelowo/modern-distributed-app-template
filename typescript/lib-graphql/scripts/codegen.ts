@@ -3,7 +3,7 @@ import { CodegenConfig, generate } from "@graphql-codegen/cli";
 const GRAPHQL_GENEATED_CODE_PATH = "./generated/";
 
 export const config: CodegenConfig = {
-  schema: "../../rust/graphql-surrealdb/generated/schema.graphql",
+  schema: "../../rust/app-graphql-surrealdb/generated/schema.graphql",
   documents: ["../**/!(*.d).{ts,tsx}", `!${GRAPHQL_GENEATED_CODE_PATH}**/*`],
   // documents: ["../**/!(*.d).{ts,tsx}'", `!${GRAPHQL_GENEATED_CODE_PATH}**/*`],
   // documents: ["../**/*.tsx", "../**/*.ts", `!${GRAPHQL_GENEATED_CODE_PATH}**/*`],
@@ -19,7 +19,7 @@ export const config: CodegenConfig = {
     },
   },
   hooks: {
-    afterAllFileWrite: ["npx ts-node ./scripts/sanitizeImports.ts"],
+    afterAllFileWrite: [],
   },
 };
 
