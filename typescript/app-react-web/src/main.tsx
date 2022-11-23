@@ -4,11 +4,11 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { router } from "./router.jsx";
 import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
-import { DoubleNavbar } from "./NavbarMain/Nav.jsx";
+// import { DoubleNavbar } from "./NavbarMain/Nav.jsx";
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 
-function App() {
+export function App() {
   const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
 
   return (
@@ -47,20 +47,22 @@ function Root() {
   return (
     <Grid>
       <Grid.Col span={1}>
-        <DoubleNavbar />
+        {/* <DoubleNavbar /> */}
+        erer
       </Grid.Col>
       <Grid.Col span={11}>
         {/* Render our first route match */}
-        <Outlet />
+        rer
+        {/* <Outlet /> */}
       </Grid.Col>
     </Grid>
   );
 }
 
-if (document) {
-  const rootElement = document.getElementById("app")!;
-  if (!rootElement.innerHTML) {
-    const root = createRoot(rootElement);
-    root.render(<App />);
-  }
-}
+// if (document) {
+//   const rootElement = document.getElementById("app")!;
+//   if (!rootElement.innerHTML) {
+//     const root = createRoot(rootElement);
+//     root.render(<App />);
+//   }
+// }
