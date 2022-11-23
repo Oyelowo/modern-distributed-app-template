@@ -1,5 +1,5 @@
-import { ECOption } from "./useChart.tsx";
-import { rawData } from "./stockchartTAData.ts";
+import { ECOption } from "./useChart.jsx";
+import { rawData } from "./stockchartTAData.js";
 
 type DataItem = (number | string)[];
 
@@ -32,7 +32,7 @@ const data = rawData.map(
     _volume,
     _trans,
     _sign,
-  ]) => [open, close, low, high].map(Number),
+  ]) => [open, close, low, high].map(Number)
 );
 // const data = rawData.map((item) => [+item[1], +item[2], +item[5], +item[6]]);
 

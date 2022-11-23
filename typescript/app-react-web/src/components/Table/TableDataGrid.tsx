@@ -13,11 +13,11 @@ import {
 } from "@tanstack/react-table";
 import { Table, TextInput } from "@mantine/core";
 import { useDebouncedValue } from "@mantine/hooks";
-import { makeData, Person } from "./makeData.tsx";
-import { fuzzyFilter } from "./helpers.ts";
-import { useColumns } from "./columns.tsx";
-import { Footer } from "./Footer.tsx";
-import { Header } from "./Header.tsx";
+import { makeData, Person } from "./makeData.jsx";
+import { fuzzyFilter } from "./helpers.js";
+import { useColumns } from "./columns.jsx";
+import { Footer } from "./Footer.jsx";
+import { Header } from "./Header.jsx";
 
 const data = makeData(50000);
 
@@ -70,14 +70,12 @@ export function TableDataGrid() {
       />
       <div style={{ overflowX: "auto" }}>
         <div>
-          {
-            /* {table.getAllColumns().map((c) => (
+          {/* {table.getAllColumns().map((c) => (
           <>
           column {c.id}
           <ColumnFilter column={c} table={table} />
           </>
-        ))} */
-          }
+        ))} */}
         </div>
         <div />
         <Table striped highlightOnHover verticalSpacing="sm">

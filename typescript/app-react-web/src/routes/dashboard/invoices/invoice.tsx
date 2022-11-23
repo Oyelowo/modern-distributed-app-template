@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { router } from "../../../router.tsx";
-import { fetchInvoiceById, patchInvoice } from "../../../mockTodos.ts";
-import { InvoiceFields } from "../../../components/InvoiceFields.tsx";
-import { invoicesRoute } from "./index.tsx";
+import { router } from "../../../router.jsx";
+import { fetchInvoiceById, patchInvoice } from "../../../mockTodos.js";
+import { InvoiceFields } from "../../../components/InvoiceFields.jsx";
+import { invoicesRoute } from "./index.jsx";
 import { useEffect, useState } from "react";
 
 export const invoiceRoute = invoicesRoute.createRoute({
@@ -76,29 +76,25 @@ function InvoiceView() {
           })}
           className="text-blue-700"
         >
-          {search.showNotes ? "Close Notes" : "Show Notes"}
-          {" "}
+          {search.showNotes ? "Close Notes" : "Show Notes"}{" "}
         </Link>
-        {search.showNotes
-          ? (
-            <>
-              <div>
-                <div className="h-2" />
-                <textarea
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  rows={5}
-                  className="shadow w-full p-2 rounded"
-                  placeholder="Write some notes here..."
-                />
-                <div className="italic text-xs">
-                  Notes are stored in the URL. Try copying the URL into a new
-                  tab!
-                </div>
+        {search.showNotes ? (
+          <>
+            <div>
+              <div className="h-2" />
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                rows={5}
+                className="shadow w-full p-2 rounded"
+                placeholder="Write some notes here..."
+              />
+              <div className="italic text-xs">
+                Notes are stored in the URL. Try copying the URL into a new tab!
               </div>
-            </>
-          )
-          : null}
+            </div>
+          </>
+        ) : null}
       </div>
       <div>
         <button
@@ -108,25 +104,19 @@ function InvoiceView() {
           Save
         </button>
       </div>
-      {action.current?.submission?.id === invoice.id
-        ? (
-          <div key={action.current?.submittedAt}>
-            {action.current?.status === "success"
-              ? (
-                <div className="inline-block px-2 py-1 rounded bg-green-500 text-white animate-bounce [animation-iteration-count:2.5] [animation-duration:.3s]">
-                  Saved!
-                </div>
-              )
-              : action.current?.status === "error"
-              ? (
-                <div className="inline-block px-2 py-1 rounded bg-red-500 text-white animate-bounce [animation-iteration-count:2.5] [animation-duration:.3s]">
-                  Failed to save.
-                </div>
-              )
-              : null}
-          </div>
-        )
-        : null}
+      {action.current?.submission?.id === invoice.id ? (
+        <div key={action.current?.submittedAt}>
+          {action.current?.status === "success" ? (
+            <div className="inline-block px-2 py-1 rounded bg-green-500 text-white animate-bounce [animation-iteration-count:2.5] [animation-duration:.3s]">
+              Saved!
+            </div>
+          ) : action.current?.status === "error" ? (
+            <div className="inline-block px-2 py-1 rounded bg-red-500 text-white animate-bounce [animation-iteration-count:2.5] [animation-duration:.3s]">
+              Failed to save.
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </form>
   );
 }

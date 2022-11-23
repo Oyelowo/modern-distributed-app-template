@@ -12,9 +12,9 @@ import {
 import { useForm } from "@mantine/form";
 import { Filter as FilterIcon } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
-import { useUniqueColumnValues } from "./shared.ts";
-import { operatorsValuesAndLabels } from "./stringFilterMultipleFn.ts";
-import { FilterSingleProps } from "../helpers.ts";
+import { useUniqueColumnValues } from "./shared.js";
+import { operatorsValuesAndLabels } from "./stringFilterMultipleFn.js";
+import { FilterSingleProps } from "../helpers.js";
 
 type Props<T extends unknown> = {
   column: Column<T, unknown>;

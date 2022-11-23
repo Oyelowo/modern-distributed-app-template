@@ -1,5 +1,5 @@
 import { createRouteConfig, Outlet } from "@tanstack/react-router";
-import { router } from "../../../router.tsx";
+import { router } from "../../../router.jsx";
 
 export const landingRoute = createRouteConfig().createRoute({
   path: "landing",

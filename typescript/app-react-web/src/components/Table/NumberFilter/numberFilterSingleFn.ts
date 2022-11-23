@@ -1,7 +1,7 @@
 import { FilterFn } from "@tanstack/react-table";
-import { filterNumberRow } from "./shared.ts";
-import { Person } from "../makeData.tsx";
-import { FilterSingleProps } from "../helpers.ts";
+import { filterNumberRow } from "./shared.js";
+import { Person } from "../makeData.jsx";
+import { FilterSingleProps } from "../helpers.js";
 
 export const numberFilterSingleFn: FilterFn<Person> = (
   row,

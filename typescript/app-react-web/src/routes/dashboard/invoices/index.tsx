@@ -1,7 +1,7 @@
 import { Outlet } from "@tanstack/react-router";
 import { Loader as Spinner } from "@mantine/core";
-import { router } from "../../../router.tsx";
-import { dashboardRoute } from "../index.tsx";
+import { router } from "../../../router.jsx";
+import { dashboardRoute } from "../index.jsx";
 
 export const invoicesRoute = dashboardRoute.createRoute({
   path: "invoices",
@@ -25,7 +25,7 @@ function Invoices() {
       <div className="divide-y w-48">
         {invoices?.map((invoice) => {
           const foundPending = invoiceDetailRoute.action.submissions.find(
-            (d) => d.submission?.id === invoice.id,
+            (d) => d.submission?.id === invoice.id
           );
 
           if (foundPending?.submission) {

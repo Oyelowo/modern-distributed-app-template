@@ -2,8 +2,8 @@ import * as z from "zod";
 // import { SignInMutation, useSignInMutation } from "@oyelowo/graphql-client";
 // import { useRouter } from "next/router";
 import { QueryClient } from "@tanstack/react-query";
-import { client } from "../../config/client.ts";
-import { GraphqlErrorResponse, GraphqlIoError } from "./helpers.tsx";
+import { client } from "../../config/client.js";
+import { GraphqlErrorResponse, GraphqlIoError } from "./helpers.jsx";
 
 export const signInSchema = z.object({
   username: z
@@ -16,10 +16,10 @@ export const signInSchema = z.object({
 export function useSignIn({
   onError,
 }: // onSuccess,
-  {
-    onError: (e: GraphqlIoError) => void;
-    // onSuccess: (data: SignInMutation) => void;
-  }) {
+{
+  onError: (e: GraphqlIoError) => void;
+  // onSuccess: (data: SignInMutation) => void;
+}) {
   // const router = useRouter();
 
   // const { mutate, data, error, isLoading } =

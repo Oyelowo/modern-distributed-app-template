@@ -1,9 +1,9 @@
-import { dashboardRoute } from "./index.tsx";
-import { router } from "../../router.tsx";
+import { dashboardRoute } from "./index.jsx";
+import { router } from "../../router.jsx";
 import { MultiSelect, SegmentedControl, SimpleGrid } from "@mantine/core";
 import { useState } from "react";
-import { tradingChartOption } from "../../charts/tradingChartsOptions.tsx";
-import { useChart } from "../../charts/useChart.tsx";
+import { tradingChartOption } from "../../charts/tradingChartsOptions.jsx";
+import { useChart } from "../../charts/useChart.jsx";
 export const dashboardIndexRoute = dashboardRoute.createRoute({
   path: "/",
   component: DashboardHome,

@@ -1,7 +1,7 @@
 import { PickAsPartial, PickAsRequired } from "@tanstack/react-router";
 import axios from "axios";
 import { produce } from "immer";
-import { actionDelayFn, loaderDelayFn, shuffle } from "./utils.tsx";
+import { actionDelayFn, loaderDelayFn, shuffle } from "./utils.jsx";
 export type Invoice = {
   id: number;
   title: string;

@@ -1,6 +1,6 @@
 import { createRouteConfig, Outlet } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth2 } from "../../hooks/authentication/useAuth.tsx";
+import { useAuth2 } from "../../hooks/authentication/useAuth.js";
 
 export const authenticatedRoute = createRouteConfig()
   .createRoute({
@@ -24,7 +24,9 @@ function Auth() {
     // auth.login(username)
   };
 
-  return auth.status === "loggedIn" ? <Outlet /> : (
+  return auth.status === "loggedIn" ? (
+    <Outlet />
+  ) : (
     <div className="p-2">
       <div>You must log in!</div>
       <div className="h-2" />
@@ -36,7 +38,8 @@ function Auth() {
           className="border p-1 px-2 rounded"
         />
         <button // onClick={() => auth.logout()}
-         className="text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded">
+          className="text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded"
+        >
           Login
         </button>
       </form>
@@ -52,7 +55,8 @@ function Authenticated() {
       {/* You're authenticated! Your username is <strong>{auth.username}</strong> */}
       <div className="h-2" />
       <button // onClick={() => auth.logout()}
-       className="text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded">
+        className="text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded"
+      >
         Log out
       </button>
       <div className="h-2" />

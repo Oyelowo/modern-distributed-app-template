@@ -11,9 +11,9 @@ import {
 } from "@mantine/core";
 import { Globe, Logout, SwitchHorizontal } from "tabler-icons-react";
 import React from "react";
-import { linkData, useActiveLinkStyle } from "./Navlinks.tsx";
-import { useSignOut } from "../../hooks/authentication/useSignOut.tsx";
-import { useNavToggleAtom } from "./atoms.tsx";
+import { linkData, useActiveLinkStyle } from "./Navlinks.jsx";
+import { useSignOut } from "../../hooks/authentication/useSignOut.jsx";
+import { useNavToggleAtom } from "./atoms.jsx";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -23,22 +23,25 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: theme.colorScheme === "dark"
-      ? theme.colors.dark[0]
-      : theme.colors.gray[7],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
 
     "&:hover": {
-      backgroundColor: theme.colorScheme === "dark"
-        ? theme.colors.dark[5]
-        : theme.colors.gray[0],
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors.gray[0],
     },
   },
 
   active: {
     "&, &:hover": {
-      backgroundColor: theme.colorScheme === "dark"
-        ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-        : theme.colors[theme.primaryColor][0],
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
+          : theme.colors[theme.primaryColor][0],
       color:
         theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 7],
     },

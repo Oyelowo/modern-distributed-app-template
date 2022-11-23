@@ -1,7 +1,7 @@
 import { Column } from "@tanstack/react-table";
 import { ArrowsSort, SortAscending, SortDescending } from "tabler-icons-react";
-import { Person } from "./makeData.tsx";
-import { useStyles } from "./styles.tsx";
+import { Person } from "./makeData.jsx";
+import { useStyles } from "./styles.jsx";
 
 export function Sorter({ column }: { column: Column<Person, unknown> }) {
   const Sorted = ({ isAsc }: { isAsc: boolean }) =>

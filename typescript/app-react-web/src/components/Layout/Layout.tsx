@@ -1,7 +1,7 @@
 import { AppShell, useMantineTheme } from "@mantine/core";
 import { ReactElement } from "react";
-import { ScrollToTop } from "../Scroll/ScrollToTop.tsx";
-import { SideNavbarSlim } from "../NavbarCustom/SideNavbarSlim.tsx";
+import { ScrollToTop } from "../Scroll/ScrollToTop.jsx";
+import { SideNavbarSlim } from "../NavbarCustom/SideNavbarSlim.jsx";
 
 export function Layout({ children }: { children: ReactElement }) {
   const theme = useMantineTheme();
@@ -9,9 +9,10 @@ export function Layout({ children }: { children: ReactElement }) {
     <AppShell
       styles={{
         main: {
-          background: theme.colorScheme === "dark"
-            ? theme.colors.dark[8]
-            : theme.colors.gray[0],
+          background:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[8]
+              : theme.colors.gray[0],
         },
       }}
       navbarOffsetBreakpoint="sm"

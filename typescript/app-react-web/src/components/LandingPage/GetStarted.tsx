@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, ButtonProps, Group, Modal } from "@mantine/core";
 import { useAtom } from "jotai";
-import { AuthenticationForm } from "../Authentication/AuthForm.tsx";
-import { toggleAuthAtom } from "../Authentication/atoms.tsx";
+import { AuthenticationForm } from "../Authentication/AuthForm.jsx";
+import { toggleAuthAtom } from "../Authentication/atoms.jsx";
 
 export function GetStarted(props: ButtonProps) {
   const [authType, setAuthType] = useAtom(toggleAuthAtom);

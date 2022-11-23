@@ -1,16 +1,16 @@
 import { Column, FilterFn } from "@tanstack/react-table";
-import { DateFilterMultiple } from "./DateFilter/DateFilterMultiple.tsx";
-import { dateFilterCompoundFn } from "./DateFilter/dateFilterMultipleFn.ts";
-import { DateFilterSingle } from "./DateFilter/DateFilterSingle.tsx";
-import { dateFilterSimpleFn } from "./DateFilter/dateFilterSingleFn.ts";
-import { NumberFilterMultiple } from "./NumberFilter/NumberFilterMultiple.tsx";
-import { numberFilterMultipleFn } from "./NumberFilter/numberFilterMultipleFn.ts";
-import { NumberFilterSingle } from "./NumberFilter/NumberFilterSingle.tsx";
-import { numberFilterSingleFn } from "./NumberFilter/numberFilterSingleFn.ts";
-import { StringFilterMultiple } from "./StringFilter/StringFilterMultiple.tsx";
-import { stringFilterCompoundFn } from "./StringFilter/stringFilterMultipleFn.ts";
-import { StringFilterSingle } from "./StringFilter/StringFilterSingle.tsx";
-import { stringFilterSingleFn } from "./StringFilter/stringFilterSingleFn.ts";
+import { DateFilterMultiple } from "./DateFilter/DateFilterMultiple.jsx";
+import { dateFilterCompoundFn } from "./DateFilter/dateFilterMultipleFn.js";
+import { DateFilterSingle } from "./DateFilter/DateFilterSingle.jsx";
+import { dateFilterSimpleFn } from "./DateFilter/dateFilterSingleFn.js";
+import { NumberFilterMultiple } from "./NumberFilter/NumberFilterMultiple.jsx";
+import { numberFilterMultipleFn } from "./NumberFilter/numberFilterMultipleFn.js";
+import { NumberFilterSingle } from "./NumberFilter/NumberFilterSingle.jsx";
+import { numberFilterSingleFn } from "./NumberFilter/numberFilterSingleFn.js";
+import { StringFilterMultiple } from "./StringFilter/StringFilterMultiple.jsx";
+import { stringFilterCompoundFn } from "./StringFilter/stringFilterMultipleFn.js";
+import { StringFilterSingle } from "./StringFilter/StringFilterSingle.jsx";
+import { stringFilterSingleFn } from "./StringFilter/stringFilterSingleFn.js";
 import z from "zod";
 
 const columnMetaSchema = z.object({
@@ -32,7 +32,7 @@ type ReturnTypeFn<T> = {
 };
 
 export function getFilterFn<T>(
-  filterType: ColumnMeta["filterType"],
+  filterType: ColumnMeta["filterType"]
 ): ReturnTypeFn<T> {
   const filterFunctions: Record<ColumnMeta["filterType"], FilterFn<any>> = {
     date_multiple: dateFilterCompoundFn,

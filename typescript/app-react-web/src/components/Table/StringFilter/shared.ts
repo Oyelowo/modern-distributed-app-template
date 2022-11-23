@@ -1,7 +1,7 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { Column } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { RowString } from "../helpers.ts";
+import { RowString } from "../helpers.js";
 
 export const filterStringRow = (
   { rowValue: rv, filterValue, operator, addMeta }: RowString,

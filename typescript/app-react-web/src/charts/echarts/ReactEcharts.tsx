@@ -1,6 +1,6 @@
 import { useInterval } from "@mantine/hooks";
 import { useState } from "react";
-import { ECOption, ThemeOfECharts, useChart } from "./useChart.tsx";
+import { ECOption, ThemeOfECharts, useChart } from "./useChart.jsx";
 
 const dataset = {
   dimensions: ["name", "score"],

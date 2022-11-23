@@ -1,4 +1,4 @@
-import { usersRoute } from "./index.tsx";
+import { usersRoute } from "./index.jsx";
 
 export const usersIndexRoute = usersRoute.createRoute({
   path: "/",
@@ -14,9 +14,8 @@ function UsersIndex() {
         experience).
       </p>
       <p>
-        Instead, we can use <strong>search filters</strong>{" "}
-        to provide defaults or even persist search params for links to routes
-        (and child routes).
+        Instead, we can use <strong>search filters</strong> to provide defaults
+        or even persist search params for links to routes (and child routes).
       </p>
       <p>
         A good example of this is the sorting and filtering of the users list.

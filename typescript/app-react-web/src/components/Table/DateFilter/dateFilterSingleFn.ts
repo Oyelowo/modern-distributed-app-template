@@ -1,6 +1,6 @@
 import { FilterFn } from "@tanstack/react-table";
-import { FilterSingleProps } from "../helpers.ts";
-import { filterDateRow } from "./shared.ts";
+import { FilterSingleProps } from "../helpers.js";
+import { filterDateRow } from "./shared.js";
 
 export const dateFilterSimpleFn: FilterFn<unknown> = (
   row,

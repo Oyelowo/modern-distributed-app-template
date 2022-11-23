@@ -1,8 +1,8 @@
 import { flexRender, Table as ReactTable } from "@tanstack/react-table";
 import { Button, Text } from "@mantine/core";
-import { Person } from "./makeData.tsx";
-import { ColumnFilter } from "./ColumFilter.tsx";
-import { Sorter } from "./Sorter.tsx";
+import { Person } from "./makeData.jsx";
+import { ColumnFilter } from "./ColumFilter.jsx";
+import { Sorter } from "./Sorter.jsx";
 
 export function Header({ table }: { table: ReactTable<Person> }) {
   return (
@@ -16,9 +16,9 @@ export function Header({ table }: { table: ReactTable<Person> }) {
                 <span style={{ display: "flex" }}>
                   <Button
                     variant="subtle"
-                    className={h.column.getCanSort()
-                      ? "cursor-pointer select-none"
-                      : ""}
+                    className={
+                      h.column.getCanSort() ? "cursor-pointer select-none" : ""
+                    }
                     onClick={h.column.getToggleSortingHandler()}
                     size="xs"
                   >

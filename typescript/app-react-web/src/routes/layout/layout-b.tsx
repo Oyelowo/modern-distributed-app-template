@@ -1,4 +1,4 @@
-import { layoutRoute } from "./index.tsx";
+import { layoutRoute } from "./index.jsx";
 
 export const layoutRouteB = layoutRoute.createRoute({
   path: "layout-b",

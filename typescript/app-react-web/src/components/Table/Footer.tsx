@@ -10,7 +10,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useHotkeys } from "@mantine/hooks";
-import { Person } from "./makeData.tsx";
+import { Person } from "./makeData.jsx";
 
 export function Footer({ table }: { table: ReactTable<Person> }) {
   useHotkeys([
