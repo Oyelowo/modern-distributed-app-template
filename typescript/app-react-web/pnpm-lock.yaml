@@ -26,6 +26,7 @@ specifiers:
   '@react-spring/web': 9.5.5
   '@react-three/drei': 9.43.3
   '@react-three/fiber': 8.9.1
+  '@tabler/icons': ^1.112.0
   '@tanstack/match-sorter-utils': ^8.5.14
   '@tanstack/react-query': ^4.16.1
   '@tanstack/react-query-devtools': ^4.16.1
@@ -125,6 +126,7 @@ dependencies:
   '@react-spring/web': 9.5.5_biqbaboplfbrettd7655fr4n2y
   '@react-three/drei': 9.43.3_y4tjvd7p3bryef7m5zx7hlx3au
   '@react-three/fiber': 8.9.1_biqbaboplfbrettd7655fr4n2y
+  '@tabler/icons': 1.112.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/match-sorter-utils': 8.7.0
   '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-router': 0.0.1-beta.25_biqbaboplfbrettd7655fr4n2y

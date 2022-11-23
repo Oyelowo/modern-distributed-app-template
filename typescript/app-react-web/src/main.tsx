@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { Outlet, RouterProvider } from "@tanstack/react-router";
-// import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { router } from "./router.jsx";
 import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
@@ -35,7 +35,7 @@ function App() {
 
           <Root />
         </RouterProvider>
-        {/* <TanStackRouterDevtools router={router} position="bottom-right" /> */}
+        <TanStackRouterDevtools router={router} position="bottom-right" />
       </MantineProvider>
     </>
   );

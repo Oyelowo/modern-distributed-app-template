@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   createStyles,
@@ -8,23 +8,14 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
-  CalendarStats as IconCalendarStats,
-  DeviceDesktopAnalytics as IconDeviceDesktopAnalytics,
-  Fingerprint as IconFingerprint,
-  Gauge as IconGauge,
-  Home2 as IconHome2,
-  Settings as IconSettings,
-  User as IconUser,
-} from "tabler-icons-react";
-// import {
-//   IconCalendarStats,
-//   IconDeviceDesktopAnalytics,
-//   IconFingerprint,
-//   IconGauge,
-//   IconHome2,
-//   IconSettings,
-//   IconUser,
-// } from "@tabler/icons";
+  IconCalendarStats,
+  IconDeviceDesktopAnalytics,
+  IconFingerprint,
+  IconGauge,
+  IconHome2,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons";
 import { router } from "../router.jsx";
 
 const useStyles = createStyles((theme) => ({
