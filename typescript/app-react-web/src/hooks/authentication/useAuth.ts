@@ -1,4 +1,3 @@
-// import { SessionQuery, useSessionQuery } from "@oyelowo/graphql-client";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { atom } from "jotai";
 // import { client } from "../../config/client.js";
@@ -6,11 +5,10 @@ import {
   GraphqlErrorResponse,
   mapReactQueryResultToImpossibleStates,
 } from "./helpers.js";
-import { graphql } from "../../../../lib-graphql/generated/gql.js";
 import { GraphQLClient } from "graphql-request";
 import fetch from "cross-fetch";
 import { createClient } from "@urql/core";
-// import { CreateUserDocument, GetUserDocument } from "../../../../lib-graphql/generated/graphql.js";
+import { graphql } from "lib-graphql";
 
 const sessionWithVariablesQueryDocument = graphql(/* GraphQL */ `
   query session {
@@ -56,23 +54,41 @@ export interface UseSessionProps {
   // queryConfig?: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
 }
 
+// const query: TypedDocumentNode<{ greetings: string }, never | Record<any, never>> = parse(/* GraphQL */ `
+//   query greetings {
+//     greetings
+//   }
+// `)
+
+// const myFetcher = <D, V>(document: TypedDocumentNode<D, V>): D => {
+//   // ... parses the document and fetches the data ...
+// }
+
 const client = createClient({
   url: "localhost:8000",
   fetch,
 });
-
+const clientHttp = new GraphQLClient("", {
+  fetch: ""
+})
 
 export function useAuth() {
   const { data } = useQuery(
     ["auth"],
     async () =>
-      await client
-        .query(createUserWithVariablesQueryDocument, {
-          userInput: { username: "", socialMedia: [] },
-        })
-        .toPromise()
+      await clientHttp.request(createUserWithVariablesQueryDocument, {
+        userInput: {
+          username: "", socialMedia: []
+        }
+      })
+
+    // await client
+    //   .query(createUserWithVariablesQueryDocument, {
+    //     userInput: { username: "", socialMedia: [] },
+    //   })
+    //   .toPromise()
   );
-  data?.data?.createUser.lastName;
+  data?.createUser.lastName;
   // const { data } = useQuery(
   //   ["auth"],
   //   async () => await clientHttp.request(CreateUserDocument, {})
