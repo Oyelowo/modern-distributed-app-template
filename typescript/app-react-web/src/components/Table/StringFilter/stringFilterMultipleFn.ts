@@ -3,8 +3,8 @@ import {
   FilterMultipleProps,
   filterRowByMultipleFilters,
   RowString,
-} from "../helpers.ts";
-import { filterStringRow } from "./shared.ts";
+} from "../helpers.js";
+import { filterStringRow } from "./shared.js";
 
 export const stringFilterCompoundFn: FilterFn<unknown> = (
   row,
@@ -32,32 +32,32 @@ export const operatorsValuesAndLabels: Array<{
   value: RowString["operator"];
   label: string;
 }> = [
-  {
-    value: "fuzzy",
-    label: "Allow typo",
-  },
-  {
-    value: "contains",
-    label: "Contains",
-  },
-  {
-    value: "not_contain",
-    label: "Does not Contain",
-  },
-  {
-    value: "starts_with",
-    label: "Starts with",
-  },
-  {
-    value: "ends_with",
-    label: "Ends with",
-  },
-  {
-    value: "equals",
-    label: "Equals",
-  },
-  {
-    value: "not_equal",
-    label: "Not equal",
-  },
-];
+    {
+      value: "fuzzy",
+      label: "Allow typo",
+    },
+    {
+      value: "contains",
+      label: "Contains",
+    },
+    {
+      value: "not_contain",
+      label: "Does not Contain",
+    },
+    {
+      value: "starts_with",
+      label: "Starts with",
+    },
+    {
+      value: "ends_with",
+      label: "Ends with",
+    },
+    {
+      value: "equals",
+      label: "Equals",
+    },
+    {
+      value: "not_equal",
+      label: "Not equal",
+    },
+  ];

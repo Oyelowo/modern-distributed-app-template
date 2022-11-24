@@ -1,9 +1,9 @@
 import { Container, SimpleGrid, useMantineTheme } from "@mantine/core";
-import { useChart } from "../../charts/echarts/useChart.tsx";
-import ReactEcharts from "../../charts/echarts/ReactEcharts.tsx";
-import { tradingChartOption } from "../../charts/echarts/StockChartTA.ts";
-import { multiChartOptions } from "../../charts/echarts/chartMulti.tsx";
-import { useCandleChart } from "../../charts/echarts/useCandleChart.tsx";
+import { useChart } from "../../charts/echarts/useChart.jsx";
+import ReactEcharts from "../../charts/echarts/ReactEcharts.jsx";
+import { tradingChartOption } from "../../charts/echarts/StockChartTA.js";
+import { multiChartOptions } from "../../charts/echarts/chartMulti.jsx";
+import { useCandleChart } from "../../charts/echarts/useCandleChart.jsx";
 
 const HomePage = () => {
   const { colorScheme } = useMantineTheme();

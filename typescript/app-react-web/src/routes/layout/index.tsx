@@ -1,6 +1,6 @@
 import { createRouteConfig, Outlet } from "@tanstack/react-router";
-import { router } from "../../router.tsx";
-import { loaderDelayFn } from "../../utils.tsx";
+import { router } from "../../router.jsx";
+import { loaderDelayFn } from "../../utils.jsx";
 
 export const layoutRoute = createRouteConfig().createRoute({
   id: "layout",

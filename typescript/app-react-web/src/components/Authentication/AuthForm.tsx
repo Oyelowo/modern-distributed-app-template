@@ -8,11 +8,11 @@ import {
 } from "@mantine/core";
 import { BrandGithub } from "tabler-icons-react";
 import { useAtom } from "jotai";
-import { DOMAIN_BASE } from "../../config/client.ts";
-import SignInForm from "./SignInForm.tsx";
-import { SignUpForm } from "./SignUpForm.tsx";
-import { GoogleIcon } from "../icons/GoogleIcon.tsx";
-import { toggleAuthAtom } from "./atoms.tsx";
+import { DOMAIN_BASE } from "../../config/client.js";
+import SignInForm from "./SignInForm.jsx";
+import { SignUpForm } from "./SignUpForm.jsx";
+import { GoogleIcon } from "../icons/GoogleIcon.jsx";
+import { toggleAuthAtom } from "./atoms.jsx";
 
 export function AuthenticationForm(props: PaperProps) {
   const [authType, _setAuthType] = useAtom(toggleAuthAtom);

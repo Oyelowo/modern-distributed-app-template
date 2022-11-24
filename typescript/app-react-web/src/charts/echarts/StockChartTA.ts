@@ -1,5 +1,5 @@
-import { ECOption } from "./useChart.tsx";
-import { rawData } from "./stockchartTAData.ts";
+import { ECOption } from "./useChart.jsx";
+import { rawData } from "./stockchartTAData.js";
 
 type DataItem = (number | string)[];
 

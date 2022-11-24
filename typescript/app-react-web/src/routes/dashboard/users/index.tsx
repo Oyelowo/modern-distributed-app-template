@@ -1,11 +1,11 @@
 import { Outlet } from "@tanstack/react-router";
 import { z } from "zod";
-import { router } from "../../../router.tsx";
+import { router } from "../../../router.jsx";
 import { Loader as Spinner } from "@mantine/core";
-import { fetchUsers } from "../../../mockTodos.ts";
-import { usersIndexRoute } from "./users.tsx";
-import { userRoute } from "./user.tsx";
-import { dashboardRoute } from "../index.tsx";
+import { fetchUsers } from "../../../mockTodos.js";
+import { usersIndexRoute } from "./users.jsx";
+import { userRoute } from "./user.jsx";
+import { dashboardRoute } from "../index.jsx";
 import { useEffect, useMemo, useState } from "react";
 
 const usersViewSortBy = z.enum(["name", "id", "email"]);
@@ -61,8 +61,8 @@ function Users() {
 
     return sortBy
       ? [...users].sort((a, b) => {
-        return a[sortBy] > b[sortBy] ? 1 : -1;
-      })
+          return a[sortBy] > b[sortBy] ? 1 : -1;
+        })
       : users;
   }, [users, sortBy]);
 

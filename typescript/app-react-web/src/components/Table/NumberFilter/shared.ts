@@ -1,5 +1,5 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { RowNumber } from "../helpers.ts";
+import { RowNumber } from "../helpers.js";
 
 export const filterNumberRow = (
   { rowValue, filterValue, operator, addMeta }: RowNumber,

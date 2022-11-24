@@ -9,8 +9,8 @@ import {
   Title,
 } from "@mantine/core";
 import { Check } from "tabler-icons-react";
-import { WorldAtFingerTips } from "../Illustrations/WorldInHand.tsx";
-import { GetStarted } from "./GetStarted.tsx";
+import { WorldAtFingerTips } from "../Illustrations/WorldInHand.jsx";
+import { GetStarted } from "./GetStarted.jsx";
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -60,9 +60,10 @@ const useStyles = createStyles((theme) => ({
 
   highlight: {
     position: "relative",
-    backgroundColor: theme.colorScheme === "dark"
-      ? theme.fn.rgba(theme.colors[theme.primaryColor][6], 0.55)
-      : theme.colors[theme.primaryColor][0],
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.fn.rgba(theme.colors[theme.primaryColor][6], 0.55)
+        : theme.colors[theme.primaryColor][0],
     borderRadius: theme.radius.sm,
     padding: "4px 12px",
   },
@@ -94,18 +95,16 @@ export default function LandingPage() {
               }
             >
               <List.Item>
-                <b>Social and physical environmental</b>{" "}
-                – All the effects around Access the World. trusted by 5million
-                people
+                <b>Social and physical environmental</b> – All the effects
+                around Access the World. trusted by 5million people
               </List.Item>
               <List.Item>
-                <b>Simple</b>{" "}
-                – You dont need to be a rocket scientist to use important info
+                <b>Simple</b> – You dont need to be a rocket scientist to use
+                important info
               </List.Item>
               <List.Item>
-                <b>Detailed</b>{" "}
-                – The only app you will ever need. Don&apos;t believe? Try
-                yourself
+                <b>Detailed</b> – The only app you will ever need. Don&apos;t
+                believe? Try yourself
               </List.Item>
             </List>
 

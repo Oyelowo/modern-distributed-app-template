@@ -1,4 +1,4 @@
-import { Invoice } from "../mockTodos.ts";
+import { Invoice } from "../mockTodos.js";
 
 export function InvoiceFields({
   invoice,

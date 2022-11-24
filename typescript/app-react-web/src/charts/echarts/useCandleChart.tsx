@@ -1,5 +1,5 @@
-import { ThemeOfECharts, useChart } from "./useChart.tsx";
-import { taChartOption } from "./TAChart.tsx";
+import { ThemeOfECharts, useChart } from "./useChart.jsx";
+import { taChartOption } from "./TAChart.jsx";
 
 export const useCandleChart = ({ theme }: { theme: ThemeOfECharts }) => {
   const { ReactCharts: CandleStickCharts, chart } = useChart({

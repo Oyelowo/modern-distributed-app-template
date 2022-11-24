@@ -1,7 +1,7 @@
 import * as React from "react";
-import { router } from "../../../router.tsx";
-import { fetchUserById } from "../../../mockTodos.ts";
-import { usersRoute } from "./index.tsx";
+import { router } from "../../../router.jsx";
+import { fetchUserById } from "../../../mockTodos.js";
+import { usersRoute } from "./index.jsx";
 
 export const userRoute = usersRoute.createRoute({
   path: ":userId",

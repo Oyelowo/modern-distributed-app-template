@@ -13,14 +13,14 @@ import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import { Filter as FilterIcon, Plus } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
-import { operatorsValuesAndLabels } from "./numberFilterMultipleFn.ts";
+import { operatorsValuesAndLabels } from "./numberFilterMultipleFn.js";
 import {
   FormValuesRowFilterMultiple,
   logicalOperators,
   OperationInputKey,
   Operations,
-} from "../helpers.ts";
-import { FilterShell } from "../FilterShell.tsx";
+} from "../helpers.js";
+import { FilterShell } from "../FilterShell.jsx";
 
 type Props = {
   column: Column<any, unknown>;
@@ -33,12 +33,14 @@ export const NumberFilterMultiple = ({ column }: Props) => {
   const [opened, setOpened] = useState(false);
   const form = useForm<FormValuesRowFilterMultiple<number>>({
     initialValues: {
-      operations: [{
-        logical: "and",
-        operator: "fuzzy",
-        filterValue: 0,
-        key: randomId(),
-      }],
+      operations: [
+        {
+          logical: "and",
+          operator: "fuzzy",
+          filterValue: 0,
+          key: randomId(),
+        },
+      ],
     },
   });
 
@@ -77,8 +79,9 @@ export const NumberFilterMultiple = ({ column }: Props) => {
       }
       filter={
         <NumberInput
-          placeholder={`Min(${column.getFacetedMinMaxValues()
-            ?.[0]}) Max(${column.getFacetedMinMaxValues()?.[1]})`}
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
           required
           {...form.getInputProps<InputParam>(`operations.${index}.filterValue`)}
           stepHoldDelay={500}
@@ -122,19 +125,18 @@ export const NumberFilterMultiple = ({ column }: Props) => {
                   logical: "and",
                   filterValue: 0,
                   key: randomId(),
-                })}
+                })
+              }
               rightIcon={<Plus />}
             >
               Add
             </Button>
           </Group>
 
-          {
-            /* <Text size="sm" weight={500} mt="md">
+          {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
-        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */
-          }
+        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
         </Box>
         <Group position="apart">
           <Anchor component="button" color="gray" onClick={handleClear}>

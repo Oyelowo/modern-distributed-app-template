@@ -12,12 +12,12 @@ import z from "zod";
 // import { AlertTriangle } from "tabler-icons-react";
 import { showNotification } from "@mantine/notifications";
 import { useAtom } from "jotai";
-import { PasswordStrength } from "./Password.tsx";
+import { PasswordStrength } from "./Password.jsx";
 import {
   signUpSchema,
   useSignUp,
-} from "../../hooks/authentication/useSignUp.tsx";
-import { toggleAuthAtom } from "./atoms.tsx";
+} from "../../hooks/authentication/useSignUp.jsx";
+import { toggleAuthAtom } from "./atoms.jsx";
 
 export function SignUpForm() {
   const [_authType, setAuthType] = useAtom(toggleAuthAtom);
@@ -67,7 +67,7 @@ export function SignUpForm() {
             lastName: userInput.username,
             age: 18,
           }); */
-        },
+        }
       )}
       ref={ref}
     >
@@ -100,8 +100,7 @@ export function SignUpForm() {
         required={true}
         {...form.getInputProps("passwordConfirm")}
       />
-      {
-        /* <SimpleGrid
+      {/* <SimpleGrid
         mt="xs"
         cols={1}
         breakpoints={[
@@ -118,10 +117,8 @@ export function SignUpForm() {
         />
 
         <TextInput label="Last Name" placeholder="Last Name" {...form.getInputProps('lastName')} />
-      </SimpleGrid> */
-      }
-      {
-        /* <NumberInput
+      </SimpleGrid> */}
+      {/* <NumberInput
         mt="xs"
         label="Age(18+)"
         defaultValue={18}
@@ -130,16 +127,13 @@ export function SignUpForm() {
         stepHoldDelay={500}
         stepHoldInterval={100}
         {...form.getInputProps('age')}
-      /> */
-      }
-      {
-        /* <DatePicker
+      /> */}
+      {/* <DatePicker
         allowFreeInput
         placeholder="Date of birth"
         label="What's your birthday?"
         required
-      /> */
-      }
+      /> */}
 
       <Checkbox
         mt="xs"

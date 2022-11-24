@@ -2,8 +2,8 @@ import * as z from "zod";
 // import { useSignUpMutation } from "@oyelowo/graphql-client";
 // import { useRouter } from "next/router";
 import { QueryClient } from "@tanstack/react-query";
-import { client } from "../../config/client.ts";
-import { GraphqlErrorResponse, GraphqlIoError } from "./helpers.tsx";
+import { client } from "../../config/client.js";
+import { GraphqlErrorResponse, GraphqlIoError } from "./helpers.jsx";
 
 export const signUpSchema = z.object({
   username: z.string().min(1, { message: "Username must be provided" }),

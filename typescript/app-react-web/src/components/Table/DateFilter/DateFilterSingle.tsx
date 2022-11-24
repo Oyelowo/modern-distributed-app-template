@@ -16,8 +16,8 @@ import {
 } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
-import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.ts";
-import { FilterSingleProps } from "../helpers.ts";
+import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.js";
+import { FilterSingleProps } from "../helpers.js";
 
 export const DateFilterSingle = <T extends unknown>({
   column,
@@ -82,24 +82,22 @@ export const DateFilterSingle = <T extends unknown>({
           </Radio.Group>
           <Divider my="sm" />
 
-          {form.getInputProps<InputParams>("operator").value === "between"
-            ? (
-              <DateRangePicker
-                label="Book hotel"
-                placeholder="Pick dates range"
-                {...form.getInputProps("filterValue")}
-                amountOfMonths={2}
-              />
-            )
-            : (
-              <DatePicker
-                icon={<CalendarIcon />}
-                placeholder="Pick date"
-                mb="sm"
-                allowFreeInput
-                {...form.getInputProps("filterValue")}
-              />
-            )}
+          {form.getInputProps<InputParams>("operator").value === "between" ? (
+            <DateRangePicker
+              label="Book hotel"
+              placeholder="Pick dates range"
+              {...form.getInputProps("filterValue")}
+              amountOfMonths={2}
+            />
+          ) : (
+            <DatePicker
+              icon={<CalendarIcon />}
+              placeholder="Pick date"
+              mb="sm"
+              allowFreeInput
+              {...form.getInputProps("filterValue")}
+            />
+          )}
         </Box>
         <Group position="apart">
           <Anchor component="button" color="gray" onClick={handleClear}>

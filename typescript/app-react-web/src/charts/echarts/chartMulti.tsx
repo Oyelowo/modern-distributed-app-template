@@ -1,7 +1,7 @@
 // QQ:996192181
 
 import chartMultiJsonData from "./chartMultiData.json" assert { type: "json" };
-import { ECOption } from "./useChart.tsx";
+import { ECOption } from "./useChart.jsx";
 
 let KNAME = "";
 // let macd;
@@ -497,7 +497,7 @@ export const multiChartOptions: ECOption = {
           let colorList;
           if (
             data.datas[params.dataIndex][1] >
-              Number(data.datas[params.dataIndex][0])
+            Number(data.datas[params.dataIndex][0])
           ) {
             colorList = color1;
           } else {
@@ -535,7 +535,7 @@ export const multiChartOptions: ECOption = {
           let colorList;
           if (
             data.datas[params.dataIndex][1] >
-              Number(data.datas[params.dataIndex][0])
+            Number(data.datas[params.dataIndex][0])
           ) {
             colorList = color1;
           } else {
@@ -575,7 +575,7 @@ export const multiChartOptions: ECOption = {
           let colorList;
           if (
             data.datas[params.dataIndex][1] >
-              Number(data.datas[params.dataIndex][0])
+            Number(data.datas[params.dataIndex][0])
           ) {
             colorList = color1;
           } else {
@@ -613,7 +613,7 @@ export const multiChartOptions: ECOption = {
           let colorList;
           if (
             data.datas[params.dataIndex][1] >
-              Number(data.datas[params.dataIndex][0])
+            Number(data.datas[params.dataIndex][0])
           ) {
             colorList = color1;
           } else {

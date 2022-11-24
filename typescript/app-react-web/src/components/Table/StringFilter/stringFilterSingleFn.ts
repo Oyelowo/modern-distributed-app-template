@@ -1,6 +1,6 @@
 import { FilterFn } from "@tanstack/react-table";
-import { FilterSingleProps } from "../helpers.ts";
-import { filterStringRow } from "./shared.ts";
+import { FilterSingleProps } from "../helpers.js";
+import { filterStringRow } from "./shared.js";
 
 export const stringFilterSingleFn: FilterFn<unknown> = (
   row,

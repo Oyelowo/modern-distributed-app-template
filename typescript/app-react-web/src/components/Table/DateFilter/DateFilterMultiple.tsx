@@ -17,14 +17,14 @@ import {
 } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
-import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.ts";
+import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.js";
 import {
   FormValuesRowFilterMultiple,
   logicalOperators,
   OperationInputKey,
   Operations,
-} from "../helpers.ts";
-import { FilterShell } from "../FilterShell.tsx";
+} from "../helpers.js";
+import { FilterShell } from "../FilterShell.jsx";
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -83,29 +83,30 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
           sx={{ flex: 2 }}
         />
       }
-      filter={form.values.operations[0].operator === "between"
-        ? (
+      filter={
+        form.values.operations[0].operator === "between" ? (
           <DateRangePicker
             placeholder="Pick dates range"
             {...form.getInputProps<InputParam>(
-              `operations.${index}.filterValue`,
+              `operations.${index}.filterValue`
             )}
             amountOfMonths={2}
           />
-        )
-        : (
+        ) : (
           <DatePicker
             icon={<CalendarIcon />}
             placeholder="Pick date"
             mb="sm"
             allowFreeInput={true}
             {...form.getInputProps<InputParam>(
-              `operations.${index}.filterValue`,
+              `operations.${index}.filterValue`
             )}
           />
-        )}
+        )
+      }
       onAddNewFilter={() =>
-        form.removeListItem<Operations>("operations", index)}
+        form.removeListItem<Operations>("operations", index)
+      }
     />
   ));
 
@@ -140,21 +141,20 @@ export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
                   logical: "and",
                   filterValue: new Date(),
                   key: randomId(),
-                })}
+                })
+              }
               rightIcon={<Plus />}
             >
               Add Filter
             </Button>
           </Group>
-          {
-            /*
+          {/*
         <Text size="sm" weight={300} mt="md">
           Form values:
         </Text>
         <ScrollArea style={{ height: 200 }}>
           <Code block>{JSON.stringify(form.values, null, 2)}</Code>
-        </ScrollArea> */
-          }
+        </ScrollArea> */}
         </Box>
         <Group position="apart">
           <Anchor component="button" variant="text" onClick={handleClear}>

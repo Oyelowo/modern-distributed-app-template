@@ -56,7 +56,7 @@ import { CanvasRenderer } from "echarts/renderers";
 // import { vintage } from './themes/vintage';
 // import { blackTheme } from './themes/black';
 import { Paper } from "@mantine/core";
-import { darkTheme } from "./themes/dark.ts";
+import { darkTheme } from "./themes/dark.js";
 
 // Register the required components
 const chartComponentsInUse = [
@@ -216,7 +216,7 @@ export function useChart({
         style={{ width: "100%", height: "100%", ...style }}
       />
     ),
-    [style],
+    [style]
   );
   return {
     ReactCharts,

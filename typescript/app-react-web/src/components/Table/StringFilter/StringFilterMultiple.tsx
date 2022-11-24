@@ -13,15 +13,15 @@ import { useForm } from "@mantine/form";
 import { randomId } from "@mantine/hooks";
 import { Filter as FilterIcon, Plus } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
-import { useUniqueColumnValues } from "./shared.ts";
-import { operatorsValuesAndLabels } from "./stringFilterMultipleFn.ts";
+import { useUniqueColumnValues } from "./shared.js";
+import { operatorsValuesAndLabels } from "./stringFilterMultipleFn.js";
 import {
   FormValuesRowFilterMultiple,
   logicalOperators,
   OperationInputKey,
   Operations,
-} from "../helpers.ts";
-import { FilterShell } from "../FilterShell.tsx";
+} from "../helpers.js";
+import { FilterShell } from "../FilterShell.jsx";
 
 type Props<T> = {
   column: Column<T, unknown>;
@@ -30,18 +30,20 @@ type Props<T> = {
 
 type InputParam = OperationInputKey<string>;
 
-export const StringFilterMultiple = <T extends unknown>(
-  { column }: Props<T>,
-) => {
+export const StringFilterMultiple = <T extends unknown>({
+  column,
+}: Props<T>) => {
   const [opened, setOpened] = useState(false);
   const form = useForm<FormValuesRowFilterMultiple<string>>({
     initialValues: {
-      operations: [{
-        logical: "and",
-        operator: "fuzzy",
-        filterValue: "",
-        key: randomId(),
-      }],
+      operations: [
+        {
+          logical: "and",
+          operator: "fuzzy",
+          filterValue: "",
+          key: randomId(),
+        },
+      ],
     },
   });
 
@@ -88,7 +90,8 @@ export const StringFilterMultiple = <T extends unknown>(
         />
       }
       onAddNewFilter={() =>
-        form.removeListItem<Operations>("operations", index)}
+        form.removeListItem<Operations>("operations", index)
+      }
     />
   ));
 
@@ -125,19 +128,18 @@ export const StringFilterMultiple = <T extends unknown>(
                   logical: "and",
                   filterValue: "",
                   key: randomId(),
-                })}
+                })
+              }
               rightIcon={<Plus />}
             >
               Add Filter
             </Button>
           </Group>
 
-          {
-            /* <Text size="sm" weight={500} mt="md">
+          {/* <Text size="sm" weight={500} mt="md">
           Form values:
         </Text>
-        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */
-          }
+        <Code block>{JSON.stringify(form.values, null, 2)}</Code> */}
         </Box>
 
         <Group position="apart">

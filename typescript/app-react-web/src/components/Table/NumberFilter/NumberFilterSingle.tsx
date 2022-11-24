@@ -12,8 +12,8 @@ import {
 import { useForm } from "@mantine/form";
 import { Filter as FilterIcon } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
-import { operatorsValuesAndLabels } from "./numberFilterMultipleFn.ts";
-import { RowNumber } from "../helpers.ts";
+import { operatorsValuesAndLabels } from "./numberFilterMultipleFn.js";
+import { RowNumber } from "../helpers.js";
 
 type Props = {
   column: Column<any, unknown>;
@@ -79,8 +79,9 @@ export const NumberFilterSingle = ({ column }: Props) => {
 
         <Divider my="sm" />
         <TextInput
-          placeholder={`Min(${column.getFacetedMinMaxValues()
-            ?.[0]}) Max(${column.getFacetedMinMaxValues()?.[1]})`}
+          placeholder={`Min(${column.getFacetedMinMaxValues()?.[0]}) Max(${
+            column.getFacetedMinMaxValues()?.[1]
+          })`}
           mb="sm"
           data-autofocus
           {...form.getInputProps<InputParam>("filterValue")}

@@ -2,7 +2,7 @@
 //time0 open1 close2 min3 max4 vol5 tag6 macd7 dif8 dea9
 
 // import { graphic } from 'echarts/core';
-import { ECOption } from "./useChart.tsx";
+import { ECOption } from "./useChart.jsx";
 import taJsonData from "./TAChartData.json" assert { type: "json" };
 
 type Prepend<I, T extends unknown[]> = [I, ...T];
@@ -16,7 +16,7 @@ type DatumWithoutDate = [
   number,
   number,
   number,
-  number,
+  number
 ];
 type Datum = Prepend<string, DatumWithoutDate>;
 
@@ -74,16 +74,18 @@ function fenduans() {
       markLineData.push([
         {
           xAxis: idx,
-          yAxis: data.datas[idx][1] > Number(data.datas[idx][0])
-            ? data.datas[idx][3].toFixed(2)
-            : data.datas[idx][2].toFixed(2),
+          yAxis:
+            data.datas[idx][1] > Number(data.datas[idx][0])
+              ? data.datas[idx][3].toFixed(2)
+              : data.datas[idx][2].toFixed(2),
           value: vols,
         },
         {
           xAxis: i,
-          yAxis: data.datas[i][1] > Number(data.datas[i][0])
-            ? data.datas[i][3].toFixed(2)
-            : data.datas[i][2].toFixed(2),
+          yAxis:
+            data.datas[i][1] > Number(data.datas[i][0])
+              ? data.datas[i][3].toFixed(2)
+              : data.datas[i][2].toFixed(2),
         },
       ]);
       idx = i;
@@ -98,16 +100,18 @@ function fenduans() {
       markLineData.push([
         {
           xAxis: idx,
-          yAxis: data.datas[idx][1] > Number(data.datas[idx][0])
-            ? data.datas[idx][3].toFixed(2)
-            : data.datas[idx][2].toFixed(2),
+          yAxis:
+            data.datas[idx][1] > Number(data.datas[idx][0])
+              ? data.datas[idx][3].toFixed(2)
+              : data.datas[idx][2].toFixed(2),
           value: `${(vols / (i - idx + 1)).toFixed(2)} M`,
         },
         {
           xAxis: i,
-          yAxis: data.datas[i][1] > Number(data.datas[i][0])
-            ? data.datas[i][3].toFixed(2)
-            : data.datas[i][2].toFixed(2),
+          yAxis:
+            data.datas[i][1] > Number(data.datas[i][0])
+              ? data.datas[i][3].toFixed(2)
+              : data.datas[i][2].toFixed(2),
         },
       ]);
       idx = i;
@@ -394,7 +398,7 @@ export const taChartOption: ECOption = {
           let colorList;
           if (
             data.datas[params.dataIndex][1] >
-              Number(data.datas[params.dataIndex][0])
+            Number(data.datas[params.dataIndex][0])
           ) {
             colorList = "#FD1050";
           } else {

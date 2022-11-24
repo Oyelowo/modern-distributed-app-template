@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   createStyles,
@@ -8,24 +8,15 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import {
-  CalendarStats as IconCalendarStats,
-  DeviceDesktopAnalytics as IconDeviceDesktopAnalytics,
-  Fingerprint as IconFingerprint,
-  Gauge as IconGauge,
-  Home2 as IconHome2,
-  Settings as IconSettings,
-  User as IconUser,
-} from "tabler-icons-react";
-// import {
-//   IconCalendarStats,
-//   IconDeviceDesktopAnalytics,
-//   IconFingerprint,
-//   IconGauge,
-//   IconHome2,
-//   IconSettings,
-//   IconUser,
-// } from "@tabler/icons";
-import { router } from "../router.tsx";
+  IconCalendarStats,
+  IconDeviceDesktopAnalytics,
+  IconFingerprint,
+  IconGauge,
+  IconHome2,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons";
+import { router } from "../router.jsx";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -34,9 +25,8 @@ const useStyles = createStyles((theme) => ({
 
   aside: {
     flex: "0 0 60px",
-    backgroundColor: theme.colorScheme === "dark"
-      ? theme.colors.dark[7]
-      : theme.white,
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -47,9 +37,10 @@ const useStyles = createStyles((theme) => ({
 
   main: {
     flex: 1,
-    backgroundColor: theme.colorScheme === "dark"
-      ? theme.colors.dark[6]
-      : theme.colors.gray[0],
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[6]
+        : theme.colors.gray[0],
   },
 
   mainLink: {
@@ -59,14 +50,16 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: theme.colorScheme === "dark"
-      ? theme.colors.dark[0]
-      : theme.colors.gray[7],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
 
     "&:hover": {
-      backgroundColor: theme.colorScheme === "dark"
-        ? theme.colors.dark[5]
-        : theme.colors.gray[0],
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors.gray[0],
     },
   },
 
@@ -85,9 +78,8 @@ const useStyles = createStyles((theme) => ({
     boxSizing: "border-box",
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     marginBottom: theme.spacing.xl,
-    backgroundColor: theme.colorScheme === "dark"
-      ? theme.colors.dark[7]
-      : theme.white,
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     padding: theme.spacing.md,
     paddingTop: 18,
     height: 60,
@@ -115,9 +107,10 @@ const useStyles = createStyles((theme) => ({
     textDecoration: "none",
     borderTopRightRadius: theme.radius.md,
     borderBottomRightRadius: theme.radius.md,
-    color: theme.colorScheme === "dark"
-      ? theme.colors.dark[0]
-      : theme.colors.gray[7],
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[0]
+        : theme.colors.gray[7],
     padding: `0 ${theme.spacing.md}px`,
     fontSize: theme.fontSizes.sm,
     marginRight: theme.spacing.md,
@@ -126,9 +119,10 @@ const useStyles = createStyles((theme) => ({
     lineHeight: "44px",
 
     "&:hover": {
-      backgroundColor: theme.colorScheme === "dark"
-        ? theme.colors.dark[5]
-        : theme.colors.gray[1],
+      backgroundColor:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[5]
+          : theme.colors.gray[1],
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
     },
   },
@@ -284,15 +278,13 @@ export function DoubleNavbar() {
           </div>
           {mainLinksx}
         </div>
-        {
-          /* <div className={classes.main}>
+        {/* <div className={classes.main}>
           <Title order={4} className={classes.title}>
             {active}
           </Title>
 
           {links}
-        </div> */
-        }
+        </div> */}
       </Navbar.Section>
     </Navbar>
   );

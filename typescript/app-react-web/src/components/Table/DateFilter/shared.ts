@@ -1,7 +1,7 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
 import isBetween from "dayjs/plugin/isBetween";
 import dayjs from "dayjs";
-import { RowDate } from "../helpers.ts";
+import { RowDate } from "../helpers.js";
 
 dayjs.extend(isBetween);
 // declare module 'dayjs' {

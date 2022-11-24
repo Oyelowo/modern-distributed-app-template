@@ -1,9 +1,9 @@
 // import { SessionQuery, useSessionQuery } from "@oyelowo/graphql-client";
-import { client } from "../../config/client.ts";
+import { client } from "../../config/client.js";
 import {
   GraphqlErrorResponse,
   mapReactQueryResultToImpossibleStates,
-} from "./helpers.tsx";
+} from "./helpers.jsx";
 
 export function useSession() {
   // const { data, status, error } = useSessionQuery<

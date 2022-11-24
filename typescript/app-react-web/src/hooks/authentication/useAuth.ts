@@ -1,100 +1,62 @@
-// import { SessionQuery, useSessionQuery } from "@oyelowo/graphql-client";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { atom } from "jotai";
-// import { client } from "../../config/client.ts";
 import {
   GraphqlErrorResponse,
   mapReactQueryResultToImpossibleStates,
-} from "./helpers.tsx";
-import { graphql } from "../../../../lib-graphql/generated/gql.ts";
-import { GraphQLClient } from "graphql-request";
-import fetch from "cross-fetch";
-import { createClient } from "@urql/core";
-// import { CreateUserDocument, GetUserDocument } from "../../../../lib-graphql/generated/graphql.ts";
+} from "./helpers.js";
+import { $, Chain } from "lib-graphql";
 
-const sessionWithVariablesQueryDocument = graphql(/* GraphQL */ `
-  query session {
-    session {
-      userId
-      expiresAt
-    }
-  }
-`);
-
-const getUserWithVariablesQueryDocument = graphql(/* GraphQL */ `
-  query getUser($UserBy: UserBy!) {
-    getUser(userBy: $UserBy) {
-      id
-      firstName
-      lastName
-      age
-      email
-      socialMedia
-      createdAt
-      posts {
-        posterId
-        title
-        content
-      }
-    }
-  }
-`);
-
-const createUserWithVariablesQueryDocument = graphql(/* GraphQL */ `
-  mutation createUser($userInput: UserInput!) {
-    createUser(userInput: $userInput) {
-      id
-      firstName
-      lastName
-      email
-      age
-    }
-  }
-`);
+const chain = Chain("localhost:8000");
+const createUserQuery = chain("mutation")({
+  createUser: [
+    {
+      userInput: {
+        username: "",
+        password: "",
+        socialMedia: [],
+      },
+    },
+    {
+      id: true,
+      firstName: true,
+      lastName: true,
+      email: true,
+      age: true,
+      posts: {
+        id: true,
+        title: true,
+        poster: {
+          age: true,
+          email: true,
+          username: true,
+          posts: {
+            id: true,
+          },
+        },
+      },
+    },
+  ],
+});
 
 export interface UseSessionProps {
   // queryConfig?: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
 }
 
-const client = createClient({
-  url: "",
-  fetch,
-});
-
-
 export function useAuth() {
-  const { data } = useQuery(
+  const { data, status, error } = useQuery(
     ["auth"],
-    async () =>
-      await client
-        .query(createUserWithVariablesQueryDocument, {
-          userInput: { username: "", socialMedia: [] },
-        })
-        .toPromise()
+    async () => await createUserQuery
   );
-  data?.data?.createUser.lastName;
-  // const { data } = useQuery(
-  //   ["auth"],
-  //   async () => await clientHttp.request(CreateUserDocument, {})
-  // );
-  // data.
-  // k.data.
-  // const { data, status, isLoading, error } = useSessionQuery<
-  //   SessionQuery,
-  //   GraphqlErrorResponse
-  // >(
-  //   client,
-  //   undefined,
-  //   {
-  //     staleTime: 0,
-  //   },
-  // );
 
-  // const _mappedData = mapReactQueryResultToImpossibleStates({
-  //   status,
-  //   data,
-  //   error,
-  // });
+  const _mappedData = mapReactQueryResultToImpossibleStates({
+    status,
+    data,
+    error,
+  });
+
+  if (_mappedData.status === "success") {
+    _mappedData.data.createUser.posts[0].poster.posts[1].id;
+  }
 
   return {
     // isAuth: !!(!data?.session.userId && error?.response.data),
@@ -123,3 +85,4 @@ export function useAuth2(): Auth {
     username: "lowo",
   };
 }
+

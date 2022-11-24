@@ -1,6 +1,6 @@
 import { createRouteConfig, Outlet } from "@tanstack/react-router";
-import { router } from "../../router.tsx";
-import { fetchInvoices } from "../../mockTodos.ts";
+import { router } from "../../router.jsx";
+import { fetchInvoices } from "../../mockTodos.js";
 
 export const dashboardRoute = createRouteConfig().createRoute({
   path: "dashboard",

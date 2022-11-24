@@ -8,8 +8,8 @@ import { useAtom } from "jotai";
 import {
   signInSchema,
   useSignIn,
-} from "../../hooks/authentication/useSignIn.tsx";
-import { toggleAuthAtom } from "./atoms.tsx";
+} from "../../hooks/authentication/useSignIn.jsx";
+import { toggleAuthAtom } from "./atoms.jsx";
 
 export default function SignInForm() {
   const [_authType, setAuthType] = useAtom(toggleAuthAtom);

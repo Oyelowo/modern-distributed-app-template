@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
-import { Person } from "./makeData.tsx";
-import { fuzzySort } from "./helpers.ts";
-import { getFilterFn } from "./ColumFilter.tsx";
+import { Person } from "./makeData.jsx";
+import { fuzzySort } from "./helpers.js";
+import { getFilterFn } from "./ColumFilter.jsx";
 
 export function useColumns() {
   const columns = useMemo<ColumnDef<Person>[]>(
@@ -98,7 +98,7 @@ export function useColumns() {
         ...getFilterFn("string_multiple"),
       },
     ],
-    [],
+    []
   );
 
   return { columns };
