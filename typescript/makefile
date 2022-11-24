@@ -3,18 +3,18 @@
 #############
 install:
 	# npm i
-	npm ci --force
+	pnpm i
 
 upgrade:
-	npm update --save --force --workspaces
-	npm update --save --force
+	pnpm upgrade
+	pnpm update
 
 sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	(cd ../rust && make gen)
-	npm run generate
+	pnpm generate
 
 dev:
 # Example usage: make dev app=web
@@ -24,29 +24,29 @@ dev:
 	# pkill node
 
 # Via turbo repo
-	npm run dev -- --scope=$(app)
+	pnpm dev
 #alternative via npm directly
-	# npm run dev -w=$(app) 
+	# pnpm dev -w=$(app) 
 
 format:
-	npm run prettier-fix
-	npm run lint-fix
+	pnpm prettier-fix
+	pnpm lint-fix
 	
 check:
-	npm run lint-check
-	npm run prettier-check
+	pnpm lint-check
+	pnpm prettier-check
 
 test:
-	npm run test
+	pnpm test
 
 test-e2e:
-	npm run test-e2e
+	pnpm test-e2e
 
 build:
-	npm run build
+	pnpm build
 
 run:
-	npm run start
+	pnpm start
 
 ####### OTHERS
 build-web-image:

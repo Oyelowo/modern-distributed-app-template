@@ -25,7 +25,7 @@ function App() {
             setColorScheme((prev) => (prev === "light" ? "dark" : "light"))
           }
         >
-          OO
+          OO 
         </Avatar>
 
         <RouterProvider router={router}>
