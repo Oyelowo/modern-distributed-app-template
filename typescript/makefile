@@ -41,6 +41,10 @@ build:
 run:
 	pnpm --filter "*" start
 
+cleanup:
+	rm -rf ~/Library/pnpm/store/v3/files/  
+	pnpm store prune 
+
 ####### OTHERS
 build-app-web-image:
 	docker build -f Dockerfile.production --target app-web  -t oyelowo/app-web .

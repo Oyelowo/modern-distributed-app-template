@@ -1,8 +1,9 @@
-import { Temporal } from "@js-temporal/polyfill";
 import { rankItem } from "@tanstack/match-sorter-utils";
+import { match } from "ts-pattern";
+
 // import isBetween from "dayjs/plugin/isBetween";
 // import dayjs from "dayjs";
-import { RowDate } from "../helpers.js";
+import { RowDate, TemporalInstant } from "../helpers.js";
 
 // dayjs.extend(isBetween);
 // declare module 'dayjs' {
@@ -31,24 +32,24 @@ import { RowDate } from "../helpers.js";
 const isSameInstant = ({
 	instant,
 	instantToCompare,
-}: { instant: Temporal.Instant; instantToCompare: Temporal.Instant }) =>
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
 	Temporal.Instant.compare(instant, instantToCompare) === 0;
 const isAfterInstant = ({
 	instant,
 	instantToCompare,
-}: { instant: Temporal.Instant; instantToCompare: Temporal.Instant }) =>
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
 	Temporal.Instant.compare(instant, instantToCompare) >= 0;
 const isBeforeInstant = ({
 	instant,
 	instantToCompare,
-}: { instant: Temporal.Instant; instantToCompare: Temporal.Instant }) =>
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
 	Temporal.Instant.compare(instant, instantToCompare) <= 0;
 
 function isBetweenInstant(
-	instant: Temporal.Instant,
+	instant: TemporalInstant,
 	{ minInstant, maxInstant }: {
-		minInstant: Temporal.Instant;
-		maxInstant: Temporal.Instant;
+		minInstant: TemporalInstant;
+		maxInstant: TemporalInstant;
 	},
 ) {
 	const isAfterMin = isAfterInstant({ instant, instantToCompare: minInstant });
@@ -87,6 +88,8 @@ export const filterDateRow = ({
 		instant: rowValue,
 		instantToCompare: filterValue,
 	});
+
+	match(operator)
 
 	switch (operator) {
 		case "between":
