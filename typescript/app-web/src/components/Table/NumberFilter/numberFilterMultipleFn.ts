@@ -28,10 +28,10 @@ export const numberFilterMultipleFn: FilterFn<any> = (
 
 numberFilterMultipleFn.autoRemove = (val) => !val;
 
-export const operatorsValuesAndLabels: Array<{
+export const operatorsValuesAndLabels: {
 	value: RowNumber["operator"];
 	label: string;
-}> = [
+}[] = [
 	{
 		value: "eq",
 		label: "Equals",

@@ -1,0 +1,12 @@
+{
+  "linter": {
+    "enabled": true,
+    "ignore": ["lib-graphql/zeus"],
+    "rules": {
+      "correctness": {},
+      "style": {
+        "noImplicitBoolean": "off"
+      }
+    }
+  }
+}

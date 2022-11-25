@@ -28,10 +28,10 @@ export const stringFilterCompoundFn: FilterFn<unknown> = (
 
 stringFilterCompoundFn.autoRemove = (val) => !val;
 
-export const operatorsValuesAndLabels: Array<{
+export const operatorsValuesAndLabels: {
 	value: RowString["operator"];
 	label: string;
-}> = [
+}[] = [
 	{
 		value: "fuzzy",
 		label: "Allow typo",

@@ -8,7 +8,7 @@ export function Sorter({ column }: { column: Column<Person, unknown> }) {
 		isAsc ? <SortAscending /> : <SortDescending />;
 	const { classes } = useStyles();
 
-	if (!column.getCanSort()) return null;
+	if (!column.getCanSort()) { return null; }
 
 	if (column.getIsSorted()) {
 		return <Sorted isAsc={column.getIsSorted() === "asc"} />;
