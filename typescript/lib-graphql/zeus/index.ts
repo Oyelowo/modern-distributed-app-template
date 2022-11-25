@@ -956,7 +956,8 @@ export type ExtractVariables<Query> = Query extends Variable<
 	infer VType,
 	infer VName
 >
-	? { [key in VName]: GetVariableType<VType>
+	? {
+			[key in VName]: GetVariableType<VType>;
 	  }
 	: Query extends [infer Inputs, infer Outputs]
 	? ExtractVariables<Inputs> & ExtractVariables<Outputs>
@@ -964,7 +965,8 @@ export type ExtractVariables<Query> = Query extends Variable<
 	? // eslint-disable-next-line @typescript-eslint/ban-types
 	  {}
 	: UnionToIntersection<
-			{ [K in keyof Query]: WithOptionalNullables<ExtractVariables<Query[K]>>
+			{
+				[K in keyof Query]: WithOptionalNullables<ExtractVariables<Query[K]>>;
 			}[keyof Query]
 	  >;
 

@@ -1,8 +1,6 @@
 // QQ:996192181
 
-import chartMultiJsonData from "./chartMultiData.json.js" assert {
-	type: "json",
-};
+import chartMultiJsonData from "./chartMultiData.json" assert { type: "json" };
 import { ECOption } from "./useChart.js";
 
 let KNAME = "";

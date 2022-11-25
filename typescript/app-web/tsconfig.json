@@ -3,6 +3,7 @@
     "jsx": "react-jsx",
     "target": "es2017",
     "moduleResolution": "NodeNext",
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "resolveJsonModule": true
   },
 }
