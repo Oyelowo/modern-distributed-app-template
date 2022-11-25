@@ -56,6 +56,7 @@ importers:
       '@urql/core': ^3.0.5
       '@use-gesture/react': ^10.2.22
       '@vitejs/plugin-react': ^2.2.0
+      D: ^1.0.0
       add: ^2.0.6
       axios: ^1.2.0
       cross-env: ^7.0.3
@@ -96,6 +97,7 @@ importers:
       react-dom: ^18.2.0
       react-spring: ^9.5.5
       react-use: ^17.4.0
+      rome: ^10.0.1
       tabler-icons-react: ^1.55.0
       three-stdlib: ^2.19.0
       ts-jest: ^29.0.3
@@ -138,6 +140,7 @@ importers:
       '@tanstack/table-core': 8.6.0
       '@urql/core': 3.0.5
       '@use-gesture/react': 10.2.22_react@18.2.0
+      D: 1.0.0
       axios: 1.2.0
       cross-env: 7.0.3
       d3: 7.6.1
@@ -201,6 +204,7 @@ importers:
       msw: 0.49.0_typescript@4.9.3
       next-compose-plugins: 2.2.1
       prettier: 2.8.0
+      rome: 10.0.1
       ts-jest: 29.0.3_typescript@4.9.3
       ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
       ts-pattern: 4.0.6
@@ -1785,6 +1789,54 @@ packages:
       zustand: 3.7.2_react@18.2.0
     dev: false
 
+  /@rometools/cli-darwin-arm64/10.0.1:
+    resolution: {integrity: sha512-MwQjk3uhZrCu6LgIwJHREAsVt/mUQTGv7p8iosfaF8lCIxMVjyS+akbF/QcBufyW5sFtHYNWUEe/uKPHK4E//A==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rometools/cli-darwin-x64/10.0.1:
+    resolution: {integrity: sha512-n010Wc/z9L8wRkRnR5boMhdWgDVGrTG/i7zL8u/3+F5aSUgLCywf9F/b3ex74tCJJfcwBLlhaAqAVQX6U1bIkA==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rometools/cli-linux-arm64/10.0.1:
+    resolution: {integrity: sha512-JljZsnud1KCfe36VNsVh/LrYdAzgbKbcsCTzeCjW9ROkMyNj8pmQ/gIUFxZ+PyhMFgowHIDGihoNf4m+pgpxkA==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rometools/cli-linux-x64/10.0.1:
+    resolution: {integrity: sha512-jXIqd9iDyZUexk63CRfAXDA4zNDUHpErUmCejjGab3dhDt1KA40fDqKb+kxZpAhY3tQoWNSNQyo750zX5NawLw==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rometools/cli-win32-arm64/10.0.1:
+    resolution: {integrity: sha512-G/toRrKPhhi7SMYMyROq/E2c8/4xRX/67vFhVihuMvDDzhanIb99hEt5MMbM4HbYK1nnZBPyLN6LxVsxm9M9hA==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rometools/cli-win32-x64/10.0.1:
+    resolution: {integrity: sha512-y299+VGoBufZntZj0Xz7w9DODU+6E5giXStfBDoa0fspXGNkYyYfD+HC6j9gUv4zpMZJ607XVvVHjpfwM/3ftA==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
   /@rushstack/eslint-patch/1.2.0:
     resolution: {integrity: sha512-sXo/qW2/pAcmT43VoRKOJbDOfV3cYpq3szSVfIThQXNt+E4DfKj361vaAt3c88U5tPUxzEswam7GW48PJqtKAg==}
     dev: true
@@ -2599,6 +2651,11 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /D/1.0.0:
+    resolution: {integrity: sha512-nQvrCBu7K2pSSEtIM0EEF03FVjcczCXInMt3moLNFbjlWx6bZrX72uT6/1uAXDbnzGUAx9gTyDiQ+vrFi663oA==}
+    deprecated: Package no longer supported. Contact support@npmjs.com for more info.
+    dev: false
 
   /abab/2.0.6:
     resolution: {integrity: sha512-j2afSsaIENvHZN2B8GOpF566vZ5WVk5opAiMTvWgaQT8DkbOqsTfvNAvHoRGU2zzP8cPoqys+xHTRDWW8L+/BA==}
@@ -7023,6 +7080,20 @@ packages:
     hasBin: true
     optionalDependencies:
       fsevents: 2.3.2
+    dev: true
+
+  /rome/10.0.1:
+    resolution: {integrity: sha512-RfaDa+cSustBsjX6bj3fWqEhoNxXrK1uNgKHpkCHAqp20QMJXnCRtbokhirNMe0utyGI9GTO/sDoK7hJP7O8Bw==}
+    engines: {node: '>=14.*'}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      '@rometools/cli-darwin-arm64': 10.0.1
+      '@rometools/cli-darwin-x64': 10.0.1
+      '@rometools/cli-linux-arm64': 10.0.1
+      '@rometools/cli-linux-x64': 10.0.1
+      '@rometools/cli-win32-arm64': 10.0.1
+      '@rometools/cli-win32-x64': 10.0.1
     dev: true
 
   /rtl-css-js/1.16.0:
