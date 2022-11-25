@@ -20,19 +20,19 @@ import { bookingsIndexRoute } from "./routes/bookings/bookings.js";
 import { landingRoute } from "./routes/bookings/landing/index.js";
 
 const routeConfig = createRouteConfig().addChildren([
-  indexRoute,
-  dashboardRoute.addChildren([
-    dashboardIndexRoute,
-    invoicesRoute.addChildren([invoicesIndexRoute, invoiceRoute]),
-    usersRoute.addChildren([usersIndexRoute, userRoute]),
-  ]),
-  bookingsRoute.addChildren([bookingsIndexRoute, landingRoute]),
-  // landingRoute,
-  expensiveRoute,
-  authenticatedRoute,
-  layoutRoute.addChildren([layoutRouteA, layoutRouteB]),
+	indexRoute,
+	dashboardRoute.addChildren([
+		dashboardIndexRoute,
+		invoicesRoute.addChildren([invoicesIndexRoute, invoiceRoute]),
+		usersRoute.addChildren([usersIndexRoute, userRoute]),
+	]),
+	bookingsRoute.addChildren([bookingsIndexRoute, landingRoute]),
+	// landingRoute,
+	expensiveRoute,
+	authenticatedRoute,
+	layoutRoute.addChildren([layoutRouteA, layoutRouteB]),
 ]);
 
 export const router = createReactRouter({
-  routeConfig,
+	routeConfig,
 });

@@ -824,9 +824,9 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 type ZEUS_INTERFACES = never
 export type ScalarCoders = {
 	DateTime?: ScalarResolver;
-	ObjectId?: ScalarResolver;
+	UUID?: ScalarResolver;
 }
-type ZEUS_UNIONS = GraphQLTypes["SearchResult"]
+type ZEUS_UNIONS = never
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -867,7 +867,6 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 		__typename?: boolean | `@${string}`
 }>;
 	["OauthProvider"]:OauthProvider;
-	["ObjectId"]:unknown;
 	["Post"]: AliasType<{
 	id?:boolean | `@${string}`,
 	posterId?:boolean | `@${string}`,
@@ -880,33 +879,14 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	title: string | Variable<any, string>,
 	content: string | Variable<any, string>
 };
-	["SearchResult"]: AliasType<{		["...on Photo"] : ValueTypes["Photo"],
-		["...on Person"] : ValueTypes["Person"]
-		__typename?: boolean | `@${string}`
-}>;
-	["Person"]: AliasType<{
-	name?:boolean | `@${string}`,
-	age?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Photo"]: AliasType<{
-	height?:boolean | `@${string}`,
-	width?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["SearchQuery"]: AliasType<{
-	firstSearchResult?:ValueTypes["SearchResult"],
-		__typename?: boolean | `@${string}`
-}>;
 	["Query"]: AliasType<{
 	me?:ValueTypes["User"],
-user?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["User"]],
+user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["User"]],
 getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["User"]],
 	users?:ValueTypes["User"],
 	session?:ValueTypes["Session"],
-post?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["Post"]],
+post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	posts?:ValueTypes["Post"],
-	search?:ValueTypes["SearchQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
@@ -929,6 +909,15 @@ post?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["Post"]
 		__typename?: boolean | `@${string}`
 }>;
 	["TokenType"]:TokenType;
+	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
+["UUID"]:unknown;
 	["User"]: AliasType<{
 	id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
@@ -947,7 +936,7 @@ post?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["Post"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBy"]: {
-	userId?: ValueTypes["ObjectId"] | undefined | null | Variable<any, string>,
+	userId?: ValueTypes["UUID"] | undefined | null | Variable<any, string>,
 	username?: string | undefined | null | Variable<any, string>,
 	address?: ValueTypes["Address"] | undefined | null | Variable<any, string>,
 	email?: string | undefined | null | Variable<any, string>
@@ -1003,7 +992,6 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 		__typename?: boolean | `@${string}`
 }>;
 	["OauthProvider"]:OauthProvider;
-	["ObjectId"]:unknown;
 	["Post"]: AliasType<{
 	id?:boolean | `@${string}`,
 	posterId?:boolean | `@${string}`,
@@ -1016,34 +1004,14 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	title: string,
 	content: string
 };
-	["SearchResult"]: AliasType<{
-	Photo?:ResolverInputTypes["Photo"],
-	Person?:ResolverInputTypes["Person"],
-		__typename?: boolean | `@${string}`
-}>;
-	["Person"]: AliasType<{
-	name?:boolean | `@${string}`,
-	age?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["Photo"]: AliasType<{
-	height?:boolean | `@${string}`,
-	width?:boolean | `@${string}`,
-		__typename?: boolean | `@${string}`
-}>;
-	["SearchQuery"]: AliasType<{
-	firstSearchResult?:ResolverInputTypes["SearchResult"],
-		__typename?: boolean | `@${string}`
-}>;
 	["Query"]: AliasType<{
 	me?:ResolverInputTypes["User"],
-user?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["User"]],
+user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["User"]],
 getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["User"]],
 	users?:ResolverInputTypes["User"],
 	session?:ResolverInputTypes["Session"],
-post?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["Post"]],
+post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	posts?:ResolverInputTypes["Post"],
-	search?:ResolverInputTypes["SearchQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
@@ -1066,6 +1034,15 @@ post?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["TokenType"]:TokenType;
+	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
+["UUID"]:unknown;
 	["User"]: AliasType<{
 	id?:boolean | `@${string}`,
 	createdAt?:boolean | `@${string}`,
@@ -1084,7 +1061,7 @@ post?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBy"]: {
-	userId?: ResolverInputTypes["ObjectId"] | undefined | null,
+	userId?: ResolverInputTypes["UUID"] | undefined | null,
 	username?: string | undefined | null,
 	address?: ResolverInputTypes["Address"] | undefined | null,
 	email?: string | undefined | null
@@ -1140,10 +1117,9 @@ Currently like this because of future developments */
 	createPost: ModelTypes["Post"]
 };
 	["OauthProvider"]:OauthProvider;
-	["ObjectId"]:any;
 	["Post"]: {
-		id?: ModelTypes["ObjectId"] | undefined,
-	posterId: ModelTypes["ObjectId"],
+		id?: ModelTypes["UUID"] | undefined,
+	posterId: ModelTypes["UUID"],
 	title: string,
 	content: string,
 	poster: ModelTypes["User"]
@@ -1152,18 +1128,6 @@ Currently like this because of future developments */
 	title: string,
 	content: string
 };
-	["SearchResult"]:ModelTypes["Photo"] | ModelTypes["Person"];
-	["Person"]: {
-		name?: string | undefined,
-	age?: number | undefined
-};
-	["Photo"]: {
-		height?: number | undefined,
-	width?: number | undefined
-};
-	["SearchQuery"]: {
-		firstSearchResult?: ModelTypes["SearchResult"] | undefined
-};
 	["Query"]: {
 		me: ModelTypes["User"],
 	user: ModelTypes["User"],
@@ -1171,12 +1135,11 @@ Currently like this because of future developments */
 	users: Array<ModelTypes["User"]>,
 	session: ModelTypes["Session"],
 	post: ModelTypes["Post"],
-	posts: Array<ModelTypes["Post"]>,
-	search: ModelTypes["SearchQuery"]
+	posts: Array<ModelTypes["Post"]>
 };
 	["Role"]:Role;
 	["Session"]: {
-		userId: ModelTypes["ObjectId"],
+		userId: ModelTypes["UUID"],
 	expiresAt: ModelTypes["DateTime"]
 };
 	["SignInCredentials"]: {
@@ -1185,14 +1148,23 @@ Currently like this because of future developments */
 };
 	["SignOutMessage"]: {
 		message: string,
-	userId: ModelTypes["ObjectId"]
+	userId: ModelTypes["UUID"]
 };
 	["Subscription"]: {
 		values: number
 };
 	["TokenType"]:TokenType;
+	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
+["UUID"]:any;
 	["User"]: {
-		id?: ModelTypes["ObjectId"] | undefined,
+		id?: ModelTypes["UUID"] | undefined,
 	createdAt?: ModelTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1208,7 +1180,7 @@ Currently like this because of future developments */
 	postCount: number
 };
 	["UserBy"]: {
-	userId?: ModelTypes["ObjectId"] | undefined,
+	userId?: ModelTypes["UUID"] | undefined,
 	username?: string | undefined,
 	address?: ModelTypes["Address"] | undefined,
 	email?: string | undefined
@@ -1266,11 +1238,10 @@ Currently like this because of future developments */
 	createPost: GraphQLTypes["Post"]
 };
 	["OauthProvider"]: OauthProvider;
-	["ObjectId"]: "scalar" & { name: "ObjectId" };
 	["Post"]: {
 	__typename: "Post",
-	id?: GraphQLTypes["ObjectId"] | undefined,
-	posterId: GraphQLTypes["ObjectId"],
+	id?: GraphQLTypes["UUID"] | undefined,
+	posterId: GraphQLTypes["UUID"],
 	title: string,
 	content: string,
 	poster: GraphQLTypes["User"]
@@ -1278,25 +1249,6 @@ Currently like this because of future developments */
 	["PostInput"]: {
 		title: string,
 	content: string
-};
-	["SearchResult"]:{
-        	__typename:"Photo" | "Person"
-        	['...on Photo']: '__union' & GraphQLTypes["Photo"];
-	['...on Person']: '__union' & GraphQLTypes["Person"];
-};
-	["Person"]: {
-	__typename: "Person",
-	name?: string | undefined,
-	age?: number | undefined
-};
-	["Photo"]: {
-	__typename: "Photo",
-	height?: number | undefined,
-	width?: number | undefined
-};
-	["SearchQuery"]: {
-	__typename: "SearchQuery",
-	firstSearchResult?: GraphQLTypes["SearchResult"] | undefined
 };
 	["Query"]: {
 	__typename: "Query",
@@ -1306,13 +1258,12 @@ Currently like this because of future developments */
 	users: Array<GraphQLTypes["User"]>,
 	session: GraphQLTypes["Session"],
 	post: GraphQLTypes["Post"],
-	posts: Array<GraphQLTypes["Post"]>,
-	search: GraphQLTypes["SearchQuery"]
+	posts: Array<GraphQLTypes["Post"]>
 };
 	["Role"]: Role;
 	["Session"]: {
 	__typename: "Session",
-	userId: GraphQLTypes["ObjectId"],
+	userId: GraphQLTypes["UUID"],
 	expiresAt: GraphQLTypes["DateTime"]
 };
 	["SignInCredentials"]: {
@@ -1322,16 +1273,25 @@ Currently like this because of future developments */
 	["SignOutMessage"]: {
 	__typename: "SignOutMessage",
 	message: string,
-	userId: GraphQLTypes["ObjectId"]
+	userId: GraphQLTypes["UUID"]
 };
 	["Subscription"]: {
 	__typename: "Subscription",
 	values: number
 };
 	["TokenType"]: TokenType;
+	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
+["UUID"]: "scalar" & { name: "UUID" };
 	["User"]: {
 	__typename: "User",
-	id?: GraphQLTypes["ObjectId"] | undefined,
+	id?: GraphQLTypes["UUID"] | undefined,
 	createdAt?: GraphQLTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1347,7 +1307,7 @@ Currently like this because of future developments */
 	postCount: number
 };
 	["UserBy"]: {
-		userId?: GraphQLTypes["ObjectId"] | undefined,
+		userId?: GraphQLTypes["UUID"] | undefined,
 	username?: string | undefined,
 	address?: GraphQLTypes["Address"] | undefined,
 	email?: string | undefined
@@ -1379,11 +1339,11 @@ type ZEUS_VARIABLES = {
 	["Address"]: ValueTypes["Address"];
 	["DateTime"]: ValueTypes["DateTime"];
 	["OauthProvider"]: ValueTypes["OauthProvider"];
-	["ObjectId"]: ValueTypes["ObjectId"];
 	["PostInput"]: ValueTypes["PostInput"];
 	["Role"]: ValueTypes["Role"];
 	["SignInCredentials"]: ValueTypes["SignInCredentials"];
 	["TokenType"]: ValueTypes["TokenType"];
+	["UUID"]: ValueTypes["UUID"];
 	["UserBy"]: ValueTypes["UserBy"];
 	["UserInput"]: ValueTypes["UserInput"];
 }

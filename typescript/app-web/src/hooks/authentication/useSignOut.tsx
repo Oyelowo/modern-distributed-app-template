@@ -4,26 +4,26 @@
 // import { client } from '../../config/client';
 
 export function useSignOut() {
-  // const router = useRouter();
-  // const { mutate: signOutMutate, data: _signOutData } = useSignOutMutation(client);
+	// const router = useRouter();
+	// const { mutate: signOutMutate, data: _signOutData } = useSignOutMutation(client);
 
-  const signOutCustom = () => {
-    // signOutMutate(
-    //   {},
-    //   {
-    //     onSuccess: () => {
-    //       const queryClient = new QueryClient();
-    //       const cache = new QueryCache();
-    //       const mutCache = new MutationCache();
-    //       queryClient.clear();
-    //       cache.clear();
-    //       mutCache.clear();
-    //       router.push('/login');
-    //     },
-    //     onSettled: () => {},
-    //   }
-    // );
-  };
+	const signOutCustom = () => {
+		// signOutMutate(
+		//   {},
+		//   {
+		//     onSuccess: () => {
+		//       const queryClient = new QueryClient();
+		//       const cache = new QueryCache();
+		//       const mutCache = new MutationCache();
+		//       queryClient.clear();
+		//       cache.clear();
+		//       mutCache.clear();
+		//       router.push('/login');
+		//     },
+		//     onSettled: () => {},
+		//   }
+		// );
+	};
 
-  return { signOutCustom };
+	return { signOutCustom };
 }

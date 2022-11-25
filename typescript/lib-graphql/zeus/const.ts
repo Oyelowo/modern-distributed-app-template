@@ -20,19 +20,18 @@ export const AllTypesProps: Record<string,any> = {
 		}
 	},
 	OauthProvider: "enum" as const,
-	ObjectId: `scalar.ObjectId` as const,
 	PostInput:{
 
 	},
 	Query:{
 		user:{
-			id:"ObjectId"
+			id:"UUID"
 		},
 		getUser:{
 			userBy:"UserBy"
 		},
 		post:{
-			id:"ObjectId"
+			id:"UUID"
 		}
 	},
 	Role: "enum" as const,
@@ -40,8 +39,9 @@ export const AllTypesProps: Record<string,any> = {
 
 	},
 	TokenType: "enum" as const,
+	UUID: `scalar.UUID` as const,
 	UserBy:{
-		userId:"ObjectId",
+		userId:"UUID",
 		address:"Address"
 	},
 	UserInput:{
@@ -77,28 +77,12 @@ export const ReturnTypes: Record<string,any> = {
 		signOut:"SignOutMessage",
 		createPost:"Post"
 	},
-	ObjectId: `scalar.ObjectId` as const,
 	Post:{
-		id:"ObjectId",
-		posterId:"ObjectId",
+		id:"UUID",
+		posterId:"UUID",
 		title:"String",
 		content:"String",
 		poster:"User"
-	},
-	SearchResult:{
-		"...on Photo":"Photo",
-		"...on Person":"Person"
-	},
-	Person:{
-		name:"String",
-		age:"Int"
-	},
-	Photo:{
-		height:"Int",
-		width:"Int"
-	},
-	SearchQuery:{
-		firstSearchResult:"SearchResult"
 	},
 	Query:{
 		me:"User",
@@ -107,22 +91,22 @@ export const ReturnTypes: Record<string,any> = {
 		users:"User",
 		session:"Session",
 		post:"Post",
-		posts:"Post",
-		search:"SearchQuery"
+		posts:"Post"
 	},
 	Session:{
-		userId:"ObjectId",
+		userId:"UUID",
 		expiresAt:"DateTime"
 	},
 	SignOutMessage:{
 		message:"String",
-		userId:"ObjectId"
+		userId:"UUID"
 	},
 	Subscription:{
 		values:"Int"
 	},
+	UUID: `scalar.UUID` as const,
 	User:{
-		id:"ObjectId",
+		id:"UUID",
 		createdAt:"DateTime",
 		username:"String",
 		firstName:"String",

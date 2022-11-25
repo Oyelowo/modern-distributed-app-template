@@ -2,61 +2,54 @@
 ## STANDARD
 #############
 install:
-	# npm i
-	pnpm i
+	pnpm install
 
 upgrade:
-	pnpm upgrade
 	pnpm update
 
 sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
-	(cd ../rust && make gen)
-	pnpm generate
+	(cd ../rust && make sync)
+	pnpm --filter "*" generate
 
 dev:
-# Example usage: make dev app=web
-	make gen
+# Example usage: make dev app=app-web
+	make sync
 	# Only cd for this subshell. Dont affect the following after this
 	# kill -9 $(lsof -ti:3000)
 	# pkill node
-
-# Via turbo repo
-	pnpm dev
-#alternative via npm directly
-	# pnpm dev -w=$(app) 
+	pnpm --filter "*" dev 
 
 format:
-	pnpm prettier-fix
-	pnpm lint-fix
+	pnpm rome check . --apply-suggested
+	pnpm rome format . --write
 	
 check:
-	pnpm lint-check
-	pnpm prettier-check
+	pnpm rome check .
 
 test:
-	pnpm test
+	pnpm --filter "*" test
 
 test-e2e:
-	pnpm test-e2e
+	pnpm --filter "*" test-e2e
 
 build:
-	pnpm build
+	pnpm --filter "*" build
 
 run:
-	pnpm start
+	pnpm --filter "*" start
 
 ####### OTHERS
-build-web-image:
-	docker build -f Dockerfile.production --target web  -t oyelowo/web .
+build-app-web-image:
+	docker build -f Dockerfile.production --target app-web  -t oyelowo/app-web .
 
 deploy:
-	docker build -f Dockerfile.production --target web  -t oyelowo/web .
-	docker run -p 3000:3000 oyelowo/web 
+	docker build -f Dockerfile.production --target app-web  -t oyelowo/app-web .
+	docker run -p 3000:3000 oyelowo/app-web 
 
-deploy-web:
-	docker build -f Dockerfile.production --target web  -t oyelowo/web .
-	docker-slim build --include-path=/app/apps/web/server.js oyelowo/web
-	docker run -p 3000:3000 oyelowo/web.slim
+deploy-app-web:
+	docker build -f Dockerfile.production --target app-web  -t oyelowo/app-web .
+	docker-slim build --include-path=/app/apps/app-web/server.js oyelowo/app-web
+	docker run -p 3000:3000 oyelowo/app-web.slim
