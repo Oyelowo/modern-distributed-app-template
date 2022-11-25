@@ -1,17 +1,26 @@
 import { ZeusScalars } from "./zeus/index.js";
 export * from "./zeus/index.js";
-import { string } from "zod";
+import { Temporal } from "@js-temporal/polyfill";
 
-const uuidSchema = string().uuid({ message: "Invalid uuid" });
+export class Uuid {
+	private constructor(private uuid_str: string) {}
+	static fromString = (str: string) => {
+		return new Uuid(str);
+	};
+
+	toString = () => {
+		return new Uuid(this.uuid_str).uuid_str;
+	};
+}
 
 // TODO: Use proper encoding/decoding
 export const scalarsCustom = ZeusScalars({
 	UUID: {
-		encode: (e: unknown) => uuidSchema.parse(e),
-		decode: (e: unknown) => String(e),
+		encode: (e: Uuid) => e.toString(),
+		decode: (e: string) => Uuid.fromString(e),
 	},
 	DateTime: {
-		decode: (e: unknown) => new Date(e as string),
-		encode: (e: unknown) => (e as Date).toISOString(),
+		encode: (e: Temporal.Instant) => Temporal.Instant.from(e).toString(),
+		decode: (e: string) => Temporal.Instant.from(e),
 	},
 });
