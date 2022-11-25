@@ -58,11 +58,9 @@ enum OauthProvider {
 	GOOGLE
 }
 
-scalar ObjectId
-
 type Post {
-	id: ObjectId
-	posterId: ObjectId!
+	id: UUID
+	posterId: UUID!
 	title: String!
 	content: String!
 	poster: User!
@@ -73,31 +71,14 @@ input PostInput {
 	content: String!
 }
 
-union SearchResult = Photo | Person
-
-type Person {
-  name: String
-  age: Int
-}
-
-type Photo {
-  height: Int
-  width: Int
-}
-
-type SearchQuery {
-  firstSearchResult: SearchResult
-}
-
 type Query {
 	me: User!
-	user(id: ObjectId!): User!
+	user(id: UUID!): User!
 	getUser(userBy: UserBy!): User!
 	users: [User!]!
 	session: Session!
-	post(id: ObjectId!): Post!
+	post(id: UUID!): Post!
 	posts: [Post!]!
-	search: SearchQuery!
 }
 
 enum Role {
@@ -106,7 +87,7 @@ enum Role {
 }
 
 type Session {
-	userId: ObjectId!
+	userId: UUID!
 	expiresAt: DateTime!
 }
 
@@ -117,7 +98,7 @@ input SignInCredentials {
 
 type SignOutMessage {
 	message: String!
-	userId: ObjectId!
+	userId: UUID!
 }
 
 
@@ -129,8 +110,20 @@ enum TokenType {
 	BEARER
 }
 
+"""
+A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
+Strings within GraphQL. UUIDs are used to assign unique identifiers to
+entities without requiring a central allocating authority.
+
+# References
+
+* [Wikipedia: Universally Unique Identifier](http://en.wikipedia.org/wiki/Universally_unique_identifier)
+* [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122)
+"""
+scalar UUID
+
 type User {
-	id: ObjectId
+	id: UUID
 	createdAt: DateTime
 	username: String!
 	firstName: String
@@ -146,8 +139,8 @@ type User {
 	postCount: Int!
 }
 
-input UserBy @oneof {
-	userId: ObjectId
+input UserBy @oneOf {
+	userId: UUID
 	username: String
 	address: Address
 	email: String
@@ -169,4 +162,3 @@ schema {
 	mutation: Mutation
 	subscription: Subscription
 }
-

@@ -3,6 +3,7 @@
     "jsx": "react-jsx",
     "target": "ES6",
     "moduleResolution": "NodeNext",
-    "module": "NodeNext"
+    "module": "NodeNext",
+    "lib": ["ES2022", "DOM"]
   },
 }
