@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import { Person } from "./makeData.js";
 import { fuzzySort } from "./helpers.js";
 import { getFilterFn } from "./ColumFilter.js";
-import { toTemporalInstant } from "@js-temporal/polyfill";
 
 export function useColumns() {
 	const columns = useMemo<ColumnDef<Person>[]>(

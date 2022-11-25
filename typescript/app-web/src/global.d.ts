@@ -3,8 +3,8 @@ import {
 	toTemporalInstant,
 	Intl,
 } from "@js-temporal/polyfill";
-import React from "react";
-// export {}
+
+export {}
 declare global {
 	interface Window {
 		Temporal: typeof TemporalType;
@@ -19,5 +19,5 @@ declare global {
 	interface Date {
 		toTemporalInstant: typeof toTemporalInstant;
 	}
-	var Temporal: typeof TemporalType;
+	const Temporal: typeof TemporalType;
 }
