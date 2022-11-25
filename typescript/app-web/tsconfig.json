@@ -4,6 +4,6 @@
     "target": "es2017",
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
-    "resolveJsonModule": true
-  },
+    "resolveJsonModule": true,
+  }
 }

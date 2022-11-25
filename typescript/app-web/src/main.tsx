@@ -5,7 +5,19 @@ import { router } from "./router.js";
 import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
-import { Temporal } from "@js-temporal/polyfill";
+
+await import("@js-temporal/polyfill").then((a) => {
+	if (!Date.prototype.toTemporalInstant) {
+		Date.prototype.toTemporalInstant = a.toTemporalInstant;
+	}
+	if (!window.Temporal) {
+		window.Temporal = a.Temporal;
+	}
+
+	if (!window.Intl) {
+		(window as any).Intl = a.Intl;
+	}
+});
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 

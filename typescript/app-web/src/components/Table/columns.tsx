@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { Person } from "./makeData.js";
 import { fuzzySort } from "./helpers.js";
 import { getFilterFn } from "./ColumFilter.js";
+import { toTemporalInstant } from "@js-temporal/polyfill";
 
 export function useColumns() {
 	const columns = useMemo<ColumnDef<Person>[]>(
@@ -40,7 +41,8 @@ export function useColumns() {
 				accessorKey: "dateOfBirth",
 				header: () => " DOB",
 				footer: (props) => props.column.id,
-				cell: (info) => dayjs(info.getValue<Date>()).format("DD/MM/YYYY"),
+				cell: (info) => info.getValue<Date>().toTemporalInstant().toString(),
+				// cell: (info) => dayjs(info.getValue<Date>()).format("DD/MM/YYYY"),
 				...getFilterFn("date_multiple"),
 			},
 			{
