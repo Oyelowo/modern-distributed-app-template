@@ -826,7 +826,7 @@ export type ScalarCoders = {
 	DateTime?: ScalarResolver;
 	ObjectId?: ScalarResolver;
 }
-type ZEUS_UNIONS = never
+type ZEUS_UNIONS = GraphQLTypes["SearchResult"]
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -880,6 +880,24 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	title: string | Variable<any, string>,
 	content: string | Variable<any, string>
 };
+	["SearchResult"]: AliasType<{		["...on Photo"] : ValueTypes["Photo"],
+		["...on Person"] : ValueTypes["Person"]
+		__typename?: boolean | `@${string}`
+}>;
+	["Person"]: AliasType<{
+	name?:boolean | `@${string}`,
+	age?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Photo"]: AliasType<{
+	height?:boolean | `@${string}`,
+	width?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SearchQuery"]: AliasType<{
+	firstSearchResult?:ValueTypes["SearchResult"],
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
 	me?:ValueTypes["User"],
 user?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["User"]],
@@ -888,6 +906,7 @@ getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["U
 	session?:ValueTypes["Session"],
 post?: [{	id: ValueTypes["ObjectId"] | Variable<any, string>},ValueTypes["Post"]],
 	posts?:ValueTypes["Post"],
+	search?:ValueTypes["SearchQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
@@ -997,6 +1016,25 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	title: string,
 	content: string
 };
+	["SearchResult"]: AliasType<{
+	Photo?:ResolverInputTypes["Photo"],
+	Person?:ResolverInputTypes["Person"],
+		__typename?: boolean | `@${string}`
+}>;
+	["Person"]: AliasType<{
+	name?:boolean | `@${string}`,
+	age?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["Photo"]: AliasType<{
+	height?:boolean | `@${string}`,
+	width?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SearchQuery"]: AliasType<{
+	firstSearchResult?:ResolverInputTypes["SearchResult"],
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
 	me?:ResolverInputTypes["User"],
 user?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["User"]],
@@ -1005,6 +1043,7 @@ getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["User"]],
 	session?:ResolverInputTypes["Session"],
 post?: [{	id: ResolverInputTypes["ObjectId"]},ResolverInputTypes["Post"]],
 	posts?:ResolverInputTypes["Post"],
+	search?:ResolverInputTypes["SearchQuery"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
@@ -1113,6 +1152,18 @@ Currently like this because of future developments */
 	title: string,
 	content: string
 };
+	["SearchResult"]:ModelTypes["Photo"] | ModelTypes["Person"];
+	["Person"]: {
+		name?: string | undefined,
+	age?: number | undefined
+};
+	["Photo"]: {
+		height?: number | undefined,
+	width?: number | undefined
+};
+	["SearchQuery"]: {
+		firstSearchResult?: ModelTypes["SearchResult"] | undefined
+};
 	["Query"]: {
 		me: ModelTypes["User"],
 	user: ModelTypes["User"],
@@ -1120,7 +1171,8 @@ Currently like this because of future developments */
 	users: Array<ModelTypes["User"]>,
 	session: ModelTypes["Session"],
 	post: ModelTypes["Post"],
-	posts: Array<ModelTypes["Post"]>
+	posts: Array<ModelTypes["Post"]>,
+	search: ModelTypes["SearchQuery"]
 };
 	["Role"]:Role;
 	["Session"]: {
@@ -1227,6 +1279,25 @@ Currently like this because of future developments */
 		title: string,
 	content: string
 };
+	["SearchResult"]:{
+        	__typename:"Photo" | "Person"
+        	['...on Photo']: '__union' & GraphQLTypes["Photo"];
+	['...on Person']: '__union' & GraphQLTypes["Person"];
+};
+	["Person"]: {
+	__typename: "Person",
+	name?: string | undefined,
+	age?: number | undefined
+};
+	["Photo"]: {
+	__typename: "Photo",
+	height?: number | undefined,
+	width?: number | undefined
+};
+	["SearchQuery"]: {
+	__typename: "SearchQuery",
+	firstSearchResult?: GraphQLTypes["SearchResult"] | undefined
+};
 	["Query"]: {
 	__typename: "Query",
 	me: GraphQLTypes["User"],
@@ -1235,7 +1306,8 @@ Currently like this because of future developments */
 	users: Array<GraphQLTypes["User"]>,
 	session: GraphQLTypes["Session"],
 	post: GraphQLTypes["Post"],
-	posts: Array<GraphQLTypes["Post"]>
+	posts: Array<GraphQLTypes["Post"]>,
+	search: GraphQLTypes["SearchQuery"]
 };
 	["Role"]: Role;
 	["Session"]: {

@@ -85,6 +85,21 @@ export const ReturnTypes: Record<string,any> = {
 		content:"String",
 		poster:"User"
 	},
+	SearchResult:{
+		"...on Photo":"Photo",
+		"...on Person":"Person"
+	},
+	Person:{
+		name:"String",
+		age:"Int"
+	},
+	Photo:{
+		height:"Int",
+		width:"Int"
+	},
+	SearchQuery:{
+		firstSearchResult:"SearchResult"
+	},
 	Query:{
 		me:"User",
 		user:"User",
@@ -92,7 +107,8 @@ export const ReturnTypes: Record<string,any> = {
 		users:"User",
 		session:"Session",
 		post:"Post",
-		posts:"Post"
+		posts:"Post",
+		search:"SearchQuery"
 	},
 	Session:{
 		userId:"ObjectId",

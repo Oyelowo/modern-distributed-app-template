@@ -207,7 +207,7 @@ importers:
       typescript: 4.9.3
       vite: 3.2.4_@types+node@18.11.9
 
-  app-react-web:
+  app-web:
     specifiers:
       '@emotion/react': ^11.10.5
       '@emotion/server': ^11.10.0
@@ -234,13 +234,13 @@ importers:
       '@react-spring/web': 9.5.5
       '@react-three/drei': 9.43.3
       '@react-three/fiber': 8.9.1
-      '@tabler/icons': ^1.112.0
-      '@tanstack/match-sorter-utils': ^8.5.14
+      '@tabler/icons': ^1.113.0
+      '@tanstack/match-sorter-utils': ^8.7.0
       '@tanstack/react-query': ^4.16.1
       '@tanstack/react-query-devtools': ^4.16.1
       '@tanstack/react-router': 0.0.1-beta.25
       '@tanstack/react-router-devtools': 0.0.1-beta.19
-      '@tanstack/react-table': ^8.6.0
+      '@tanstack/react-table': ^8.7.0
       '@tanstack/router-core': 0.0.1-beta.25
       '@tanstack/table-core': 8.6.0
       '@testing-library/cypress': ^8.0.7
@@ -281,20 +281,20 @@ importers:
       eslint-config-custom: ^0.0.0
       eslint-config-mantine: ^2.0.0
       eslint-plugin-import: ^2.26.0
-      eslint-plugin-jest: ^27.1.5
+      eslint-plugin-jest: ^27.1.6
       eslint-plugin-jsx-a11y: ^6.6.1
       eslint-plugin-react: ^7.31.11
       eslint-plugin-react-hooks: ^4.6.0
       eslint-plugin-storybook: ^0.6.7
       eslint-plugin-testing-library: ^5.9.1
       eslint-plugin-unused-imports: ^2.0.0
-      framer-motion: ^7.6.9
+      framer-motion: ^7.6.12
       fuse.js: ^6.6.2
       glsl-random: ^0.0.5
       immer: ^9.0.16
       jest-environment-jsdom: ^29.3.1
       jotai: ^1.10.0
-      lib-graphql: workspace:*
+      lib-graphql: workspace:1.0.0
       msw: ^0.49.0
       next-compose-plugins: ^2.2.1
       prettier: ^2.8.0
@@ -335,7 +335,7 @@ importers:
       '@react-spring/web': 9.5.5_biqbaboplfbrettd7655fr4n2y
       '@react-three/drei': 9.43.3_y4tjvd7p3bryef7m5zx7hlx3au
       '@react-three/fiber': 8.9.1_biqbaboplfbrettd7655fr4n2y
-      '@tabler/icons': 1.112.0_biqbaboplfbrettd7655fr4n2y
+      '@tabler/icons': 1.113.0_biqbaboplfbrettd7655fr4n2y
       '@tanstack/match-sorter-utils': 8.7.0
       '@tanstack/react-query': 4.16.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-router': 0.0.1-beta.25_biqbaboplfbrettd7655fr4n2y
@@ -357,7 +357,7 @@ importers:
       date-fns: 2.29.3
       dayjs: 1.11.6
       echarts: 5.4.0
-      framer-motion: 7.6.9_biqbaboplfbrettd7655fr4n2y
+      framer-motion: 7.6.12_biqbaboplfbrettd7655fr4n2y
       fuse.js: 6.6.2
       glsl-random: 0.0.5
       immer: 9.0.16
@@ -370,6 +370,7 @@ importers:
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       tabler-icons-react: 1.55.0_react@18.2.0
       three-stdlib: 2.19.0
+      ts-pattern: 4.0.6
       zod: 3.19.1
     devDependencies:
       '@faker-js/faker': 7.6.0
@@ -399,7 +400,7 @@ importers:
       eslint-config-custom: 0.0.0_hsf322ms6xhhd4b5ne6lb74y4a
       eslint-config-mantine: 2.0.0_toof45zaam5dm6a52jpkv6muca
       eslint-plugin-import: 2.26.0_eslint@8.28.0
-      eslint-plugin-jest: 27.1.5_3fzdjyb43hmtmgc37n76yql3mq
+      eslint-plugin-jest: 27.1.6_3fzdjyb43hmtmgc37n76yql3mq
       eslint-plugin-jsx-a11y: 6.6.1_eslint@8.28.0
       eslint-plugin-react: 7.31.11_eslint@8.28.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.28.0
@@ -412,7 +413,6 @@ importers:
       prettier: 2.8.0
       ts-jest: 29.0.3_typescript@4.9.3
       ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
-      ts-pattern: 4.0.6
       typescript: 4.9.3
       vite: 3.2.4_@types+node@18.11.9
 
@@ -974,8 +974,8 @@ packages:
     resolution: {integrity: sha512-Skfy0YS3NJ5nV9us0uuPN0HDk1Q4edljaOhRBJGDWs9EBa7ZVMYBHRFlhLvvmwEoaIM9BlH6QJFn9/uZg0bACg==}
     dev: false
 
-  /@floating-ui/dom/1.0.6:
-    resolution: {integrity: sha512-kt/tg1oip9OAH1xjCTcx1OpcUpu9rjDw3GKJ/rEhUqhO7QyJWfrHU0DpLTNsH67+JyFL5Kv9X1utsXwKFVtyEQ==}
+  /@floating-ui/dom/1.0.7:
+    resolution: {integrity: sha512-6RsqvCYe0AYWtsGvuWqCm7mZytnXAZCjWtsWu1Kg8dI3INvj/DbKlDsZO+mKSaQdPT12uxIW9W2dAWJkPx4Y5g==}
     dependencies:
       '@floating-ui/core': 1.0.2
     dev: false
@@ -1000,7 +1000,7 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@floating-ui/dom': 1.0.6
+      '@floating-ui/dom': 1.0.7
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
@@ -1323,7 +1323,7 @@ packages:
     dependencies:
       '@mantine/core': 5.8.3_2vc2xgx7q2ij62urx5h5ijvzqm
       '@mantine/hooks': 5.8.3_react@18.2.0
-      '@tabler/icons': 1.112.0_biqbaboplfbrettd7655fr4n2y
+      '@tabler/icons': 1.113.0_biqbaboplfbrettd7655fr4n2y
       quill-mention: 3.1.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -1813,6 +1813,21 @@ packages:
 
   /@tabler/icons/1.112.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-M1FmEXqeOUG1iZOLue1aLKEl+E3HHU1JaXb/LmZuOjOWuhHHpfQnSv+mgSmupehophq5piwSPhqnytt1Uh6oLw==}
+    peerDependencies:
+      react: ^16.x || 17.x || 18.x
+      react-dom: ^16.x || 17.x || 18.x
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@tabler/icons/1.113.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-DjxsvR/0HFHD/utQlM+q3wpl1W2n+jgEZkyfkCkc295rCoAfeXHIBfz/9ROrSHkr205Kq/M8KpQR0Nd4kjwODQ==}
     peerDependencies:
       react: ^16.x || 17.x || 18.x
       react-dom: ^16.x || 17.x || 18.x
@@ -3030,8 +3045,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /ci-info/3.6.2:
-    resolution: {integrity: sha512-lVZdhvbEudris15CLytp2u6Y0p5EKfztae9Fqa189MfNmln9F33XuH69v5fvNfiRN5/0eAUz2yJL3mo+nhaRKg==}
+  /ci-info/3.7.0:
+    resolution: {integrity: sha512-2CpRNYmImPx+RXKLq6jko/L07phmS9I02TyqkcNU20GCF/GgaWvc58hPtjxDX8lPpkdwc9sNh72V9k00S7ezog==}
     engines: {node: '>=8'}
     dev: true
 
@@ -4467,6 +4482,27 @@ packages:
       - typescript
     dev: true
 
+  /eslint-plugin-jest/27.1.6_3fzdjyb43hmtmgc37n76yql3mq:
+    resolution: {integrity: sha512-XA7RFLSrlQF9IGtAmhddkUkBuICCTuryfOTfCSWcZHiHb69OilIH05oozH2XA6CEOtztnOd0vgXyvxZodkxGjg==}
+    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^5.0.0
+      eslint: ^7.0.0 || ^8.0.0
+      jest: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+      jest:
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 5.44.0_hsf322ms6xhhd4b5ne6lb74y4a
+      '@typescript-eslint/utils': 5.44.0_hsf322ms6xhhd4b5ne6lb74y4a
+      eslint: 8.28.0
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+    dev: true
+
   /eslint-plugin-jsx-a11y/6.6.1_eslint@8.28.0:
     resolution: {integrity: sha512-sXgFVNHiWffBq23uiS/JaP6eVR622DqwB4yTzKvGZGcPq6/yZ3WmOZfuBks/vHWo9GaFOqC2ZK4i6+C35knx7Q==}
     engines: {node: '>=4.0'}
@@ -4940,6 +4976,24 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
+
+  /framer-motion/7.6.12_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Xm1jPB91v6vIr9b+V3q6c96sPzU1jWdvN+Mv4CvIAY23ZIezGNIWxWNGIWj1We0CZ8SSOQkttz8921M10TQjXg==}
+    peerDependencies:
+      react: ^18.0.0
+      react-dom: ^18.0.0
+    dependencies:
+      '@motionone/dom': 10.13.1
+      framesync: 6.1.2
+      hey-listen: 1.0.8
+      popmotion: 11.0.5
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      style-value-types: 5.1.2
+      tslib: 2.4.0
+    optionalDependencies:
+      '@emotion/is-prop-valid': 0.8.8
+    dev: false
 
   /framer-motion/7.6.9_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-byPSPOqKApmVUvbtvmFCyL09dqBNLUwkXRQMeTsawtF6YpiB54yCVzk+9YXAnoswMSgsB7CQaA6ls7e8QL+C+g==}
@@ -5465,7 +5519,7 @@ packages:
     resolution: {integrity: sha512-ZYvCgrefwqoQ6yTyYUbQu64HsITZ3NfKX1lzaEYdkTDcfKzzCI/wthRRYKkdjHKFVgNiXKAKm65Zo1pk2as/QQ==}
     hasBin: true
     dependencies:
-      ci-info: 3.6.2
+      ci-info: 3.7.0
     dev: true
 
   /is-core-module/2.11.0:
@@ -5735,7 +5789,7 @@ packages:
       '@jest/types': 29.3.1
       '@types/node': 18.11.9
       chalk: 4.1.2
-      ci-info: 3.6.2
+      ci-info: 3.7.0
       graceful-fs: 4.2.10
       picomatch: 2.3.1
     dev: true
@@ -7554,7 +7608,6 @@ packages:
 
   /ts-pattern/4.0.6:
     resolution: {integrity: sha512-sFHQYD4KoysBi7e7a2mzDPvRBeqA4w+vEyRE+P5MU9VLq8eEYxgKCgD9RNEAT+itGRWUTYN+hry94GDPLb1/Yw==}
-    dev: true
 
   /ts-toolbelt/9.6.0:
     resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}

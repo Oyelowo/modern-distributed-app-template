@@ -73,6 +73,22 @@ input PostInput {
 	content: String!
 }
 
+union SearchResult = Photo | Person
+
+type Person {
+  name: String
+  age: Int
+}
+
+type Photo {
+  height: Int
+  width: Int
+}
+
+type SearchQuery {
+  firstSearchResult: SearchResult
+}
+
 type Query {
 	me: User!
 	user(id: ObjectId!): User!
@@ -81,6 +97,7 @@ type Query {
 	session: Session!
 	post(id: ObjectId!): Post!
 	posts: [Post!]!
+	search: SearchQuery!
 }
 
 enum Role {
@@ -152,3 +169,4 @@ schema {
 	mutation: Mutation
 	subscription: Subscription
 }
+
