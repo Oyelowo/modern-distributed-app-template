@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "oyelowo",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@js-temporal/polyfill": "^0.4.3"
+  }
 }

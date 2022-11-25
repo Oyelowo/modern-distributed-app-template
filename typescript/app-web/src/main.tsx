@@ -5,6 +5,7 @@ import { router } from "./router.js";
 import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
+import { Temporal } from "@js-temporal/polyfill";
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 
@@ -32,7 +33,7 @@ function App() {
 					{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
             deferred until the first <Outlet /> is found. */}
-
+					{Temporal.Now.zonedDateTimeISO().toString()}
 					<Root />
 				</RouterProvider>
 				<TanStackRouterDevtools router={router} position="bottom-right" />

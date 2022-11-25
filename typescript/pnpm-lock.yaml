@@ -14,6 +14,7 @@ importers:
       '@faker-js/faker': ^7.6.0
       '@heroicons/react': ^2.0.13
       '@hookform/devtools': ^4.2.3
+      '@js-temporal/polyfill': ^0.4.3
       '@mantine/carousel': ^5.8.3
       '@mantine/core': ^5.8.3
       '@mantine/dates': ^5.8.3
@@ -112,6 +113,7 @@ importers:
     dependencies:
       '@emotion/react': 11.10.5_fan5qbzahqtxlm5dzefqlqx5ia
       '@heroicons/react': 2.0.13_react@18.2.0
+      '@js-temporal/polyfill': 0.4.3
       '@mantine/carousel': 5.8.3_cw452u46xj6xlcu3o5pzzo6qjy
       '@mantine/core': 5.8.3_2vc2xgx7q2ij62urx5h5ijvzqm
       '@mantine/dates': 5.8.3_3eigtt6exp4jjqcjwlaj6v2pwi
@@ -214,12 +216,12 @@ importers:
   lib-graphql:
     specifiers:
       '@graphql-typed-document-node/core': ^3.1.1
+      '@js-temporal/polyfill': ^0.4.3
       graphql-tag: ^2.12.6
       graphql-zeus: ^5.2.0
       typescript: ^4.9.3
-      zod: ^3.19.1
     dependencies:
-      zod: 3.19.1
+      '@js-temporal/polyfill': 0.4.3
     devDependencies:
       '@graphql-typed-document-node/core': 3.1.1
       graphql-tag: 2.12.6
@@ -227,7 +229,10 @@ importers:
       typescript: 4.9.3
 
   lib-ui:
-    specifiers: {}
+    specifiers:
+      '@js-temporal/polyfill': ^0.4.3
+    dependencies:
+      '@js-temporal/polyfill': 0.4.3
 
 packages:
 
@@ -937,6 +942,14 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@js-temporal/polyfill/0.4.3:
+    resolution: {integrity: sha512-6Fmjo/HlkyVCmJzAPnvtEWlcbQUSRhi8qlN9EtJA/wP7FqXsevLLrlojR44kzNzrRkpf7eDJ+z7b4xQD/Ycypw==}
+    engines: {node: '>=12'}
+    dependencies:
+      jsbi: 4.3.0
+      tslib: 2.4.1
+    dev: false
+
   /@mantine/carousel/5.8.3_cw452u46xj6xlcu3o5pzzo6qjy:
     resolution: {integrity: sha512-6OmTRf1JZ97y0Ce0WHuKavSPnl2gD6stGo93D6fvMp8+p4dL9I9N+ToHKiOjgjO33a0/KATnvgS2/DfH3RRSiQ==}
     peerDependencies:
@@ -1181,7 +1194,7 @@ packages:
       '@motionone/easing': 10.14.0
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/dom/10.13.1:
@@ -1192,14 +1205,14 @@ packages:
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
       hey-listen: 1.0.8
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/easing/10.14.0:
     resolution: {integrity: sha512-2vUBdH9uWTlRbuErhcsMmt1jvMTTqvGmn9fHq8FleFDXBlHFs5jZzHJT9iw+4kR1h6a4SZQuCf72b9ji92qNYA==}
     dependencies:
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/generators/10.14.0:
@@ -1207,7 +1220,7 @@ packages:
     dependencies:
       '@motionone/types': 10.14.0
       '@motionone/utils': 10.14.0
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/types/10.14.0:
@@ -1219,7 +1232,7 @@ packages:
     dependencies:
       '@motionone/types': 10.14.0
       hey-listen: 1.0.8
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@mswjs/cookies/0.2.2:
@@ -5584,6 +5597,10 @@ packages:
     dependencies:
       argparse: 2.0.1
     dev: true
+
+  /jsbi/4.3.0:
+    resolution: {integrity: sha512-SnZNcinB4RIcnEyZqFPdGPVgrg2AcnykiBy0sHVJQKHYeaLUvi3Exj+iaPpLnFVkDPZIV4U0yvgC9/R4uEAZ9g==}
+    dev: false
 
   /jsbn/0.1.1:
     resolution: {integrity: sha512-UVU9dibq2JcFWxQPA6KCqj5O42VOmAY3zQUfEKxU0KpTGXwNoCjkX1e13eHNvw/xPynt6pU0rZ1htjWTNTSXsg==}
