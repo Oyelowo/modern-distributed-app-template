@@ -9,5 +9,8 @@
         "noImplicitBoolean": "off"
       }
     }
+  },
+  "formatter": {
+    "ignore": ["lib-graphql/zeus"]
   }
 }
