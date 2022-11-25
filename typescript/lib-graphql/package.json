@@ -10,10 +10,12 @@
     "upgrade": "pnpm update --save"
   },
   "devDependencies": {
-    "graphql-zeus": "^5.2.0",
-    "typescript": "^4.9.3",
     "@graphql-typed-document-node/core": "^3.1.1",
-    "graphql-tag": "^2.12.6"
+    "graphql-tag": "^2.12.6",
+    "graphql-zeus": "^5.2.0",
+    "typescript": "^4.9.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "zod": "^3.19.1"
+  }
 }

@@ -3,7 +3,7 @@
 
 // import { graphic } from 'echarts/core';
 import { ECOption } from "./useChart.js";
-import taJsonData from "./TAChartData.json.js" assert { type: "json" };
+import taJsonData from "./TAChartData.json" assert { type: "json" };
 
 type Prepend<I, T extends unknown[]> = [I, ...T];
 
