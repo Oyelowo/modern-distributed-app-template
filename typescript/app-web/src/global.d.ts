@@ -11,15 +11,13 @@ declare global {
 		Intl: typeof Intl;
 	}
 
-	interface globalThis {
-		Temporal: typeof TemporalType;
-		Intl: typeof Intl;
-	}
+	// interface globalThis {
+	// 	Temporal: typeof TemporalType;
+	// 	Intl: typeof Intl;
+	// }
 
 	interface Date {
 		toTemporalInstant: typeof toTemporalInstant;
 	}
 	var Temporal: typeof TemporalType;
 }
-
-declare var __INITIAL_DATA__: string;

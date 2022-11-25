@@ -6,18 +6,12 @@ import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
 
-await import("@js-temporal/polyfill").then((a) => {
-	if (!Date.prototype.toTemporalInstant) {
-		Date.prototype.toTemporalInstant = a.toTemporalInstant;
-	}
-	if (!window.Temporal) {
-		window.Temporal = a.Temporal;
-	}
-
-	if (!window.Intl) {
-		(window as any).Intl = a.Intl;
-	}
-});
+if (!window.Temporal) {
+	const polyfill = await import("@js-temporal/polyfill");
+	Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
+	window.Temporal = polyfill.Temporal;
+	(window as any).Intl = polyfill.Intl;
+}
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 
