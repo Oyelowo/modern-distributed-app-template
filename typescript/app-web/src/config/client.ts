@@ -7,6 +7,6 @@ import { GraphQLClient } from "graphql-request";
 export const DOMAIN_BASE = `${Deno.env.get("NEXT_PUBLIC_API_URL")}/api`;
 
 export const client = new GraphQLClient(`${DOMAIN_BASE}/graphql`, {
-  credentials: "include",
-  headers: {},
+	credentials: "include",
+	headers: {},
 });

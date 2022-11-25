@@ -1,8 +1,8 @@
 import {
-    CreateUserDocument,
-    GetUserDocument,
-    GetUserQuery,
-    GetUserQueryVariables,
+	CreateUserDocument,
+	GetUserDocument,
+	GetUserQuery,
+	GetUserQueryVariables,
 } from "../lib-graphql/generated/graphql.ts";
 
 // export * from "./generated/generated.tx";
@@ -10,11 +10,18 @@ import {
 // import { useFragment } from "./src/gql/fragment-masking.ts";
 // import { CreateUserDocument, MeDocument } from "./src/gql.ts";
 // import { DocumentNode } from 'graphql'
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-export interface TypedDocumentNode<Result = {}, Variables = {}> extends DocumentNode { }
+import {
+	TypedDocumentNode as DocumentNode,
+} from "@graphql-typed-document-node/core";
+export interface TypedDocumentNode<Result = {}, Variables = {}>
+	extends DocumentNode {}
 
 import { useQuery } from "@tanstack/react-query";
-import { gql, GraphQLClient, request } from "https://esm.sh/graphql-request@5.0.0";
+import {
+	gql,
+	GraphQLClient,
+	request,
+} from "https://esm.sh/graphql-request@5.0.0";
 // import { CreateUserDocument, MeDocument } from "./src/graphql.ts";
 import fetch from "cross-fetch";
 import { createClient } from "@urql/core";
@@ -61,62 +68,67 @@ import { buildSchema, execute } from "graphql";
 // })
 
 const client = createClient({
-    url: "",
-    fetch
-})
-client.query(CreateUserDocument, { userInput: { username: "", socialMedia: [] } }).toPromise().then(a => a.data?.createUser.email)
-client.mutation(CreateUserDocument, { userInput: { socialMedia: [], username: '' } }).toPromise().then(a => a.data?.createUser.age)
+	url: "",
+	fetch,
+});
+client
+	.query(CreateUserDocument, { userInput: { username: "", socialMedia: [] } })
+	.toPromise()
+	.then((a) => a.data?.createUser.email);
+client
+	.mutation(CreateUserDocument, {
+		userInput: { socialMedia: [], username: "" },
+	})
+	.toPromise()
+	.then((a) => a.data?.createUser.age);
 
 // const kp = <T = any, V = Variables>()
 
 // GraphQLClient("", {})
 function koo() {
+	type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+		TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
 
-    type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+	const k: DocumentType<typeof CreateUserDocument> = {};
+	// const j: DocumentNode<typeof CreateUserDocument> = { }
 
-    const k: DocumentType<typeof CreateUserDocument> = {
+	const { data } = useQuery(["CreateUserDocument"], async ({ queryKey }) => {
+		const k = await request(
+			"xc",
+			CreateUserDocument,
+			// queryKey[1]
+			{ userInput: { username: "", socialMedia: [] } },
+		).then((d) => d);
 
-    }
-    // const j: DocumentNode<typeof CreateUserDocument> = { }
+		return k;
+	});
 
-    const { data } = useQuery(["CreateUserDocument"], async ({ queryKey }) => {
-        const k = await request(
-            "xc",
-            CreateUserDocument,
-            // queryKey[1]
-            { userInput: { username: "", socialMedia: [] } },
-        ).then(d => d);
+	request({
+		url: "",
+		document: GetUserDocument,
+		variables: {
+			UserBy: {
+				email: "",
+			},
+		},
+	}).then((a) => a);
 
-        return k;
-    });
+	// let k: DocumentNode<GetUserDocument>
+	request<GetUserQuery, GetUserQueryVariables>({
+		url: "",
+		document: GetUserDocument,
+		variables: {
+			UserBy: {
+				email: "",
+			},
+		},
+	}).then((a) => a.getUser.age);
 
-    request({
-        url: "",
-        document: GetUserDocument,
-        variables: {
-            UserBy: {
-                email: "",
-            },
-        },
-    }).then((a) => a);
+	const {} = useQuery(
+		["films"],
+		async () => request("xxex", CreateUserDocument, {}).then((a) => a.ant),
+		// await rxx({
 
-
-    // let k: DocumentNode<GetUserDocument>
-    request<GetUserQuery, GetUserQueryVariables>({
-        url: "",
-        document: GetUserDocument,
-        variables: {
-            UserBy: {
-                email: "",
-            },
-        },
-    }).then((a) => a.getUser.age);
-
-    const { } = useQuery(
-        ["films"],
-        async () => request("xxex", CreateUserDocument, {}).then((a) => a.ant),
-        // await rxx({
-
-        // })
-    );
+		// })
+	);
 }

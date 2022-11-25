@@ -1,18 +1,18 @@
 import { useState } from "react";
 import {
-  ActionIcon,
-  Anchor,
-  Box,
-  Button,
-  Divider,
-  Group,
-  Popover,
-  Radio,
+	ActionIcon,
+	Anchor,
+	Box,
+	Button,
+	Divider,
+	Group,
+	Popover,
+	Radio,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import {
-  Calendar as CalendarIcon,
-  Filter as FilterIcon,
+	Calendar as CalendarIcon,
+	Filter as FilterIcon,
 } from "tabler-icons-react";
 import { Column } from "@tanstack/react-table";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
@@ -20,92 +20,92 @@ import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.js";
 import { FilterSingleProps } from "../helpers.js";
 
 export const DateFilterSingle = <T extends unknown>({
-  column,
+	column,
 }: {
-  column: Column<T, unknown>;
+	column: Column<T, unknown>;
 }) => {
-  const form = useForm<FilterSingleProps<Date>>({
-    initialValues: {
-      filterValue: new Date(),
-      operator: "between",
-    },
-  });
-  const [opened, setOpened] = useState(false);
-  type InputParams = keyof typeof form.values;
+	const form = useForm<FilterSingleProps<Date>>({
+		initialValues: {
+			filterValue: new Date(),
+			operator: "between",
+		},
+	});
+	const [opened, setOpened] = useState(false);
+	type InputParams = keyof typeof form.values;
 
-  const _handleClose = () => {
-    form.reset();
-    setOpened(false);
-  };
+	const _handleClose = () => {
+		form.reset();
+		setOpened(false);
+	};
 
-  const handleClear = () => {
-    column.setFilterValue(undefined);
-    form.reset();
-    setOpened(false);
-  };
+	const handleClear = () => {
+		column.setFilterValue(undefined);
+		form.reset();
+		setOpened(false);
+	};
 
-  const handleApply = () => {
-    column.setFilterValue(form.values);
-    setOpened(false);
-  };
+	const handleApply = () => {
+		column.setFilterValue(form.values);
+		setOpened(false);
+	};
 
-  return (
-    <Popover
-      opened={opened}
-      onChange={setOpened}
-      trapFocus
-      position="bottom"
-      withArrow
-      shadow="md"
-    >
-      <Popover.Target>
-        <ActionIcon
-          variant={column.getFilterValue() ? "light" : "transparent"}
-          color={column.getFilterValue() ? "blue" : "gray"}
-          onClick={() => setOpened((o) => !o)}
-        >
-          <FilterIcon />
-        </ActionIcon>
-      </Popover.Target>
+	return (
+		<Popover
+			opened={opened}
+			onChange={setOpened}
+			trapFocus
+			position="bottom"
+			withArrow
+			shadow="md"
+		>
+			<Popover.Target>
+				<ActionIcon
+					variant={column.getFilterValue() ? "light" : "transparent"}
+					color={column.getFilterValue() ? "blue" : "gray"}
+					onClick={() => setOpened((o) => !o)}
+				>
+					<FilterIcon />
+				</ActionIcon>
+			</Popover.Target>
 
-      <Popover.Dropdown>
-        <Box sx={{ maxWidth: 500 }} mx="auto">
-          <Radio.Group
-            description="Select your option"
-            orientation="vertical"
-            size="sm"
-            {...form.getInputProps<InputParams>("operator")}
-          >
-            {operatorsValuesAndLabels.map(({ value, label }) => (
-              <Radio key={value} value={value} label={label} />
-            ))}
-          </Radio.Group>
-          <Divider my="sm" />
+			<Popover.Dropdown>
+				<Box sx={{ maxWidth: 500 }} mx="auto">
+					<Radio.Group
+						description="Select your option"
+						orientation="vertical"
+						size="sm"
+						{...form.getInputProps<InputParams>("operator")}
+					>
+						{operatorsValuesAndLabels.map(({ value, label }) => (
+							<Radio key={value} value={value} label={label} />
+						))}
+					</Radio.Group>
+					<Divider my="sm" />
 
-          {form.getInputProps<InputParams>("operator").value === "between" ? (
-            <DateRangePicker
-              label="Book hotel"
-              placeholder="Pick dates range"
-              {...form.getInputProps("filterValue")}
-              amountOfMonths={2}
-            />
-          ) : (
-            <DatePicker
-              icon={<CalendarIcon />}
-              placeholder="Pick date"
-              mb="sm"
-              allowFreeInput
-              {...form.getInputProps("filterValue")}
-            />
-          )}
-        </Box>
-        <Group position="apart">
-          <Anchor component="button" color="gray" onClick={handleClear}>
-            Clear
-          </Anchor>
-          <Button onClick={handleApply}>Apply</Button>
-        </Group>
-      </Popover.Dropdown>
-    </Popover>
-  );
+					{form.getInputProps<InputParams>("operator").value === "between" ? (
+						<DateRangePicker
+							label="Book hotel"
+							placeholder="Pick dates range"
+							{...form.getInputProps("filterValue")}
+							amountOfMonths={2}
+						/>
+					) : (
+						<DatePicker
+							icon={<CalendarIcon />}
+							placeholder="Pick date"
+							mb="sm"
+							allowFreeInput
+							{...form.getInputProps("filterValue")}
+						/>
+					)}
+				</Box>
+				<Group position="apart">
+					<Anchor component="button" color="gray" onClick={handleClear}>
+						Clear
+					</Anchor>
+					<Button onClick={handleApply}>Apply</Button>
+				</Group>
+			</Popover.Dropdown>
+		</Popover>
+	);
 };
