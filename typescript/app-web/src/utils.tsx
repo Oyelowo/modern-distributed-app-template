@@ -17,7 +17,9 @@ export async function actionDelayFn<T>(fn: (...args: any[]) => Promise<T> | T) {
 
 export function shuffle<T>(arr: T[]): T[] {
 	var i = arr.length;
-	if (i === 0) { return arr; }
+	if (i === 0) {
+		return arr;
+	}
 	const copy = [...arr];
 	while (--i) {
 		var j = Math.floor(Math.random() * (i + 1));

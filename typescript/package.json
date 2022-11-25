@@ -9,7 +9,6 @@
   "keywords": [],
   "author": "oyelowo",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "rome": "^10.0.1"
   }

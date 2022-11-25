@@ -4,6 +4,7 @@
     "ignore": ["lib-graphql/zeus"],
     "rules": {
       "correctness": {},
+      "recommended": true,
       "style": {
         "noImplicitBoolean": "off"
       }
