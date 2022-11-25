@@ -90,13 +90,13 @@ export const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
 export type RowString = {
 	rowValue: string;
 	operator:
-	| "contains"
-	| "not_contain"
-	| "starts_with"
-	| "ends_with"
-	| "equals"
-	| "not_equal"
-	| "fuzzy";
+		| "contains"
+		| "not_contain"
+		| "starts_with"
+		| "ends_with"
+		| "equals"
+		| "not_equal"
+		| "fuzzy";
 
 	filterValue: string;
 	addMeta: AddMeta;
@@ -109,20 +109,19 @@ export type RowNumber = {
 	addMeta: AddMeta;
 };
 
-
-export type TemporalInstant = InstanceType<typeof Temporal.Instant>
+export type TemporalInstant = InstanceType<typeof Temporal.Instant>;
 
 export type RowDate = {
 	rowValue: TemporalInstant;
 	operator:
-	| "between"
-	| "is_same"
-	| "is_before"
-	| "is_after"
-	| "is_not_same"
-	| "on_or_before"
-	| "on_or_after"
-	| "fuzzy";
+		| "between"
+		| "is_same"
+		| "is_before"
+		| "is_after"
+		| "is_not_same"
+		| "on_or_before"
+		| "on_or_after"
+		| "fuzzy";
 
 	filterValue: TemporalInstant | [TemporalInstant, TemporalInstant];
 	addMeta: AddMeta;

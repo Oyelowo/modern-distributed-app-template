@@ -4,7 +4,7 @@ import {
 	Intl,
 } from "@js-temporal/polyfill";
 
-export {}
+export {};
 declare global {
 	interface Window {
 		Temporal: typeof TemporalType;
