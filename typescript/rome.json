@@ -1,7 +1,7 @@
 {
   "linter": {
     "enabled": true,
-    "ignore": ["lib-graphql/zeus"],
+    "ignore": ["lib-graphql/zeus", "**/dist/**"],
     "rules": {
       "correctness": {},
       "recommended": true,
@@ -11,6 +11,6 @@
     }
   },
   "formatter": {
-    "ignore": ["lib-graphql/zeus"]
+    "ignore": ["lib-graphql/zeus", "**/dist/**"]
   }
 }

@@ -7,10 +7,11 @@ import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
 
 if (!window.Temporal) {
-	const polyfill = await import("@js-temporal/polyfill");
-	Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
-	window.Temporal = polyfill.Temporal;
-	(window as any).Intl = polyfill.Intl;
+	import("@js-temporal/polyfill").then((polyfill) => {
+		Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
+		window.Temporal = polyfill.Temporal;
+		(window as any).Intl = polyfill.Intl;
+	});
 }
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
