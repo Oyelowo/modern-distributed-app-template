@@ -7,7 +7,7 @@ import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
 
 if (!window.Temporal) {
-	import("@js-temporal/polyfill").then((polyfill) => {
+	await import("@js-temporal/polyfill").then((polyfill) => {
 		Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
 		window.Temporal = polyfill.Temporal;
 		(window as any).Intl = polyfill.Intl;
