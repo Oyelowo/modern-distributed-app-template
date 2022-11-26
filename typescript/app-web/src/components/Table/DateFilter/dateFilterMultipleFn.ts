@@ -3,16 +3,17 @@ import {
 	FilterMultipleProps,
 	filterRowByMultipleFilters,
 	RowDate,
+	TemporalInstant,
 } from "../helpers.js";
 import { filterDateRow } from "./shared.js";
 
 export const dateFilterCompoundFn: FilterFn<unknown> = (
 	row,
 	columnId,
-	filters: FilterMultipleProps<Date>[],
+	filters: FilterMultipleProps<TemporalInstant>[],
 	addMeta,
 ) => {
-	const rowValue = new Date(row.getValue<string>(columnId));
+	const rowValue = Temporal.Instant.from(row.getValue<string>(columnId));
 
 	return filterRowByMultipleFilters({
 		onFilterRowValue: ({ operator, filterValue }) =>

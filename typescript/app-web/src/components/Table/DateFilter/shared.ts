@@ -1,5 +1,5 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { match } from "ts-pattern";
+import { match, P, Pattern, isMatching } from "ts-pattern";
 
 // import isBetween from "dayjs/plugin/isBetween";
 // import dayjs from "dayjs";
@@ -89,7 +89,7 @@ export const filterDateRow = ({
 		instantToCompare: filterValue,
 	});
 
-	match(operator)
+	match(operator);
 
 	switch (operator) {
 		case "between":

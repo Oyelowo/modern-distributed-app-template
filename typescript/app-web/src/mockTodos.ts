@@ -90,7 +90,7 @@ export async function postInvoice(partialInvoice: Partial<Invoice>) {
 		const invoice = {
 			id: invoices.length + 1,
 			title:
-				partialInvoice.title ?? `New Invoice ${String(Date.now()).slice(0, 5)}`,
+				partialInvoice.title ?? `New Invoice ${String(Temporal.Now.zonedDateTimeISO().toInstant().toJSON()).slice(0, 5)}`,
 			body:
 				partialInvoice.body ??
 				shuffle(
