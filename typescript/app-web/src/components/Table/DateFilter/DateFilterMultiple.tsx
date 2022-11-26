@@ -23,6 +23,7 @@ import {
 	logicalOperators,
 	OperationInputKey,
 	Operations,
+	TemporalInstant,
 } from "../helpers.js";
 import { FilterShell } from "../FilterShell.js";
 
@@ -31,18 +32,18 @@ type Props<T> = {
 	// table: Table<T>;
 };
 
-type InputParam = OperationInputKey<Date>;
+type InputParam = OperationInputKey<TemporalInstant>;
 
 export const DateFilterMultiple = <T extends unknown>({ column }: Props<T>) => {
 	const [opened, setOpened] = useState(false);
 
-	const form = useForm<FormValuesRowFilterMultiple<Date>>({
+	const form = useForm<FormValuesRowFilterMultiple<TemporalInstant>>({
 		initialValues: {
 			operations: [
 				{
 					logical: "and",
 					operator: "between",
-					filterValue: new Date(),
+					filterValue: Temporal.Now.zonedDateTimeISO().toInstant(),
 					key: randomId(),
 				},
 			],

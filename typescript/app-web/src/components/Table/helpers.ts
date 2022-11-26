@@ -10,6 +10,7 @@ import {
 	rankItem,
 } from "@tanstack/match-sorter-utils";
 import z from "zod";
+// import type { Temporal } from "@js-temporal/polyfill";
 
 export type OperatorLogical = "and" | "or";
 export const logicalOperators: OperatorLogical[] = ["and", "or"];
@@ -108,8 +109,10 @@ export type RowNumber = {
 	addMeta: AddMeta;
 };
 
+export type TemporalInstant = InstanceType<typeof Temporal.Instant>;
+
 export type RowDate = {
-	rowValue: Date;
+	rowValue: TemporalInstant;
 	operator:
 		| "between"
 		| "is_same"
@@ -120,7 +123,7 @@ export type RowDate = {
 		| "on_or_after"
 		| "fuzzy";
 
-	filterValue: Date | [Date, Date];
+	filterValue: TemporalInstant | [TemporalInstant, TemporalInstant];
 	addMeta: AddMeta;
 };
 

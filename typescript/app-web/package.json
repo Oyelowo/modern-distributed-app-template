@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "start": "vite preview",
     "typecheck": "tsc --noEmit",
@@ -56,7 +56,6 @@
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.1.0",
     "date-fns": "^2.29.3",
-    "dayjs": "^1.11.6",
     "echarts": "^5.4.0",
     "framer-motion": "^7.6.12",
     "fuse.js": "^6.6.2",

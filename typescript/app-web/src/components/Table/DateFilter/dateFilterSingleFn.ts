@@ -1,18 +1,18 @@
 import { FilterFn } from "@tanstack/react-table";
-import { FilterSingleProps } from "../helpers.js";
+import { FilterSingleProps, TemporalInstant } from "../helpers.js";
 import { filterDateRow } from "./shared.js";
 
 export const dateFilterSimpleFn: FilterFn<unknown> = (
 	row,
 	columnId,
-	filter: FilterSingleProps<Date>,
+	filter: FilterSingleProps<TemporalInstant>,
 	addMeta,
 ) => {
 	const { operator = "between", filterValue } = filter;
-	if (!row.getValue<Date>(columnId)) {
+	if (!row.getValue<TemporalInstant>(columnId)) {
 		throw new Error("Row does not exist");
 	}
-	const rowValue = new Date(row.getValue<Date>(columnId));
+	const rowValue = row.getValue<TemporalInstant>(columnId);
 
 	return filterDateRow({
 		rowValue,

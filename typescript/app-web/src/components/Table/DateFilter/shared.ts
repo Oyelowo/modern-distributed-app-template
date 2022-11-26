@@ -1,31 +1,36 @@
 import { rankItem } from "@tanstack/match-sorter-utils";
-import isBetween from "dayjs/plugin/isBetween";
-import dayjs from "dayjs";
-import { RowDate } from "../helpers.js";
+import { RowDate, TemporalInstant } from "../helpers.js";
 
-dayjs.extend(isBetween);
-// declare module 'dayjs' {
-//     //  isBetween(a: number) : boolean
-//   isBetween(option: unknown, c: typeof dayjs.Dayjs, d: typeof dayjs)=> void
-// // }
-// declare namespace dayjs {
-//   interface ConfigTypeMap {
-//     default: string | number | Date | Dayjs | null | undefined
-//   }
+const isSameInstant = ({
+	instant,
+	instantToCompare,
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
+	Temporal.Instant.compare(instant, instantToCompare) === 0;
+const isAfterInstant = ({
+	instant,
+	instantToCompare,
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
+	Temporal.Instant.compare(instant, instantToCompare) >= 0;
+const isBeforeInstant = ({
+	instant,
+	instantToCompare,
+}: { instant: TemporalInstant; instantToCompare: TemporalInstant }) =>
+	Temporal.Instant.compare(instant, instantToCompare) <= 0;
 
-//   export type ConfigType = ConfigTypeMap[keyof ConfigTypeMap]
-//   export interface FormatObject { locale?: string, format?: string, utc?: boolean }
-
-//   export type OptionType = FormatObject | string | string[]
-//   //  isBetween(a: number) : boolean
-//   // isBetween(option: unknown, c: typeof dayjs.Dayjs, d: typeof dayjs)=> void
-//   class Dayjs {
-
-//     constructor(config?: ConfigType) { }
-
-//     isAfter(date: ConfigType, unit?: OpUnitType): boolean
-//   }
-// }
+function isBetweenInstant(
+	instant: TemporalInstant,
+	{ minInstant, maxInstant }: {
+		minInstant: TemporalInstant;
+		maxInstant: TemporalInstant;
+	},
+) {
+	const isAfterMin = isAfterInstant({ instant, instantToCompare: minInstant });
+	const isBeforeMax = isBeforeInstant({
+		instant,
+		instantToCompare: maxInstant,
+	});
+	return isAfterMin && isBeforeMax;
+}
 
 export const filterDateRow = ({
 	rowValue,
@@ -37,25 +42,24 @@ export const filterDateRow = ({
 		return true;
 	}
 
-	const rowValueDayjs = dayjs(rowValue);
-
 	// if it's a date range
 	if (Array.isArray(filterValue)) {
-		const [minDate, maxDate] = filterValue;
-		// Parameter 4 is a string with two characters; '[' means inclusive, '(' exclusive
-		// '()' excludes start and end date (default)
-		// '[]' includes start and end date
-		// '[)' includes the start date but excludes the stop
-		// Granuality offers the precision on start and end inclusive checks.
-		// For example including the start date on day precision you should use 'day' as 3rd parameter.
-		// TODO: Figure out how to work with this type
-		return (rowValueDayjs as any).isBetween(minDate, maxDate, "day", "[]");
+		const [minInstant, maxInstant] = filterValue;
+		return isBetweenInstant(rowValue, { minInstant, maxInstant });
 	}
 
-	const singleSearchFilterValue = dayjs(filterValue);
-	const isSameDay = rowValueDayjs.isSame(singleSearchFilterValue, "day");
-	const isAfter = rowValueDayjs.isAfter(singleSearchFilterValue);
-	const isBefore = rowValueDayjs.isBefore(singleSearchFilterValue);
+	const isSameDay = isSameInstant({
+		instant: rowValue,
+		instantToCompare: filterValue,
+	});
+	const isAfter = isAfterInstant({
+		instant: rowValue,
+		instantToCompare: filterValue,
+	});
+	const isBefore = isBeforeInstant({
+		instant: rowValue,
+		instantToCompare: filterValue,
+	});
 
 	switch (operator) {
 		case "between":
@@ -80,7 +84,7 @@ export const filterDateRow = ({
 
 		default: {
 			// Rank the item
-			const itemRank = rankItem(rowValue, String(singleSearchFilterValue));
+			const itemRank = rankItem(rowValue, String(filterValue));
 
 			// Store the itemRank info
 			addMeta({

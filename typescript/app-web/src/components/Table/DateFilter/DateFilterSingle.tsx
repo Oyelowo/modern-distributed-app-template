@@ -17,16 +17,16 @@ import {
 import { Column } from "@tanstack/react-table";
 import { DatePicker, DateRangePicker } from "@mantine/dates";
 import { operatorsValuesAndLabels } from "./dateFilterMultipleFn.js";
-import { FilterSingleProps } from "../helpers.js";
+import { FilterSingleProps, TemporalInstant } from "../helpers.js";
 
 export const DateFilterSingle = <T extends unknown>({
 	column,
 }: {
 	column: Column<T, unknown>;
 }) => {
-	const form = useForm<FilterSingleProps<Date>>({
+	const form = useForm<FilterSingleProps<TemporalInstant>>({
 		initialValues: {
-			filterValue: new Date(),
+			filterValue: Temporal.Now.zonedDateTimeISO().toInstant(),
 			operator: "between",
 		},
 	});
