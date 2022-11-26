@@ -50,11 +50,9 @@ multimap = { workspace = true }
 lru = { workspace = true }
 
 [dev-dependencies]
-surf = { workspace = true }
 reqwest = { workspace = true }
 tokio = { workspace = true }
-cargo-watch = { workspace = true }
-isahc = { workspace = true }
+
 env_logger = { workspace = true }
 tokio-test = { workspace = true }
 pretty_assertions = { workspace = true }

@@ -71,8 +71,6 @@ futures = { workspace = true }
 # # Required for wellknown types
 # prost-types = { workspace = true }
 # # Hyper example
-# http = { workspace = true }
-# http-body = { workspace = true }
 # hyper = { workspace = true }
 # pin-project = { workspace = true }
 # warp = { workspace = true }
