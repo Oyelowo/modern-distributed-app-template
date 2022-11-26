@@ -70,7 +70,6 @@ importers:
       d3-scale: ^4.0.2
       d3-shape: ^3.1.0
       date-fns: ^2.29.3
-      dayjs: ^1.11.6
       echarts: ^5.4.0
       framer-motion: ^7.6.12
       fuse.js: ^6.6.2
@@ -99,7 +98,7 @@ importers:
       '@js-temporal/polyfill': 0.4.3
       '@mantine/carousel': 5.8.3_cw452u46xj6xlcu3o5pzzo6qjy
       '@mantine/core': 5.8.3_2vc2xgx7q2ij62urx5h5ijvzqm
-      '@mantine/dates': 5.8.3_3eigtt6exp4jjqcjwlaj6v2pwi
+      '@mantine/dates': 5.8.3_cw452u46xj6xlcu3o5pzzo6qjy
       '@mantine/dropzone': 5.8.3_gtqqcbkbecpo5mfxa3iuc57uvi
       '@mantine/form': 5.8.3_react@18.2.0
       '@mantine/hooks': 5.8.3_react@18.2.0
@@ -135,7 +134,6 @@ importers:
       d3-scale: 4.0.2
       d3-shape: 3.1.0
       date-fns: 2.29.3
-      dayjs: 1.11.6
       echarts: 5.4.0
       framer-motion: 7.6.12_biqbaboplfbrettd7655fr4n2y
       fuse.js: 6.6.2
@@ -909,7 +907,7 @@ packages:
       - '@types/react'
     dev: false
 
-  /@mantine/dates/5.8.3_3eigtt6exp4jjqcjwlaj6v2pwi:
+  /@mantine/dates/5.8.3_cw452u46xj6xlcu3o5pzzo6qjy:
     resolution: {integrity: sha512-Dw8XRRGjIj3Zuo28T9c/SY+0+l8t7TsWZfHHXuWgLEohkVxPTqh8l0jjk4ZULM4ieusY3Ga1dr/Iaq+gAm4h/A==}
     peerDependencies:
       '@mantine/core': 5.8.3
@@ -920,7 +918,6 @@ packages:
       '@mantine/core': 5.8.3_2vc2xgx7q2ij62urx5h5ijvzqm
       '@mantine/hooks': 5.8.3_react@18.2.0
       '@mantine/utils': 5.8.3_react@18.2.0
-      dayjs: 1.11.6
       react: 18.2.0
     dev: false
 
@@ -3044,6 +3041,7 @@ packages:
 
   /dayjs/1.11.6:
     resolution: {integrity: sha512-zZbY5giJAinCG+7AGaw0wIhNZ6J8AhWuSXKvuc1KAyMiRsvGQWqh4L+MomvhdAYjN+lqvVCMq1I41e3YHvXkyQ==}
+    dev: true
 
   /debounce/1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}

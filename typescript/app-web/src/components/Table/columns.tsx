@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { Person } from "./makeData.js";
-import { fuzzySort } from "./helpers.js";
+import { fuzzySort, TemporalInstant } from "./helpers.js";
 import { getFilterFn } from "./ColumFilter.js";
 
 export function useColumns() {
@@ -40,8 +39,7 @@ export function useColumns() {
 				accessorKey: "dateOfBirth",
 				header: () => " DOB",
 				footer: (props) => props.column.id,
-				cell: (info) => info.getValue<Date>().toTemporalInstant().toString(),
-				// cell: (info) => dayjs(info.getValue<Date>()).format("DD/MM/YYYY"),
+				cell: (info) => info.getValue<TemporalInstant>().toString(),
 				...getFilterFn("date_multiple"),
 			},
 			{
@@ -75,7 +73,7 @@ export function useColumns() {
 				accessorKey: "createdAt",
 				header: () => "Created At",
 				footer: (props) => props.column.id,
-				cell: (info) => dayjs(info.getValue<Date>()).format("DD/MM/YYYY"),
+				cell: (info) => info.getValue<TemporalInstant>().toString(),
 				...getFilterFn("date_single"),
 			},
 
