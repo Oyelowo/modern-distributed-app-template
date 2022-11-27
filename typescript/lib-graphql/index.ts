@@ -4,17 +4,18 @@ import { Temporal } from "@js-temporal/polyfill";
 
 export class Uuid {
 	private constructor(private uuid_str: string) {}
-	static fromString = (str: string) => {
+	static fromString = (str: string): Uuid => {
+		// Add uuild validation
 		return new Uuid(str);
 	};
 
-	toString = () => {
+	toString = (): string => {
 		return new Uuid(this.uuid_str).uuid_str;
 	};
 }
 
 // TODO: Use proper encoding/decoding
-export const scalarsCustom = ZeusScalars({
+const scalarsCustom = ZeusScalars({
 	UUID: {
 		encode: (e: Uuid) => e.toString(),
 		decode: (e: string) => Uuid.fromString(e),
