@@ -26,9 +26,11 @@ export const scalarsCustom = ZeusScalars({
 });
 
 const chain = Chain("http://localhost:8000");
-const query = chain("query");
-export const mutation = chain("mutation", { scalars: scalarsCustom });
-export const subscription = chain("subscription", { scalars: scalarsCustom });
+
+const options = { scalars: scalarsCustom };
+const query = chain("query", options);
+const mutation = chain("mutation", options);
+const subscription = chain("subscription", options);
 
 export const graphqlApi = {
 	query,

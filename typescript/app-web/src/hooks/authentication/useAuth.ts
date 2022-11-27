@@ -4,12 +4,10 @@ import {
 	GraphqlErrorResponse,
 	mapReactQueryResultToImpossibleStates,
 } from "./helpers.js";
-import { $, Chain, scalarsCustom, Uuid } from "lib-graphql";
+import { graphqlApi } from "lib-graphql";
 import { match, P } from "ts-pattern";
 
-const chain = Chain("localhost:8000");
-
-const createUserQuery = chain("mutation")({
+const createUserQuery = graphqlApi.mutation({
 	createUser: [
 		{
 			userInput: {
@@ -43,15 +41,11 @@ export interface UseSessionProps {
 	// queryConfig?: UseQueryOptions<SessionQuery, unknown, Partial<SessionQuery>>;
 }
 
-function gex(params: Uuid) {}
-
 export function useAuth() {
 	const { data: xx } = useQuery(
 		["er"],
 		async () =>
-			await chain("query", {
-				scalars: scalarsCustom,
-			})({
+			await graphqlApi.query({
 				session: {
 					expiresAt: true,
 					userId: true,
