@@ -37,3 +37,9 @@ test:
 	(cd kubernetes && make test)
 	(cd rust && make test)
 	(cd typescript && make test)
+
+increase-rancher-desktop-disk-size-mac:
+	echo 'disk: "200GiB"' > ~/Library/Application\ Support/rancher-desktop/lima/_config/override.yaml
+
+delete-current-vm-rancher-desktop-mac:
+	rm -rf ~/Library/Application\ Support/rancher-desktop/lima/0

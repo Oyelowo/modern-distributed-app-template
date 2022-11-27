@@ -1,4 +1,4 @@
-[project]
+[package]
 name = "app-grpc-surrealdb"
 version = { workspace = true }
 edition = { workspace = true }
@@ -13,7 +13,7 @@ documentation = { workspace = true }
 lib-common = { workspace = true }
 lib-my-macros = { workspace = true }
 surrealdb = { workspace = true }
-surrealdb-rs = { workspace = true }
+# surrealdb-rs = { workspace = true }
 tonic = { workspace = true }
 # tonic = { workspace = true }
 log = { workspace = true }

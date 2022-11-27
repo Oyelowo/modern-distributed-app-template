@@ -1,4 +1,4 @@
-import { ZeusScalars } from "./zeus/index.js";
+import { Chain, chainOptions, ZeusScalars } from "./zeus/index.js";
 export * from "./zeus/index.js";
 import { Temporal } from "@js-temporal/polyfill";
 
@@ -24,3 +24,14 @@ export const scalarsCustom = ZeusScalars({
 		decode: (e: string) => Temporal.Instant.from(e),
 	},
 });
+
+const chain = Chain("http://localhost:8000");
+const query = chain("query");
+export const mutation = chain("mutation", { scalars: scalarsCustom });
+export const subscription = chain("subscription", { scalars: scalarsCustom });
+
+export const graphqlApi = {
+	query,
+	mutation,
+	subscription,
+};

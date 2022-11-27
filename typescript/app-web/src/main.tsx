@@ -5,7 +5,10 @@ import { router } from "./router.js";
 import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
-
+import {
+	QueryClient,
+	QueryClientProvider,
+} from "@tanstack/react-query";
 if (!window.Temporal) {
 	await import("@js-temporal/polyfill").then((polyfill) => {
 		Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
@@ -15,6 +18,7 @@ if (!window.Temporal) {
 }
 
 const colorSchemeAtom = atom<"light" | "dark">("dark");
+const queryClient = new QueryClient();
 
 function App() {
 	const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
@@ -37,11 +41,13 @@ function App() {
 				</Avatar>
 
 				<RouterProvider router={router}>
-					{/* Normally <Router /> acts as it's own outlet,
+					<QueryClientProvider client={queryClient}>
+						{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
             deferred until the first <Outlet /> is found. */}
-					{Temporal.Now.zonedDateTimeISO().toString()}
-					<Root />
+						{Temporal.Now.zonedDateTimeISO().toString()}
+						<Root />
+					</QueryClientProvider>
 				</RouterProvider>
 				<TanStackRouterDevtools router={router} position="bottom-right" />
 			</MantineProvider>
