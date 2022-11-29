@@ -10,3 +10,4 @@ documentation = { workspace = true }
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [build-dependencies]
 app-graphql-surrealdb = { path = "../app-graphql-surrealdb"}
+lib-common = { workspace = true }

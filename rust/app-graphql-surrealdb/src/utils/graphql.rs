@@ -105,8 +105,3 @@ pub fn setup_graphql(db: Arc<Datastore>, environment: &Environment) -> MyGraphQL
         .limit_complexity(limit_complexity)
         .finish()
 }
-
-pub fn generate_schema(path: impl AsRef<Path>) {
-    let data = &get_my_graphql_schema().finish().sdl();
-    utils::write_data_to_path(data, path);
-}
