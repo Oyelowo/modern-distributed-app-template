@@ -9,7 +9,7 @@ type AccountOauth {
 	email: String
 	emailVerified: Boolean!
 	provider: OauthProvider!
-	providerAccountId: OauthProvider!
+	# providerAccountId: OauthProvider!
 	accessToken: String!
 	refreshToken: String
 	"""
