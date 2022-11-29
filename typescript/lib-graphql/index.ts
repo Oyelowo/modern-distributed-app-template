@@ -31,7 +31,7 @@ const chain = Chain("http://localhost:8000");
 const options = { scalars: scalarsCustom };
 const query = chain("query", options);
 const mutation = chain("mutation", options);
-const subscription = chain("subscription", options);
+    const subscription = chain("subscription", options);
 
 export const graphqlApi = {
 	query,
