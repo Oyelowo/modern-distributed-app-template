@@ -11,7 +11,7 @@ sync:
 	make install
 	# Only cd for this subshell. Dont affect the following after this
 	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
-	(cd ../rust && make sync)
+	# (cd ../rust && make sync)
 	pnpm --filter "*" generate
 
 dev:
