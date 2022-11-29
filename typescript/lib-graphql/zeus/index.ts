@@ -836,7 +836,6 @@ export type ValueTypes = {
 	email?:boolean | `@${string}`,
 	emailVerified?:boolean | `@${string}`,
 	provider?:boolean | `@${string}`,
-	providerAccountId?:boolean | `@${string}`,
 	accessToken?:boolean | `@${string}`,
 	refreshToken?:boolean | `@${string}`,
 	/** access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
@@ -961,7 +960,6 @@ export type ResolverInputTypes = {
 	email?:boolean | `@${string}`,
 	emailVerified?:boolean | `@${string}`,
 	provider?:boolean | `@${string}`,
-	providerAccountId?:boolean | `@${string}`,
 	accessToken?:boolean | `@${string}`,
 	refreshToken?:boolean | `@${string}`,
 	/** access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
@@ -1086,7 +1084,6 @@ export type ModelTypes = {
 	email?: string | undefined,
 	emailVerified: boolean,
 	provider: ModelTypes["OauthProvider"],
-	providerAccountId: ModelTypes["OauthProvider"],
 	accessToken: string,
 	refreshToken?: string | undefined,
 	/** access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
@@ -1198,7 +1195,8 @@ entities without requiring a central allocating authority.
     }
 
 export type GraphQLTypes = {
-    ["AccountOauth"]: {
+    // providerAccountId: OauthProvider!;
+	["AccountOauth"]: {
 	__typename: "AccountOauth",
 	/** unique identifier for the oauth provider. Don't use name of user because that could be changed */
 	id: string,
@@ -1206,7 +1204,6 @@ export type GraphQLTypes = {
 	email?: string | undefined,
 	emailVerified: boolean,
 	provider: GraphQLTypes["OauthProvider"],
-	providerAccountId: GraphQLTypes["OauthProvider"],
 	accessToken: string,
 	refreshToken?: string | undefined,
 	/** access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC). */
