@@ -9,8 +9,6 @@ upgrade:
 
 sync:
 	make install
-	# Only cd for this subshell. Dont affect the following after this
-	# Typescript needs generated graphql schema from rust code. Keep it up-to-date
 	pnpm --filter "*" generate
 
 dev:
