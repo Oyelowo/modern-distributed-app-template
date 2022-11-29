@@ -5,8 +5,8 @@
   "types": "./index.ts",
   "private": true,
   "scripts": {
-    "xgenerate": "pnpm zeus ./generated/schema.graphql ./ --es",
-    "generate": "pnpm zeus ../../rust/app-graphql-surrealdb/generated/schema.graphql ./ --es",
+    "generate": "pnpm zeus ./generated/schema.graphql ./ --es",
+    "xgenerate": "pnpm zeus ../../rust/app-graphql-surrealdb/generated/schema.graphql ./ --es",
     "generate:full": "pnpm zeus ../../rust/app-graphql-surrealdb/generated/schema.graphql ./ --es  --typedDocumentNode --reactQuery --jsonSchema",
     "upgrade": "pnpm update --save"
   },
