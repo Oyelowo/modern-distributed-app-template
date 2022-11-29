@@ -59,6 +59,7 @@ export const ReturnTypes: Record<string,any> = {
 		email:"String",
 		emailVerified:"Boolean",
 		provider:"OauthProvider",
+		providerAccountId:"OauthProvider",
 		accessToken:"String",
 		refreshToken:"String",
 		expiresAt:"DateTime",
