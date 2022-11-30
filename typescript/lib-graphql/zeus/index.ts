@@ -826,7 +826,7 @@ export type ScalarCoders = {
 	DateTime?: ScalarResolver;
 	UUID?: ScalarResolver;
 }
-type ZEUS_UNIONS = never
+type ZEUS_UNIONS = GraphQLTypes["UserResult"]
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -880,7 +880,7 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	content: string | Variable<any, string>
 };
 	["Query"]: AliasType<{
-	me?:ValueTypes["User"],
+	me?:ValueTypes["UserResult"],
 user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["User"]],
 getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["User"]],
 	users?:ValueTypes["User"],
@@ -950,7 +950,17 @@ entities without requiring a central allocating authority.
 	email?: string | undefined | null | Variable<any, string>,
 	age?: number | undefined | null | Variable<any, string>,
 	socialMedia: Array<string> | Variable<any, string>
-}
+};
+	["UserNotFoundError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		__typename?: boolean | `@${string}`
+}>
   }
 
 export type ResolverInputTypes = {
@@ -1005,7 +1015,7 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	content: string
 };
 	["Query"]: AliasType<{
-	me?:ResolverInputTypes["User"],
+	me?:ResolverInputTypes["UserResult"],
 user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["User"]],
 getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["User"]],
 	users?:ResolverInputTypes["User"],
@@ -1075,7 +1085,18 @@ entities without requiring a central allocating authority.
 	email?: string | undefined | null,
 	age?: number | undefined | null,
 	socialMedia: Array<string>
-}
+};
+	["UserNotFoundError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserResult"]: AliasType<{
+	User?:ResolverInputTypes["User"],
+	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+		__typename?: boolean | `@${string}`
+}>
   }
 
 export type ModelTypes = {
@@ -1129,7 +1150,7 @@ Currently like this because of future developments */
 	content: string
 };
 	["Query"]: {
-		me: ModelTypes["User"],
+		me: ModelTypes["UserResult"],
 	user: ModelTypes["User"],
 	getUser: ModelTypes["User"],
 	users: Array<ModelTypes["User"]>,
@@ -1194,7 +1215,13 @@ entities without requiring a central allocating authority.
 	email?: string | undefined,
 	age?: number | undefined,
 	socialMedia: Array<string>
-}
+};
+	["UserNotFoundError"]: {
+		title: string,
+	message: string,
+	solution: string
+};
+	["UserResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"]
     }
 
 export type GraphQLTypes = {
@@ -1252,7 +1279,7 @@ Currently like this because of future developments */
 };
 	["Query"]: {
 	__typename: "Query",
-	me: GraphQLTypes["User"],
+	me: GraphQLTypes["UserResult"],
 	user: GraphQLTypes["User"],
 	getUser: GraphQLTypes["User"],
 	users: Array<GraphQLTypes["User"]>,
@@ -1321,6 +1348,17 @@ entities without requiring a central allocating authority.
 	email?: string | undefined,
 	age?: number | undefined,
 	socialMedia: Array<string>
+};
+	["UserNotFoundError"]: {
+	__typename: "UserNotFoundError",
+	title: string,
+	message: string,
+	solution: string
+};
+	["UserResult"]:{
+        	__typename:"User" | "UserNotFoundError"
+        	['...on User']: '__union' & GraphQLTypes["User"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
 }
     }
 export const enum OauthProvider {

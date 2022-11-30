@@ -7,6 +7,42 @@ import {
 import { graphqlApi } from "lib-graphql";
 import { match, P } from "ts-pattern";
 
+
+const xx = graphqlApi.query({
+	me: {
+		__typename: true,
+		"...on User": {
+			id: true,
+			username: true,
+			firstName: true,
+			emailVerified: true,
+			email: true
+		},
+		"...on UserNotFoundError": {
+			title: true,
+			message: true,
+			solution: true
+		}
+	}
+}).then(d => {
+	const xx = match(d.me)
+		.with({ __typename: "User" }, (x) => ({ new: x.emailVerified }))
+		.with({ __typename: "UserNotFoundError" }, (x) => ({ new: x.title }))
+		.exhaustive()
+
+
+	if (d.me.__typename === "UserNotFoundError") {
+		d.me.title
+	} else {
+		d.me.username
+	}
+
+	if (d.me.__typename === "User") {
+		d.me.emailVerified
+	}
+
+})
+
 const createUserQuery = graphqlApi.mutation({
 	createUser: [
 		{
@@ -78,12 +114,12 @@ export function useAuth() {
 
 type Auth =
 	| {
-			status: "loggedIn";
-			username: string;
-	  }
+		status: "loggedIn";
+		username: string;
+	}
 	| {
-			status: "loggedOut";
-	  };
+		status: "loggedOut";
+	};
 
 const textAtom = atom<Auth>({ status: "loggedOut" });
 

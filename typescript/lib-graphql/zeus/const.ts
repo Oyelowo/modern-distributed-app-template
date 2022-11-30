@@ -85,7 +85,7 @@ export const ReturnTypes: Record<string,any> = {
 		poster:"User"
 	},
 	Query:{
-		me:"User",
+		me:"UserResult",
 		user:"User",
 		getUser:"User",
 		users:"User",
@@ -120,6 +120,15 @@ export const ReturnTypes: Record<string,any> = {
 		accounts:"AccountOauth",
 		posts:"Post",
 		postCount:"Int"
+	},
+	UserNotFoundError:{
+		title:"String",
+		message:"String",
+		solution:"String"
+	},
+	UserResult:{
+		"...on User":"User",
+		"...on UserNotFoundError":"UserNotFoundError"
 	}
 }
 

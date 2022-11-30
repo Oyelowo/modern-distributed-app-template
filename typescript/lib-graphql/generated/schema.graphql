@@ -72,7 +72,7 @@ input PostInput {
 }
 
 type Query {
-	me: User!
+	me: UserResult!
 	user(id: UUID!): User!
 	getUser(userBy: UserBy!): User!
 	users: [User!]!
@@ -156,6 +156,14 @@ input UserInput {
 	age: Int
 	socialMedia: [String!]!
 }
+
+type UserNotFoundError {
+	title: String!
+	message: String!
+	solution: String!
+}
+
+union UserResult = User | UserNotFoundError
 
 schema {
 	query: Query

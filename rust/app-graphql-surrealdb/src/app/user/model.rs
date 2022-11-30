@@ -11,6 +11,37 @@ use surrealdb::Datastore;
 use typed_builder::TypedBuilder;
 use validator::Validate;
 
+#[derive(SimpleObject, Serialize, Deserialize)]
+#[graphql(complex)]
+pub struct UserNotFoundError {
+    title: String,
+    message: String,
+    solution: String,
+}
+
+// #[Object]
+#[ComplexObject]
+impl UserNotFoundError {}
+
+#[derive(Interface)]
+#[graphql(
+    field(name = "title", type = "String"),
+    field(name = "message", type = "String"),
+    field(name = "solution", type = "String")
+)]
+enum UserBaseError {
+    UserNotFoundError(UserNotFoundError),
+    // Square(Square),
+}
+
+
+#[derive(Union)]
+pub enum UserResult {
+    User(Box<User>),
+    UserNotFoundError(UserNotFoundError),
+    // UserBaseError(UserBaseError)
+}
+
 #[derive(
     SimpleObject, InputObject, Serialize, Deserialize, TypedBuilder, Validate, Debug, FieldsGetter,
 )]

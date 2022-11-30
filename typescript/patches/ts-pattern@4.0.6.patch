@@ -1,0 +1,172 @@
+diff --git a/dist/index.d.ts b/dist/index.d.ts
+index ffe7bcd7a060b4d9ee064f4ae3d98d13a5f35533..fed20049f13eeb308945637968053474f6ab119a 100644
+--- a/dist/index.d.ts
++++ b/dist/index.d.ts
+@@ -1,4 +1,4 @@
+-import * as Pattern from './patterns';
+-export { match } from './match';
+-export { isMatching } from './is-matching';
++import * as Pattern from './patterns.js';
++export { match } from './match.js';
++export { isMatching } from './is-matching.js';
+ export { Pattern, Pattern as P };
+diff --git a/dist/is-matching.d.ts b/dist/is-matching.d.ts
+index 3d2390e9f998d71968ac9792ec42cc0ac7ce2c05..5ec40c4ed60f802c6dddb16e86aee30e9d4ecf24 100644
+--- a/dist/is-matching.d.ts
++++ b/dist/is-matching.d.ts
+@@ -1,6 +1,6 @@
+-import { Pattern } from './types/Pattern';
+-import { MatchedValue } from './types/Match';
+-import * as P from './patterns';
++import { Pattern } from './types/Pattern.js';
++import { MatchedValue } from './types/Match.js';
++import * as P from './patterns.js';
+ /**
+  * `isMatching` takes pattern and returns a **type guard** function, cheching if a value matches this pattern.
+  *
+diff --git a/dist/match.d.ts b/dist/match.d.ts
+index 3ea6294ddeb1fb1a88348ffe1b7c07ebbc5de00a..31636bfc629466fa284424d61e6a0937fe76ca79 100644
+--- a/dist/match.d.ts
++++ b/dist/match.d.ts
+@@ -1,5 +1,5 @@
+-import { Match } from './types/Match';
+-import * as symbols from './internals/symbols';
++import { Match } from './types/Match.js';
++import * as symbols from './internals/symbols.js';
+ /**
+  * `match` creates a **pattern matching expression**.
+  *
+diff --git a/dist/patterns.d.ts b/dist/patterns.d.ts
+index 86300a77f7bb83c6295e70986182b31fc1d6f4d3..98e0fa3f1c616143fe881bfbea0aa085a9aeefa8 100644
+--- a/dist/patterns.d.ts
++++ b/dist/patterns.d.ts
+@@ -1,7 +1,7 @@
+-import * as symbols from './internals/symbols';
+-import { GuardFunction } from './types/helpers';
+-import { InvertPattern } from './types/InvertPattern';
+-import { Pattern, UnknownPattern, OptionalP, ArrayP, AndP, OrP, NotP, GuardP, SelectP, AnonymousSelectP, GuardExcludeP } from './types/Pattern';
++import * as symbols from './internals/symbols.js';
++import { GuardFunction } from './types/helpers.js';
++import { InvertPattern } from './types/InvertPattern.js';
++import { Pattern, UnknownPattern, OptionalP, ArrayP, AndP, OrP, NotP, GuardP, SelectP, AnonymousSelectP, GuardExcludeP } from './types/Pattern.js';
+ export { Pattern };
+ /**
+  * `P.infer<typeof somePattern>` will return the type of the value
+diff --git a/dist/types/BuildMany.d.ts b/dist/types/BuildMany.d.ts
+index 99e40eaca7ba43571330c2806f2a2b68b0831ebb..1677897527a520d8d8b5a48773147691200b11e8 100644
+--- a/dist/types/BuildMany.d.ts
++++ b/dist/types/BuildMany.d.ts
+@@ -1,4 +1,4 @@
+-import { Cast, Compute, Iterator, UpdateAt } from './helpers';
++import { Cast, Compute, Iterator, UpdateAt } from './helpers.js';
+ export declare type BuildMany<data, xs extends any[]> = xs extends any ? BuildOne<data, xs> : never;
+ declare type BuildOne<data, xs extends any[]> = xs extends [
+     [
+diff --git a/dist/types/DeepExclude.d.ts b/dist/types/DeepExclude.d.ts
+index 217468cf0356f7b0cfa9091f2e69aa28b184de62..c3dbaf02ab88d63d081587cd52411ad102bf9642 100644
+--- a/dist/types/DeepExclude.d.ts
++++ b/dist/types/DeepExclude.d.ts
+@@ -1,2 +1,2 @@
+-import { DistributeMatchingUnions } from './DistributeUnions';
++import { DistributeMatchingUnions } from './DistributeUnions.js';
+ export declare type DeepExclude<a, b> = Exclude<DistributeMatchingUnions<a, b>, b>;
+diff --git a/dist/types/DistributeUnions.d.ts b/dist/types/DistributeUnions.d.ts
+index 6538d6b173c019b7bffe285d459a8bb7a6149d37..5544e2aa142d3addc47f151d7883accbf1a15b01 100644
+--- a/dist/types/DistributeUnions.d.ts
++++ b/dist/types/DistributeUnions.d.ts
+@@ -1,6 +1,6 @@
+-import { BuildMany } from './BuildMany';
++import { BuildMany } from './BuildMany.js';
+ import type { IsAny, Cast, Values, Flatten, IsUnion, IsPlainObject, Length, UnionToTuple } from './helpers';
+-import { IsMatching } from './IsMatching';
++import { IsMatching } from './IsMatching.js';
+ /**
+  * DistributeMatchingUnions takes two arguments:
+  * - a data structure of type `a` containing unions
+diff --git a/dist/types/ExtractPreciseValue.d.ts b/dist/types/ExtractPreciseValue.d.ts
+index e23a42acff87a43ac0b520b730a8225170ae482f..d76b41f12ed59cf8fbd430fe9bffb68ad606622b 100644
+--- a/dist/types/ExtractPreciseValue.d.ts
++++ b/dist/types/ExtractPreciseValue.d.ts
+@@ -1,6 +1,6 @@
+-import type { ToExclude } from './Pattern';
++import type { ToExclude } from './Pattern.js';
+ import type { BuiltInObjects, Compute, ExcludeObjectIfContainsNever, IsAny, IsPlainObject, LeastUpperBound } from './helpers';
+-import { DeepExclude } from './DeepExclude';
++import { DeepExclude } from './DeepExclude.js';
+ export declare type ExtractPreciseValue<a, b> = unknown extends b ? a : IsAny<a> extends true ? b : b extends readonly [] ? [] : b extends ToExclude<infer b1> ? DeepExclude<a, b1> : b extends readonly (infer bItem)[] ? a extends readonly (infer aItem)[] ? b extends readonly [infer b1, infer b2, infer b3, infer b4, infer b5] ? a extends readonly [infer a1, infer a2, infer a3, infer a4, infer a5] ? ExcludeObjectIfContainsNever<[
+     ExtractPreciseValue<a1, b1>,
+     ExtractPreciseValue<a2, b2>,
+diff --git a/dist/types/FindSelected.d.ts b/dist/types/FindSelected.d.ts
+index 364ee5c56ac089c1e011fcf308f7de78bd16dd4a..9a71ed04bc369eb4db5be772074458ae1ee5d804 100644
+--- a/dist/types/FindSelected.d.ts
++++ b/dist/types/FindSelected.d.ts
+@@ -1,6 +1,6 @@
+-import type * as symbols from '../internals/symbols';
+-import type { Cast, Equal, IsAny, TupleKeys, UnionToTuple } from './helpers';
+-import type { Matcher, Pattern } from './Pattern';
++import type * as symbols from '../internals/symbols.js';
++import type { Cast, Equal, IsAny, TupleKeys, UnionToTuple } from './helpers.js';
++import type { Matcher, Pattern } from './Pattern.js';
+ declare type SelectionsRecord = Record<string, [unknown, unknown[]]>;
+ export declare type None = {
+     type: 'none';
+diff --git a/dist/types/InvertPattern.d.ts b/dist/types/InvertPattern.d.ts
+index f4607fbe53d2ca967a189decceedaf19a1b9d29a..a9518ba7bed67e027aedef47d951201e0d3f78a9 100644
+--- a/dist/types/InvertPattern.d.ts
++++ b/dist/types/InvertPattern.d.ts
+@@ -1,6 +1,6 @@
+-import { DeepExclude } from './DeepExclude';
+-import { IsPlainObject, Primitives, IsLiteral, ValueOf, Compute, Cast, Equal } from './helpers';
+-import type { Matcher, ToExclude } from './Pattern';
++import { DeepExclude } from './DeepExclude.js';
++import { IsPlainObject, Primitives, IsLiteral, ValueOf, Compute, Cast, Equal } from './helpers.js';
++import type { Matcher, ToExclude } from './Pattern.js';
+ declare type OptionalKeys<p> = ValueOf<{
+     [k in keyof p]: p[k] extends Matcher<any, any, infer matcherType> ? matcherType extends 'optional' ? k : never : never;
+ }>;
+diff --git a/dist/types/IsMatching.d.ts b/dist/types/IsMatching.d.ts
+index 93d7938126893bfb556e1385d7d058804ab68828..d47067fb05c4c7b0582868e3b524a214e9fe180d 100644
+--- a/dist/types/IsMatching.d.ts
++++ b/dist/types/IsMatching.d.ts
+@@ -1,4 +1,4 @@
+-import { Primitives, IsPlainObject, IsUnion } from './helpers';
++import { Primitives, IsPlainObject, IsUnion } from './helpers.js';
+ export declare type IsMatching<a, p> = true extends IsUnion<a> | IsUnion<p> ? true extends (p extends any ? (a extends any ? IsMatching<a, p> : never) : never) ? true : false : unknown extends p ? true : p extends Primitives ? p extends a ? true : false : [p, a] extends [readonly any[], readonly any[]] ? [p, a] extends [
+     readonly [infer p1, infer p2, infer p3, infer p4, infer p5],
+     readonly [infer a1, infer a2, infer a3, infer a4, infer a5]
+diff --git a/dist/types/Match.d.ts b/dist/types/Match.d.ts
+index 17301f5087b2df5d779a7aa7be09594af593356c..88536fc9e6fafbbf46fb56c1ee56e0da5ad58d73 100644
+--- a/dist/types/Match.d.ts
++++ b/dist/types/Match.d.ts
+@@ -1,10 +1,10 @@
+-import type * as symbols from '../internals/symbols';
+-import type { Pattern, Matcher } from './Pattern';
+-import type { ExtractPreciseValue } from './ExtractPreciseValue';
+-import type { InvertPatternForExclude, InvertPattern } from './InvertPattern';
+-import type { DeepExclude } from './DeepExclude';
+-import type { WithDefault, Union, GuardValue } from './helpers';
+-import type { FindSelected } from './FindSelected';
++import type * as symbols from '../internals/symbols.js';
++import type { Pattern, Matcher } from './Pattern.js';
++import type { ExtractPreciseValue } from './ExtractPreciseValue.js';
++import type { InvertPatternForExclude, InvertPattern } from './InvertPattern.js';
++import type { DeepExclude } from './DeepExclude.js';
++import type { WithDefault, Union, GuardValue } from './helpers.js';
++import type { FindSelected } from './FindSelected.js';
+ export declare type MatchedValue<a, invpattern> = WithDefault<ExtractPreciseValue<a, invpattern>, a>;
+ export declare type PickReturnValue<a, b> = a extends symbols.unset ? b : a;
+ declare type NonExhaustiveError<i> = {
+diff --git a/dist/types/Pattern.d.ts b/dist/types/Pattern.d.ts
+index 3b568ff0b28ae18e1b639ab2b4d3ed0951705989..f0ed64aaa0e36430601da8a5df62f4d311f20179 100644
+--- a/dist/types/Pattern.d.ts
++++ b/dist/types/Pattern.d.ts
+@@ -1,6 +1,6 @@
+-import type * as symbols from '../internals/symbols';
+-import { Primitives } from './helpers';
+-import { None, Some, SelectionType } from './FindSelected';
++import type * as symbols from '../internals/symbols.js';
++import { Primitives } from './helpers.js';
++import { None, Some, SelectionType } from './FindSelected.js';
+ export declare type MatcherType = 'not' | 'optional' | 'or' | 'and' | 'array' | 'select' | 'default';
+ export declare type MatcherProtocol<input, narrowed, matcherType extends MatcherType, selections extends SelectionType, excluded> = {
+     match: <I>(value: I | input) => MatchResult;

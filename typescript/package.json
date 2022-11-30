@@ -11,7 +11,12 @@
   "author": "oyelowo",
   "license": "ISC",
   "devDependencies": {
-    "rome": "^10.0.1",
-    "husky": "^8.0.2"
+    "husky": "^8.0.2",
+    "rome": "^10.0.1"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "ts-pattern@4.0.6": "patches/ts-pattern@4.0.6.patch"
+    }
   }
 }
