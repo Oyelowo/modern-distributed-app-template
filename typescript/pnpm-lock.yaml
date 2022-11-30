@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 patchedDependencies:
   ts-pattern@4.0.6:
-    hash: qcjsqfqfhtinstdpajmj2sbcdm
+    hash: au62iz7e2v2hwepkyqir25awvy
     path: patches/ts-pattern@4.0.6.patch
 
 importers:
@@ -155,7 +155,7 @@ importers:
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       tabler-icons-react: 1.55.0_react@18.2.0
       three-stdlib: 2.19.0
-      ts-pattern: 4.0.6_qcjsqfqfhtinstdpajmj2sbcdm
+      ts-pattern: 4.0.6_au62iz7e2v2hwepkyqir25awvy
       zod: 3.19.1
     devDependencies:
       '@faker-js/faker': 7.6.0
@@ -5947,7 +5947,7 @@ packages:
     resolution: {integrity: sha512-sFHQYD4KoysBi7e7a2mzDPvRBeqA4w+vEyRE+P5MU9VLq8eEYxgKCgD9RNEAT+itGRWUTYN+hry94GDPLb1/Yw==}
     dev: false
 
-  /ts-pattern/4.0.6_qcjsqfqfhtinstdpajmj2sbcdm:
+  /ts-pattern/4.0.6_au62iz7e2v2hwepkyqir25awvy:
     resolution: {integrity: sha512-sFHQYD4KoysBi7e7a2mzDPvRBeqA4w+vEyRE+P5MU9VLq8eEYxgKCgD9RNEAT+itGRWUTYN+hry94GDPLb1/Yw==}
     dev: false
     patched: true

@@ -10,6 +10,21 @@ index ffe7bcd7a060b4d9ee064f4ae3d98d13a5f35533..fed20049f13eeb308945637968053474
 +export { match } from './match.js';
 +export { isMatching } from './is-matching.js';
  export { Pattern, Pattern as P };
+diff --git a/dist/internals/helpers.d.ts b/dist/internals/helpers.d.ts
+index 57330035f253d6a7cbc0b6d1cf2a13d45359579b..820cf7c05e9ce2227992fe53fb840020f7a737b5 100644
+--- a/dist/internals/helpers.d.ts
++++ b/dist/internals/helpers.d.ts
+@@ -3,8 +3,8 @@
+  * @private
+  * @internal
+  */
+-import { SelectionType } from '../types/FindSelected';
+-import { Pattern, Matcher, MatcherType } from '../types/Pattern';
++import { SelectionType } from '../types/FindSelected.js';
++import { Pattern, Matcher, MatcherType } from '../types/Pattern.js';
+ export declare const isObject: (value: unknown) => value is Object;
+ export declare const isMatcher: (x: unknown) => x is Matcher<unknown, unknown, MatcherType, SelectionType, unknown>;
+ export declare const matchPattern: (pattern: Pattern<any>, value: any, select: (key: string, value: unknown) => void) => boolean;
 diff --git a/dist/is-matching.d.ts b/dist/is-matching.d.ts
 index 3d2390e9f998d71968ac9792ec42cc0ac7ce2c05..5ec40c4ed60f802c6dddb16e86aee30e9d4ecf24 100644
 --- a/dist/is-matching.d.ts
@@ -53,7 +68,7 @@ index 86300a77f7bb83c6295e70986182b31fc1d6f4d3..98e0fa3f1c616143fe881bfbea0aa085
  /**
   * `P.infer<typeof somePattern>` will return the type of the value
 diff --git a/dist/types/BuildMany.d.ts b/dist/types/BuildMany.d.ts
-index 99e40eaca7ba43571330c2806f2a2b68b0831ebb..1677897527a520d8d8b5a48773147691200b11e8 100644
+index 99e40eaca7ba43571330c2806f2a2b68b0831ebb..8d06a5e4f6047fec6f5f0a2446ed4555e8796109 100644
 --- a/dist/types/BuildMany.d.ts
 +++ b/dist/types/BuildMany.d.ts
 @@ -1,4 +1,4 @@
@@ -62,6 +77,12 @@ index 99e40eaca7ba43571330c2806f2a2b68b0831ebb..1677897527a520d8d8b5a48773147691
  export declare type BuildMany<data, xs extends any[]> = xs extends any ? BuildOne<data, xs> : never;
  declare type BuildOne<data, xs extends any[]> = xs extends [
      [
+@@ -14,4 +14,4 @@ declare type Update<data, value, path extends PropertyKey[]> = path extends [
+ ] ? data extends readonly [any, ...any] ? head extends number ? UpdateAt<data, Iterator<head>, Update<data[head], value, Cast<tail, PropertyKey[]>>> : never : data extends readonly (infer a)[] ? Update<a, value, Cast<tail, PropertyKey[]>>[] : data extends Set<infer a> ? Set<Update<a, value, Cast<tail, PropertyKey[]>>> : data extends Map<infer k, infer v> ? Map<k, Update<v, value, Cast<tail, PropertyKey[]>>> : Compute<Omit<data, Cast<head, PropertyKey>> & {
+     [k in Cast<head, PropertyKey>]: Update<SafeGet<data, k, {}>, value, Cast<tail, PropertyKey[]>>;
+ }> : value;
+-export {};
++export { };
 diff --git a/dist/types/DeepExclude.d.ts b/dist/types/DeepExclude.d.ts
 index 217468cf0356f7b0cfa9091f2e69aa28b184de62..c3dbaf02ab88d63d081587cd52411ad102bf9642 100644
 --- a/dist/types/DeepExclude.d.ts
@@ -71,33 +92,61 @@ index 217468cf0356f7b0cfa9091f2e69aa28b184de62..c3dbaf02ab88d63d081587cd52411ad1
 +import { DistributeMatchingUnions } from './DistributeUnions.js';
  export declare type DeepExclude<a, b> = Exclude<DistributeMatchingUnions<a, b>, b>;
 diff --git a/dist/types/DistributeUnions.d.ts b/dist/types/DistributeUnions.d.ts
-index 6538d6b173c019b7bffe285d459a8bb7a6149d37..5544e2aa142d3addc47f151d7883accbf1a15b01 100644
+index 6538d6b173c019b7bffe285d459a8bb7a6149d37..a12efdb2a01e40cae81537797fd2265c99fda9fd 100644
 --- a/dist/types/DistributeUnions.d.ts
 +++ b/dist/types/DistributeUnions.d.ts
 @@ -1,6 +1,6 @@
 -import { BuildMany } from './BuildMany';
-+import { BuildMany } from './BuildMany.js';
- import type { IsAny, Cast, Values, Flatten, IsUnion, IsPlainObject, Length, UnionToTuple } from './helpers';
+-import type { IsAny, Cast, Values, Flatten, IsUnion, IsPlainObject, Length, UnionToTuple } from './helpers';
 -import { IsMatching } from './IsMatching';
++import { BuildMany } from './BuildMany.js';
++import type { IsAny, Cast, Values, Flatten, IsUnion, IsPlainObject, Length, UnionToTuple } from './helpers.js';
 +import { IsMatching } from './IsMatching.js';
  /**
   * DistributeMatchingUnions takes two arguments:
   * - a data structure of type `a` containing unions
+@@ -93,10 +93,10 @@ export declare type Distribute<unions extends any[]> = unions extends [
+     value: infer value;
+     subUnions: infer subUnions;
+ } ? [
+-    [
+-        value,
+-        path
+-    ],
+-    ...Distribute<Cast<subUnions, any[]>>,
+-    ...Distribute<tail>
+-] : never : [];
++        [
++            value,
++            path
++        ],
++        ...Distribute<Cast<subUnions, any[]>>,
++        ...Distribute<tail>
++    ] : never : [];
 diff --git a/dist/types/ExtractPreciseValue.d.ts b/dist/types/ExtractPreciseValue.d.ts
-index e23a42acff87a43ac0b520b730a8225170ae482f..d76b41f12ed59cf8fbd430fe9bffb68ad606622b 100644
+index e23a42acff87a43ac0b520b730a8225170ae482f..815a9fffdc24401d1b3e9f7e8988ddd4704cac3e 100644
 --- a/dist/types/ExtractPreciseValue.d.ts
 +++ b/dist/types/ExtractPreciseValue.d.ts
 @@ -1,6 +1,6 @@
 -import type { ToExclude } from './Pattern';
-+import type { ToExclude } from './Pattern.js';
- import type { BuiltInObjects, Compute, ExcludeObjectIfContainsNever, IsAny, IsPlainObject, LeastUpperBound } from './helpers';
+-import type { BuiltInObjects, Compute, ExcludeObjectIfContainsNever, IsAny, IsPlainObject, LeastUpperBound } from './helpers';
 -import { DeepExclude } from './DeepExclude';
++import type { ToExclude } from './Pattern.js';
++import type { BuiltInObjects, Compute, ExcludeObjectIfContainsNever, IsAny, IsPlainObject, LeastUpperBound } from './helpers.js';
 +import { DeepExclude } from './DeepExclude.js';
  export declare type ExtractPreciseValue<a, b> = unknown extends b ? a : IsAny<a> extends true ? b : b extends readonly [] ? [] : b extends ToExclude<infer b1> ? DeepExclude<a, b1> : b extends readonly (infer bItem)[] ? a extends readonly (infer aItem)[] ? b extends readonly [infer b1, infer b2, infer b3, infer b4, infer b5] ? a extends readonly [infer a1, infer a2, infer a3, infer a4, infer a5] ? ExcludeObjectIfContainsNever<[
      ExtractPreciseValue<a1, b1>,
      ExtractPreciseValue<a2, b2>,
+@@ -22,5 +22,5 @@ export declare type ExtractPreciseValue<a, b> = unknown extends b ? a : IsAny<a>
+ ], '0' | '1'> : LeastUpperBound<a, b> : b extends readonly [infer b1] ? a extends readonly [infer a1] ? ExcludeObjectIfContainsNever<[ExtractPreciseValue<a1, b1>], '0'> : LeastUpperBound<a, b> : ExtractPreciseValue<aItem, bItem> extends infer preciseValue ? [preciseValue] extends [never] ? never : preciseValue[] : never : LeastUpperBound<a, b> : b extends Map<infer bk, infer bv> ? a extends Map<infer ak, infer av> ? Map<ExtractPreciseValue<ak, bk>, ExtractPreciseValue<av, bv>> : LeastUpperBound<a, b> : b extends Set<infer bv> ? a extends Set<infer av> ? Set<ExtractPreciseValue<av, bv>> : LeastUpperBound<a, b> : IsPlainObject<b, BuiltInObjects | Error> extends true ? a extends object ? a extends b ? a : b extends a ? b : [keyof a & keyof b] extends [never] ? never : ExcludeObjectIfContainsNever<Compute<{
+     [k in Exclude<keyof a, keyof b>]: a[k];
+ } & {
+-    [k in keyof b]: k extends keyof a ? ExtractPreciseValue<a[k], b[k]> : b[k];
+-}>, keyof b & string> : LeastUpperBound<a, b> : LeastUpperBound<a, b>;
++        [k in keyof b]: k extends keyof a ? ExtractPreciseValue<a[k], b[k]> : b[k];
++    }>, keyof b & string> : LeastUpperBound<a, b> : LeastUpperBound<a, b>;
 diff --git a/dist/types/FindSelected.d.ts b/dist/types/FindSelected.d.ts
-index 364ee5c56ac089c1e011fcf308f7de78bd16dd4a..9a71ed04bc369eb4db5be772074458ae1ee5d804 100644
+index 364ee5c56ac089c1e011fcf308f7de78bd16dd4a..b47ce577203197dfbf5a58f1505ce55c14e4b76a 100644
 --- a/dist/types/FindSelected.d.ts
 +++ b/dist/types/FindSelected.d.ts
 @@ -1,6 +1,6 @@
@@ -110,8 +159,32 @@ index 364ee5c56ac089c1e011fcf308f7de78bd16dd4a..9a71ed04bc369eb4db5be772074458ae
  declare type SelectionsRecord = Record<string, [unknown, unknown[]]>;
  export declare type None = {
      type: 'none';
+@@ -46,16 +46,16 @@ export declare type MixedNamedAndAnonymousSelectError<a = 'Mixing named selectio
+ export declare type SelectionToArgs<selections extends SelectionsRecord> = symbols.anonymousSelectKey extends keyof selections ? [
+     selections[symbols.anonymousSelectKey][1]
+ ] extends [never] ? SeveralAnonymousSelectError : keyof selections extends symbols.anonymousSelectKey ? selections[symbols.anonymousSelectKey][0] : MixedNamedAndAnonymousSelectError : {
+-    [k in keyof selections]: selections[k][0];
+-};
++        [k in keyof selections]: selections[k][0];
++    };
+ declare type ConcatSelections<a extends SelectionsRecord, b extends SelectionsRecord> = {
+     [k in keyof a & keyof b]: [a[k][0] | b[k][0], a[k][1] & b[k][1]];
+ } & {
+-    [k in Exclude<keyof a, keyof b>]: a[k];
+-} & {
+-    [k in Exclude<keyof b, keyof a>]: b[k];
+-};
++        [k in Exclude<keyof a, keyof b>]: a[k];
++    } & {
++        [k in Exclude<keyof b, keyof a>]: b[k];
++    };
+ declare type ReduceToRecord<selections extends any[], output extends SelectionsRecord = {}> = selections extends [infer sel, ...infer rest] ? ReduceToRecord<rest, ConcatSelections<Cast<sel, SelectionsRecord>, output>> : output;
+ export declare type Selections<i, p> = FindSelectionUnion<i, p> extends infer u ? [u] extends [never] ? i : SelectionToArgs<ReduceToRecord<UnionToTuple<u>>> : i;
+ export declare type FindSelected<i, p> = Equal<p, Pattern<i>> extends true ? i : Selections<i, p>;
+-export {};
++export { };
 diff --git a/dist/types/InvertPattern.d.ts b/dist/types/InvertPattern.d.ts
-index f4607fbe53d2ca967a189decceedaf19a1b9d29a..a9518ba7bed67e027aedef47d951201e0d3f78a9 100644
+index f4607fbe53d2ca967a189decceedaf19a1b9d29a..5e712acc28abcc2a04e6a2350f0fe9f41a309c4b 100644
 --- a/dist/types/InvertPattern.d.ts
 +++ b/dist/types/InvertPattern.d.ts
 @@ -1,6 +1,6 @@
@@ -124,6 +197,27 @@ index f4607fbe53d2ca967a189decceedaf19a1b9d29a..a9518ba7bed67e027aedef47d951201e
  declare type OptionalKeys<p> = ValueOf<{
      [k in keyof p]: p[k] extends Matcher<any, any, infer matcherType> ? matcherType extends 'optional' ? k : never : never;
  }>;
+@@ -38,8 +38,8 @@ export declare type InvertPattern<p> = p extends Matcher<infer input, infer narr
+ } : Compute<{
+     [k in Exclude<keyof p, optKeys>]: InvertPattern<p[k]>;
+ } & {
+-    [k in Cast<optKeys, keyof p>]?: InvertPattern<p[k]>;
+-}> : never : p;
++        [k in Cast<optKeys, keyof p>]?: InvertPattern<p[k]>;
++    }> : never : p;
+ export declare type ReduceIntersectionForExclude<tuple extends any[], i, output = unknown> = tuple extends readonly [infer p, ...infer tail] ? ReduceIntersectionForExclude<tail, i, output & InvertPatternForExclude<p, i, unknown>> : output;
+ export declare type ReduceUnionForExclude<tuple extends any[], i, output = never> = tuple extends readonly [infer p, ...infer tail] ? ReduceUnionForExclude<tail, i, output | InvertPatternForExclude<p, i, never>> : output;
+ declare type ExcludeIfExists<a, b> = [b] extends [never] ? never : DeepExclude<a, b> extends infer excluded ? Equal<a, excluded> extends true ? unknown : excluded : never;
+@@ -77,6 +77,6 @@ export declare type InvertPatternForExclude<p, i, empty = never> = p extends Mat
+ } : Compute<{
+     readonly [k in Exclude<keyof p, optKeys>]: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
+ } & {
+-    readonly [k in Cast<optKeys, keyof p>]?: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
+-}> : empty : empty : empty;
+-export {};
++        readonly [k in Cast<optKeys, keyof p>]?: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
++    }> : empty : empty : empty;
++export { };
 diff --git a/dist/types/IsMatching.d.ts b/dist/types/IsMatching.d.ts
 index 93d7938126893bfb556e1385d7d058804ab68828..d47067fb05c4c7b0582868e3b524a214e9fe180d 100644
 --- a/dist/types/IsMatching.d.ts
@@ -135,7 +229,7 @@ index 93d7938126893bfb556e1385d7d058804ab68828..d47067fb05c4c7b0582868e3b524a214
      readonly [infer p1, infer p2, infer p3, infer p4, infer p5],
      readonly [infer a1, infer a2, infer a3, infer a4, infer a5]
 diff --git a/dist/types/Match.d.ts b/dist/types/Match.d.ts
-index 17301f5087b2df5d779a7aa7be09594af593356c..88536fc9e6fafbbf46fb56c1ee56e0da5ad58d73 100644
+index 17301f5087b2df5d779a7aa7be09594af593356c..abd3f0da3d619ca636c277214fb3eb579c33dcec 100644
 --- a/dist/types/Match.d.ts
 +++ b/dist/types/Match.d.ts
 @@ -1,10 +1,10 @@
@@ -156,8 +250,14 @@ index 17301f5087b2df5d779a7aa7be09594af593356c..88536fc9e6fafbbf46fb56c1ee56e0da
  export declare type MatchedValue<a, invpattern> = WithDefault<ExtractPreciseValue<a, invpattern>, a>;
  export declare type PickReturnValue<a, b> = a extends symbols.unset ? b : a;
  declare type NonExhaustiveError<i> = {
+@@ -110,4 +110,4 @@ declare type DeepExcludeAll<a, tupleList extends any[]> = tupleList extends [
+ declare type MakeTuples<ps extends any[], value> = {
+     -readonly [index in keyof ps]: [ps[index], value];
+ };
+-export {};
++export { };
 diff --git a/dist/types/Pattern.d.ts b/dist/types/Pattern.d.ts
-index 3b568ff0b28ae18e1b639ab2b4d3ed0951705989..f0ed64aaa0e36430601da8a5df62f4d311f20179 100644
+index 3b568ff0b28ae18e1b639ab2b4d3ed0951705989..6a3d07a75c587d99c6188782d6852996cb310953 100644
 --- a/dist/types/Pattern.d.ts
 +++ b/dist/types/Pattern.d.ts
 @@ -1,6 +1,6 @@
@@ -170,3 +270,9 @@ index 3b568ff0b28ae18e1b639ab2b4d3ed0951705989..f0ed64aaa0e36430601da8a5df62f4d3
  export declare type MatcherType = 'not' | 'optional' | 'or' | 'and' | 'array' | 'select' | 'default';
  export declare type MatcherProtocol<input, narrowed, matcherType extends MatcherType, selections extends SelectionType, excluded> = {
      match: <I>(value: I | input) => MatchResult;
+@@ -53,4 +53,4 @@ export declare type Pattern<a> = Matcher<a, unknown, any, any> | (a extends Prim
+ } : readonly [] | readonly [Pattern<i>, ...Pattern<i>[]] : a extends Map<infer k, infer v> ? Map<k, Pattern<v>> : a extends Set<infer v> ? Set<Pattern<v>> : a extends object ? {
+     readonly [k in keyof a]?: Pattern<Exclude<a[k], undefined>>;
+ } : a);
+-export {};
++export { };
