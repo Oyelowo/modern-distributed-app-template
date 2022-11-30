@@ -17,7 +17,6 @@ const xx = graphqlApi
 				firstName: true,
 				emailVerified: true,
 				email: true,
-				
 			},
 			"...on UserNotFoundError": {
 				title: true,
