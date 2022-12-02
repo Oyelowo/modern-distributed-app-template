@@ -7,27 +7,33 @@ import {
 import { graphqlApi, ValueTypes } from "lib-graphql";
 import { match, P } from "ts-pattern";
 
-
-const error :ValueTypes["UserBaseError"] = {
-
-} 
+const error: ValueTypes["ServerError"] = {
+	message: true,
+	solution: true,
+};
 
 const z = graphqlApi.mutation({
 	signOut: {
 		__typename: true,
-		"...on ServerError": {
-			message: true,
-			solution: true
-		},
-		"...on UserSessionExpiredError": {
-			message: true,
-			solution: true
-		},
+		"...on ServerError": error,
+		"...on UserSessionExpiredError": error,
 		"...on SignOutMessage": {
 			userId: true,
-		}
-	}
-})
+		},
+	},
+}).then(res => {
+
+	match(res.signOut)
+		.with({ __typename: "SignOutMessage" }, d => {
+			d.userId
+		})
+		.with({ __typename: P.union("ServerError", "UserSessionExpiredError") }, d => {
+			d.message
+			d.solution
+		})
+		.exhaustive()
+});
+
 
 const xx = graphqlApi
 	.query({

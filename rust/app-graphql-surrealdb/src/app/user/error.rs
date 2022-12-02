@@ -71,5 +71,6 @@ pub enum UserBaseError {
     HaveNoAccess(UserHaveNoAccessError),
     Generic(UserGenericError),
     RegisterInvalidInput(UserRegisterInvalidInputError),
-    ServerError(ServerError)
+    ServerError(ServerError),
+    UserSessionExpiredError(UserSessionExpiredError)
 }

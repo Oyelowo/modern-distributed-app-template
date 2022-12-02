@@ -948,6 +948,7 @@ entities without requiring a central allocating authority.
 		['...on UserHaveNoAccessError']?: Omit<ValueTypes["UserHaveNoAccessError"],keyof ValueTypes["UserBaseError"]>;
 		['...on UserNotFoundError']?: Omit<ValueTypes["UserNotFoundError"],keyof ValueTypes["UserBaseError"]>;
 		['...on UserRegisterInvalidInputError']?: Omit<ValueTypes["UserRegisterInvalidInputError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserSessionExpiredError']?: Omit<ValueTypes["UserSessionExpiredError"],keyof ValueTypes["UserBaseError"]>;
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBy"]: {
@@ -1151,6 +1152,7 @@ entities without requiring a central allocating authority.
 		['...on UserHaveNoAccessError']?: Omit<ResolverInputTypes["UserHaveNoAccessError"],keyof ResolverInputTypes["UserBaseError"]>;
 		['...on UserNotFoundError']?: Omit<ResolverInputTypes["UserNotFoundError"],keyof ResolverInputTypes["UserBaseError"]>;
 		['...on UserRegisterInvalidInputError']?: Omit<ResolverInputTypes["UserRegisterInvalidInputError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserSessionExpiredError']?: Omit<ResolverInputTypes["UserSessionExpiredError"],keyof ResolverInputTypes["UserBaseError"]>;
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBy"]: {
@@ -1343,7 +1345,7 @@ entities without requiring a central allocating authority.
 	posts: Array<ModelTypes["Post"]>,
 	postCount: number
 };
-	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserRegisterInvalidInputError"];
+	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserSessionExpiredError"];
 	["UserBy"]: {
 	userId?: ModelTypes["UUID"] | undefined,
 	username?: string | undefined,
@@ -1518,7 +1520,7 @@ entities without requiring a central allocating authority.
 	postCount: number
 };
 	["UserBaseError"]: {
-	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserRegisterInvalidInputError",
+	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserRegisterInvalidInputError" | "UserSessionExpiredError",
 	message: string,
 	solution: string
 	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
@@ -1526,6 +1528,7 @@ entities without requiring a central allocating authority.
 	['...on UserHaveNoAccessError']: '__union' & GraphQLTypes["UserHaveNoAccessError"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
 	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
 };
 	["UserBy"]: {
 		userId?: GraphQLTypes["UUID"] | undefined,

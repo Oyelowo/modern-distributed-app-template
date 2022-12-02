@@ -131,6 +131,7 @@ export const ReturnTypes: Record<string,any> = {
 		"...on UserHaveNoAccessError": "UserHaveNoAccessError",
 		"...on UserNotFoundError": "UserNotFoundError",
 		"...on UserRegisterInvalidInputError": "UserRegisterInvalidInputError",
+		"...on UserSessionExpiredError": "UserSessionExpiredError",
 		message:"String",
 		solution:"String"
 	},
