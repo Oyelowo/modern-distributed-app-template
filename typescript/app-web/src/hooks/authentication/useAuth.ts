@@ -4,13 +4,36 @@ import {
 	GraphqlErrorResponse,
 	mapReactQueryResultToImpossibleStates,
 } from "./helpers.js";
-import { graphqlApi } from "lib-graphql";
+import { graphqlApi, ValueTypes } from "lib-graphql";
 import { match, P } from "ts-pattern";
+
+
+const error :ValueTypes["UserBaseError"] = {
+
+} 
+
+const z = graphqlApi.mutation({
+	signOut: {
+		__typename: true,
+		"...on ServerError": {
+			message: true,
+			solution: true
+		},
+		"...on UserSessionExpiredError": {
+			message: true,
+			solution: true
+		},
+		"...on SignOutMessage": {
+			userId: true,
+		}
+	}
+})
 
 const xx = graphqlApi
 	.query({
 		me: {
 			__typename: true,
+			// message: true,
 			"...on User": {
 				id: true,
 				username: true,
@@ -22,24 +45,28 @@ const xx = graphqlApi
 				title: true,
 				message: true,
 				solution: true,
+				moreField: true,
 			},
+			"...on UserRegisterInvalidInputError": {
+				emailErrorMessage: true,
+				loginErrorMessage: true,
+			},
+			// "...on UserBaseError": {
+			// 	title: true,
+			// 	message: true,
+			// 	solution: true,
+			// },
 		},
 	})
 	.then((d) => {
 		const xx = match(d.me)
 			.with({ __typename: "User" }, (x) => ({ new: x.username }))
-			.with({ __typename: "UserNotFoundError" }, (x) => ({ new: x.title }))
+			.with({ __typename: "UserNotFoundError" }, (x) => ({ new: x.message }))
+			.with({ __typename: "UserRegisterInvalidInputError" }, (x) => ({
+				new: x.loginErrorMessage,
+			}))
+			// .with({ __typename: "UserB" }, (x) => ({ new: x.message }))
 			.exhaustive();
-
-		if (d.me.__typename === "UserNotFoundError") {
-			d.me.title;
-		} else {
-			d.me.username;
-		}
-
-		if (d.me.__typename === "User") {
-			d.me.emailVerified;
-		}
 	});
 
 const createUserQuery = graphqlApi.mutation({
@@ -100,7 +127,7 @@ export function useAuth() {
 	});
 
 	if (_mappedData.status === "success") {
-		_mappedData.data.createUser.posts[0].poster.posts[1].id;
+		_mappedData.data?.createUser.posts[0].poster.posts[1].id;
 	}
 
 	return {
@@ -113,12 +140,12 @@ export function useAuth() {
 
 type Auth =
 	| {
-			status: "loggedIn";
-			username: string;
-	  }
+		status: "loggedIn";
+		username: string;
+	}
 	| {
-			status: "loggedOut";
-	  };
+		status: "loggedOut";
+	};
 
 const textAtom = atom<Auth>({ status: "loggedOut" });
 
