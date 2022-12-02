@@ -1,3 +1,4 @@
+use super::error;
 use super::guards::{AuthGuard, RoleGuard};
 use crate::app::post::Post;
 use async_graphql::*;
@@ -11,36 +12,6 @@ use surrealdb::Datastore;
 use typed_builder::TypedBuilder;
 use validator::Validate;
 
-#[derive(SimpleObject, Serialize, Deserialize)]
-#[graphql(complex)]
-pub struct UserNotFoundError {
-    title: String,
-    message: String,
-    solution: String,
-}
-
-// #[Object]
-#[ComplexObject]
-impl UserNotFoundError {}
-
-#[derive(Interface)]
-#[graphql(
-    field(name = "title", type = "String"),
-    field(name = "message", type = "String"),
-    field(name = "solution", type = "String")
-)]
-enum UserBaseError {
-    UserNotFoundError(UserNotFoundError),
-    // Square(Square),
-}
-
-
-#[derive(Union)]
-pub enum UserResult {
-    User(Box<User>),
-    UserNotFoundError(UserNotFoundError),
-    // UserBaseError(UserBaseError)
-}
 
 #[derive(
     SimpleObject, InputObject, Serialize, Deserialize, TypedBuilder, Validate, Debug, FieldsGetter,
@@ -270,8 +241,16 @@ pub struct Address {
     zip: String,
 }
 
+#[derive(Union)]
+pub enum UserGetResult {
+    User(User),
+    UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
+    UserNotFoundError(error::UserNotFoundError),
+    // UserBaseError(UserBaseError)
+}
+
 impl User {
-    pub async fn get_current_user(ctx: &Context<'_>) -> Result<User> {
+    pub async fn get_current_user(ctx: &Context<'_>) -> Result<UserGetResult> {
         // let db = get_db_from_ctx(ctx)?;
         // let user_id = TypedSession::from_ctx(ctx)?.get_user_id::<uuid::Uuid>()?;
 
@@ -279,7 +258,7 @@ impl User {
         todo!()
     }
 
-    pub async fn get_user(db: &Datastore, user_by: UserBy) -> Result<Self> {
+    pub async fn get_user(db: &Datastore, user_by: UserBy) -> Result<UserGetResult> {
         // let uf = User::get_fields_serialized();
         // let search_doc = match user_by {
         //     UserBy::UserId(id) => doc! { uf._id: id },
@@ -304,7 +283,7 @@ impl User {
     // pub async fn _search_users(db: &Database, user_by: Vec<UserBy>) -> Result<Vec<Self>> {
     //     todo!()
     // }
-    pub async fn find_by_id(db: &Datastore, id: &uuid::Uuid) -> Result<Self> {
+    pub async fn find_by_id(db: &Datastore, id: &uuid::Uuid) -> Result<UserGetResult> {
         let uk = User::get_fields_serialized();
         todo!()
     }

@@ -33,7 +33,7 @@ pub struct AuthGuard;
 impl Guard for AuthGuard {
     async fn check(&self, ctx: &Context<'_>) -> Result<()> {
         TypedSession::from_ctx(ctx)?
-            .get_user_id::<uuid::Uuid>()
+            .get_current_user_id::<uuid::Uuid>()
             .map(|_| ())
     }
 }
