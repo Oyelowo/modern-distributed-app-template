@@ -1,4 +1,4 @@
-import { createRouteConfig, Outlet } from "@tanstack/react-router";
+import { createRouteConfig, Outlet, useMatch } from "@tanstack/react-router";
 import { router } from "../../router.js";
 import { fetchInvoices } from "../../mockTodos.js";
 
@@ -14,14 +14,14 @@ export const dashboardRoute = createRouteConfig().createRoute({
 });
 
 function Dashboard() {
-	const route = router.useMatch(dashboardRoute.id);
+	const route = useMatch(dashboardRoute.id);
 
 	return (
 		<>
 			<div className="flex items-center border-b">
 				<h2 className="text-xl p-2">Dashboard</h2>
 				<route.Link
-					to="/dashboard/invoices/:invoiceId"
+					to="/dashboard/invoices/$invoiceId"
 					params={{
 						invoiceId: 3,
 					}}

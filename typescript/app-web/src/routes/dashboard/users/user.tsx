@@ -2,6 +2,7 @@ import * as React from "react";
 import { router } from "../../../router.js";
 import { fetchUserById } from "../../../mockTodos.js";
 import { usersRoute } from "./index.js";
+import { useMatch } from "@tanstack/react-router";
 
 export const userRoute = usersRoute.createRoute({
 	path: ":userId",
@@ -18,7 +19,7 @@ export const userRoute = usersRoute.createRoute({
 function User() {
 	const {
 		loaderData: { user },
-	} = router.useMatch(userRoute.id);
+	} = useMatch(userRoute.id);
 
 	return (
 		<>

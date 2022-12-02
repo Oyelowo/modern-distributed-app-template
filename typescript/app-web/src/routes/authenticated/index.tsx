@@ -2,17 +2,25 @@ import { createRouteConfig, Outlet } from "@tanstack/react-router";
 import { useState } from "react";
 import { useAuth2 } from "../../hooks/authentication/useAuth.js";
 
-export const authenticatedRoute = createRouteConfig()
-	.createRoute({
-		path: "authenticated/",
-		component: Auth,
-	})
-	.createChildren((createRoute) => [
-		createRoute({
-			path: "/",
-			component: Authenticated,
-		}),
-	]);
+// export const authenticatedRoute = createRouteConfig().createRoute({
+//   path: 'authenticated/',
+//   component: Auth,
+// })
+
+// export const authenticatedIndexRoute = authenticatedRoute.createRoute({
+//   path: '/',
+//   component: Authenticated,
+// })
+
+export const authenticatedRoute = createRouteConfig().createRoute({
+	path: "authenticated/",
+	component: Auth,
+});
+
+export const authenticatedIndexRoute = authenticatedRoute.createRoute({
+	path: "/",
+	component: Authenticated,
+});
 
 function Auth() {
 	const auth = useAuth2();

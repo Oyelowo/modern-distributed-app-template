@@ -9,11 +9,11 @@ export const AllTypesProps: Record<string,any> = {
 		createUser:{
 			userInput:"UserInput"
 		},
-		signUp:{
-			user:"UserInput"
-		},
 		signIn:{
 			signInCredentials:"SignInCredentials"
+		},
+		signUp:{
+			user:"UserInput"
 		},
 		createPost:{
 			post:"PostInput"
@@ -71,10 +71,10 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	DateTime: `scalar.DateTime` as const,
 	Mutation:{
-		createUser:"User",
-		signUp:"User",
-		signIn:"User",
-		signOut:"SignOutMessage",
+		createUser:"UserCreateResult",
+		signIn:"UserSignInResult",
+		signOut:"UserSignOutResult",
+		signUp:"UserCreateResult",
 		createPost:"Post"
 	},
 	Post:{
@@ -85,13 +85,17 @@ export const ReturnTypes: Record<string,any> = {
 		poster:"User"
 	},
 	Query:{
-		me:"UserResult",
-		user:"User",
-		getUser:"User",
+		me:"UserGetResult",
+		user:"UserGetResult",
+		getUser:"UserGetResult",
 		users:"User",
 		session:"Session",
 		post:"Post",
 		posts:"Post"
+	},
+	ServerError:{
+		message:"String",
+		solution:"String"
 	},
 	Session:{
 		userId:"UUID",
@@ -121,14 +125,71 @@ export const ReturnTypes: Record<string,any> = {
 		posts:"Post",
 		postCount:"Int"
 	},
-	UserNotFoundError:{
-		title:"String",
+	UserBaseError:{
+		"...on ServerError": "ServerError",
+		"...on UserGenericError": "UserGenericError",
+		"...on UserHaveNoAccessError": "UserHaveNoAccessError",
+		"...on UserNotFoundError": "UserNotFoundError",
+		"...on UserRegisterInvalidInputError": "UserRegisterInvalidInputError",
 		message:"String",
 		solution:"String"
 	},
-	UserResult:{
+	UserCreateResult:{
 		"...on User":"User",
+		"...on UserRegisterInvalidInputError":"UserRegisterInvalidInputError",
 		"...on UserNotFoundError":"UserNotFoundError"
+	},
+	UserGenericError:{
+		title:"String",
+		message:"String",
+		solution:"String",
+		moreField:"String"
+	},
+	UserGetResult:{
+		"...on User":"User",
+		"...on UserRegisterInvalidInputError":"UserRegisterInvalidInputError",
+		"...on UserNotFoundError":"UserNotFoundError"
+	},
+	UserHaveNoAccessError:{
+		title:"String",
+		message:"String",
+		solution:"String",
+		moreField:"String"
+	},
+	UserNotFoundError:{
+		message:"String",
+		solution:"String"
+	},
+	UserRegisterInvalidInputError:{
+		message:"String",
+		title:"String",
+		solution:"String",
+		loginErrorMessage:"String",
+		emailErrorMessage:"String",
+		passwordErrorMessage:"String"
+	},
+	UserSessionExpiredError:{
+		message:"String",
+		solution:"String"
+	},
+	UserSignInInvalidInputError:{
+		message:"String",
+		title:"String",
+		solution:"String",
+		usernameErrorMessage:"String",
+		loginErrorMessage:"String",
+		emailErrorMessage:"String",
+		passwordErrorMessage:"String"
+	},
+	UserSignInResult:{
+		"...on User":"User",
+		"...on UserSignInInvalidInputError":"UserSignInInvalidInputError",
+		"...on UserNotFoundError":"UserNotFoundError"
+	},
+	UserSignOutResult:{
+		"...on SignOutMessage":"SignOutMessage",
+		"...on UserSessionExpiredError":"UserSessionExpiredError",
+		"...on ServerError":"ServerError"
 	}
 }
 

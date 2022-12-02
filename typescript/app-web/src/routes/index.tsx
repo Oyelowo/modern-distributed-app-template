@@ -1,4 +1,4 @@
-import { createRouteConfig } from "@tanstack/react-router";
+import { createRouteConfig, useMatch } from "@tanstack/react-router";
 import { router } from "../router.js";
 
 export const indexRoute = createRouteConfig().createRoute({
@@ -7,14 +7,14 @@ export const indexRoute = createRouteConfig().createRoute({
 });
 
 function Home() {
-	const route = router.useMatch(indexRoute.id);
+	const route = useMatch(indexRoute.id);
 
 	return (
 		<div className={"p-2"}>
 			<div className={"text-lg"}>Welcome Home!</div>
 			<hr className={"my-2"} />
 			<route.Link
-				to="/dashboard/invoices/:invoiceId"
+				to="/dashboard/invoices$invoiceId"
 				params={{
 					invoiceId: 3,
 				}}

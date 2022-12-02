@@ -4,6 +4,7 @@ import { fetchInvoiceById, patchInvoice } from "../../../mockTodos.js";
 import { InvoiceFields } from "../../../components/InvoiceFields.js";
 import { invoicesRoute } from "./index.js";
 import { useEffect, useState } from "react";
+import { useMatch } from "@tanstack/react-router";
 
 export const invoiceRoute = invoicesRoute.createRoute({
 	path: ":invoiceId",
@@ -38,7 +39,7 @@ function InvoiceView() {
 		search,
 		Link,
 		navigate,
-	} = router.useMatch(invoiceRoute.id);
+	} = useMatch(invoiceRoute.id);
 
 	const [notes, setNotes] = useState(search.notes ?? "");
 
