@@ -1,4 +1,4 @@
-import { createRouteConfig, Outlet } from "@tanstack/react-router";
+import { createRouteConfig, Outlet, useMatch } from "@tanstack/react-router";
 import { router } from "../../router.js";
 import { fetchInvoices } from "../../mockTodos.js";
 
@@ -14,8 +14,7 @@ export const bookingsRoute = createRouteConfig().createRoute({
 });
 
 function Bookings() {
-	const route = router.useMatch(bookingsRoute.id);
-
+	const route = useMatch(bookingsRoute.id);
 	return (
 		<>
 			<div className="flex flex-wrap divide-x">

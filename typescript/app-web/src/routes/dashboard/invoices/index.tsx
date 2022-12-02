@@ -1,6 +1,5 @@
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, useMatch } from "@tanstack/react-router";
 import { Loader as Spinner } from "@mantine/core";
-import { router } from "../../../router.js";
 import { dashboardRoute } from "../index.js";
 
 export const invoicesRoute = dashboardRoute.createRoute({
@@ -14,11 +13,11 @@ function Invoices() {
 		Link,
 		MatchRoute,
 		useRoute,
-	} = router.useMatch(invoicesRoute.id);
+	} = useMatch(invoicesRoute.id);
 
 	// Get the action for a child route
 	const invoiceIndexRoute = useRoute("./");
-	const invoiceDetailRoute = useRoute("./:invoiceId");
+	const invoiceDetailRoute = useRoute("./$invoiceId");
 
 	return (
 		<div className="flex-1 flex">
@@ -35,7 +34,7 @@ function Invoices() {
 					return (
 						<div key={invoice.id}>
 							<Link
-								to="/dashboard/invoices/:invoiceId"
+								to="/dashboard/invoices/$invoiceId"
 								params={{
 									invoiceId: invoice.id,
 								}}
@@ -49,7 +48,7 @@ function Invoices() {
 										<Spinner variant="bars" />
 									) : (
 										<MatchRoute
-											to="./:invoiceId"
+											to="./$invoiceId"
 											params={{
 												invoiceId: invoice.id,
 											}}

@@ -3,6 +3,7 @@ import { router } from "../../../router.js";
 import { Invoice, postInvoice } from "../../../mockTodos.js";
 import { InvoiceFields } from "../../../components/InvoiceFields.js";
 import { invoicesRoute } from "./index.js";
+import { useMatch } from "@tanstack/react-router";
 
 export const invoicesIndexRoute = invoicesRoute.createRoute({
 	path: "/",
@@ -11,7 +12,7 @@ export const invoicesIndexRoute = invoicesRoute.createRoute({
 });
 
 function InvoicesHome() {
-	const { action } = router.useMatch(invoicesIndexRoute.id);
+	const { action } = useMatch(invoicesIndexRoute.id);
 
 	return (
 		<>

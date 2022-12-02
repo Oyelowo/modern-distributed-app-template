@@ -821,12 +821,12 @@ export const GRAPHQL_TYPE_SEPARATOR = `__$GRAPHQL__`;
 export const $ = <Type extends GraphQLVariableType, Name extends string>(name: Name, graphqlType: Type) => {
   return (START_VAR_NAME + name + GRAPHQL_TYPE_SEPARATOR + graphqlType) as unknown as Variable<Type, Name>;
 };
-type ZEUS_INTERFACES = never
+type ZEUS_INTERFACES = GraphQLTypes["UserBaseError"]
 export type ScalarCoders = {
 	DateTime?: ScalarResolver;
 	UUID?: ScalarResolver;
 }
-type ZEUS_UNIONS = never
+type ZEUS_UNIONS = GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -859,10 +859,10 @@ export type ValueTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
 	["Mutation"]: AliasType<{
-createUser?: [{	userInput: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["User"]],
-signUp?: [{	user: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["User"]],
-signIn?: [{	signInCredentials: ValueTypes["SignInCredentials"] | Variable<any, string>},ValueTypes["User"]],
-	signOut?:ValueTypes["SignOutMessage"],
+createUser?: [{	userInput: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["UserCreateResult"]],
+signIn?: [{	signInCredentials: ValueTypes["SignInCredentials"] | Variable<any, string>},ValueTypes["UserSignInResult"]],
+	signOut?:ValueTypes["UserSignOutResult"],
+signUp?: [{	user: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["UserCreateResult"]],
 createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -880,9 +880,9 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	content: string | Variable<any, string>
 };
 	["Query"]: AliasType<{
-	me?:ValueTypes["User"],
-user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["User"]],
-getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["User"]],
+	me?:ValueTypes["UserGetResult"],
+user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["UserGetResult"]],
+getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 	users?:ValueTypes["User"],
 	session?:ValueTypes["Session"],
 post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
@@ -890,6 +890,11 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
+	["ServerError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
 	expiresAt?:boolean | `@${string}`,
@@ -935,12 +940,47 @@ entities without requiring a central allocating authority.
 	postCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["UserBaseError"]:AliasType<{
+		message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`;
+		['...on ServerError']?: Omit<ValueTypes["ServerError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserGenericError']?: Omit<ValueTypes["UserGenericError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserHaveNoAccessError']?: Omit<ValueTypes["UserHaveNoAccessError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserNotFoundError']?: Omit<ValueTypes["UserNotFoundError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserRegisterInvalidInputError']?: Omit<ValueTypes["UserRegisterInvalidInputError"],keyof ValueTypes["UserBaseError"]>;
+		['...on UserSessionExpiredError']?: Omit<ValueTypes["UserSessionExpiredError"],keyof ValueTypes["UserBaseError"]>;
+		__typename?: boolean | `@${string}`
+}>;
 	["UserBy"]: {
 	userId?: ValueTypes["UUID"] | undefined | null | Variable<any, string>,
 	username?: string | undefined | null | Variable<any, string>,
 	address?: ValueTypes["Address"] | undefined | null | Variable<any, string>,
 	email?: string | undefined | null | Variable<any, string>
 };
+	["UserCreateResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
+		["...on UserRegisterInvalidInputError"] : ValueTypes["UserRegisterInvalidInputError"],
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		__typename?: boolean | `@${string}`
+}>;
+	["UserGenericError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	moreField?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserGetResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
+		["...on UserRegisterInvalidInputError"] : ValueTypes["UserRegisterInvalidInputError"],
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		__typename?: boolean | `@${string}`
+}>;
+	["UserHaveNoAccessError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	moreField?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["UserInput"]: {
 	username: string | Variable<any, string>,
 	password?: string | undefined | null | Variable<any, string>,
@@ -950,7 +990,46 @@ entities without requiring a central allocating authority.
 	email?: string | undefined | null | Variable<any, string>,
 	age?: number | undefined | null | Variable<any, string>,
 	socialMedia: Array<string> | Variable<any, string>
-}
+};
+	["UserNotFoundError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserRegisterInvalidInputError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	title?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	loginErrorMessage?:boolean | `@${string}`,
+	emailErrorMessage?:boolean | `@${string}`,
+	passwordErrorMessage?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSessionExpiredError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignInInvalidInputError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	title?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	usernameErrorMessage?:boolean | `@${string}`,
+	loginErrorMessage?:boolean | `@${string}`,
+	emailErrorMessage?:boolean | `@${string}`,
+	passwordErrorMessage?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignInResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
+		["...on UserSignInInvalidInputError"] : ValueTypes["UserSignInInvalidInputError"],
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignOutResult"]: AliasType<{		["...on SignOutMessage"] : ValueTypes["SignOutMessage"],
+		["...on UserSessionExpiredError"] : ValueTypes["UserSessionExpiredError"],
+		["...on ServerError"] : ValueTypes["ServerError"]
+		__typename?: boolean | `@${string}`
+}>
   }
 
 export type ResolverInputTypes = {
@@ -984,10 +1063,10 @@ export type ResolverInputTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
 	["Mutation"]: AliasType<{
-createUser?: [{	userInput: ResolverInputTypes["UserInput"]},ResolverInputTypes["User"]],
-signUp?: [{	user: ResolverInputTypes["UserInput"]},ResolverInputTypes["User"]],
-signIn?: [{	signInCredentials: ResolverInputTypes["SignInCredentials"]},ResolverInputTypes["User"]],
-	signOut?:ResolverInputTypes["SignOutMessage"],
+createUser?: [{	userInput: ResolverInputTypes["UserInput"]},ResolverInputTypes["UserCreateResult"]],
+signIn?: [{	signInCredentials: ResolverInputTypes["SignInCredentials"]},ResolverInputTypes["UserSignInResult"]],
+	signOut?:ResolverInputTypes["UserSignOutResult"],
+signUp?: [{	user: ResolverInputTypes["UserInput"]},ResolverInputTypes["UserCreateResult"]],
 createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
@@ -1005,9 +1084,9 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	content: string
 };
 	["Query"]: AliasType<{
-	me?:ResolverInputTypes["User"],
-user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["User"]],
-getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["User"]],
+	me?:ResolverInputTypes["UserGetResult"],
+user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["UserGetResult"]],
+getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["UserGetResult"]],
 	users?:ResolverInputTypes["User"],
 	session?:ResolverInputTypes["Session"],
 post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
@@ -1015,6 +1094,11 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Role"]:Role;
+	["ServerError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
 	expiresAt?:boolean | `@${string}`,
@@ -1060,12 +1144,49 @@ entities without requiring a central allocating authority.
 	postCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	["UserBaseError"]:AliasType<{
+		message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`;
+		['...on ServerError']?: Omit<ResolverInputTypes["ServerError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserGenericError']?: Omit<ResolverInputTypes["UserGenericError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserHaveNoAccessError']?: Omit<ResolverInputTypes["UserHaveNoAccessError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserNotFoundError']?: Omit<ResolverInputTypes["UserNotFoundError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserRegisterInvalidInputError']?: Omit<ResolverInputTypes["UserRegisterInvalidInputError"],keyof ResolverInputTypes["UserBaseError"]>;
+		['...on UserSessionExpiredError']?: Omit<ResolverInputTypes["UserSessionExpiredError"],keyof ResolverInputTypes["UserBaseError"]>;
+		__typename?: boolean | `@${string}`
+}>;
 	["UserBy"]: {
 	userId?: ResolverInputTypes["UUID"] | undefined | null,
 	username?: string | undefined | null,
 	address?: ResolverInputTypes["Address"] | undefined | null,
 	email?: string | undefined | null
 };
+	["UserCreateResult"]: AliasType<{
+	User?:ResolverInputTypes["User"],
+	UserRegisterInvalidInputError?:ResolverInputTypes["UserRegisterInvalidInputError"],
+	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["UserGenericError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	moreField?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserGetResult"]: AliasType<{
+	User?:ResolverInputTypes["User"],
+	UserRegisterInvalidInputError?:ResolverInputTypes["UserRegisterInvalidInputError"],
+	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["UserHaveNoAccessError"]: AliasType<{
+	title?:boolean | `@${string}`,
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	moreField?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["UserInput"]: {
 	username: string,
 	password?: string | undefined | null,
@@ -1075,7 +1196,48 @@ entities without requiring a central allocating authority.
 	email?: string | undefined | null,
 	age?: number | undefined | null,
 	socialMedia: Array<string>
-}
+};
+	["UserNotFoundError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserRegisterInvalidInputError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	title?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	loginErrorMessage?:boolean | `@${string}`,
+	emailErrorMessage?:boolean | `@${string}`,
+	passwordErrorMessage?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSessionExpiredError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignInInvalidInputError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	title?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+	usernameErrorMessage?:boolean | `@${string}`,
+	loginErrorMessage?:boolean | `@${string}`,
+	emailErrorMessage?:boolean | `@${string}`,
+	passwordErrorMessage?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignInResult"]: AliasType<{
+	User?:ResolverInputTypes["User"],
+	UserSignInInvalidInputError?:ResolverInputTypes["UserSignInInvalidInputError"],
+	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+		__typename?: boolean | `@${string}`
+}>;
+	["UserSignOutResult"]: AliasType<{
+	SignOutMessage?:ResolverInputTypes["SignOutMessage"],
+	UserSessionExpiredError?:ResolverInputTypes["UserSessionExpiredError"],
+	ServerError?:ResolverInputTypes["ServerError"],
+		__typename?: boolean | `@${string}`
+}>
   }
 
 export type ModelTypes = {
@@ -1108,12 +1270,12 @@ export type ModelTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:any;
 	["Mutation"]: {
-		createUser: ModelTypes["User"],
+		createUser: ModelTypes["UserCreateResult"],
+	signIn: ModelTypes["UserSignInResult"],
+	signOut: ModelTypes["UserSignOutResult"],
 	/** Creates a new user but doesn't log in the user
 Currently like this because of future developments */
-	signUp: ModelTypes["User"],
-	signIn: ModelTypes["User"],
-	signOut: ModelTypes["SignOutMessage"],
+	signUp: ModelTypes["UserCreateResult"],
 	createPost: ModelTypes["Post"]
 };
 	["OauthProvider"]:OauthProvider;
@@ -1129,15 +1291,19 @@ Currently like this because of future developments */
 	content: string
 };
 	["Query"]: {
-		me: ModelTypes["User"],
-	user: ModelTypes["User"],
-	getUser: ModelTypes["User"],
+		me: ModelTypes["UserGetResult"],
+	user: ModelTypes["UserGetResult"],
+	getUser: ModelTypes["UserGetResult"],
 	users: Array<ModelTypes["User"]>,
 	session: ModelTypes["Session"],
 	post: ModelTypes["Post"],
 	posts: Array<ModelTypes["Post"]>
 };
 	["Role"]:Role;
+	["ServerError"]: {
+		message: string,
+	solution: string
+};
 	["Session"]: {
 		userId: ModelTypes["UUID"],
 	expiresAt: ModelTypes["DateTime"]
@@ -1179,11 +1345,26 @@ entities without requiring a central allocating authority.
 	posts: Array<ModelTypes["Post"]>,
 	postCount: number
 };
+	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserSessionExpiredError"];
 	["UserBy"]: {
 	userId?: ModelTypes["UUID"] | undefined,
 	username?: string | undefined,
 	address?: ModelTypes["Address"] | undefined,
 	email?: string | undefined
+};
+	["UserCreateResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserGenericError"]: {
+		title: string,
+	message: string,
+	solution: string,
+	moreField: string
+};
+	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserHaveNoAccessError"]: {
+		title: string,
+	message: string,
+	solution: string,
+	moreField: string
 };
 	["UserInput"]: {
 	username: string,
@@ -1194,7 +1375,34 @@ entities without requiring a central allocating authority.
 	email?: string | undefined,
 	age?: number | undefined,
 	socialMedia: Array<string>
-}
+};
+	["UserNotFoundError"]: {
+		message: string,
+	solution: string
+};
+	["UserRegisterInvalidInputError"]: {
+		message: string,
+	title: string,
+	solution: string,
+	loginErrorMessage: string,
+	emailErrorMessage: string,
+	passwordErrorMessage: string
+};
+	["UserSessionExpiredError"]: {
+		message: string,
+	solution: string
+};
+	["UserSignInInvalidInputError"]: {
+		message: string,
+	title: string,
+	solution: string,
+	usernameErrorMessage: string,
+	loginErrorMessage: string,
+	emailErrorMessage: string,
+	passwordErrorMessage: string
+};
+	["UserSignInResult"]:ModelTypes["User"] | ModelTypes["UserSignInInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserSignOutResult"]:ModelTypes["SignOutMessage"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"]
     }
 
 export type GraphQLTypes = {
@@ -1229,12 +1437,12 @@ The input/output is a string in RFC3339 format. */
 ["DateTime"]: "scalar" & { name: "DateTime" };
 	["Mutation"]: {
 	__typename: "Mutation",
-	createUser: GraphQLTypes["User"],
+	createUser: GraphQLTypes["UserCreateResult"],
+	signIn: GraphQLTypes["UserSignInResult"],
+	signOut: GraphQLTypes["UserSignOutResult"],
 	/** Creates a new user but doesn't log in the user
 Currently like this because of future developments */
-	signUp: GraphQLTypes["User"],
-	signIn: GraphQLTypes["User"],
-	signOut: GraphQLTypes["SignOutMessage"],
+	signUp: GraphQLTypes["UserCreateResult"],
 	createPost: GraphQLTypes["Post"]
 };
 	["OauthProvider"]: OauthProvider;
@@ -1252,15 +1460,20 @@ Currently like this because of future developments */
 };
 	["Query"]: {
 	__typename: "Query",
-	me: GraphQLTypes["User"],
-	user: GraphQLTypes["User"],
-	getUser: GraphQLTypes["User"],
+	me: GraphQLTypes["UserGetResult"],
+	user: GraphQLTypes["UserGetResult"],
+	getUser: GraphQLTypes["UserGetResult"],
 	users: Array<GraphQLTypes["User"]>,
 	session: GraphQLTypes["Session"],
 	post: GraphQLTypes["Post"],
 	posts: Array<GraphQLTypes["Post"]>
 };
 	["Role"]: Role;
+	["ServerError"]: {
+	__typename: "ServerError",
+	message: string,
+	solution: string
+};
 	["Session"]: {
 	__typename: "Session",
 	userId: GraphQLTypes["UUID"],
@@ -1306,11 +1519,48 @@ entities without requiring a central allocating authority.
 	posts: Array<GraphQLTypes["Post"]>,
 	postCount: number
 };
+	["UserBaseError"]: {
+	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserRegisterInvalidInputError" | "UserSessionExpiredError",
+	message: string,
+	solution: string
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
+	['...on UserGenericError']: '__union' & GraphQLTypes["UserGenericError"];
+	['...on UserHaveNoAccessError']: '__union' & GraphQLTypes["UserHaveNoAccessError"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
+};
 	["UserBy"]: {
 		userId?: GraphQLTypes["UUID"] | undefined,
 	username?: string | undefined,
 	address?: GraphQLTypes["Address"] | undefined,
 	email?: string | undefined
+};
+	["UserCreateResult"]:{
+        	__typename:"User" | "UserRegisterInvalidInputError" | "UserNotFoundError"
+        	['...on User']: '__union' & GraphQLTypes["User"];
+	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+};
+	["UserGenericError"]: {
+	__typename: "UserGenericError",
+	title: string,
+	message: string,
+	solution: string,
+	moreField: string
+};
+	["UserGetResult"]:{
+        	__typename:"User" | "UserRegisterInvalidInputError" | "UserNotFoundError"
+        	['...on User']: '__union' & GraphQLTypes["User"];
+	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+};
+	["UserHaveNoAccessError"]: {
+	__typename: "UserHaveNoAccessError",
+	title: string,
+	message: string,
+	solution: string,
+	moreField: string
 };
 	["UserInput"]: {
 		username: string,
@@ -1321,6 +1571,47 @@ entities without requiring a central allocating authority.
 	email?: string | undefined,
 	age?: number | undefined,
 	socialMedia: Array<string>
+};
+	["UserNotFoundError"]: {
+	__typename: "UserNotFoundError",
+	message: string,
+	solution: string
+};
+	["UserRegisterInvalidInputError"]: {
+	__typename: "UserRegisterInvalidInputError",
+	message: string,
+	title: string,
+	solution: string,
+	loginErrorMessage: string,
+	emailErrorMessage: string,
+	passwordErrorMessage: string
+};
+	["UserSessionExpiredError"]: {
+	__typename: "UserSessionExpiredError",
+	message: string,
+	solution: string
+};
+	["UserSignInInvalidInputError"]: {
+	__typename: "UserSignInInvalidInputError",
+	message: string,
+	title: string,
+	solution: string,
+	usernameErrorMessage: string,
+	loginErrorMessage: string,
+	emailErrorMessage: string,
+	passwordErrorMessage: string
+};
+	["UserSignInResult"]:{
+        	__typename:"User" | "UserSignInInvalidInputError" | "UserNotFoundError"
+        	['...on User']: '__union' & GraphQLTypes["User"];
+	['...on UserSignInInvalidInputError']: '__union' & GraphQLTypes["UserSignInInvalidInputError"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+};
+	["UserSignOutResult"]:{
+        	__typename:"SignOutMessage" | "UserSessionExpiredError" | "ServerError"
+        	['...on SignOutMessage']: '__union' & GraphQLTypes["SignOutMessage"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 }
     }
 export const enum OauthProvider {

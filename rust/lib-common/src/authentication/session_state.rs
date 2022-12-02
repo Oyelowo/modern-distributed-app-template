@@ -37,7 +37,7 @@ impl TypedSession {
         self.0.set(Self::USER_ID_KEY, user_id)
     }
 
-    pub fn get_user_id<T>(&self) -> TypedSessionResult<T>
+    pub fn get_current_user_id<T>(&self) -> TypedSessionResult<T>
     where
         T: DeserializeOwned,
     {

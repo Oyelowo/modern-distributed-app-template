@@ -19,7 +19,10 @@ const isBeforeInstant = ({
 
 function isBetweenInstant(
 	instant: TemporalInstant,
-	{ minInstant, maxInstant }: {
+	{
+		minInstant,
+		maxInstant,
+	}: {
 		minInstant: TemporalInstant;
 		maxInstant: TemporalInstant;
 	},

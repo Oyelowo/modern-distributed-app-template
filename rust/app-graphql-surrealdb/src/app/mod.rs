@@ -5,6 +5,8 @@ use user::{User, UserMutationRoot, UserQueryRoot, UserSubscriptionRoot};
 
 use async_graphql::{MergedObject, MergedSubscription, Schema, SchemaBuilder};
 
+use self::user::error::UserBaseError;
+
 // Merged Queries
 #[derive(MergedObject, Default)]
 pub struct Query(UserQueryRoot, PostQueryRoot);
@@ -25,6 +27,7 @@ pub fn get_my_graphql_schema() -> SchemaBuilder<Query, Mutation, Subscription> {
         Mutation::default(),
         Subscription::default(),
     )
+    .register_output_type::<UserBaseError>()
 }
 
 #[derive(thiserror::Error, Debug)]

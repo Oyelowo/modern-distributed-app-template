@@ -4,7 +4,10 @@ import { createRouteConfig } from "@tanstack/router-core";
 import { indexRoute } from "./routes/index.js";
 import { dashboardRoute } from "./routes/dashboard/index.js";
 import { expensiveRoute } from "./routes/expensive/index.js";
-import { authenticatedRoute } from "./routes/authenticated/index.js";
+import {
+	authenticatedIndexRoute,
+	authenticatedRoute,
+} from "./routes/authenticated/index.js";
 import { layoutRoute } from "./routes/layout/index.js";
 import { dashboardIndexRoute } from "./routes/dashboard/dashboard.js";
 import { invoicesRoute } from "./routes/dashboard/invoices/index.js";
@@ -29,10 +32,21 @@ const routeConfig = createRouteConfig().addChildren([
 	bookingsRoute.addChildren([bookingsIndexRoute, landingRoute]),
 	// landingRoute,
 	expensiveRoute,
-	authenticatedRoute,
+	authenticatedRoute.addChildren([authenticatedIndexRoute]),
 	layoutRoute.addChildren([layoutRouteA, layoutRouteB]),
 ]);
 
 export const router = createReactRouter({
 	routeConfig,
+	defaultPendingComponent: () => (
+		<div>
+			<>Router Loading...</>
+		</div>
+	),
 });
+
+declare module "@tanstack/react-router" {
+	interface RegisterRouter {
+		router: typeof router;
+	}
+}

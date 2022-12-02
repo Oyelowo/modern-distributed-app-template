@@ -1,4 +1,4 @@
-use super::{guards::AuthGuard, model::User, UserBy};
+use super::{guards::AuthGuard, model::User, UserBy, UserGetResult};
 
 use async_graphql::*;
 use chrono::{DateTime, Utc};
@@ -14,21 +14,22 @@ pub struct UserQueryRoot;
 
 #[Object]
 impl UserQueryRoot {
-    async fn me(&self, ctx: &Context<'_>) -> Result<User> {
-        User::get_current_user(ctx)
-            .await
-            .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
+    async fn me(&self, ctx: &Context<'_>) -> Result<UserGetResult> {
+        // User::get_current_user(ctx)
+        //     .await
+        //     .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
+        todo!()
     }
 
     async fn user(
         &self,
         ctx: &Context<'_>,
         #[graphql(desc = "id of the User")] id: uuid::Uuid,
-    ) -> Result<User> {
+    ) -> Result<UserGetResult> {
         todo!()
     }
 
-    pub async fn get_user(&self, ctx: &Context<'_>, user_by: UserBy) -> Result<User> {
+    pub async fn get_user(&self, ctx: &Context<'_>, user_by: UserBy) -> Result<UserGetResult> {
         todo!()
     }
 
@@ -38,7 +39,7 @@ impl UserQueryRoot {
     }
 
     async fn session(&self, ctx: &Context<'_>) -> Result<Session> {
-        let user_id = TypedSession::from_ctx(ctx)?.get_user_id()?;
+        let user_id = TypedSession::from_ctx(ctx)?.get_current_user_id()?;
         log::info!("Successfully retrieved session for user: {user_id:?}");
 
         Ok(Session {

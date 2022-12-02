@@ -4,6 +4,7 @@ import { MultiSelect, SegmentedControl, SimpleGrid } from "@mantine/core";
 import { useState } from "react";
 import { tradingChartOption } from "../../charts/tradingChartsOptions.js";
 import { useChart } from "../../charts/useChart.js";
+import { useMatch } from "@tanstack/react-router";
 
 export const bookingsIndexRoute = bookingsRoute.createRoute({
 	path: "/",
@@ -13,8 +14,9 @@ export const bookingsIndexRoute = bookingsRoute.createRoute({
 function BookingsHome() {
 	const {
 		// loaderData: { invoices },
+		Link,
 		status,
-	} = router.useMatch(bookingsIndexRoute.id);
+	} = useMatch(bookingsIndexRoute.id);
 
 	const { ReactCharts: TAChart } = useChart({
 		option: tradingChartOption,

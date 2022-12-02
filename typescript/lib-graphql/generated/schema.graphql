@@ -42,14 +42,14 @@ scalar DateTime
 
 
 type Mutation {
-	createUser(userInput: UserInput!): User!
+	createUser(userInput: UserInput!): UserCreateResult!
+	signIn(signInCredentials: SignInCredentials!): UserSignInResult!
+	signOut: UserSignOutResult!
 	"""
 	Creates a new user but doesn't log in the user
 	Currently like this because of future developments
 	"""
-	signUp(user: UserInput!): User!
-	signIn(signInCredentials: SignInCredentials!): User!
-	signOut: SignOutMessage!
+	signUp(user: UserInput!): UserCreateResult!
 	createPost(post: PostInput!): Post!
 }
 
@@ -72,9 +72,9 @@ input PostInput {
 }
 
 type Query {
-	me: User!
-	user(id: UUID!): User!
-	getUser(userBy: UserBy!): User!
+	me: UserGetResult!
+	user(id: UUID!): UserGetResult!
+	getUser(userBy: UserBy!): UserGetResult!
 	users: [User!]!
 	session: Session!
 	post(id: UUID!): Post!
@@ -84,6 +84,11 @@ type Query {
 enum Role {
 	ADMIN
 	USER
+}
+
+type ServerError implements UserBaseError {
+	message: String!
+	solution: String!
 }
 
 type Session {
@@ -139,11 +144,34 @@ type User {
 	postCount: Int!
 }
 
+interface UserBaseError {
+	message: String!
+	solution: String!
+}
+
 input UserBy @oneOf {
 	userId: UUID
 	username: String
 	address: Address
 	email: String
+}
+
+union UserCreateResult = User | UserRegisterInvalidInputError | UserNotFoundError
+
+type UserGenericError implements UserBaseError {
+	title: String!
+	message: String!
+	solution: String!
+	moreField: String!
+}
+
+union UserGetResult = User | UserRegisterInvalidInputError | UserNotFoundError
+
+type UserHaveNoAccessError implements UserBaseError {
+	title: String!
+	message: String!
+	solution: String!
+	moreField: String!
 }
 
 input UserInput {
@@ -156,6 +184,39 @@ input UserInput {
 	age: Int
 	socialMedia: [String!]!
 }
+
+type UserNotFoundError implements UserBaseError {
+	message: String!
+	solution: String!
+}
+
+type UserRegisterInvalidInputError implements UserBaseError {
+	message: String!
+	title: String!
+	solution: String!
+	loginErrorMessage: String!
+	emailErrorMessage: String!
+	passwordErrorMessage: String!
+}
+
+type UserSessionExpiredError implements UserBaseError {
+	message: String!
+	solution: String!
+}
+
+type UserSignInInvalidInputError {
+	message: String!
+	title: String!
+	solution: String!
+	usernameErrorMessage: String!
+	loginErrorMessage: String!
+	emailErrorMessage: String!
+	passwordErrorMessage: String!
+}
+
+union UserSignInResult = User | UserSignInInvalidInputError | UserNotFoundError
+
+union UserSignOutResult = SignOutMessage | UserSessionExpiredError | ServerError
 
 schema {
 	query: Query

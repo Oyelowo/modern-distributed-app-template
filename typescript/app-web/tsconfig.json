@@ -4,6 +4,7 @@
     "target": "es2017",
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
+    "strict": true,
     "resolveJsonModule": true,
     "outDir": "./build"
   }

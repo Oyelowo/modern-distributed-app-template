@@ -5,7 +5,9 @@ use lib_common::utils;
 
 fn main() {
     // println!("cargo:rerun-if-changed=build.rs");
+    // let path = format!("{}/generated/schema.graphql", env!("CARGO_PKG_NAME"));
     let ts_path = "../../typescript/lib-graphql/generated/schema.graphql";
+    std::fs::remove_file(ts_path).expect("Problem removing file");
     println!("cargo:rerun-if-changed={ts_path}");
     generate_schema(ts_path);
 }

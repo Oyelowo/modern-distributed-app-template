@@ -18,9 +18,7 @@ export function Layout({ children }: { children: ReactElement }) {
 			navbarOffsetBreakpoint="sm"
 			asideOffsetBreakpoint="sm"
 			fixed={true}
-			navbar={
-				<SideNavbarSlim />
-			}
+			navbar={<SideNavbarSlim />}
 			// footer={
 			//   <Footer height={60} p="md">
 			//     <Container>

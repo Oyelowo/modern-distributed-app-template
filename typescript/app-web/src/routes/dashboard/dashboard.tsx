@@ -1,9 +1,9 @@
 import { dashboardRoute } from "./index.js";
-import { router } from "../../router.js";
 import { MultiSelect, SegmentedControl, SimpleGrid } from "@mantine/core";
 import { useState } from "react";
 import { tradingChartOption } from "../../charts/tradingChartsOptions.js";
 import { useChart } from "../../charts/useChart.js";
+import { useMatch } from "@tanstack/react-router";
 export const dashboardIndexRoute = dashboardRoute.createRoute({
 	path: "/",
 	component: DashboardHome,
@@ -12,7 +12,7 @@ export const dashboardIndexRoute = dashboardRoute.createRoute({
 function DashboardHome() {
 	const {
 		loaderData: { invoices },
-	} = router.useMatch(dashboardIndexRoute.id);
+	} = useMatch(dashboardIndexRoute.id);
 	const { ReactCharts: TAChart } = useChart({
 		option: tradingChartOption,
 		// theme: "light",

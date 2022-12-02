@@ -1,5 +1,4 @@
-import { createRouteConfig, Outlet } from "@tanstack/react-router";
-import { router } from "../../../router.js";
+import { createRouteConfig, Outlet, useMatch } from "@tanstack/react-router";
 
 export const landingRoute = createRouteConfig().createRoute({
 	path: "landing",
@@ -13,7 +12,7 @@ export const landingRoute = createRouteConfig().createRoute({
 });
 
 function LandingHome() {
-	const route = router.useMatch(landingRoute.id);
+	const route = useMatch(landingRoute.id);
 	return (
 		<div>
 			<route.Link to="/landing">landing</route.Link>

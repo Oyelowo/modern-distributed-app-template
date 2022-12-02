@@ -1,4 +1,4 @@
-import { Outlet } from "@tanstack/react-router";
+import { Outlet, useMatch } from "@tanstack/react-router";
 import { z } from "zod";
 import { router } from "../../../router.js";
 import { Loader as Spinner } from "@mantine/core";
@@ -47,7 +47,7 @@ function Users() {
 		Link,
 		MatchRoute,
 		navigate,
-	} = router.useMatch(usersRoute.id);
+	} = useMatch(usersRoute.id);
 
 	const sortBy = usersView?.sortBy ?? "name";
 	const filterBy = usersView?.filterBy;
@@ -137,7 +137,7 @@ function Users() {
 					return (
 						<div key={user.id}>
 							<Link
-								to="./:userId"
+								to="./$userId"
 								params={{
 									userId: user.id,
 								}}
@@ -147,7 +147,7 @@ function Users() {
 								<pre className="text-sm">
 									{user.name}{" "}
 									<MatchRoute
-										to={"./:userId"}
+										to={"./$userId"}
 										params={{
 											userId: user.id,
 										}}

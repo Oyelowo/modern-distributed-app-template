@@ -76,7 +76,7 @@ pub async fn start_authentication(
     let env = ApplicationConfigs::default();
 
     // If session still valid, redirect to home page
-    if let Ok(_s) = session.get_user_id::<ObjectId>() {
+    if let Ok(_s) = session.get_current_user_id::<ObjectId>() {
         session.renew();
         return Ok(RedirectCustom::found(env.external_base_url));
     };
