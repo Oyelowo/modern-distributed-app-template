@@ -149,7 +149,7 @@ impl UserMutationRoot {
                             .to_string(),
                     }.into()
                 };
-println!("xxxx :{user:?}");
+                println!("xxxx :{user:?}");
                 let Some(password_hash) = &user.password.clone() else {
                     // TODO: FIX update
                     return error::ServerError {
@@ -207,6 +207,28 @@ println!("xxxx :{user:?}");
         // let user_id = get_current_user_id_unchecked!(session);
 
         let uuid = surrealdb::sql::Uuid::new();
+        // user.password = createpa
+        // let session = TypedSession::from_ctx(ctx)?;
+        let Ok(password_hash) = generate_password_hash(user.password.unwrap())
+            .await else {
+                return error::ServerError{
+                    message: "yyyyyy".to_string(),
+                    solution: "xxxx".to_string(),
+                }.into();
+            };
+
+        let mut user = User::builder()
+            .created_at(Utc::now())
+            .username(user.username)
+            .first_name(user.first_name)
+            .last_name(user.last_name)
+            .email(user.email)
+            .age(user.age)
+            .social_media(user.social_media)
+            .roles(vec![Role::User])
+            .accounts(vec![])
+            .password(Some(password_hash.into()))
+            .build();
 
         let user: User = db
             .create(("user", uuid.to_string()))
