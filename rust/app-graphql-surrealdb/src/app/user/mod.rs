@@ -1,11 +1,12 @@
+pub(in crate::app) mod error;
 pub(in crate::app) mod guards;
 pub(in crate::app) mod model;
+pub(in crate::app) mod model_oauth;
 pub(in crate::app) mod mutation_root;
 pub(in crate::app) mod query_root;
 pub(in crate::app) mod subscription_root;
-pub(in crate::app) mod error;
 
 pub use self::{
-    model::*, mutation_root::UserMutationRoot, query_root::UserQueryRoot,
+    model::*, model_oauth::*, mutation_root::UserMutationRoot, query_root::UserQueryRoot,
     subscription_root::UserSubscriptionRoot,
 };

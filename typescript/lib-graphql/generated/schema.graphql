@@ -42,7 +42,7 @@ scalar DateTime
 
 
 type Mutation {
-	createUser(userInput: UserInput!): UserCreateResult!
+	createUser(userInput: UserInput!): User!
 	signIn(signInCredentials: SignInCredentials!): UserSignInResult!
 	signOut: UserSignOutResult!
 	"""
@@ -58,6 +58,28 @@ enum OauthProvider {
 	GOOGLE
 }
 
+"""
+Information about pagination in a connection
+"""
+type PageInfo {
+	"""
+	When paginating backwards, are there more items?
+	"""
+	hasPreviousPage: Boolean!
+	"""
+	When paginating forwards, are there more items?
+	"""
+	hasNextPage: Boolean!
+	"""
+	When paginating backwards, the cursor to continue.
+	"""
+	startCursor: String
+	"""
+	When paginating forwards, the cursor to continue.
+	"""
+	endCursor: String
+}
+
 type Post {
 	id: UUID
 	posterId: UUID!
@@ -66,13 +88,46 @@ type Post {
 	poster: User!
 }
 
+type PostConnection {
+	"""
+	Information to aid in pagination.
+	"""
+	pageInfo: PageInfo!
+	"""
+	A list of edges.
+	"""
+	edges: [PostEdge!]!
+	"""
+	A list of nodes.
+	"""
+	nodes: [Post!]!
+}
+
+"""
+An edge in a connection.
+"""
+type PostEdge {
+	"""
+	A cursor for use in pagination
+	"""
+	cursor: String!
+	"""
+	The item at the end of the edge
+	"""
+	node: Post!
+	lowo: Boolean!
+	happy: Boolean!
+}
+
 input PostInput {
 	title: String!
 	content: String!
 }
 
+union PostsConnectionResult = PostConnection | UserNotFoundError
+
 type Query {
-	me: UserGetResult!
+	me: User!
 	user(id: UUID!): UserGetResult!
 	getUser(userBy: UserBy!): UserGetResult!
 	users: [User!]!
@@ -111,6 +166,11 @@ type Subscription {
 	values: Int!
 }
 
+"""
+A UUID type provided by the SurrealDB database
+"""
+scalar SurrealDBUuid
+
 enum TokenType {
 	BEARER
 }
@@ -128,7 +188,7 @@ entities without requiring a central allocating authority.
 scalar UUID
 
 type User {
-	id: UUID
+	id: SurrealDBUuid!
 	createdAt: DateTime
 	username: String!
 	firstName: String
@@ -140,7 +200,8 @@ type User {
 	socialMedia: [String!]!
 	roles: [Role!]!
 	accounts: [AccountOauth!]!
-	posts: [Post!]!
+	postsConnection2(after: String, before: String, first: Int, last: Int): PostsConnectionResult!
+	postsConnection(after: String, before: String, first: Int, last: Int): PostConnection!
 	postCount: Int!
 }
 
@@ -156,22 +217,18 @@ input UserBy @oneOf {
 	email: String
 }
 
-union UserCreateResult = User | UserRegisterInvalidInputError | UserNotFoundError
+union UserCreateResult = User | UserRegisterInvalidInputError | UserNotFoundError | ServerError
 
 type UserGenericError implements UserBaseError {
-	title: String!
 	message: String!
 	solution: String!
-	moreField: String!
 }
 
-union UserGetResult = User | UserRegisterInvalidInputError | UserNotFoundError
+union UserGetResult = User | UserNotFoundError | ServerError
 
 type UserHaveNoAccessError implements UserBaseError {
-	title: String!
 	message: String!
 	solution: String!
-	moreField: String!
 }
 
 input UserInput {
@@ -190,12 +247,10 @@ type UserNotFoundError implements UserBaseError {
 	solution: String!
 }
 
-type UserRegisterInvalidInputError implements UserBaseError {
-	message: String!
-	title: String!
-	solution: String!
-	loginErrorMessage: String!
+type UserRegisterInvalidInputError {
+	usernameErrorMessage: String!
 	emailErrorMessage: String!
+	dateOfBirthErrorMessage: String!
 	passwordErrorMessage: String!
 }
 
@@ -205,16 +260,13 @@ type UserSessionExpiredError implements UserBaseError {
 }
 
 type UserSignInInvalidInputError {
-	message: String!
-	title: String!
-	solution: String!
 	usernameErrorMessage: String!
 	loginErrorMessage: String!
 	emailErrorMessage: String!
 	passwordErrorMessage: String!
 }
 
-union UserSignInResult = User | UserSignInInvalidInputError | UserNotFoundError
+union UserSignInResult = User | UserSignInInvalidInputError | UserNotFoundError | ServerError
 
 union UserSignOutResult = SignOutMessage | UserSessionExpiredError | ServerError
 

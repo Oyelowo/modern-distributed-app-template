@@ -9,7 +9,7 @@ upgrade:
 
 sync:
 	make install
-	(cd ../rust && make check)
+	# (cd ../rust && make check)
 	pnpm --filter "*" generate
 
 dev:

@@ -1,64 +1,45 @@
 use async_graphql::*;
 use serde::{Deserialize, Serialize};
 
-#[derive(SimpleObject, Serialize, Deserialize)]
-pub struct UserNotFoundError {
-    pub message: String,
-    pub solution: String,
-    // pub more_field: String,
+/// This macro generates a basic error struct with two fields: `message` and `solution`.
+///
+/// The struct is derived from the `SimpleObject` and `Serialize` and `Deserialize` traits.
+/// The name of the struct is determined by the `$name` parameter.
+macro_rules! generate_basic_error_struct {
+    (
+        $name:ident
+    ) => {
+        #[derive(SimpleObject, Serialize, Deserialize)]
+        pub struct $name {
+            pub message: String,
+            pub solution: String,
+        }
+    };
 }
 
-#[derive(SimpleObject, Serialize, Deserialize)]
-pub struct UserSessionExpiredError {
-    pub message: String,
-    pub solution: String,
-    // pub more_field: String,
-}
+generate_basic_error_struct!(Error);
+generate_basic_error_struct!(ServerError);
+generate_basic_error_struct!(UserNotFoundError);
+generate_basic_error_struct!(UserSessionExpiredError);
+generate_basic_error_struct!(UserHaveNoAccessError);
+generate_basic_error_struct!(UserGenericError);
 
-#[derive(SimpleObject, Serialize, Deserialize)]
-pub struct ServerError {
-    pub message: String,
-    pub solution: String,
-    // pub more_field: String,
-}
-
-
+// Write more specific error messages here with more fields
 
 #[derive(SimpleObject, Serialize, Deserialize)]
 pub struct UserRegisterInvalidInputError {
-    message: String,
-    title: String,
-    solution: String,
-    login_error_message: String,
+    username_error_message: String,
     email_error_message: String,
+    date_of_birth_error_message: String,
     password_error_message: String,
 }
 
 #[derive(SimpleObject, Serialize, Deserialize)]
 pub struct UserSignInInvalidInputError {
-    message: String,
-    title: String,
-    solution: String,
     username_error_message: String,
     login_error_message: String,
     email_error_message: String,
     password_error_message: String,
-}
-
-#[derive(SimpleObject, Serialize, Deserialize)]
-pub struct UserHaveNoAccessError {
-    title: String,
-    message: String,
-    solution: String,
-    more_field: String,
-}
-
-#[derive(SimpleObject, Serialize, Deserialize)]
-pub struct UserGenericError {
-    title: String,
-    message: String,
-    solution: String,
-    more_field: String,
 }
 
 #[derive(Interface)]
@@ -70,7 +51,6 @@ pub enum UserBaseError {
     NotFound(UserNotFoundError),
     HaveNoAccess(UserHaveNoAccessError),
     Generic(UserGenericError),
-    RegisterInvalidInput(UserRegisterInvalidInputError),
     ServerError(ServerError),
-    UserSessionExpiredError(UserSessionExpiredError)
+    UserSessionExpiredError(UserSessionExpiredError),
 }

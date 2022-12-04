@@ -824,9 +824,10 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 type ZEUS_INTERFACES = GraphQLTypes["UserBaseError"]
 export type ScalarCoders = {
 	DateTime?: ScalarResolver;
+	SurrealDBUuid?: ScalarResolver;
 	UUID?: ScalarResolver;
 }
-type ZEUS_UNIONS = GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
+type ZEUS_UNIONS = GraphQLTypes["PostsConnectionResult"] | GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -859,7 +860,7 @@ export type ValueTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
 	["Mutation"]: AliasType<{
-createUser?: [{	userInput: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["UserCreateResult"]],
+createUser?: [{	userInput: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["User"]],
 signIn?: [{	signInCredentials: ValueTypes["SignInCredentials"] | Variable<any, string>},ValueTypes["UserSignInResult"]],
 	signOut?:ValueTypes["UserSignOutResult"],
 signUp?: [{	user: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["UserCreateResult"]],
@@ -867,6 +868,18 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 		__typename?: boolean | `@${string}`
 }>;
 	["OauthProvider"]:OauthProvider;
+	/** Information about pagination in a connection */
+["PageInfo"]: AliasType<{
+	/** When paginating backwards, are there more items? */
+	hasPreviousPage?:boolean | `@${string}`,
+	/** When paginating forwards, are there more items? */
+	hasNextPage?:boolean | `@${string}`,
+	/** When paginating backwards, the cursor to continue. */
+	startCursor?:boolean | `@${string}`,
+	/** When paginating forwards, the cursor to continue. */
+	endCursor?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Post"]: AliasType<{
 	id?:boolean | `@${string}`,
 	posterId?:boolean | `@${string}`,
@@ -875,12 +888,35 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	poster?:ValueTypes["User"],
 		__typename?: boolean | `@${string}`
 }>;
+	["PostConnection"]: AliasType<{
+	/** Information to aid in pagination. */
+	pageInfo?:ValueTypes["PageInfo"],
+	/** A list of edges. */
+	edges?:ValueTypes["PostEdge"],
+	/** A list of nodes. */
+	nodes?:ValueTypes["Post"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** An edge in a connection. */
+["PostEdge"]: AliasType<{
+	/** A cursor for use in pagination */
+	cursor?:boolean | `@${string}`,
+	/** The item at the end of the edge */
+	node?:ValueTypes["Post"],
+	lowo?:boolean | `@${string}`,
+	happy?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["PostInput"]: {
 	title: string | Variable<any, string>,
 	content: string | Variable<any, string>
 };
+	["PostsConnectionResult"]: AliasType<{		["...on PostConnection"] : ValueTypes["PostConnection"],
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
-	me?:ValueTypes["UserGetResult"],
+	me?:ValueTypes["User"],
 user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 	users?:ValueTypes["User"],
@@ -913,6 +949,8 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	values?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** A UUID type provided by the SurrealDB database */
+["SurrealDBUuid"]:unknown;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -936,7 +974,8 @@ entities without requiring a central allocating authority.
 	socialMedia?:boolean | `@${string}`,
 	roles?:boolean | `@${string}`,
 	accounts?:ValueTypes["AccountOauth"],
-	posts?:ValueTypes["Post"],
+postsConnection2?: [{	after?: string | undefined | null | Variable<any, string>,	before?: string | undefined | null | Variable<any, string>,	first?: number | undefined | null | Variable<any, string>,	last?: number | undefined | null | Variable<any, string>},ValueTypes["PostsConnectionResult"]],
+postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	before?: string | undefined | null | Variable<any, string>,	first?: number | undefined | null | Variable<any, string>,	last?: number | undefined | null | Variable<any, string>},ValueTypes["PostConnection"]],
 	postCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -947,7 +986,6 @@ entities without requiring a central allocating authority.
 		['...on UserGenericError']?: Omit<ValueTypes["UserGenericError"],keyof ValueTypes["UserBaseError"]>;
 		['...on UserHaveNoAccessError']?: Omit<ValueTypes["UserHaveNoAccessError"],keyof ValueTypes["UserBaseError"]>;
 		['...on UserNotFoundError']?: Omit<ValueTypes["UserNotFoundError"],keyof ValueTypes["UserBaseError"]>;
-		['...on UserRegisterInvalidInputError']?: Omit<ValueTypes["UserRegisterInvalidInputError"],keyof ValueTypes["UserBaseError"]>;
 		['...on UserSessionExpiredError']?: Omit<ValueTypes["UserSessionExpiredError"],keyof ValueTypes["UserBaseError"]>;
 		__typename?: boolean | `@${string}`
 }>;
@@ -963,22 +1001,17 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGenericError"]: AliasType<{
-	title?:boolean | `@${string}`,
 	message?:boolean | `@${string}`,
 	solution?:boolean | `@${string}`,
-	moreField?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGetResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
-		["...on UserRegisterInvalidInputError"] : ValueTypes["UserRegisterInvalidInputError"],
 		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
-	title?:boolean | `@${string}`,
 	message?:boolean | `@${string}`,
 	solution?:boolean | `@${string}`,
-	moreField?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserInput"]: {
@@ -997,11 +1030,9 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserRegisterInvalidInputError"]: AliasType<{
-	message?:boolean | `@${string}`,
-	title?:boolean | `@${string}`,
-	solution?:boolean | `@${string}`,
-	loginErrorMessage?:boolean | `@${string}`,
+	usernameErrorMessage?:boolean | `@${string}`,
 	emailErrorMessage?:boolean | `@${string}`,
+	dateOfBirthErrorMessage?:boolean | `@${string}`,
 	passwordErrorMessage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -1011,9 +1042,6 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserSignInInvalidInputError"]: AliasType<{
-	message?:boolean | `@${string}`,
-	title?:boolean | `@${string}`,
-	solution?:boolean | `@${string}`,
 	usernameErrorMessage?:boolean | `@${string}`,
 	loginErrorMessage?:boolean | `@${string}`,
 	emailErrorMessage?:boolean | `@${string}`,
@@ -1063,7 +1091,7 @@ export type ResolverInputTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
 	["Mutation"]: AliasType<{
-createUser?: [{	userInput: ResolverInputTypes["UserInput"]},ResolverInputTypes["UserCreateResult"]],
+createUser?: [{	userInput: ResolverInputTypes["UserInput"]},ResolverInputTypes["User"]],
 signIn?: [{	signInCredentials: ResolverInputTypes["SignInCredentials"]},ResolverInputTypes["UserSignInResult"]],
 	signOut?:ResolverInputTypes["UserSignOutResult"],
 signUp?: [{	user: ResolverInputTypes["UserInput"]},ResolverInputTypes["UserCreateResult"]],
@@ -1071,6 +1099,18 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 		__typename?: boolean | `@${string}`
 }>;
 	["OauthProvider"]:OauthProvider;
+	/** Information about pagination in a connection */
+["PageInfo"]: AliasType<{
+	/** When paginating backwards, are there more items? */
+	hasPreviousPage?:boolean | `@${string}`,
+	/** When paginating forwards, are there more items? */
+	hasNextPage?:boolean | `@${string}`,
+	/** When paginating backwards, the cursor to continue. */
+	startCursor?:boolean | `@${string}`,
+	/** When paginating forwards, the cursor to continue. */
+	endCursor?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Post"]: AliasType<{
 	id?:boolean | `@${string}`,
 	posterId?:boolean | `@${string}`,
@@ -1079,12 +1119,36 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	poster?:ResolverInputTypes["User"],
 		__typename?: boolean | `@${string}`
 }>;
+	["PostConnection"]: AliasType<{
+	/** Information to aid in pagination. */
+	pageInfo?:ResolverInputTypes["PageInfo"],
+	/** A list of edges. */
+	edges?:ResolverInputTypes["PostEdge"],
+	/** A list of nodes. */
+	nodes?:ResolverInputTypes["Post"],
+		__typename?: boolean | `@${string}`
+}>;
+	/** An edge in a connection. */
+["PostEdge"]: AliasType<{
+	/** A cursor for use in pagination */
+	cursor?:boolean | `@${string}`,
+	/** The item at the end of the edge */
+	node?:ResolverInputTypes["Post"],
+	lowo?:boolean | `@${string}`,
+	happy?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["PostInput"]: {
 	title: string,
 	content: string
 };
+	["PostsConnectionResult"]: AliasType<{
+	PostConnection?:ResolverInputTypes["PostConnection"],
+	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+		__typename?: boolean | `@${string}`
+}>;
 	["Query"]: AliasType<{
-	me?:ResolverInputTypes["UserGetResult"],
+	me?:ResolverInputTypes["User"],
 user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["UserGetResult"]],
 getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["UserGetResult"]],
 	users?:ResolverInputTypes["User"],
@@ -1117,6 +1181,8 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	values?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
+	/** A UUID type provided by the SurrealDB database */
+["SurrealDBUuid"]:unknown;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1140,7 +1206,8 @@ entities without requiring a central allocating authority.
 	socialMedia?:boolean | `@${string}`,
 	roles?:boolean | `@${string}`,
 	accounts?:ResolverInputTypes["AccountOauth"],
-	posts?:ResolverInputTypes["Post"],
+postsConnection2?: [{	after?: string | undefined | null,	before?: string | undefined | null,	first?: number | undefined | null,	last?: number | undefined | null},ResolverInputTypes["PostsConnectionResult"]],
+postsConnection?: [{	after?: string | undefined | null,	before?: string | undefined | null,	first?: number | undefined | null,	last?: number | undefined | null},ResolverInputTypes["PostConnection"]],
 	postCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -1151,7 +1218,6 @@ entities without requiring a central allocating authority.
 		['...on UserGenericError']?: Omit<ResolverInputTypes["UserGenericError"],keyof ResolverInputTypes["UserBaseError"]>;
 		['...on UserHaveNoAccessError']?: Omit<ResolverInputTypes["UserHaveNoAccessError"],keyof ResolverInputTypes["UserBaseError"]>;
 		['...on UserNotFoundError']?: Omit<ResolverInputTypes["UserNotFoundError"],keyof ResolverInputTypes["UserBaseError"]>;
-		['...on UserRegisterInvalidInputError']?: Omit<ResolverInputTypes["UserRegisterInvalidInputError"],keyof ResolverInputTypes["UserBaseError"]>;
 		['...on UserSessionExpiredError']?: Omit<ResolverInputTypes["UserSessionExpiredError"],keyof ResolverInputTypes["UserBaseError"]>;
 		__typename?: boolean | `@${string}`
 }>;
@@ -1168,23 +1234,18 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGenericError"]: AliasType<{
-	title?:boolean | `@${string}`,
 	message?:boolean | `@${string}`,
 	solution?:boolean | `@${string}`,
-	moreField?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGetResult"]: AliasType<{
 	User?:ResolverInputTypes["User"],
-	UserRegisterInvalidInputError?:ResolverInputTypes["UserRegisterInvalidInputError"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
-	title?:boolean | `@${string}`,
 	message?:boolean | `@${string}`,
 	solution?:boolean | `@${string}`,
-	moreField?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["UserInput"]: {
@@ -1203,11 +1264,9 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserRegisterInvalidInputError"]: AliasType<{
-	message?:boolean | `@${string}`,
-	title?:boolean | `@${string}`,
-	solution?:boolean | `@${string}`,
-	loginErrorMessage?:boolean | `@${string}`,
+	usernameErrorMessage?:boolean | `@${string}`,
 	emailErrorMessage?:boolean | `@${string}`,
+	dateOfBirthErrorMessage?:boolean | `@${string}`,
 	passwordErrorMessage?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
@@ -1217,9 +1276,6 @@ entities without requiring a central allocating authority.
 		__typename?: boolean | `@${string}`
 }>;
 	["UserSignInInvalidInputError"]: AliasType<{
-	message?:boolean | `@${string}`,
-	title?:boolean | `@${string}`,
-	solution?:boolean | `@${string}`,
 	usernameErrorMessage?:boolean | `@${string}`,
 	loginErrorMessage?:boolean | `@${string}`,
 	emailErrorMessage?:boolean | `@${string}`,
@@ -1270,7 +1326,7 @@ export type ModelTypes = {
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:any;
 	["Mutation"]: {
-		createUser: ModelTypes["UserCreateResult"],
+		createUser: ModelTypes["User"],
 	signIn: ModelTypes["UserSignInResult"],
 	signOut: ModelTypes["UserSignOutResult"],
 	/** Creates a new user but doesn't log in the user
@@ -1279,6 +1335,17 @@ Currently like this because of future developments */
 	createPost: ModelTypes["Post"]
 };
 	["OauthProvider"]:OauthProvider;
+	/** Information about pagination in a connection */
+["PageInfo"]: {
+		/** When paginating backwards, are there more items? */
+	hasPreviousPage: boolean,
+	/** When paginating forwards, are there more items? */
+	hasNextPage: boolean,
+	/** When paginating backwards, the cursor to continue. */
+	startCursor?: string | undefined,
+	/** When paginating forwards, the cursor to continue. */
+	endCursor?: string | undefined
+};
 	["Post"]: {
 		id?: ModelTypes["UUID"] | undefined,
 	posterId: ModelTypes["UUID"],
@@ -1286,12 +1353,30 @@ Currently like this because of future developments */
 	content: string,
 	poster: ModelTypes["User"]
 };
+	["PostConnection"]: {
+		/** Information to aid in pagination. */
+	pageInfo: ModelTypes["PageInfo"],
+	/** A list of edges. */
+	edges: Array<ModelTypes["PostEdge"]>,
+	/** A list of nodes. */
+	nodes: Array<ModelTypes["Post"]>
+};
+	/** An edge in a connection. */
+["PostEdge"]: {
+		/** A cursor for use in pagination */
+	cursor: string,
+	/** The item at the end of the edge */
+	node: ModelTypes["Post"],
+	lowo: boolean,
+	happy: boolean
+};
 	["PostInput"]: {
 	title: string,
 	content: string
 };
+	["PostsConnectionResult"]:ModelTypes["PostConnection"] | ModelTypes["UserNotFoundError"];
 	["Query"]: {
-		me: ModelTypes["UserGetResult"],
+		me: ModelTypes["User"],
 	user: ModelTypes["UserGetResult"],
 	getUser: ModelTypes["UserGetResult"],
 	users: Array<ModelTypes["User"]>,
@@ -1319,6 +1404,8 @@ Currently like this because of future developments */
 	["Subscription"]: {
 		values: number
 };
+	/** A UUID type provided by the SurrealDB database */
+["SurrealDBUuid"]:any;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1330,7 +1417,7 @@ entities without requiring a central allocating authority.
 * [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
 ["UUID"]:any;
 	["User"]: {
-		id?: ModelTypes["UUID"] | undefined,
+		id: ModelTypes["SurrealDBUuid"],
 	createdAt?: ModelTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1342,10 +1429,11 @@ entities without requiring a central allocating authority.
 	socialMedia: Array<string>,
 	roles: Array<ModelTypes["Role"]>,
 	accounts: Array<ModelTypes["AccountOauth"]>,
-	posts: Array<ModelTypes["Post"]>,
+	postsConnection2: ModelTypes["PostsConnectionResult"],
+	postsConnection: ModelTypes["PostConnection"],
 	postCount: number
 };
-	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserSessionExpiredError"];
+	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserSessionExpiredError"];
 	["UserBy"]: {
 	userId?: ModelTypes["UUID"] | undefined,
 	username?: string | undefined,
@@ -1354,17 +1442,13 @@ entities without requiring a central allocating authority.
 };
 	["UserCreateResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"];
 	["UserGenericError"]: {
-		title: string,
-	message: string,
-	solution: string,
-	moreField: string
+		message: string,
+	solution: string
 };
-	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"];
 	["UserHaveNoAccessError"]: {
-		title: string,
-	message: string,
-	solution: string,
-	moreField: string
+		message: string,
+	solution: string
 };
 	["UserInput"]: {
 	username: string,
@@ -1381,11 +1465,9 @@ entities without requiring a central allocating authority.
 	solution: string
 };
 	["UserRegisterInvalidInputError"]: {
-		message: string,
-	title: string,
-	solution: string,
-	loginErrorMessage: string,
+		usernameErrorMessage: string,
 	emailErrorMessage: string,
+	dateOfBirthErrorMessage: string,
 	passwordErrorMessage: string
 };
 	["UserSessionExpiredError"]: {
@@ -1393,10 +1475,7 @@ entities without requiring a central allocating authority.
 	solution: string
 };
 	["UserSignInInvalidInputError"]: {
-		message: string,
-	title: string,
-	solution: string,
-	usernameErrorMessage: string,
+		usernameErrorMessage: string,
 	loginErrorMessage: string,
 	emailErrorMessage: string,
 	passwordErrorMessage: string
@@ -1437,7 +1516,7 @@ The input/output is a string in RFC3339 format. */
 ["DateTime"]: "scalar" & { name: "DateTime" };
 	["Mutation"]: {
 	__typename: "Mutation",
-	createUser: GraphQLTypes["UserCreateResult"],
+	createUser: GraphQLTypes["User"],
 	signIn: GraphQLTypes["UserSignInResult"],
 	signOut: GraphQLTypes["UserSignOutResult"],
 	/** Creates a new user but doesn't log in the user
@@ -1446,6 +1525,18 @@ Currently like this because of future developments */
 	createPost: GraphQLTypes["Post"]
 };
 	["OauthProvider"]: OauthProvider;
+	/** Information about pagination in a connection */
+["PageInfo"]: {
+	__typename: "PageInfo",
+	/** When paginating backwards, are there more items? */
+	hasPreviousPage: boolean,
+	/** When paginating forwards, are there more items? */
+	hasNextPage: boolean,
+	/** When paginating backwards, the cursor to continue. */
+	startCursor?: string | undefined,
+	/** When paginating forwards, the cursor to continue. */
+	endCursor?: string | undefined
+};
 	["Post"]: {
 	__typename: "Post",
 	id?: GraphQLTypes["UUID"] | undefined,
@@ -1454,13 +1545,37 @@ Currently like this because of future developments */
 	content: string,
 	poster: GraphQLTypes["User"]
 };
+	["PostConnection"]: {
+	__typename: "PostConnection",
+	/** Information to aid in pagination. */
+	pageInfo: GraphQLTypes["PageInfo"],
+	/** A list of edges. */
+	edges: Array<GraphQLTypes["PostEdge"]>,
+	/** A list of nodes. */
+	nodes: Array<GraphQLTypes["Post"]>
+};
+	/** An edge in a connection. */
+["PostEdge"]: {
+	__typename: "PostEdge",
+	/** A cursor for use in pagination */
+	cursor: string,
+	/** The item at the end of the edge */
+	node: GraphQLTypes["Post"],
+	lowo: boolean,
+	happy: boolean
+};
 	["PostInput"]: {
 		title: string,
 	content: string
 };
+	["PostsConnectionResult"]:{
+        	__typename:"PostConnection" | "UserNotFoundError"
+        	['...on PostConnection']: '__union' & GraphQLTypes["PostConnection"];
+	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+};
 	["Query"]: {
 	__typename: "Query",
-	me: GraphQLTypes["UserGetResult"],
+	me: GraphQLTypes["User"],
 	user: GraphQLTypes["UserGetResult"],
 	getUser: GraphQLTypes["UserGetResult"],
 	users: Array<GraphQLTypes["User"]>,
@@ -1492,6 +1607,8 @@ Currently like this because of future developments */
 	__typename: "Subscription",
 	values: number
 };
+	/** A UUID type provided by the SurrealDB database */
+["SurrealDBUuid"]: "scalar" & { name: "SurrealDBUuid" };
 	["TokenType"]: TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1504,7 +1621,7 @@ entities without requiring a central allocating authority.
 ["UUID"]: "scalar" & { name: "UUID" };
 	["User"]: {
 	__typename: "User",
-	id?: GraphQLTypes["UUID"] | undefined,
+	id: GraphQLTypes["SurrealDBUuid"],
 	createdAt?: GraphQLTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1516,18 +1633,18 @@ entities without requiring a central allocating authority.
 	socialMedia: Array<string>,
 	roles: Array<GraphQLTypes["Role"]>,
 	accounts: Array<GraphQLTypes["AccountOauth"]>,
-	posts: Array<GraphQLTypes["Post"]>,
+	postsConnection2: GraphQLTypes["PostsConnectionResult"],
+	postsConnection: GraphQLTypes["PostConnection"],
 	postCount: number
 };
 	["UserBaseError"]: {
-	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserRegisterInvalidInputError" | "UserSessionExpiredError",
+	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserSessionExpiredError",
 	message: string,
 	solution: string
 	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 	['...on UserGenericError']: '__union' & GraphQLTypes["UserGenericError"];
 	['...on UserHaveNoAccessError']: '__union' & GraphQLTypes["UserHaveNoAccessError"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
-	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
 	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
 };
 	["UserBy"]: {
@@ -1544,23 +1661,18 @@ entities without requiring a central allocating authority.
 };
 	["UserGenericError"]: {
 	__typename: "UserGenericError",
-	title: string,
 	message: string,
-	solution: string,
-	moreField: string
+	solution: string
 };
 	["UserGetResult"]:{
-        	__typename:"User" | "UserRegisterInvalidInputError" | "UserNotFoundError"
+        	__typename:"User" | "UserNotFoundError"
         	['...on User']: '__union' & GraphQLTypes["User"];
-	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
 };
 	["UserHaveNoAccessError"]: {
 	__typename: "UserHaveNoAccessError",
-	title: string,
 	message: string,
-	solution: string,
-	moreField: string
+	solution: string
 };
 	["UserInput"]: {
 		username: string,
@@ -1579,11 +1691,9 @@ entities without requiring a central allocating authority.
 };
 	["UserRegisterInvalidInputError"]: {
 	__typename: "UserRegisterInvalidInputError",
-	message: string,
-	title: string,
-	solution: string,
-	loginErrorMessage: string,
+	usernameErrorMessage: string,
 	emailErrorMessage: string,
+	dateOfBirthErrorMessage: string,
 	passwordErrorMessage: string
 };
 	["UserSessionExpiredError"]: {
@@ -1593,9 +1703,6 @@ entities without requiring a central allocating authority.
 };
 	["UserSignInInvalidInputError"]: {
 	__typename: "UserSignInInvalidInputError",
-	message: string,
-	title: string,
-	solution: string,
 	usernameErrorMessage: string,
 	loginErrorMessage: string,
 	emailErrorMessage: string,
@@ -1633,6 +1740,7 @@ type ZEUS_VARIABLES = {
 	["PostInput"]: ValueTypes["PostInput"];
 	["Role"]: ValueTypes["Role"];
 	["SignInCredentials"]: ValueTypes["SignInCredentials"];
+	["SurrealDBUuid"]: ValueTypes["SurrealDBUuid"];
 	["TokenType"]: ValueTypes["TokenType"];
 	["UUID"]: ValueTypes["UUID"];
 	["UserBy"]: ValueTypes["UserBy"];

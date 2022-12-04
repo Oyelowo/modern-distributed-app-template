@@ -1,4 +1,4 @@
-use crate::{error_handling::ApiHttpStatus::*, middleware::get_session_expiry};
+use crate::{error_handling::ApiHttpStatus::*, middleware::session_helpers::get_session_expiry};
 use async_graphql::{Context, ErrorExtensions, Result};
 use chrono::{DateTime, Utc};
 use log::warn;
