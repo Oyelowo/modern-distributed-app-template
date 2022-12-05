@@ -1,113 +1,57 @@
-use serde::{Deserialize, Serialize};
-use serde_json::json;
-use std::borrow::Cow;
-use surrealdb_rs::param::Root;
-use surrealdb_rs::protocol::Ws;
-use surrealdb_rs::{Result, Surreal};
+use anyhow::Context;
+use app_graphql_surrealdb::app;
+use lib_common::middleware;
+use poem::{
+    get, handler,
+    listener::TcpListener,
+    session::{CookieConfig, CookieSession, Session},
+    EndpointExt, Route, Server,
+};
+use rand::{thread_rng, Rng};
+use surrealdb_rs::{embedded::Db, storage::Mem, Surreal};
+// pub mod app;
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Name {
-    first: Cow<'static, str>,
-    last: Cow<'static, str>,
+#[handler]
+async fn count(session: &Session) -> String {
+    // let count = session.get::<i32>("count").unwrap_or(0) + 1;
+    // session.set("count", count);
+    let mut rng = rand::thread_rng();
+
+    let random_number: i32 = rng.gen();
+    let count =
+        session
+            .get::<app::user::UuidSurrealdb>("count")
+            .unwrap_or(app::user::UuidSurrealdb(
+                format!("lowox rand::random().to_string(), {}", rng.gen::<i32>()),
+            ));
+    session.set("count",  format!("lowox rand::random().to_string(), {}", rng.gen::<i32>()));
+    format!("Hello!\nHow many times have seen you: {:?}", count)
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-struct Person {
-    #[serde(skip_serializing)]
-    id: Option<String>,
-    title: Cow<'static, str>,
-    name: Name,
-    marketing: bool,
+async fn count2(db: Surreal<Db>) {
+    let xx: Vec<i32> = db.select("poem_sessions").await.unwrap();
+    
 }
 
 #[tokio::main]
-async fn main() -> Result<()> {
-    let client = Surreal::connect::<Ws>("localhost:8000").await?;
-    println!("first");
-    // Signin as a namespace, database, or root user
-    client
-        .signin(Root {
-            username: "root",
-            password: "root",
-        })
-        .await?;
-    // client
-    // .signin(Root {
-    //     username: "root",
-    //     password: "root",
-    // })
-    // .await?;
-    println!("runs!");
+async fn main() -> Result<(), std::io::Error> {
+    let environment = lib_common::configurations::application::Environment::Local;
+    // let redis_config = RedisConfigs::default();
 
-    // Select a specific namespace and database
-    client.use_ns("test").use_db("test").await?;
+    let db = Surreal::connect::<Mem>(()).await.unwrap();
+    db.use_ns("namespace").use_db("database").await.unwrap();
 
-    // Create a new person with a random ID
-    let tobie: Person = client
-        .create("person")
-        .content(Person {
-            id: None,
-            title: "Founder & CEO".into(),
-            name: Name {
-                first: "Tobie".into(),
-                last: "Morgan Hitchcock".into(),
-            },
-            marketing: true,
-        })
-        .await?;
+    let session = middleware::get_session_surrealdb(db, &environment)
+        .await
+        .unwrap();
+    if std::env::var_os("RUST_LOG").is_none() {
+        std::env::set_var("RUST_LOG", "poem=debug");
+    }
+    tracing_subscriber::fmt::init();
 
-    assert!(tobie.id.is_some());
-
-    // Create a new person with a specific ID
-    let mut jaime: Person = client
-        .create(("person", "jaime"))
-        .content(Person {
-            id: None,
-            title: "Founder & COO".into(),
-            name: Name {
-                first: "Jaime".into(),
-                last: "Morgan Hitchcock".into(),
-            },
-            marketing: false,
-        })
-        .await?;
-
-    assert_eq!(jaime.id.unwrap(), "person:jaime");
-
-    // Update a person record with a specific ID
-    jaime = client
-        .update(("person", "jaime"))
-        .merge(json!({ "marketing": true }))
-        .await?;
-
-    assert!(jaime.marketing);
-    println!("osososo, {jaime:?}");
-
-    // Select all people records
-    let people: Vec<Person> = client.select("person").await?;
-
-    assert!(!people.is_empty());
-
-    // Perform a custom advanced query
-    let groups = client
-        .query(
-            "
-            SELECT marketing,
-                   count()
-            FROM type::table($table)
-            GROUP BY marketing
-        ",
-        )
-        .bind("table", "person")
-        .await?;
-
-    dbg!(groups);
-
-    // Delete all people upto but not including Jaime
-    client.delete("person").range(.."jaime").await?;
-
-    // Delete all people
-    client.delete("person").await?;
-
-    Ok(())
+    let app = Route::new().at("/", get(count)).with(session);
+    // .with(CookieSession::new(CookieConfig::default().secure(false)));
+    Server::new(TcpListener::bind("127.0.0.1:3000"))
+        .run(app)
+        .await
 }

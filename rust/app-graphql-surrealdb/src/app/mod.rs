@@ -1,5 +1,5 @@
-pub(crate) mod post;
-pub(crate) mod user;
+pub mod post;
+pub mod user;
 use post::{Post, PostMutationRoot, PostQueryRoot, PostSubscriptionRoot};
 use user::{User, UserMutationRoot, UserQueryRoot, UserSubscriptionRoot};
 

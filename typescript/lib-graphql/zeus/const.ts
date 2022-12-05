@@ -40,13 +40,22 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	TokenType: "enum" as const,
 	UUID: `scalar.UUID` as const,
+	User:{
+		postsConnection2:{
+
+		},
+		postsConnection:{
+
+		}
+	},
 	UserBy:{
 		userId:"UUID",
 		address:"Address"
 	},
 	UserInput:{
 
-	}
+	},
+	UuidSurrealdb: `scalar.UuidSurrealdb` as const
 }
 
 export const ReturnTypes: Record<string,any> = {
@@ -71,11 +80,17 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	DateTime: `scalar.DateTime` as const,
 	Mutation:{
-		createUser:"UserCreateResult",
+		createUser:"User",
 		signIn:"UserSignInResult",
 		signOut:"UserSignOutResult",
 		signUp:"UserCreateResult",
 		createPost:"Post"
+	},
+	PageInfo:{
+		hasPreviousPage:"Boolean",
+		hasNextPage:"Boolean",
+		startCursor:"String",
+		endCursor:"String"
 	},
 	Post:{
 		id:"UUID",
@@ -84,12 +99,27 @@ export const ReturnTypes: Record<string,any> = {
 		content:"String",
 		poster:"User"
 	},
+	PostConnection:{
+		pageInfo:"PageInfo",
+		edges:"PostEdge",
+		nodes:"Post"
+	},
+	PostEdge:{
+		cursor:"String",
+		node:"Post",
+		lowo:"Boolean",
+		happy:"Boolean"
+	},
+	PostsConnectionResult:{
+		"...on PostConnection":"PostConnection",
+		"...on UserNotFoundError":"UserNotFoundError"
+	},
 	Query:{
-		me:"UserGetResult",
+		me:"User",
 		user:"UserGetResult",
 		getUser:"UserGetResult",
 		users:"User",
-		session:"Session",
+		session:"SessionResult",
 		post:"Post",
 		posts:"Post"
 	},
@@ -98,8 +128,13 @@ export const ReturnTypes: Record<string,any> = {
 		solution:"String"
 	},
 	Session:{
-		userId:"UUID",
+		userId:"UuidSurrealdb",
 		expiresAt:"DateTime"
+	},
+	SessionResult:{
+		"...on Session":"Session",
+		"...on UserSessionExpiredError":"UserSessionExpiredError",
+		"...on ServerError":"ServerError"
 	},
 	SignOutMessage:{
 		message:"String",
@@ -110,7 +145,7 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	UUID: `scalar.UUID` as const,
 	User:{
-		id:"UUID",
+		id:"UuidSurrealdb",
 		createdAt:"DateTime",
 		username:"String",
 		firstName:"String",
@@ -122,7 +157,8 @@ export const ReturnTypes: Record<string,any> = {
 		socialMedia:"String",
 		roles:"Role",
 		accounts:"AccountOauth",
-		posts:"Post",
+		postsConnection2:"PostsConnectionResult",
+		postsConnection:"PostConnection",
 		postCount:"Int"
 	},
 	UserBaseError:{
@@ -130,7 +166,6 @@ export const ReturnTypes: Record<string,any> = {
 		"...on UserGenericError": "UserGenericError",
 		"...on UserHaveNoAccessError": "UserHaveNoAccessError",
 		"...on UserNotFoundError": "UserNotFoundError",
-		"...on UserRegisterInvalidInputError": "UserRegisterInvalidInputError",
 		"...on UserSessionExpiredError": "UserSessionExpiredError",
 		message:"String",
 		solution:"String"
@@ -138,35 +173,30 @@ export const ReturnTypes: Record<string,any> = {
 	UserCreateResult:{
 		"...on User":"User",
 		"...on UserRegisterInvalidInputError":"UserRegisterInvalidInputError",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserGenericError:{
-		title:"String",
 		message:"String",
-		solution:"String",
-		moreField:"String"
+		solution:"String"
 	},
 	UserGetResult:{
 		"...on User":"User",
-		"...on UserRegisterInvalidInputError":"UserRegisterInvalidInputError",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserHaveNoAccessError:{
-		title:"String",
 		message:"String",
-		solution:"String",
-		moreField:"String"
+		solution:"String"
 	},
 	UserNotFoundError:{
 		message:"String",
 		solution:"String"
 	},
 	UserRegisterInvalidInputError:{
-		message:"String",
-		title:"String",
-		solution:"String",
-		loginErrorMessage:"String",
+		usernameErrorMessage:"String",
 		emailErrorMessage:"String",
+		dateOfBirthErrorMessage:"String",
 		passwordErrorMessage:"String"
 	},
 	UserSessionExpiredError:{
@@ -174,9 +204,6 @@ export const ReturnTypes: Record<string,any> = {
 		solution:"String"
 	},
 	UserSignInInvalidInputError:{
-		message:"String",
-		title:"String",
-		solution:"String",
 		usernameErrorMessage:"String",
 		loginErrorMessage:"String",
 		emailErrorMessage:"String",
@@ -185,13 +212,15 @@ export const ReturnTypes: Record<string,any> = {
 	UserSignInResult:{
 		"...on User":"User",
 		"...on UserSignInInvalidInputError":"UserSignInInvalidInputError",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserSignOutResult:{
 		"...on SignOutMessage":"SignOutMessage",
 		"...on UserSessionExpiredError":"UserSessionExpiredError",
 		"...on ServerError":"ServerError"
-	}
+	},
+	UuidSurrealdb: `scalar.UuidSurrealdb` as const
 }
 
 export const Ops = {

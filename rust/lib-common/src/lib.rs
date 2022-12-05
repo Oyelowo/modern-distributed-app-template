@@ -5,7 +5,6 @@ mod macros;
 pub mod middleware;
 pub mod oauth;
 pub mod utils;
-
 pub use macros::{calculator, helpers};
 
 #[macro_use]

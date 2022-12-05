@@ -13,9 +13,10 @@ use lib_common::{authentication::TypedSession, configurations::application::Envi
 
 use serde::Deserialize;
 use surrealdb::Datastore;
+use surrealdb_rs::{embedded, embedded::Db, Surreal};
 
 use super::token::Token;
-use crate::app::{get_my_graphql_schema, MyGraphQLSchema};
+use crate::app::{self, get_my_graphql_schema, MyGraphQLSchema};
 use lib_common::utils;
 extern crate derive_more;
 
@@ -33,8 +34,10 @@ pub async fn graphql_handler(
     // If, using, jwt, Stick jwt token from headers into graphql context.
     // Presently not using it but cookie session managed with redis
     let token = Token::get_token_from_headers(headers);
+    let pp = session.0.get::<app::user::UuidSurrealdb>("user_id");
 
     let request = req.0.data(session).data(token);
+    // let request = req.0.data(token);
     schema.execute(request).await.into()
 }
 
@@ -91,7 +94,8 @@ pub async fn graphql_playground() -> impl IntoResponse {
     ))
 }
 
-pub fn setup_graphql(db: Arc<Datastore>, environment: &Environment) -> MyGraphQLSchema {
+pub fn setup_graphql(db: Surreal<Db>, environment: &Environment) -> MyGraphQLSchema {
+    // pub fn setup_graphql(db: Surreal<Db>, environment: &Environment) -> MyGraphQLSchema {
     use Environment::*;
     let (limit_depth, limit_complexity) = match environment {
         Local | Development | Staging => (usize::max_value(), usize::max_value()),

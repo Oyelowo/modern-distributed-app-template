@@ -1,7 +1,7 @@
 use std::io::Error;
 
 use async_trait::async_trait;
-use poem::{Endpoint, Response, Middleware, Request};
+use poem::{Endpoint, Middleware, Request, Response};
 
 // An example of implementing a custom middleware for poem.
 struct Log;
@@ -21,17 +21,17 @@ impl<E: Endpoint> Endpoint for LogImpl<E> {
     type Output = Response;
 
     async fn call(&self, req: Request) -> Result<Self::Output, Error> {
-        println!("request: {}", req.uri().path());
+        dbg!("request: {}", req.uri().path());
         let res = self.0.call(req).await;
 
         match res {
             Ok(resp) => {
                 let resp = resp.into_response();
-                println!("response: {}", resp.status());
+                dbg!("response: {}", resp.status());
                 Ok(resp)
             }
             Err(err) => {
-                println!("error: {}", err);
+                dbg!("error: {}", err);
                 Err(err)
             }
         }

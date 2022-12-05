@@ -1,4 +1,6 @@
-use crate::{error_handling::ApiHttpStatus::*, middleware::get_session_expiry};
+use std::fmt::Debug;
+
+use crate::{error_handling::ApiHttpStatus::*, middleware::session_helpers::get_session_expiry};
 use async_graphql::{Context, ErrorExtensions, Result};
 use chrono::{DateTime, Utc};
 use log::warn;
@@ -33,13 +35,13 @@ impl TypedSession {
         self.0.renew();
     }
 
-    pub fn insert_user_id<T: Serialize + ?Sized>(&self, user_id: &T) {
+    pub fn insert_user_id<T: Serialize + ?Sized + Debug>(&self, user_id: &T) {
         self.0.set(Self::USER_ID_KEY, user_id)
     }
 
     pub fn get_current_user_id<T>(&self) -> TypedSessionResult<T>
     where
-        T: DeserializeOwned,
+        T: DeserializeOwned + Debug + Clone,
     {
         self.0
             .get::<T>(Self::USER_ID_KEY)

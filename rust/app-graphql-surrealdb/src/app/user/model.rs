@@ -1,6 +1,11 @@
 use super::error;
 use super::guards::{AuthGuard, RoleGuard};
+use super::model_oauth;
 use crate::app::post::Post;
+use crate::session_from_ctx;
+use async_graphql::connection::{
+    query, Connection, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
+};
 use async_graphql::*;
 use chrono::{serde::ts_nanoseconds_option, DateTime, Utc};
 use futures_util::TryStreamExt;
@@ -9,23 +14,46 @@ use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 use surrealdb::Datastore;
+use surrealdb_rs::embedded::Db;
+use surrealdb_rs::Surreal;
 use typed_builder::TypedBuilder;
 use validator::Validate;
 
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+pub struct UuidSurrealdb(pub String);
+// pub struct UuidSurrealdb(pub surrealdb::sql::Uuid);
+
+// scalar!(Uuid);
+
+scalar!(
+    UuidSurrealdb,
+    "UuidSurrealdb",
+    "A UUID type provided by the SurrealDB database"
+);
 
 #[derive(
-    SimpleObject, InputObject, Serialize, Deserialize, TypedBuilder, Validate, Debug, FieldsGetter,
+    SimpleObject,
+    InputObject,
+    Serialize,
+    Deserialize,
+    TypedBuilder,
+    Validate,
+    Debug,
+    FieldsGetter,
+    Default,
 )]
 #[serde(rename_all = "camelCase")]
 #[graphql(complex)]
 #[graphql(input_name = "UserInput")]
 pub struct User {
-    #[serde(rename = "_id", skip_serializing_if = "Option::is_none")]
+    // #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     #[graphql(skip_input)]
-    pub id: Option<uuid::Uuid>,
+    pub id: UuidSurrealdb,
+    // pub id: String,
+    // pub id: surrealdb::sql::Uuid,
+    // pub id: Option<uuid::Uuid>,
 
-    // use bson::serde_helpers::uuid_as_binary;
     // #[serde(with = "uuid_as_binary")]
     // uuid: Uuid,
 
@@ -87,129 +115,148 @@ pub struct User {
     pub roles: Vec<Role>,
 
     #[graphql(skip_input)]
-    pub accounts: Vec<AccountOauth>,
+    pub accounts: Vec<model_oauth::AccountOauth>,
+    // #[graphql(skip_input)]
+    // pub posts: Vec<Post>
 }
 
-#[derive(
-    InputObject,
-    SimpleObject,
-    TypedBuilder,
-    Serialize,
-    Deserialize,
-    Debug,
-    Clone,
-    FieldsGetter,
-    Validate,
-)]
-#[serde(rename_all = "camelCase")]
-#[graphql(input_name = "AccountOauthInput")]
-pub struct AccountOauth {
-    /// unique identifier for the oauth provider. Don't use name of user because that could be changed
-    #[graphql(skip_input)]
-    pub id: String,
-
-    pub display_name: Option<String>,
-
-    #[validate(email)]
-    pub email: Option<String>,
-    pub email_verified: bool,
-
-    pub provider: OauthProvider,
-    pub provider_account_id: OauthProvider,
-    pub access_token: String,
-    pub refresh_token: Option<String>,
-
-    /// access token expiration timestamp, represented as the number of seconds since the epoch (January 1, 1970 00:00:00 UTC).
-    pub expires_at: Option<DateTime<Utc>>,
-    pub token_type: Option<TokenType>, // Should probably be changed to an enum. i.e oauth | anything else?
-    pub scopes: Vec<String>,
-
-    #[builder(default)]
-    pub id_token: Option<String>,
-    /* NOTE
-    In case of an OAuth 1.0 provider (like Twitter), you will have to look for oauth_token and oauth_token_secret string fields. GitHub also has an extra refresh_token_expires_in integer field. You have to make sure that your database schema includes these fields.
-
-    A single User can have multiple Accounts, but each Account can only have one User.
-                 */
-    #[builder(default, setter(strip_option))]
-    oauth_token: Option<String>,
-    #[builder(default, setter(strip_option))]
-    oauth_token_secret: Option<String>,
+#[derive(SimpleObject)]
+struct PostResponse {
+    data: Vec<Post>,
 }
 
-impl From<account::UserAccount> for AccountOauth {
-    fn from(user_account: account::UserAccount) -> Self {
-        Self {
-            id: user_account.id,
-            display_name: user_account.display_name,
-            email: user_account.email,
-            email_verified: user_account.email_verified,
-            provider: user_account.provider.into(),
-            provider_account_id: user_account.provider_account_id.into(),
-            access_token: user_account.access_token,
-            refresh_token: user_account.refresh_token,
-            expires_at: user_account.expires_at,
-            token_type: user_account.token_type.map(Into::into),
-            scopes: user_account.scopes,
-            id_token: user_account.id_token,
-            oauth_token: user_account.oauth_token,
-            oauth_token_secret: user_account.oauth_token_secret,
-        }
-    }
+#[derive(Union)]
+enum PostsResult {
+    Post(PostResponse),
+    UserNotFoundError(error::UserNotFoundError),
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone, Enum, PartialEq, Eq, Copy, Hash)]
-#[serde(rename_all = "lowercase")]
-pub enum OauthProvider {
-    Github,
-    Google,
+#[derive(Union)]
+enum PostsConnectionResult {
+    // Post(PostResponse),
+    PostConnection(
+        Connection<
+            i32,
+            Post,
+            EmptyFields,
+            AdditionalFields,
+            DefaultConnectionName,
+            DefaultEdgeName,
+        >,
+    ),
+    UserNotFoundError(error::UserNotFoundError),
 }
 
-impl From<account::OauthProvider> for OauthProvider {
-    fn from(provider: account::OauthProvider) -> Self {
-        match provider {
-            account::OauthProvider::Github => Self::Github,
-            account::OauthProvider::Google => Self::Google,
-        }
-    }
+#[derive(Serialize, Deserialize, Clone)]
+struct Cursor(uuid::Uuid);
+// Define a struct for the post data
+#[derive(SimpleObject, Clone, Debug)]
+struct PostData {
+    id: String,
+    title: String,
+    content: String,
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone, Enum, PartialEq, Eq, Copy)]
-#[serde(rename_all = "lowercase")]
-pub enum TokenType {
-    Bearer,
+// Define a struct for the post edge data
+#[derive(SimpleObject, Clone, Debug)]
+struct PostEdgeData {
+    // cursor: Cursor,
+    cursor: String,
+    node: Post,
+    // node: PostData,
 }
 
-impl From<account::TokenType> for TokenType {
-    fn from(token_type: account::TokenType) -> Self {
-        match token_type {
-            account::TokenType::Bearer => Self::Bearer,
-        }
-    }
+// Define a struct for the page info data
+#[derive(SimpleObject, Clone, Debug)]
+struct PageInfoData {
+    has_next_page: bool,
+    has_previous_page: bool,
+}
+
+#[derive(SimpleObject, Clone, Debug)]
+struct AdditionalFields {
+    lowo: bool,
+    happy: bool,
 }
 
 #[ComplexObject]
 impl User {
-    #[graphql(guard = "RoleGuard::new(Role::User).or(AuthGuard)")]
-    async fn posts(&self, ctx: &Context<'_>) -> Result<Vec<Post>> {
-        // let user = User::from_ctx(ctx)?.and_has_role(Role::Admin);
-        // let db = get_db_from_ctx(ctx)?;
-        let post_fields = Post::get_fields_serialized();
-
-        // Post::collection(db)
-        //     .find(doc! {post_fields.posterId: self.id}, None)
-        //     .await?
-        //     .try_collect()
-        //     .await
-        //     .map_err(|_| ApiHttpStatus::NotFound("Post not found".into()).extend())
+    async fn posts_connection2(
+        &self,
+        ctx: &Context<'_>,
+        after: Option<String>,
+        before: Option<String>,
+        first: Option<i32>,
+        last: Option<i32>,
+    ) -> PostsConnectionResult {
         todo!()
+    }
+    // #[graphql(guard = "RoleGuard::new(Role::User).or(AuthGuard)")]
+    async fn posts_connection(
+        &self,
+        ctx: &Context<'_>,
+        after: Option<String>,
+        before: Option<String>,
+        first: Option<i32>,
+        last: Option<i32>,
+        // characters: &[&'a StarWarsChar],
+        // map_to: F,
+    ) -> Result<
+        Connection<
+            i32,
+            Post,
+            EmptyFields,
+            AdditionalFields,
+            DefaultConnectionName,
+            DefaultEdgeName,
+        >,
+    > {
+        let post = Post {
+            poster_id: uuid::Uuid::new_v4(),
+            id: Some(uuid::Uuid::new_v4()),
+            title: "".to_string(),
+            content: "".to_string(),
+        };
+        let add_fields = AdditionalFields {
+            lowo: true,
+            happy: true,
+        };
+        // ctx.look_ahead().field("xx").field("yy").field("zz");
+        // Edge::new(1, post).node.poster_id;
+        let q = query(
+            after,
+            before,
+            first,
+            last,
+            |after, before, first, last| async move {
+                let mut connection = Connection::new(true, true);
+                connection
+                    .edges
+                    .extend([Edge::with_additional_fields(1, post, add_fields)]);
+                Ok::<_, async_graphql::Error>(connection)
+            },
+        )
+        .await;
+        q
     }
 
     async fn post_count(&self, ctx: &Context<'_>) -> Result<usize> {
-        self.posts(ctx).await.map(|p| p.len()).map_err(|_| {
-            ApiHttpStatus::UnprocessableEntity("Problem occured while getting posts".into())
-                .extend()
-        })
+        // self.posts(ctx).await.map(|p|
+        //     match p {
+        //         PostsResult::Post(x) => {
+        //             x
+        //         },
+        //         PostsResult::UserNotFoundError(c)=>{
+
+        //         }
+        //     }
+        //     p
+
+        //     .len()).map_err(|_| {
+        //     ApiHttpStatus::UnprocessableEntity("Problem occured while getting posts".into())
+        //         .extend()
+        // })
+        todo!()
     }
 }
 
@@ -244,18 +291,29 @@ pub struct Address {
 #[derive(Union)]
 pub enum UserGetResult {
     User(User),
-    UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
+    // UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
     UserNotFoundError(error::UserNotFoundError),
+    ServerError(error::ServerError),
     // UserBaseError(UserBaseError)
 }
 
 impl User {
-    pub async fn get_current_user(ctx: &Context<'_>) -> Result<UserGetResult> {
-        // let db = get_db_from_ctx(ctx)?;
-        // let user_id = TypedSession::from_ctx(ctx)?.get_user_id::<uuid::Uuid>()?;
+    pub async fn get_current_user(ctx: &Context<'_>) -> UserGetResult {
+        let session = session_from_ctx!(ctx);
+        // let user_id = get_current_user_id_unchecked!(session);
+        let user_id = TypedSession::from_ctx(ctx)
+            .unwrap()
+            .get_current_user_id::<uuid::Uuid>()
+            .unwrap();
+
+        let user: User = ctx
+            .data_unchecked::<Surreal<Db>>()
+            .select(("user", user_id.to_string()))
+            .await
+            .unwrap();
 
         // Self::find_by_id(db, &user_id).await
-        todo!()
+        user.into()
     }
 
     pub async fn get_user(db: &Datastore, user_by: UserBy) -> Result<UserGetResult> {
@@ -283,20 +341,30 @@ impl User {
     // pub async fn _search_users(db: &Database, user_by: Vec<UserBy>) -> Result<Vec<Self>> {
     //     todo!()
     // }
-    pub async fn find_by_id(db: &Datastore, id: &uuid::Uuid) -> Result<UserGetResult> {
+    pub async fn find_by_id(db: &Surreal<Db>, id: &uuid::Uuid) -> User {
         let uk = User::get_fields_serialized();
         todo!()
     }
 
     pub async fn find_or_create_for_oauth(
         db: &Datastore,
-        account_oauth: AccountOauth,
+        account_oauth: model_oauth::AccountOauth,
     ) -> anyhow::Result<Self> {
         todo!()
     }
 
-    pub async fn find_by_username(db: &Datastore, username: impl Into<String>) -> Result<Self> {
-        todo!()
+    pub async fn find_by_username(db: &Surreal<Db>, username: impl Into<String>) -> Option<Self> {
+        let user: Option<User> = db
+            .query("select * from type::table($tb) where username = $username")
+            .bind("tb", "user")
+            .bind("username", username.into())
+            .await
+            .unwrap()
+            .get(0, 0)
+            .unwrap();
+
+        // Self::find_by_id(db, &user_id).await
+        user
     }
 }
 
