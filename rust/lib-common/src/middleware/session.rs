@@ -1,6 +1,6 @@
 use chrono::{DateTime, Duration, Utc};
 use poem::{
-    session::{CookieConfig, RedisStorage, ServerSession},
+    session::{CookieConfig, RedisStorage, ServerSession, Session},
     web::cookie::{CookieKey, SameSite},
 };
 use redis::aio::ConnectionManager;

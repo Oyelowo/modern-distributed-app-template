@@ -72,6 +72,7 @@ struct Session {
 #[poem::async_trait]
 impl SessionStorage for SurrealDbSessionStorage {
     async fn load_session(&self, session_id: &str) -> Result<Option<BTreeMap<String, Value>>> {
+        println!("loading session: {session_id}");
         let session: Option<Session> = self
             .db
             .query("SELECT * FROM type::thing($tb, $id) WHERE expires_at IS NULL OR expires_at > $expires_at")
@@ -82,6 +83,11 @@ impl SessionStorage for SurrealDbSessionStorage {
             .unwrap()
             .get(0, 0)
             .map_err(InternalServerError)?;
+
+        let xxxx: Vec<Session> = self.db.select("poem_sessions").await.unwrap();
+        println!("poemxxxxxxx : {xxxx:?}");
+
+        println!("loading session: {session:?}");
 
         let session_data: Option<BTreeMap<String, Value>> =
             session.map(|x| serde_json::from_value(x.session_data).unwrap());
@@ -95,6 +101,7 @@ impl SessionStorage for SurrealDbSessionStorage {
         entries: &BTreeMap<String, Value>,
         expires_in: Option<Duration>,
     ) -> Result<()> {
+        println!("updatersess: {session_id}");
         let expires_in = match expires_in {
             Some(expires_at) => {
                 Some(chrono::Duration::from_std(expires_at).map_err(InternalServerError)?)
@@ -115,6 +122,7 @@ impl SessionStorage for SurrealDbSessionStorage {
     }
 
     async fn remove_session(&self, session_id: &str) -> Result<()> {
+        println!("removerrrr: {session_id}");
         self.db
             .delete((self.table_name.clone(), session_id))
             .await

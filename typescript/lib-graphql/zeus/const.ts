@@ -169,7 +169,8 @@ export const ReturnTypes: Record<string,any> = {
 	UserCreateResult:{
 		"...on User":"User",
 		"...on UserRegisterInvalidInputError":"UserRegisterInvalidInputError",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserGenericError:{
 		message:"String",
@@ -177,7 +178,8 @@ export const ReturnTypes: Record<string,any> = {
 	},
 	UserGetResult:{
 		"...on User":"User",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserHaveNoAccessError:{
 		message:"String",
@@ -206,7 +208,8 @@ export const ReturnTypes: Record<string,any> = {
 	UserSignInResult:{
 		"...on User":"User",
 		"...on UserSignInInvalidInputError":"UserSignInInvalidInputError",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on ServerError":"ServerError"
 	},
 	UserSignOutResult:{
 		"...on SignOutMessage":"SignOutMessage",

@@ -19,15 +19,15 @@ use surrealdb_rs::Surreal;
 use typed_builder::TypedBuilder;
 use validator::Validate;
 
-#[derive(Serialize, Deserialize, Debug, Default)]
-pub struct UuidSurrealdb(String);
+#[derive(Serialize, Deserialize, Debug, Default, Clone)]
+pub struct UuidSurrealdb(pub String);
 // pub struct UuidSurrealdb(pub surrealdb::sql::Uuid);
 
 // scalar!(Uuid);
 
 scalar!(
     UuidSurrealdb,
-    "SurrealDBUuid",
+    "UuidSurrealdb",
     "A UUID type provided by the SurrealDB database"
 );
 

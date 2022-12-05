@@ -1,7 +1,7 @@
 use async_graphql::{Context, ErrorExtensions, Guard, Result};
 use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 
-use super::Role;
+use super::{Role, UuidSurrealdb};
 
 pub struct RoleGuard {
     role: Role,
@@ -32,8 +32,10 @@ pub struct AuthGuard;
 #[async_trait::async_trait]
 impl Guard for AuthGuard {
     async fn check(&self, ctx: &Context<'_>) -> Result<()> {
-        TypedSession::from_ctx(ctx)?
-            .get_current_user_id::<uuid::Uuid>()
-            .map(|_| ())
+       let x = TypedSession::from_ctx(ctx)?
+            .get_current_user_id::<UuidSurrealdb>()
+            .map(|p| p);
+println!("bbbb:{x:?}");
+            Ok(())
     }
 }

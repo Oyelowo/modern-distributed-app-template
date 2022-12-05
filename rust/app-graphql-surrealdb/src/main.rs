@@ -23,6 +23,7 @@ use app_graphql_surrealdb::{
     utils::graphql::{graphql_handler, graphql_handler_ws, graphql_playground, setup_graphql},
 };
 use backoff::future::retry;
+use poem::session::{CookieSession, CookieConfig};
 use poem::{get, listener::TcpListener, middleware::Tracing, EndpointExt, Route, Server};
 use surrealdb_rs::storage::Mem;
 use surrealdb_rs::Surreal;
@@ -74,10 +75,10 @@ async fn run_app() -> anyhow::Result<()> {
     // let database = Arc::new(database);
     let schema = setup_graphql(db.clone(), &environment);
 
-    let session = middleware::get_session_surrealdb(db, &environment)
+    let session = middleware::get_session_surrealdb(db.clone(), &environment)
         .await
         .context("Problem getting session")?;
-
+ 
     let api_routes = Route::new()
         // .at("/healthz", get(healthz))
         // .at("/liveness", get(liveness))
@@ -89,11 +90,13 @@ async fn run_app() -> anyhow::Result<()> {
     let api = Route::new()
         .nest("/api", api_routes)
         .data(schema)
-        // .data(database)
+        .data(db)
         // .data(redis)
         // .data(oauth_client)
+        // Middlewares
+        .with(middleware::get_cors(environment))
         .with(session)
-        // .with(middleware::get_cors(environment))
+        // .with(CookieSession::new(CookieConfig::default().secure(false)))
         // .with(Logger)
         .with(Tracing);
 

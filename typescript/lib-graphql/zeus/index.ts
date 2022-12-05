@@ -997,7 +997,8 @@ postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	
 };
 	["UserCreateResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
 		["...on UserRegisterInvalidInputError"] : ValueTypes["UserRegisterInvalidInputError"],
-		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"],
+		["...on ServerError"] : ValueTypes["ServerError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGenericError"]: AliasType<{
@@ -1006,7 +1007,8 @@ postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGetResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
-		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"],
+		["...on ServerError"] : ValueTypes["ServerError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
@@ -1050,7 +1052,8 @@ postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	
 }>;
 	["UserSignInResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
 		["...on UserSignInInvalidInputError"] : ValueTypes["UserSignInInvalidInputError"],
-		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"],
+		["...on ServerError"] : ValueTypes["ServerError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserSignOutResult"]: AliasType<{		["...on SignOutMessage"] : ValueTypes["SignOutMessage"],
@@ -1231,6 +1234,7 @@ postsConnection?: [{	after?: string | undefined | null,	before?: string | undefi
 	User?:ResolverInputTypes["User"],
 	UserRegisterInvalidInputError?:ResolverInputTypes["UserRegisterInvalidInputError"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+	ServerError?:ResolverInputTypes["ServerError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserGenericError"]: AliasType<{
@@ -1241,6 +1245,7 @@ postsConnection?: [{	after?: string | undefined | null,	before?: string | undefi
 	["UserGetResult"]: AliasType<{
 	User?:ResolverInputTypes["User"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+	ServerError?:ResolverInputTypes["ServerError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
@@ -1286,6 +1291,7 @@ postsConnection?: [{	after?: string | undefined | null,	before?: string | undefi
 	User?:ResolverInputTypes["User"],
 	UserSignInInvalidInputError?:ResolverInputTypes["UserSignInInvalidInputError"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+	ServerError?:ResolverInputTypes["ServerError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserSignOutResult"]: AliasType<{
@@ -1440,12 +1446,12 @@ entities without requiring a central allocating authority.
 	address?: ModelTypes["Address"] | undefined,
 	email?: string | undefined
 };
-	["UserCreateResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserCreateResult"]:ModelTypes["User"] | ModelTypes["UserRegisterInvalidInputError"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"];
 	["UserGenericError"]: {
 		message: string,
 	solution: string
 };
-	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"];
+	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"];
 	["UserHaveNoAccessError"]: {
 		message: string,
 	solution: string
@@ -1480,7 +1486,7 @@ entities without requiring a central allocating authority.
 	emailErrorMessage: string,
 	passwordErrorMessage: string
 };
-	["UserSignInResult"]:ModelTypes["User"] | ModelTypes["UserSignInInvalidInputError"] | ModelTypes["UserNotFoundError"];
+	["UserSignInResult"]:ModelTypes["User"] | ModelTypes["UserSignInInvalidInputError"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"];
 	["UserSignOutResult"]:ModelTypes["SignOutMessage"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"]
     }
 
@@ -1654,10 +1660,11 @@ entities without requiring a central allocating authority.
 	email?: string | undefined
 };
 	["UserCreateResult"]:{
-        	__typename:"User" | "UserRegisterInvalidInputError" | "UserNotFoundError"
+        	__typename:"User" | "UserRegisterInvalidInputError" | "UserNotFoundError" | "ServerError"
         	['...on User']: '__union' & GraphQLTypes["User"];
 	['...on UserRegisterInvalidInputError']: '__union' & GraphQLTypes["UserRegisterInvalidInputError"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 };
 	["UserGenericError"]: {
 	__typename: "UserGenericError",
@@ -1665,9 +1672,10 @@ entities without requiring a central allocating authority.
 	solution: string
 };
 	["UserGetResult"]:{
-        	__typename:"User" | "UserNotFoundError"
+        	__typename:"User" | "UserNotFoundError" | "ServerError"
         	['...on User']: '__union' & GraphQLTypes["User"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 };
 	["UserHaveNoAccessError"]: {
 	__typename: "UserHaveNoAccessError",
@@ -1709,10 +1717,11 @@ entities without requiring a central allocating authority.
 	passwordErrorMessage: string
 };
 	["UserSignInResult"]:{
-        	__typename:"User" | "UserSignInInvalidInputError" | "UserNotFoundError"
+        	__typename:"User" | "UserSignInInvalidInputError" | "UserNotFoundError" | "ServerError"
         	['...on User']: '__union' & GraphQLTypes["User"];
 	['...on UserSignInInvalidInputError']: '__union' & GraphQLTypes["UserSignInInvalidInputError"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 };
 	["UserSignOutResult"]:{
         	__typename:"SignOutMessage" | "UserSessionExpiredError" | "ServerError"

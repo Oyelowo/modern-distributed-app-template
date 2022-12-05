@@ -1,171 +1,111 @@
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { atom } from "jotai";
 import {
-	GraphqlErrorResponse,
-	mapReactQueryResultToImpossibleStates,
+  GraphqlErrorResponse,
+  mapReactQueryResultToImpossibleStates,
 } from "./helpers.js";
 import {
-	graphqlApi,
-	ValueTypes,
-	ReturnTypesType,
-	AllTypesPropsType,
+  AllTypesPropsType,
+  graphqlApi,
+  ReturnTypesType,
+  ValueTypes,
 } from "lib-graphql";
-import { match, P } from "ts-pattern";
+import { isMatching, match, P } from "ts-pattern";
 
-// const kk : AllTypesPropsType[""] = {
-// "...on PostResponse":{
-//     data: {
-//    content: true
-//     }
-// }
-// }
+const basicErrorShape: ValueTypes["ServerError"] = {
+  message: true,
+  solution: true,
+};
 
-graphqlApi
-	.query({
-		user: [
-			{ id: "" },
-			{
-				__typename: true,
-				"...on User": {
-					username: true,
-					email: true,
-					postsConnection2: [
-						{ after: "", before: "", first: 50 },
-						{
-							__typename: true,
-							"...on PostConnection": {
-								edges: {
-									cursor: true,
-									node: {
-										id: true,
-										content: true,
-										posterId: true,
-										title: true,
-										poster: {
-											age: true,
-											username: true,
-											email: true,
-										},
-									},
-								},
-								pageInfo: {
-									hasNextPage: true,
-									hasPreviousPage: true,
-									endCursor: true,
-									startCursor: true,
-								},
-							},
-							"...on UserNotFoundError": {
-								message: true,
-								solution: true,
-							},
-						},
-					],
-				},
-				"...on UserNotFoundError": {
-					message: true,
-					solution: true,
-				},
-			},
-		],
-	})
-	.then((u) => {
-		match(u.user)
-			.with({ __typename: "User" }, (x) => {
-				const email = <div>{x.email}</div>;
+const query = graphqlApi
+  .query({
+    user: [
+      { id: "" },
+      {
+        __typename: true,
+        "...on User": {
+          username: true,
+          postsConnection2: [{ after: "", first: 10 }, {
+            __typename: true,
+            "...on PostConnection": {
+              edges: {
+                cursor: true,
+                happy: true,
+                lowo: true,
+                node: {
+                  content: true,
+                },
+              },
+              pageInfo: {
+                hasNextPage: true,
+                hasPreviousPage: true,
+                endCursor: true,
+                startCursor: true,
+              },
+            },
+            "...on UserNotFoundError": basicErrorShape,
+          }],
+        },
+        "...on UserNotFoundError": basicErrorShape,
+        "...on ServerError": basicErrorShape,
+      },
+    ],
+  });
 
-				match(x.postsConnection2).with(
-					{ __typename: "PostConnection" },
-					(x) => {
-						return (
-							<div>
-								{x.edges.map((e) => (
-									<span>{e.node.content}</span>
-								))}
-							</div>
-						);
-					},
-				);
-			})
-			.with({ __typename: "UserNotFoundError" }, (x) => {
-				return (
-					<div>
-						{x.message}
+query.then((d) => {
+  // const users = match(d.user)
+  // 	.with({ __typename: "User" }, (x) => x)
+  // 	.run();
 
-						{x.solution}
-					</div>
-				);
-			})
-			.exhaustive();
-	});
+  match(d.user)
+    .with({ __typename: "User" }, (d) => {
+      match(d.postsConnection2)
+        .with({ __typename: "PostConnection" }, (x) =>
+          x.edges.map((x) => {
+            return (
+              <>
+                {x.node.content}
+              </>
+            );
+          }))
+        .with({ __typename: "UserNotFoundError" }, (x) => x.message)
+        .exhaustive();
+    })
+    .with(
+      { __typename: P.union("UserNotFoundError", "ServerError") },
+      (d) => {
+        return (
+          <>
+            {d.message}
+            {d.solution}
+          </>
+        );
+      },
+    )
+    .exhaustive();
+});
 
-graphqlApi
-	.query({
-		user: [
-			{ id: "" },
-			{
-				__typename: true,
-				"...on User": {
-					username: true,
-					posts: {
-						__typename: true,
-						"...on PostResponse": {
-							data: {
-								content: true,
-								title: true,
-								posterId: true,
-								poster: {
-									city: true,
-								},
-							},
-						},
-						"...on UserNotFoundError": {
-							message: true,
-							solution: true,
-						},
-					},
-				},
-				"...on UserNotFoundError": {
-					message: true,
-				},
-			},
-		],
-	})
-	.then((d) => {
-		const users = match(d.user)
-			.with({ __typename: "User" }, (x) => x)
-			.run();
-		users.username;
+query.then((d) => {
+  // P.union("UserNotFoundError", "ServerError"),
+  // if (isMatching(P.union("UserNotFoundError", "ServerError"), d.user.__typename)) {
+  if (
+    d.user.__typename === "UserNotFoundError" ||
+    d.user.__typename === "ServerError"
+  ) {
+    return {
+      x: d.user.message,
+    };
+  }
 
-		let k = match(d.user)
-			.with({ __typename: "User" }, (d) => {
-				match(d.posts)
-					.with({ __typename: "PostResponse" }, (x) =>
-						x.data.map((x) => {
-							return <div>{x.content}</div>;
-						}),
-					)
-					.with({ __typename: "UserNotFoundError" }, (x) => {
-						return <div>{x.message}</div>;
-					})
-					.exhaustive();
-			})
-			.with({ __typename: "UserNotFoundError" }, (d) => d.message)
-			.exhaustive();
-
-		let user = match(d.user)
-			.with({ __typename: "User" }, (d) => {
-				<div>{d.username}</div>;
-			})
-			.with({ __typename: "UserNotFoundError" }, (d) => d.message)
-			.exhaustive();
-
-		let xx = match(d.user)
-			.with({ __typename: "User" }, (d) =>
-				match(d.posts).with({ __typename: "PostResponse" }, (x) => x),
-			)
-			.run()
-			.run().data[0];
-
-		// let xx = match(d.user).when(d=>d.__typename=== "User", x=>x.)
-	});
+  match(d.user.postsConnection2)
+    .with({ __typename: "PostConnection" }, (x) =>
+      x.edges.map((x) => {
+        return (
+          <>
+            {x.node.content}
+          </>
+        );
+      }))
+    .with({ __typename: "UserNotFoundError" }, (x) => x.message)
+    .exhaustive();
+});

@@ -173,6 +173,7 @@ impl UserMutationRoot {
                 };
 
                 session.insert_user_id(&user.id);
+                // session.renew();
                 user.into()
             }
         };
@@ -235,6 +236,8 @@ impl UserMutationRoot {
             .content(user)
             .await
             .unwrap();
+
+        println!("vvvvv, {:?}", user);
 
         session.insert_user_id(&user.id);
         println!("user::: {user:?}");

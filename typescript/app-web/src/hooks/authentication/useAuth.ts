@@ -7,6 +7,13 @@ import {
 import { graphqlApi, ValueTypes } from "lib-graphql";
 import { match, P } from "ts-pattern";
 
+
+const basicErrorShape: ValueTypes["ServerError"] = {
+	message: true,
+	solution: true,
+}
+
+
 graphqlApi
 	.query({
 		user: [
@@ -15,44 +22,45 @@ graphqlApi
 				__typename: true,
 				"...on User": {
 					username: true,
-					posts: {
+					postsConnection2: [{ after: "", first: 10 }, {
 						__typename: true,
-						"...on PostResponse": {
-							data: {
-								id: true,
-								content: true,
-								title: true,
-								posterId: true,
-								poster: {
-									city: true,
+						"...on PostConnection": {
+							edges: {
+								cursor: true,
+								happy: true,
+								lowo: true,
+								node: {
+									content: true
 								},
 							},
+							pageInfo: {
+								hasNextPage: true,
+								hasPreviousPage: true,
+								endCursor: true,
+								startCursor: true
+							}
 						},
-						"...on UserNotFoundError": {
-							message: true,
-							solution: true,
-						},
-					},
+						"...on UserNotFoundError": basicErrorShape,
+					}]
 				},
-				"...on UserNotFoundError": {
-					message: true,
-				},
+				"...on UserNotFoundError": basicErrorShape,
+				"...on ServerError": basicErrorShape
 			},
 		],
 	})
 	.then((d) => {
-		const users = match(d.user)
-			.with({ __typename: "User" }, (x) => x)
-			.run();
+		// const users = match(d.user)
+		// 	.with({ __typename: "User" }, (x) => x)
+		// 	.run();
 
 		match(d.user)
 			.with({ __typename: "User" }, (d) => {
-				match(d.posts)
-					.with({ __typename: "PostResponse" }, (x) => x.data.map((x) => x.id))
+				match(d.postsConnection2)
+					.with({ __typename: "PostConnection" }, (x) => x.edges.map((x) => x.node.content))
 					.with({ __typename: "UserNotFoundError" }, (x) => x.message)
 					.exhaustive();
 			})
-			.with({ __typename: "UserNotFoundError" }, (d) => d.message)
+			.with({ __typename: P.union("UserNotFoundError", "ServerError") }, (d) => d.message)
 			.exhaustive();
 	});
 
@@ -198,12 +206,12 @@ export function useAuth() {
 
 type Auth =
 	| {
-			status: "loggedIn";
-			username: string;
-	  }
+		status: "loggedIn";
+		username: string;
+	}
 	| {
-			status: "loggedOut";
-	  };
+		status: "loggedOut";
+	};
 
 const textAtom = atom<Auth>({ status: "loggedOut" });
 

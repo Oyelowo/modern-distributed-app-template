@@ -147,7 +147,7 @@ type ServerError implements UserBaseError {
 }
 
 type Session {
-	userId: UUID!
+	userId: UuidSurrealdb!
 	expiresAt: DateTime!
 }
 
@@ -166,11 +166,6 @@ type Subscription {
 	values: Int!
 }
 
-"""
-A UUID type provided by the SurrealDB database
-"""
-scalar SurrealDBUuid
-
 enum TokenType {
 	BEARER
 }
@@ -188,7 +183,7 @@ entities without requiring a central allocating authority.
 scalar UUID
 
 type User {
-	id: SurrealDBUuid!
+	id: UuidSurrealdb!
 	createdAt: DateTime
 	username: String!
 	firstName: String
@@ -269,6 +264,11 @@ type UserSignInInvalidInputError {
 union UserSignInResult = User | UserSignInInvalidInputError | UserNotFoundError | ServerError
 
 union UserSignOutResult = SignOutMessage | UserSessionExpiredError | ServerError
+
+"""
+A UUID type provided by the SurrealDB database
+"""
+scalar UuidSurrealdb
 
 schema {
 	query: Query

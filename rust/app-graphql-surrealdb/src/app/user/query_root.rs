@@ -1,6 +1,6 @@
 use std::any::Any;
 
-use super::{guards::AuthGuard, model::User, UserBy, UserGetResult};
+use super::{guards::AuthGuard, model::User, UserBy, UserGetResult, UuidSurrealdb};
 
 use async_graphql::*;
 use chrono::{DateTime, Utc};
@@ -49,6 +49,7 @@ impl UserQueryRoot {
         //     .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
         use surrealdb_rs::{embedded, embedded::Db, Surreal};
         let db = ctx.data_unchecked::<Surreal<Db>>();
+        
         // let users= db.select("user").await?;
         let users:Vec<User> = db.select("user").await?; 
         // let xxx = db.query("SELECT * FROM user");
@@ -63,7 +64,9 @@ impl UserQueryRoot {
     }
 
     async fn session(&self, ctx: &Context<'_>) -> Result<Session> {
-        let user_id = TypedSession::from_ctx(ctx)?.get_current_user_id()?;
+        println!("before");
+        let user_id = TypedSession::from_ctx(ctx)?.get_current_user_id::<UuidSurrealdb>().unwrap();
+        println!("ppppp: {user_id:?}");
         log::info!("Successfully retrieved session for user: {user_id:?}");
 
         Ok(Session {
@@ -75,6 +78,6 @@ impl UserQueryRoot {
 
 #[derive(SimpleObject, InputObject, Serialize, Deserialize)]
 struct Session {
-    user_id: uuid::Uuid,
+    user_id: UuidSurrealdb,
     expires_at: DateTime<Utc>,
 }
