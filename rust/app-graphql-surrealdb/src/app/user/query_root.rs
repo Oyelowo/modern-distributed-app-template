@@ -78,16 +78,11 @@ impl UserQueryRoot {
 
         log::info!("Successfully retrieved session for user: {user_id:?}");
 
-        Session {
-            expires_at: TypedSession::get_expiry(),
-            user_id,
-        }
-        .into()
+        Session { user_id }.into()
     }
 }
 
 #[derive(SimpleObject, InputObject, Serialize, Deserialize)]
 struct Session {
     user_id: UuidSurrealdb,
-    expires_at: DateTime<Utc>,
 }

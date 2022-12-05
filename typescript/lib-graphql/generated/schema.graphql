@@ -148,7 +148,6 @@ type ServerError implements UserBaseError {
 
 type Session {
 	userId: UuidSurrealdb!
-	expiresAt: DateTime!
 }
 
 union SessionResult = Session | UserSessionExpiredError | ServerError
