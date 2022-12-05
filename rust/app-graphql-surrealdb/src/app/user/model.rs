@@ -294,6 +294,7 @@ pub enum UserGetResult {
     // UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
     UserNotFoundError(error::UserNotFoundError),
     ServerError(error::ServerError),
+    UserSessionExpiredError(error::UserSessionExpiredError)
     // UserBaseError(UserBaseError)
 }
 

@@ -27,16 +27,30 @@ pub struct UserQueryRoot;
 #[Object]
 impl UserQueryRoot {
     // async fn me(&self, ctx: &Context<'_>) -> Result<UserGetResult> {
-    async fn me(&self, ctx: &Context<'_>) -> Result<User> {
-        // User::get_current_user(ctx)
-        //     .await
-        //     .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
+    async fn me(&self, ctx: &Context<'_>) -> UserGetResult {
         use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        let session = session_from_ctx!(ctx);
+        let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
         let db = ctx.data_unchecked::<Surreal<Db>>();
-        let user: User = db
-            .select(("user", "2c3c157a-d962-4141-b52b-b145f842c2ca"))
-            .await?;
-        Ok(user)
+        dbg!(user_id.clone(), user_id.0.clone());
+        let user: surrealdb_rs::Result<User> = db
+        .query("SELECT * FROM type::table($user_id)")
+        .bind("user_id", user_id.0)
+        .await
+        .unwrap()
+        .get(0, 0);
+        dbg!(&user);
+        match user {
+            Ok(u) => u.into(),
+            Err(_) => {
+                return error::UserNotFoundError {
+                    message: "user not found".into(),
+                    solution: "find yourself".into(),
+                }
+                .into()
+            }
+        }
+        // Ok(user)
     }
 
     async fn user(

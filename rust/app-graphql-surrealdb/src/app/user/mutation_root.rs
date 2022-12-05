@@ -215,7 +215,8 @@ impl UserMutationRoot {
                 }.into();
             };
 
-        let mut user = User::builder()
+            
+            let mut user = User::builder()
             .created_at(Utc::now())
             .username(user.username)
             .first_name(user.first_name)
@@ -227,12 +228,15 @@ impl UserMutationRoot {
             .accounts(vec![])
             .password(Some(password_hash.into()))
             .build();
-
-        let user: User = db
+            
+            dbg!(&user);
+            let user: User = db
             .create(("user", uuid.to_string()))
             .content(user)
             .await
             .unwrap();
+            dbg!("after user");
+            dbg!(&user);
 
         session.insert_user_id(&user.id);
         user.into()
