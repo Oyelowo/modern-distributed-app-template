@@ -128,8 +128,7 @@ export const ReturnTypes: Record<string,any> = {
 		solution:"String"
 	},
 	Session:{
-		userId:"UuidSurrealdb",
-		expiresAt:"DateTime"
+		userId:"UuidSurrealdb"
 	},
 	SessionResult:{
 		"...on Session":"Session",

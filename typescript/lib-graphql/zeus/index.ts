@@ -933,7 +933,6 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 }>;
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
-	expiresAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SessionResult"]: AliasType<{		["...on Session"] : ValueTypes["Session"],
@@ -1173,7 +1172,6 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 }>;
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
-	expiresAt?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["SessionResult"]: AliasType<{
@@ -1407,8 +1405,7 @@ Currently like this because of future developments */
 	solution: string
 };
 	["Session"]: {
-		userId: ModelTypes["UuidSurrealdb"],
-	expiresAt: ModelTypes["DateTime"]
+		userId: ModelTypes["UuidSurrealdb"]
 };
 	["SessionResult"]:ModelTypes["Session"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"];
 	["SignInCredentials"]: {
@@ -1609,8 +1606,7 @@ Currently like this because of future developments */
 };
 	["Session"]: {
 	__typename: "Session",
-	userId: GraphQLTypes["UuidSurrealdb"],
-	expiresAt: GraphQLTypes["DateTime"]
+	userId: GraphQLTypes["UuidSurrealdb"]
 };
 	["SessionResult"]:{
         	__typename:"Session" | "UserSessionExpiredError" | "ServerError"
