@@ -131,7 +131,7 @@ type Query {
 	user(id: UUID!): UserGetResult!
 	getUser(userBy: UserBy!): UserGetResult!
 	users: [User!]!
-	session: Session!
+	session: SessionResult!
 	post(id: UUID!): Post!
 	posts: [Post!]!
 }
@@ -150,6 +150,8 @@ type Session {
 	userId: UuidSurrealdb!
 	expiresAt: DateTime!
 }
+
+union SessionResult = Session | UserSessionExpiredError | ServerError
 
 input SignInCredentials {
 	username: String!

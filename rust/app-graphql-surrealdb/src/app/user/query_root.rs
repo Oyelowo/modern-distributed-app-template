@@ -1,6 +1,8 @@
 use std::any::Any;
 
-use super::{guards::AuthGuard, model::User, UserBy, UserGetResult, UuidSurrealdb};
+use crate::{get_current_user_id_unchecked, session_from_ctx};
+
+use super::{error, guards::AuthGuard, model::User, UserBy, UserGetResult, UuidSurrealdb};
 
 use async_graphql::*;
 use chrono::{DateTime, Utc};
@@ -11,6 +13,13 @@ use futures_util::TryStreamExt;
 use lib_my_macros::FieldsGetter;
 use log::warn;
 use serde::{Deserialize, Serialize};
+
+#[derive(Union)]
+enum SessionResult {
+    Session(Session),
+    SessionExpired(error::UserSessionExpiredError),
+    ServerError(error::ServerError),
+}
 
 #[derive(Default)]
 pub struct UserQueryRoot;
@@ -63,17 +72,17 @@ impl UserQueryRoot {
         Ok(users)
     }
 
-    async fn session(&self, ctx: &Context<'_>) -> Result<Session> {
-        let user_id = TypedSession::from_ctx(ctx)?
-            .get_current_user_id::<UuidSurrealdb>()
-            .unwrap();
+    async fn session(&self, ctx: &Context<'_>) -> SessionResult {
+        let session = session_from_ctx!(ctx);
+        let user_id = get_current_user_id_unchecked!(session);
 
         log::info!("Successfully retrieved session for user: {user_id:?}");
 
-        Ok(Session {
+        Session {
             expires_at: TypedSession::get_expiry(),
             user_id,
-        })
+        }
+        .into()
     }
 }
 

@@ -52,7 +52,7 @@ impl SurrealDbSessionStorage {
         Ok(Self { db, table_name })
     }
 
-    /// Cleanup expired sessions.
+    /// Cleanup expired session fors, session_id.
     pub async fn cleanup(&self) -> surrealdb_rs::Result<()> {
         self.db
             .query("DELETE FROM poem WHERE expires_at < time::now()")
@@ -72,7 +72,7 @@ struct Session {
 #[poem::async_trait]
 impl SessionStorage for SurrealDbSessionStorage {
     async fn load_session(&self, session_id: &str) -> Result<Option<BTreeMap<String, Value>>> {
-        dbg!("loading session");
+        dbg!("loading session", session_id);
         let session: Option<Session> = self
             .db
             .query("SELECT * FROM type::thing($tb, $id) WHERE expires_at IS NULL OR expires_at > $expires_at")
@@ -86,7 +86,7 @@ impl SessionStorage for SurrealDbSessionStorage {
 
         let session_data: Option<BTreeMap<String, Value>> =
             session.map(|x| serde_json::from_value(x.session_data).unwrap());
-        dbg!("loaded session");
+        dbg!("loaded session", session_id);
 
         Ok(session_data)
     }
@@ -97,7 +97,7 @@ impl SessionStorage for SurrealDbSessionStorage {
         entries: &BTreeMap<String, Value>,
         expires_in: Option<Duration>,
     ) -> Result<()> {
-        dbg!("updating session");
+        dbg!("updating session", session_id);
         let expires_in = match expires_in {
             Some(expires_at) => {
                 Some(chrono::Duration::from_std(expires_at).map_err(InternalServerError)?)
@@ -114,19 +114,19 @@ impl SessionStorage for SurrealDbSessionStorage {
             .await
             .map_err(InternalServerError)?;
 
-        dbg!("updated session");
+        dbg!("updated session", session_id);
 
         Ok(())
     }
 
     async fn remove_session(&self, session_id: &str) -> Result<()> {
-        dbg!("removing session");
+        dbg!("removing session", session_id);
         self.db
             .delete((self.table_name.clone(), session_id))
             .await
             .map_err(InternalServerError)?;
-        
-            dbg!("removed session");
+
+        dbg!("removed session", session_id);
         Ok(())
     }
 }
