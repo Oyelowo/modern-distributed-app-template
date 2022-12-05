@@ -827,7 +827,7 @@ export type ScalarCoders = {
 	UUID?: ScalarResolver;
 	UuidSurrealdb?: ScalarResolver;
 }
-type ZEUS_UNIONS = GraphQLTypes["PostsConnectionResult"] | GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
+type ZEUS_UNIONS = GraphQLTypes["PostsConnectionResult"] | GraphQLTypes["SessionResult"] | GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
 
 export type ValueTypes = {
     ["AccountOauth"]: AliasType<{
@@ -920,7 +920,7 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 	users?:ValueTypes["User"],
-	session?:ValueTypes["Session"],
+	session?:ValueTypes["SessionResult"],
 post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	posts?:ValueTypes["Post"],
 		__typename?: boolean | `@${string}`
@@ -934,6 +934,11 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
 	expiresAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SessionResult"]: AliasType<{		["...on Session"] : ValueTypes["Session"],
+		["...on UserSessionExpiredError"] : ValueTypes["UserSessionExpiredError"],
+		["...on ServerError"] : ValueTypes["ServerError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["SignInCredentials"]: {
@@ -1155,7 +1160,7 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["UserGetResult"]],
 getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["UserGetResult"]],
 	users?:ResolverInputTypes["User"],
-	session?:ResolverInputTypes["Session"],
+	session?:ResolverInputTypes["SessionResult"],
 post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	posts?:ResolverInputTypes["Post"],
 		__typename?: boolean | `@${string}`
@@ -1169,6 +1174,12 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	["Session"]: AliasType<{
 	userId?:boolean | `@${string}`,
 	expiresAt?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
+	["SessionResult"]: AliasType<{
+	Session?:ResolverInputTypes["Session"],
+	UserSessionExpiredError?:ResolverInputTypes["UserSessionExpiredError"],
+	ServerError?:ResolverInputTypes["ServerError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["SignInCredentials"]: {
@@ -1386,7 +1397,7 @@ Currently like this because of future developments */
 	user: ModelTypes["UserGetResult"],
 	getUser: ModelTypes["UserGetResult"],
 	users: Array<ModelTypes["User"]>,
-	session: ModelTypes["Session"],
+	session: ModelTypes["SessionResult"],
 	post: ModelTypes["Post"],
 	posts: Array<ModelTypes["Post"]>
 };
@@ -1399,6 +1410,7 @@ Currently like this because of future developments */
 		userId: ModelTypes["UuidSurrealdb"],
 	expiresAt: ModelTypes["DateTime"]
 };
+	["SessionResult"]:ModelTypes["Session"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"];
 	["SignInCredentials"]: {
 	username: string,
 	password: string
@@ -1585,7 +1597,7 @@ Currently like this because of future developments */
 	user: GraphQLTypes["UserGetResult"],
 	getUser: GraphQLTypes["UserGetResult"],
 	users: Array<GraphQLTypes["User"]>,
-	session: GraphQLTypes["Session"],
+	session: GraphQLTypes["SessionResult"],
 	post: GraphQLTypes["Post"],
 	posts: Array<GraphQLTypes["Post"]>
 };
@@ -1599,6 +1611,12 @@ Currently like this because of future developments */
 	__typename: "Session",
 	userId: GraphQLTypes["UuidSurrealdb"],
 	expiresAt: GraphQLTypes["DateTime"]
+};
+	["SessionResult"]:{
+        	__typename:"Session" | "UserSessionExpiredError" | "ServerError"
+        	['...on Session']: '__union' & GraphQLTypes["Session"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
 };
 	["SignInCredentials"]: {
 		username: string,

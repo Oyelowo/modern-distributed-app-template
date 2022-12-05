@@ -119,7 +119,7 @@ export const ReturnTypes: Record<string,any> = {
 		user:"UserGetResult",
 		getUser:"UserGetResult",
 		users:"User",
-		session:"Session",
+		session:"SessionResult",
 		post:"Post",
 		posts:"Post"
 	},
@@ -130,6 +130,11 @@ export const ReturnTypes: Record<string,any> = {
 	Session:{
 		userId:"UuidSurrealdb",
 		expiresAt:"DateTime"
+	},
+	SessionResult:{
+		"...on Session":"Session",
+		"...on UserSessionExpiredError":"UserSessionExpiredError",
+		"...on ServerError":"ServerError"
 	},
 	SignOutMessage:{
 		message:"String",
