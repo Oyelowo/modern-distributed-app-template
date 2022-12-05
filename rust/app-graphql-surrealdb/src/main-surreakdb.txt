@@ -30,7 +30,7 @@ async fn count(session: &Session) -> String {
 
 async fn count2(db: Surreal<Db>) {
     let xx: Vec<i32> = db.select("poem_sessions").await.unwrap();
-    println!("poopop: {xx:?}");
+    
 }
 
 #[tokio::main]

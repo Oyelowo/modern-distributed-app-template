@@ -824,8 +824,8 @@ export const $ = <Type extends GraphQLVariableType, Name extends string>(name: N
 type ZEUS_INTERFACES = GraphQLTypes["UserBaseError"]
 export type ScalarCoders = {
 	DateTime?: ScalarResolver;
-	SurrealDBUuid?: ScalarResolver;
 	UUID?: ScalarResolver;
+	UuidSurrealdb?: ScalarResolver;
 }
 type ZEUS_UNIONS = GraphQLTypes["PostsConnectionResult"] | GraphQLTypes["UserCreateResult"] | GraphQLTypes["UserGetResult"] | GraphQLTypes["UserSignInResult"] | GraphQLTypes["UserSignOutResult"]
 
@@ -949,8 +949,6 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	values?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	/** A UUID type provided by the SurrealDB database */
-["SurrealDBUuid"]:unknown;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1060,7 +1058,9 @@ postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	
 		["...on UserSessionExpiredError"] : ValueTypes["UserSessionExpiredError"],
 		["...on ServerError"] : ValueTypes["ServerError"]
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	/** A UUID type provided by the SurrealDB database */
+["UuidSurrealdb"]:unknown
   }
 
 export type ResolverInputTypes = {
@@ -1184,8 +1184,6 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	values?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
-	/** A UUID type provided by the SurrealDB database */
-["SurrealDBUuid"]:unknown;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1299,7 +1297,9 @@ postsConnection?: [{	after?: string | undefined | null,	before?: string | undefi
 	UserSessionExpiredError?:ResolverInputTypes["UserSessionExpiredError"],
 	ServerError?:ResolverInputTypes["ServerError"],
 		__typename?: boolean | `@${string}`
-}>
+}>;
+	/** A UUID type provided by the SurrealDB database */
+["UuidSurrealdb"]:unknown
   }
 
 export type ModelTypes = {
@@ -1396,7 +1396,7 @@ Currently like this because of future developments */
 	solution: string
 };
 	["Session"]: {
-		userId: ModelTypes["UUID"],
+		userId: ModelTypes["UuidSurrealdb"],
 	expiresAt: ModelTypes["DateTime"]
 };
 	["SignInCredentials"]: {
@@ -1410,8 +1410,6 @@ Currently like this because of future developments */
 	["Subscription"]: {
 		values: number
 };
-	/** A UUID type provided by the SurrealDB database */
-["SurrealDBUuid"]:any;
 	["TokenType"]:TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1423,7 +1421,7 @@ entities without requiring a central allocating authority.
 * [RFC4122: A Universally Unique IDentifier (UUID) URN Namespace](http://tools.ietf.org/html/rfc4122) */
 ["UUID"]:any;
 	["User"]: {
-		id: ModelTypes["SurrealDBUuid"],
+		id: ModelTypes["UuidSurrealdb"],
 	createdAt?: ModelTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1487,7 +1485,9 @@ entities without requiring a central allocating authority.
 	passwordErrorMessage: string
 };
 	["UserSignInResult"]:ModelTypes["User"] | ModelTypes["UserSignInInvalidInputError"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"];
-	["UserSignOutResult"]:ModelTypes["SignOutMessage"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"]
+	["UserSignOutResult"]:ModelTypes["SignOutMessage"] | ModelTypes["UserSessionExpiredError"] | ModelTypes["ServerError"];
+	/** A UUID type provided by the SurrealDB database */
+["UuidSurrealdb"]:any
     }
 
 export type GraphQLTypes = {
@@ -1597,7 +1597,7 @@ Currently like this because of future developments */
 };
 	["Session"]: {
 	__typename: "Session",
-	userId: GraphQLTypes["UUID"],
+	userId: GraphQLTypes["UuidSurrealdb"],
 	expiresAt: GraphQLTypes["DateTime"]
 };
 	["SignInCredentials"]: {
@@ -1613,8 +1613,6 @@ Currently like this because of future developments */
 	__typename: "Subscription",
 	values: number
 };
-	/** A UUID type provided by the SurrealDB database */
-["SurrealDBUuid"]: "scalar" & { name: "SurrealDBUuid" };
 	["TokenType"]: TokenType;
 	/** A UUID is a unique 128-bit number, stored as 16 octets. UUIDs are parsed as
 Strings within GraphQL. UUIDs are used to assign unique identifiers to
@@ -1627,7 +1625,7 @@ entities without requiring a central allocating authority.
 ["UUID"]: "scalar" & { name: "UUID" };
 	["User"]: {
 	__typename: "User",
-	id: GraphQLTypes["SurrealDBUuid"],
+	id: GraphQLTypes["UuidSurrealdb"],
 	createdAt?: GraphQLTypes["DateTime"] | undefined,
 	username: string,
 	firstName?: string | undefined,
@@ -1728,7 +1726,9 @@ entities without requiring a central allocating authority.
         	['...on SignOutMessage']: '__union' & GraphQLTypes["SignOutMessage"];
 	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
 	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
-}
+};
+	/** A UUID type provided by the SurrealDB database */
+["UuidSurrealdb"]: "scalar" & { name: "UuidSurrealdb" }
     }
 export const enum OauthProvider {
 	GITHUB = "GITHUB",
@@ -1749,9 +1749,9 @@ type ZEUS_VARIABLES = {
 	["PostInput"]: ValueTypes["PostInput"];
 	["Role"]: ValueTypes["Role"];
 	["SignInCredentials"]: ValueTypes["SignInCredentials"];
-	["SurrealDBUuid"]: ValueTypes["SurrealDBUuid"];
 	["TokenType"]: ValueTypes["TokenType"];
 	["UUID"]: ValueTypes["UUID"];
 	["UserBy"]: ValueTypes["UserBy"];
 	["UserInput"]: ValueTypes["UserInput"];
+	["UuidSurrealdb"]: ValueTypes["UuidSurrealdb"];
 }

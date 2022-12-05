@@ -32,10 +32,8 @@ pub struct AuthGuard;
 #[async_trait::async_trait]
 impl Guard for AuthGuard {
     async fn check(&self, ctx: &Context<'_>) -> Result<()> {
-       let x = TypedSession::from_ctx(ctx)?
+        TypedSession::from_ctx(ctx)?
             .get_current_user_id::<UuidSurrealdb>()
-            .map(|p| p);
-println!("bbbb:{x:?}");
-            Ok(())
+            .map(|_| ())
     }
 }

@@ -16,7 +16,5 @@ async fn main() -> Result<()> {
 
     let response = client.say_hello(request).await?;
 
-    println!("RESPONSE={:?}", response);
-
     Ok(())
 }

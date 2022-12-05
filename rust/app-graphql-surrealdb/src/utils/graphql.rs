@@ -35,7 +35,6 @@ pub async fn graphql_handler(
     // Presently not using it but cookie session managed with redis
     let token = Token::get_token_from_headers(headers);
     let pp = session.0.get::<app::user::UuidSurrealdb>("user_id");
-    println!("mmmmm: {pp:?}");
 
     let request = req.0.data(session).data(token);
     // let request = req.0.data(token);

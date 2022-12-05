@@ -49,24 +49,25 @@ impl UserQueryRoot {
         //     .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
         use surrealdb_rs::{embedded, embedded::Db, Surreal};
         let db = ctx.data_unchecked::<Surreal<Db>>();
-        
+
         // let users= db.select("user").await?;
-        let users:Vec<User> = db.select("user").await?; 
+        let users: Vec<User> = db.select("user").await?;
         // let xxx = db.query("SELECT * FROM user");
         // let response = xxx.await?;
         // let response = db.query("SELECT * FROM user").await?;
 
         // print all users:
         // let users: Vec<User> = response.get(0, 0..2)?;
-        // println!("userxxx: {users:?}");
+        //
 
         Ok(users)
     }
 
     async fn session(&self, ctx: &Context<'_>) -> Result<Session> {
-        println!("before");
-        let user_id = TypedSession::from_ctx(ctx)?.get_current_user_id::<UuidSurrealdb>().unwrap();
-        println!("ppppp: {user_id:?}");
+        let user_id = TypedSession::from_ctx(ctx)?
+            .get_current_user_id::<UuidSurrealdb>()
+            .unwrap();
+
         log::info!("Successfully retrieved session for user: {user_id:?}");
 
         Ok(Session {

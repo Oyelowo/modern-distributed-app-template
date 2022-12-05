@@ -38,7 +38,6 @@ export const AllTypesProps: Record<string,any> = {
 	SignInCredentials:{
 
 	},
-	SurrealDBUuid: `scalar.SurrealDBUuid` as const,
 	TokenType: "enum" as const,
 	UUID: `scalar.UUID` as const,
 	User:{
@@ -55,7 +54,8 @@ export const AllTypesProps: Record<string,any> = {
 	},
 	UserInput:{
 
-	}
+	},
+	UuidSurrealdb: `scalar.UuidSurrealdb` as const
 }
 
 export const ReturnTypes: Record<string,any> = {
@@ -128,7 +128,7 @@ export const ReturnTypes: Record<string,any> = {
 		solution:"String"
 	},
 	Session:{
-		userId:"UUID",
+		userId:"UuidSurrealdb",
 		expiresAt:"DateTime"
 	},
 	SignOutMessage:{
@@ -138,10 +138,9 @@ export const ReturnTypes: Record<string,any> = {
 	Subscription:{
 		values:"Int"
 	},
-	SurrealDBUuid: `scalar.SurrealDBUuid` as const,
 	UUID: `scalar.UUID` as const,
 	User:{
-		id:"SurrealDBUuid",
+		id:"UuidSurrealdb",
 		createdAt:"DateTime",
 		username:"String",
 		firstName:"String",
@@ -215,7 +214,8 @@ export const ReturnTypes: Record<string,any> = {
 		"...on SignOutMessage":"SignOutMessage",
 		"...on UserSessionExpiredError":"UserSessionExpiredError",
 		"...on ServerError":"ServerError"
-	}
+	},
+	UuidSurrealdb: `scalar.UuidSurrealdb` as const
 }
 
 export const Ops = {

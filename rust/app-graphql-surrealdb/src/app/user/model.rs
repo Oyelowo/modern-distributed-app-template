@@ -363,7 +363,6 @@ impl User {
             .get(0, 0)
             .unwrap();
 
-        println!("xxxuser{user:?}");
         // Self::find_by_id(db, &user_id).await
         user
     }
