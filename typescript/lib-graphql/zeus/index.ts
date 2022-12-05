@@ -916,7 +916,7 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
-	me?:ValueTypes["User"],
+	me?:ValueTypes["UserGetResult"],
 user?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 getUser?: [{	userBy: ValueTypes["UserBy"] | Variable<any, string>},ValueTypes["UserGetResult"]],
 	users?:ValueTypes["User"],
@@ -1010,7 +1010,8 @@ postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	
 }>;
 	["UserGetResult"]: AliasType<{		["...on User"] : ValueTypes["User"],
 		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"],
-		["...on ServerError"] : ValueTypes["ServerError"]
+		["...on ServerError"] : ValueTypes["ServerError"],
+		["...on UserSessionExpiredError"] : ValueTypes["UserSessionExpiredError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
@@ -1155,7 +1156,7 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
-	me?:ResolverInputTypes["User"],
+	me?:ResolverInputTypes["UserGetResult"],
 user?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["UserGetResult"]],
 getUser?: [{	userBy: ResolverInputTypes["UserBy"]},ResolverInputTypes["UserGetResult"]],
 	users?:ResolverInputTypes["User"],
@@ -1253,6 +1254,7 @@ postsConnection?: [{	after?: string | undefined | null,	before?: string | undefi
 	User?:ResolverInputTypes["User"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
 	ServerError?:ResolverInputTypes["ServerError"],
+	UserSessionExpiredError?:ResolverInputTypes["UserSessionExpiredError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserHaveNoAccessError"]: AliasType<{
@@ -1391,7 +1393,7 @@ Currently like this because of future developments */
 };
 	["PostsConnectionResult"]:ModelTypes["PostConnection"] | ModelTypes["UserNotFoundError"];
 	["Query"]: {
-		me: ModelTypes["User"],
+		me: ModelTypes["UserGetResult"],
 	user: ModelTypes["UserGetResult"],
 	getUser: ModelTypes["UserGetResult"],
 	users: Array<ModelTypes["User"]>,
@@ -1458,7 +1460,7 @@ entities without requiring a central allocating authority.
 		message: string,
 	solution: string
 };
-	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"];
+	["UserGetResult"]:ModelTypes["User"] | ModelTypes["UserNotFoundError"] | ModelTypes["ServerError"] | ModelTypes["UserSessionExpiredError"];
 	["UserHaveNoAccessError"]: {
 		message: string,
 	solution: string
@@ -1590,7 +1592,7 @@ Currently like this because of future developments */
 };
 	["Query"]: {
 	__typename: "Query",
-	me: GraphQLTypes["User"],
+	me: GraphQLTypes["UserGetResult"],
 	user: GraphQLTypes["UserGetResult"],
 	getUser: GraphQLTypes["UserGetResult"],
 	users: Array<GraphQLTypes["User"]>,
@@ -1684,10 +1686,11 @@ entities without requiring a central allocating authority.
 	solution: string
 };
 	["UserGetResult"]:{
-        	__typename:"User" | "UserNotFoundError" | "ServerError"
+        	__typename:"User" | "UserNotFoundError" | "ServerError" | "UserSessionExpiredError"
         	['...on User']: '__union' & GraphQLTypes["User"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
 	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
 };
 	["UserHaveNoAccessError"]: {
 	__typename: "UserHaveNoAccessError",

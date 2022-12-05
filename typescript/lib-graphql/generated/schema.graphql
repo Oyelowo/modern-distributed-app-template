@@ -127,7 +127,7 @@ input PostInput {
 union PostsConnectionResult = PostConnection | UserNotFoundError
 
 type Query {
-	me: User!
+	me: UserGetResult!
 	user(id: UUID!): UserGetResult!
 	getUser(userBy: UserBy!): UserGetResult!
 	users: [User!]!
@@ -220,7 +220,7 @@ type UserGenericError implements UserBaseError {
 	solution: String!
 }
 
-union UserGetResult = User | UserNotFoundError | ServerError
+union UserGetResult = User | UserNotFoundError | ServerError | UserSessionExpiredError
 
 type UserHaveNoAccessError implements UserBaseError {
 	message: String!
