@@ -76,6 +76,7 @@ const query = graphqlApi.query({
 			},
 			"...on UserNotFoundError": basicErrorSelector,
 			"...on ServerError": basicErrorSelector,
+			"...on UserSessionExpiredError": basicErrorSelector,
 		},
 	],
 });
@@ -96,7 +97,7 @@ query.then((d) => {
 				.with({ __typename: "UserNotFoundError" }, (x) => x.message)
 				.exhaustive();
 		})
-		.with({ __typename: P.union("UserNotFoundError", "ServerError") }, (d) => {
+		.with({ __typename: P.union("UserNotFoundError", "ServerError", "UserSessionExpiredError") }, (d) => {
 			return (
 				<>
 					{d.message}
@@ -112,6 +113,7 @@ query.then((d) => {
 	// if (isMatching(P.union("UserNotFoundError", "ServerError"), d.user.__typename)) {
 	if (
 		d.user.__typename === "UserNotFoundError" ||
+		d.user.__typename === "UserSessionExpiredError" ||
 		d.user.__typename === "ServerError"
 	) {
 		return {
