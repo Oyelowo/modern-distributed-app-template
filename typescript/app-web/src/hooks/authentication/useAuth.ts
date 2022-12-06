@@ -46,7 +46,7 @@ graphqlApi
 				},
 				"...on UserNotFoundError": basicErrorShape,
 				"...on ServerError": basicErrorShape,
-				"...on UserSessionExpiredError": basicErrorShape
+				"...on UserSessionExpiredError": basicErrorShape,
 			},
 		],
 	})
@@ -65,7 +65,13 @@ graphqlApi
 					.exhaustive();
 			})
 			.with(
-				{ __typename: P.union("UserNotFoundError", "ServerError", "UserSessionExpiredError") },
+				{
+					__typename: P.union(
+						"UserNotFoundError",
+						"ServerError",
+						"UserSessionExpiredError",
+					),
+				},
 				(d) => d.message,
 			)
 			.exhaustive();
@@ -183,11 +189,10 @@ export function useAuth() {
 			await graphqlApi.query({
 				session: {
 					"...on Session": {
-						userId: true
+						userId: true,
 					},
 					"...on ServerError": basicErrorShape,
-					"...on UserSessionExpiredError": basicErrorShape
-
+					"...on UserSessionExpiredError": basicErrorShape,
 				},
 			}),
 	);
@@ -217,12 +222,12 @@ export function useAuth() {
 
 type Auth =
 	| {
-		status: "loggedIn";
-		username: string;
-	}
+			status: "loggedIn";
+			username: string;
+	  }
 	| {
-		status: "loggedOut";
-	};
+			status: "loggedOut";
+	  };
 
 const textAtom = atom<Auth>({ status: "loggedOut" });
 

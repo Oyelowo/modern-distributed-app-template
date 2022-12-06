@@ -101,6 +101,7 @@ type PostConnection {
 	A list of nodes.
 	"""
 	nodes: [Post!]!
+	totalCount: Int!
 }
 
 """
@@ -115,8 +116,7 @@ type PostEdge {
 	The item at the end of the edge
 	"""
 	node: Post!
-	lowo: Boolean!
-	happy: Boolean!
+	relationshipToNextNode: Relation!
 }
 
 input PostInput {
@@ -134,6 +134,14 @@ type Query {
 	session: SessionResult!
 	post(id: UUID!): Post!
 	posts: [Post!]!
+}
+
+enum Relation {
+	BROTHER
+	SISTER
+	NIECE
+	DAUGHTER
+	SON
 }
 
 enum Role {
@@ -196,9 +204,7 @@ type User {
 	socialMedia: [String!]!
 	roles: [Role!]!
 	accounts: [AccountOauth!]!
-	postsConnection2(after: String, before: String, first: Int, last: Int): PostsConnectionResult!
-	postsConnection(after: String, before: String, first: Int, last: Int): PostConnection!
-	postCount: Int!
+	postsConnection(after: String, before: String, first: Int, last: Int): PostsConnectionResult!
 }
 
 interface UserBaseError {

@@ -131,21 +131,14 @@ enum PostsResult {
     UserNotFoundError(error::UserNotFoundError),
 }
 
-#[derive(Union)]
-enum PostsConnectionResult {
-    // Post(PostResponse),
-    PostConnection(
-        Connection<
-            i32,
-            Post,
-            EmptyFields,
-            AdditionalFields,
-            DefaultConnectionName,
-            DefaultEdgeName,
-        >,
-    ),
-    UserNotFoundError(error::UserNotFoundError),
-}
+// type ConnectionMap<NodeData: OutputType> = Connection<
+//     connection::OpaqueCursor<String>,
+//     NodeData,
+//     EmptyFields,
+//     AdditionalFields,
+//     DefaultConnectionName,
+//     DefaultEdgeName,
+// >;
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Cursor(uuid::Uuid);
@@ -174,23 +167,34 @@ struct PageInfoData {
 }
 
 #[derive(SimpleObject, Clone, Debug)]
-struct AdditionalFields {
-    lowo: bool,
-    happy: bool,
+struct ConnectionAdditionalFields {
+    totalCount: u64,
 }
 
+#[derive(SimpleObject, Clone, Debug)]
+struct EdgeAdditionalFields {
+    is_niece_to: bool,
+}
+
+// let pp = connection::OpaqueCursor
+
+#[derive(Union)]
+enum PostsConnectionResult {
+    // Post(PostResponse),
+    PostConnection(
+        Connection<
+            connection::OpaqueCursor<String>,
+            Post,
+            ConnectionAdditionalFields,
+            EdgeAdditionalFields,
+            DefaultConnectionName,
+            DefaultEdgeName,
+        >,
+    ),
+    UserNotFoundError(error::UserNotFoundError),
+}
 #[ComplexObject]
 impl User {
-    async fn posts_connection2(
-        &self,
-        ctx: &Context<'_>,
-        after: Option<String>,
-        before: Option<String>,
-        first: Option<i32>,
-        last: Option<i32>,
-    ) -> PostsConnectionResult {
-        todo!()
-    }
     // #[graphql(guard = "RoleGuard::new(Role::User).or(AuthGuard)")]
     async fn posts_connection(
         &self,
@@ -201,26 +205,17 @@ impl User {
         last: Option<i32>,
         // characters: &[&'a StarWarsChar],
         // map_to: F,
-    ) -> Result<
-        Connection<
-            i32,
-            Post,
-            EmptyFields,
-            AdditionalFields,
-            DefaultConnectionName,
-            DefaultEdgeName,
-        >,
-    > {
+    ) -> PostsConnectionResult {
         let post = Post {
             poster_id: uuid::Uuid::new_v4(),
             id: Some(uuid::Uuid::new_v4()),
             title: "".to_string(),
             content: "".to_string(),
         };
-        let add_fields = AdditionalFields {
-            lowo: true,
-            happy: true,
-        };
+        let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
+
+        let edge_additional_fields = EdgeAdditionalFields { is_niece_to: true };
+
         // ctx.look_ahead().field("xx").field("yy").field("zz");
         // Edge::new(1, post).node.poster_id;
         let q = query(
@@ -229,34 +224,27 @@ impl User {
             first,
             last,
             |after, before, first, last| async move {
-                let mut connection = Connection::new(true, true);
-                connection
-                    .edges
-                    .extend([Edge::with_additional_fields(1, post, add_fields)]);
+                let mut connection =
+                    Connection::with_additional_fields(true, true, connection_additional_fields);
+
+                connection.edges.extend([Edge::with_additional_fields(
+                    connection::OpaqueCursor("1".to_string()),
+                    post,
+                    edge_additional_fields, // EmptyFields,
+                )]);
                 Ok::<_, async_graphql::Error>(connection)
             },
         )
         .await;
-        q
-    }
-
-    async fn post_count(&self, ctx: &Context<'_>) -> Result<usize> {
-        // self.posts(ctx).await.map(|p|
-        //     match p {
-        //         PostsResult::Post(x) => {
-        //             x
-        //         },
-        //         PostsResult::UserNotFoundError(c)=>{
-
-        //         }
-        //     }
-        //     p
-
-        //     .len()).map_err(|_| {
-        //     ApiHttpStatus::UnprocessableEntity("Problem occured while getting posts".into())
-        //         .extend()
-        // })
-        todo!()
+        if let Ok(con) = q {
+            con.into()
+        } else {
+            error::UserNotFoundError {
+                message: "nod here buddy".into(),
+                solution: "Go find him".into(),
+            }
+            .into()
+        }
     }
 }
 
@@ -294,8 +282,7 @@ pub enum UserGetResult {
     // UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
     UserNotFoundError(error::UserNotFoundError),
     ServerError(error::ServerError),
-    UserSessionExpiredError(error::UserSessionExpiredError)
-    // UserBaseError(UserBaseError)
+    UserSessionExpiredError(error::UserSessionExpiredError), // UserBaseError(UserBaseError)
 }
 
 impl User {

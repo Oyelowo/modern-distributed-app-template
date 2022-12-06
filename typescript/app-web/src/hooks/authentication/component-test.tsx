@@ -97,14 +97,23 @@ query.then((d) => {
 				.with({ __typename: "UserNotFoundError" }, (x) => x.message)
 				.exhaustive();
 		})
-		.with({ __typename: P.union("UserNotFoundError", "ServerError", "UserSessionExpiredError") }, (d) => {
-			return (
-				<>
-					{d.message}
-					{d.solution}
-				</>
-			);
-		})
+		.with(
+			{
+				__typename: P.union(
+					"UserNotFoundError",
+					"ServerError",
+					"UserSessionExpiredError",
+				),
+			},
+			(d) => {
+				return (
+					<>
+						{d.message}
+						{d.solution}
+					</>
+				);
+			},
+		)
 		.exhaustive();
 });
 
