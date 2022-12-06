@@ -131,14 +131,6 @@ enum PostsResult {
     UserNotFoundError(error::UserNotFoundError),
 }
 
-// type ConnectionMap<NodeData: OutputType> = Connection<
-//     connection::OpaqueCursor<String>,
-//     NodeData,
-//     EmptyFields,
-//     AdditionalFields,
-//     DefaultConnectionName,
-//     DefaultEdgeName,
-// >;
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Cursor(uuid::Uuid);
@@ -171,9 +163,18 @@ struct ConnectionAdditionalFields {
     totalCount: u64,
 }
 
+#[derive(Enum, Debug, PartialEq, Eq, Clone, Copy)]
+enum Relation {
+    Brother,
+    Sister,
+    Niece,
+    Daughter,
+    Son,
+}
+
 #[derive(SimpleObject, Clone, Debug)]
 struct EdgeAdditionalFields {
-    is_niece_to: bool,
+    relationship_to_next_node: Relation,
 }
 
 // let pp = connection::OpaqueCursor
@@ -214,7 +215,9 @@ impl User {
         };
         let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
 
-        let edge_additional_fields = EdgeAdditionalFields { is_niece_to: true };
+        let edge_additional_fields = EdgeAdditionalFields {
+            relationship_to_next_node: Relation::Brother,
+        };
 
         // ctx.look_ahead().field("xx").field("yy").field("zz");
         // Edge::new(1, post).node.poster_id;
