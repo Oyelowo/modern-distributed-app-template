@@ -218,21 +218,14 @@ impl User {
         last: Option<i32>,
         // map_to: F,
     ) -> PostsConnectionResult {
-        // use crate::app::user::statements::SELECT;
         use super::statements::Logicals::*;
         use super::statements::Ordering::*;
         use super::statements::*;
-        // dbg!(after.clone());
-        // // let xx = connection::OpaqueCursor("after.clone()");
-        // dbg!(before.clone());
         // ctx.look_ahead().field("xx").field("yy").field("zz");
-        // Edge::new(1, post).node.poster_id;
-        // connection::OpaqueCursor<String>
         use surrealdb_rs::{embedded, embedded::Db, Surreal};
         let session = session_from_ctx!(ctx);
         let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
         let db = ctx.data_unchecked::<Surreal<Db>>();
-        // db.select(("resource",  "")).await.unwrap();
         let q = query(
             after,
             before,
@@ -274,13 +267,7 @@ impl User {
                     (None, None) => "".into(),
                 };
 
-                // This is an example query. Still awaiting some surrealrs to get merged
-
-                // let SELECT = "SELECT";
-                // let FROM = "FROM";
-
-                // $posts = SELECT * FROM posts {where_clause} {order_by} LIMIT {limit}
-                let kk = db
+                let kk: Vec<Post> = db
                     .query(format!(
                         r#"{SELECT} * {FROM} user:$user_id ->writes->(posts {where_clause} 
                             {order_by} {LIMIT} {limit}) {TIMEOUT} 30s
@@ -288,6 +275,8 @@ impl User {
                     ))
                     .bind("key", "value")
                     .await
+                    .unwrap()
+                    .get(0, ..)
                     .unwrap();
 
                 let post = Post {
@@ -313,7 +302,7 @@ impl User {
         match q {
             Ok(con) => con.into(),
             Err(e) => {
-                dbg!("The error", e);
+                log::error!("The error: {e:?}");
                 error::UserNotFoundError {
                     message: "nod here buddy".into(),
                     solution: "Go find him".into(),
