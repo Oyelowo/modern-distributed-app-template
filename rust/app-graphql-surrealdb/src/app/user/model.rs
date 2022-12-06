@@ -1,8 +1,8 @@
 use super::error;
 use super::guards::{AuthGuard, RoleGuard};
 use super::model_oauth;
-use crate::app::post::Post;
-use crate::session_from_ctx;
+use crate::app::post::{Post, PostFields};
+use crate::{get_current_user_id_unchecked, session_from_ctx};
 use async_graphql::connection::{
     query, Connection, CursorType, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
 };
@@ -193,6 +193,8 @@ enum PostsConnectionResult {
     ),
     UserNotFoundError(error::UserNotFoundError),
     FirstOrLastParamsError(error::FirstOrLastParamsError),
+    ServerError(error::ServerError),
+    UserSessionExpiredError(error::UserSessionExpiredError),
 }
 
 /// Relay-compliant connection parameters to page results by cursor/page size
@@ -216,12 +218,21 @@ impl User {
         last: Option<i32>,
         // map_to: F,
     ) -> PostsConnectionResult {
+        // use crate::app::user::statements::SELECT;
+        use super::statements::Logicals::*;
+        use super::statements::Ordering::*;
+        use super::statements::*;
         // dbg!(after.clone());
         // // let xx = connection::OpaqueCursor("after.clone()");
         // dbg!(before.clone());
         // ctx.look_ahead().field("xx").field("yy").field("zz");
         // Edge::new(1, post).node.poster_id;
         // connection::OpaqueCursor<String>
+        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        let session = session_from_ctx!(ctx);
+        let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
+        let db = ctx.data_unchecked::<Surreal<Db>>();
+        // db.select(("resource",  "")).await.unwrap();
         let q = query(
             after,
             before,
@@ -236,51 +247,48 @@ impl User {
                 let edge_additional_fields = EdgeAdditionalFields {
                     relationship_to_next_node: Relation::Brother,
                 };
-                // dbg!(after.unwrap().clone());
                 let limit = match (first, last) {
                     (Some(first), None) => first,
                     (None, Some(last)) => last,
                     _ => 10,
-                    // _ => {
-                    //     return error::FirstOrLastParamsError {
-                    //         message: "First or last param issue".to_string(),
-                    //         solution: "Provide either First or last param but not both".to_string(),
-                    //     }
-                    //     .into()
-                    // }
                 };
-                // a: &OpaqueCursor<String>
-                // let after: Option<&str>
+
                 let after = after.as_ref().map(|a| a.as_str());
                 let before = before.as_ref().map(|b| b.as_str());
 
                 let order_by = match (after, before) {
-                    (Some(_), Some(_)) => "ASC",
-                    (Some(_), None) => "ASC",
-                    (None, Some(_)) => "DESC",
-                    (None, None) => "ASC",
+                    (Some(_), Some(_)) => ASC,
+                    (Some(_), None) => ASC,
+                    (None, Some(_)) => DESC,
+                    (None, None) => ASC,
                 };
+
+                let PostFields { id, .. } = Post::get_fields_serialized();
 
                 let where_clause = match (after, before) {
                     (Some(after), Some(before)) => {
-                        format!("WHERE n.id > '{after:}' AND n.id < '{before}'")
+                        format!("{WHERE} {id} > {after} {AND} {id} < {before}")
                     }
-                    (Some(after), None) => format!("WHERE n.id > '{after}'"),
-                    (None, Some(before)) => format!("WHERE n.id < '{before}'"),
-                    (None, None) => format!(""),
+                    (Some(after), None) => format!("{WHERE} {id} > {after}"),
+                    (None, Some(before)) => format!("{WHERE} {id} < {before}"),
+                    (None, None) => "".into(),
                 };
 
                 // This is an example query. Still awaiting some surrealrs to get merged
-                let query = format!(
-                    r#"
-                    SELECT * FROM user WHERE id = '{}'
-                    {}
-                    {}
-                    LIMIT {}
-                    RETURN user.posts
-                "#,
-                    self.id.0, where_clause, order_by, limit
-                );
+
+                // let SELECT = "SELECT";
+                // let FROM = "FROM";
+
+                // $posts = SELECT * FROM posts {where_clause} {order_by} LIMIT {limit}
+                let kk = db
+                    .query(format!(
+                        r#"{SELECT} * {FROM} user:$user_id ->writes->(posts {where_clause} 
+                            {order_by} {LIMIT} {limit}) {TIMEOUT} 30s
+                        "#
+                    ))
+                    .bind("key", "value")
+                    .await
+                    .unwrap();
 
                 let post = Post {
                     poster_id: uuid::Uuid::new_v4(),
