@@ -4,7 +4,7 @@ use super::model_oauth;
 use crate::app::post::Post;
 use crate::session_from_ctx;
 use async_graphql::connection::{
-    query, Connection, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
+    query, Connection, CursorType, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
 };
 use async_graphql::*;
 use chrono::{serde::ts_nanoseconds_option, DateTime, Utc};
@@ -131,7 +131,6 @@ enum PostsResult {
     UserNotFoundError(error::UserNotFoundError),
 }
 
-
 #[derive(Serialize, Deserialize, Clone)]
 struct Cursor(uuid::Uuid);
 // Define a struct for the post data
@@ -193,7 +192,18 @@ enum PostsConnectionResult {
         >,
     ),
     UserNotFoundError(error::UserNotFoundError),
+    FirstOrLastParamsError(error::FirstOrLastParamsError),
 }
+
+/// Relay-compliant connection parameters to page results by cursor/page size
+#[derive(Debug, InputObject)]
+pub struct Params {
+    after: Option<String>,
+    before: Option<String>,
+    first: Option<i32>,
+    last: Option<i32>,
+}
+
 #[ComplexObject]
 impl User {
     // #[graphql(guard = "RoleGuard::new(Role::User).or(AuthGuard)")]
@@ -204,34 +214,101 @@ impl User {
         before: Option<String>,
         first: Option<i32>,
         last: Option<i32>,
-        // characters: &[&'a StarWarsChar],
         // map_to: F,
     ) -> PostsConnectionResult {
-        let post = Post {
-            poster_id: uuid::Uuid::new_v4(),
-            id: Some(uuid::Uuid::new_v4()),
-            title: "".to_string(),
-            content: "".to_string(),
-        };
         let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
 
         let edge_additional_fields = EdgeAdditionalFields {
             relationship_to_next_node: Relation::Brother,
         };
-
+        dbg!(after.clone());
+        // let xx = connection::OpaqueCursor("after.clone()");
+        dbg!(before.clone());
         // ctx.look_ahead().field("xx").field("yy").field("zz");
         // Edge::new(1, post).node.poster_id;
-        let q = query(
+        let q = query::<
+            _,
+            _,
+            connection::OpaqueCursor<String>,
+            _,
+            ConnectionAdditionalFields,
+            _,
+            _,
+            _,
+            _,
+        >(
             after,
             before,
             first,
             last,
             |after, before, first, last| async move {
+                dbg!(after.unwrap().clone());
+                let limit = match (first, last) {
+                    (Some(first), None) => first,
+                    (None, Some(last)) => last,
+                    _ => 10,
+                    // _ => {
+                    //     return error::FirstOrLastParamsError {
+                    //         message: "First or last param issue".to_string(),
+                    //         solution: "Provide either First or last param but not both".to_string(),
+                    //     }
+                    //     .into()
+                    // }
+                };
+                // let order_by = match (after, before) {
+                //     (Some(_), Some(_)) => "ASC",
+                //     (Some(_), None) => "ASC",
+                //     (None, Some(_)) => "DESC",
+                //     (None, None) => "ASC",
+                // };
+
+                // let xx: String = after.unwrap().0;
+
+                // let where_clause = match (after, before) {
+                //     (Some(after), Some(before)) => {
+                //         // let after = after.as_str();
+                //         let afterr = CursorType::decode_cursor(after).unwrap();
+                //         // let before = before.as_str();
+                //         format!("WHERE n.id > '{after}' AND n.id < '{before}'")
+                //     }
+                //     (Some(after), None) => format!("WHERE n.id > '{after}'"),
+                //     (None, Some(before)) => format!("WHERE n.id < '{before}'"),
+                //     (None, None) => format!(""),
+                // };
+
+                //         let query = format!(
+                //             r#"
+                //     MATCH (n:User) WHERE n.id = '{}'
+                //     {}
+                //     {}
+                //     LIMIT {}
+                //     RETURN n.posts
+                // "#,
+                //             self.id.0,
+                //             match (after, before) {
+                //                 (Some(after), Some(before)) =>
+                //                     format!("WHERE n.id > '{after}' AND n.id < '{before}'"),
+                //                 (Some(after), None) => format!("WHERE n.id > '{after}'"),
+                //                 (None, Some(before)) => format!("WHERE n.id < '{before}'"),
+                //                 (None, None) => format!(""),
+                //             },
+                //             order_by,
+                //             limit
+                //         );
+
+                let post = Post {
+                    poster_id: uuid::Uuid::new_v4(),
+                    id: Some(uuid::Uuid::new_v4()),
+                    title: "".to_string(),
+                    content: "".to_string(),
+                };
+
                 let mut connection =
                     Connection::with_additional_fields(true, true, connection_additional_fields);
 
                 connection.edges.extend([Edge::with_additional_fields(
-                    connection::OpaqueCursor("1".to_string()),
+                    // connection::OpaqueCursor("1".to_string()),
+                    connection::OpaqueCursor("lowowowowo".to_string()),
                     post,
                     edge_additional_fields, // EmptyFields,
                 )]);
@@ -239,14 +316,16 @@ impl User {
             },
         )
         .await;
-        if let Ok(con) = q {
-            con.into()
-        } else {
-            error::UserNotFoundError {
-                message: "nod here buddy".into(),
-                solution: "Go find him".into(),
+        match q {
+            Ok(con) => con.into(),
+            Err(e) => {
+                dbg!("The error", e);
+                error::UserNotFoundError {
+                    message: "nod here buddy".into(),
+                    solution: "Go find him".into(),
+                }
+                .into()
             }
-            .into()
         }
     }
 }
