@@ -216,33 +216,27 @@ impl User {
         last: Option<i32>,
         // map_to: F,
     ) -> PostsConnectionResult {
-        let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
-
-        let edge_additional_fields = EdgeAdditionalFields {
-            relationship_to_next_node: Relation::Brother,
-        };
-        dbg!(after.clone());
-        // let xx = connection::OpaqueCursor("after.clone()");
-        dbg!(before.clone());
+        // dbg!(after.clone());
+        // // let xx = connection::OpaqueCursor("after.clone()");
+        // dbg!(before.clone());
         // ctx.look_ahead().field("xx").field("yy").field("zz");
         // Edge::new(1, post).node.poster_id;
-        let q = query::<
-            _,
-            _,
-            connection::OpaqueCursor<String>,
-            _,
-            ConnectionAdditionalFields,
-            _,
-            _,
-            _,
-            _,
-        >(
+        // connection::OpaqueCursor<String>
+        let q = query(
             after,
             before,
             first,
             last,
-            |after, before, first, last| async move {
-                dbg!(after.unwrap().clone());
+            |after: Option<connection::OpaqueCursor<String>>,
+             before: Option<connection::OpaqueCursor<String>>,
+             first: Option<usize>,
+             last: Option<usize>| async move {
+                let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
+
+                let edge_additional_fields = EdgeAdditionalFields {
+                    relationship_to_next_node: Relation::Brother,
+                };
+                // dbg!(after.unwrap().clone());
                 let limit = match (first, last) {
                     (Some(first), None) => first,
                     (None, Some(last)) => last,
@@ -255,46 +249,38 @@ impl User {
                     //     .into()
                     // }
                 };
-                // let order_by = match (after, before) {
-                //     (Some(_), Some(_)) => "ASC",
-                //     (Some(_), None) => "ASC",
-                //     (None, Some(_)) => "DESC",
-                //     (None, None) => "ASC",
-                // };
+                // a: &OpaqueCursor<String>
+                // let after: Option<&str>
+                let after = after.as_ref().map(|a| a.as_str());
+                let before = before.as_ref().map(|b| b.as_str());
 
-                // let xx: String = after.unwrap().0;
+                let order_by = match (after, before) {
+                    (Some(_), Some(_)) => "ASC",
+                    (Some(_), None) => "ASC",
+                    (None, Some(_)) => "DESC",
+                    (None, None) => "ASC",
+                };
 
-                // let where_clause = match (after, before) {
-                //     (Some(after), Some(before)) => {
-                //         // let after = after.as_str();
-                //         let afterr = CursorType::decode_cursor(after).unwrap();
-                //         // let before = before.as_str();
-                //         format!("WHERE n.id > '{after}' AND n.id < '{before}'")
-                //     }
-                //     (Some(after), None) => format!("WHERE n.id > '{after}'"),
-                //     (None, Some(before)) => format!("WHERE n.id < '{before}'"),
-                //     (None, None) => format!(""),
-                // };
+                let where_clause = match (after, before) {
+                    (Some(after), Some(before)) => {
+                        format!("WHERE n.id > '{after:}' AND n.id < '{before}'")
+                    }
+                    (Some(after), None) => format!("WHERE n.id > '{after}'"),
+                    (None, Some(before)) => format!("WHERE n.id < '{before}'"),
+                    (None, None) => format!(""),
+                };
 
-                //         let query = format!(
-                //             r#"
-                //     MATCH (n:User) WHERE n.id = '{}'
-                //     {}
-                //     {}
-                //     LIMIT {}
-                //     RETURN n.posts
-                // "#,
-                //             self.id.0,
-                //             match (after, before) {
-                //                 (Some(after), Some(before)) =>
-                //                     format!("WHERE n.id > '{after}' AND n.id < '{before}'"),
-                //                 (Some(after), None) => format!("WHERE n.id > '{after}'"),
-                //                 (None, Some(before)) => format!("WHERE n.id < '{before}'"),
-                //                 (None, None) => format!(""),
-                //             },
-                //             order_by,
-                //             limit
-                //         );
+                // This is an example query. Still awaiting some surrealrs to get merged
+                let query = format!(
+                    r#"
+                    SELECT * FROM user WHERE id = '{}'
+                    {}
+                    {}
+                    LIMIT {}
+                    RETURN user.posts
+                "#,
+                    self.id.0, where_clause, order_by, limit
+                );
 
                 let post = Post {
                     poster_id: uuid::Uuid::new_v4(),
@@ -307,7 +293,6 @@ impl User {
                     Connection::with_additional_fields(true, true, connection_additional_fields);
 
                 connection.edges.extend([Edge::with_additional_fields(
-                    // connection::OpaqueCursor("1".to_string()),
                     connection::OpaqueCursor("lowowowowo".to_string()),
                     post,
                     edge_additional_fields, // EmptyFields,
@@ -316,6 +301,7 @@ impl User {
             },
         )
         .await;
+
         match q {
             Ok(con) => con.into(),
             Err(e) => {
