@@ -1,10 +1,10 @@
 use super::error;
 use super::guards::{AuthGuard, RoleGuard};
 use super::model_oauth;
-use crate::app::post::Post;
-use crate::session_from_ctx;
+use crate::app::post::{Post, PostFields};
+use crate::{get_current_user_id_unchecked, session_from_ctx};
 use async_graphql::connection::{
-    query, Connection, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
+    query, Connection, CursorType, DefaultConnectionName, DefaultEdgeName, Edge, EmptyFields,
 };
 use async_graphql::*;
 use chrono::{serde::ts_nanoseconds_option, DateTime, Utc};
@@ -131,22 +131,6 @@ enum PostsResult {
     UserNotFoundError(error::UserNotFoundError),
 }
 
-#[derive(Union)]
-enum PostsConnectionResult {
-    // Post(PostResponse),
-    PostConnection(
-        Connection<
-            i32,
-            Post,
-            EmptyFields,
-            AdditionalFields,
-            DefaultConnectionName,
-            DefaultEdgeName,
-        >,
-    ),
-    UserNotFoundError(error::UserNotFoundError),
-}
-
 #[derive(Serialize, Deserialize, Clone)]
 struct Cursor(uuid::Uuid);
 // Define a struct for the post data
@@ -174,23 +158,56 @@ struct PageInfoData {
 }
 
 #[derive(SimpleObject, Clone, Debug)]
-struct AdditionalFields {
-    lowo: bool,
-    happy: bool,
+struct ConnectionAdditionalFields {
+    totalCount: u64,
+}
+
+#[derive(Enum, Debug, PartialEq, Eq, Clone, Copy)]
+enum Relation {
+    Brother,
+    Sister,
+    Niece,
+    Daughter,
+    Son,
+}
+
+#[derive(SimpleObject, Clone, Debug)]
+struct EdgeAdditionalFields {
+    relationship_to_next_node: Relation,
+}
+
+// let pp = connection::OpaqueCursor
+
+#[derive(Union)]
+enum PostsConnectionResult {
+    // Post(PostResponse),
+    PostConnection(
+        Connection<
+            connection::OpaqueCursor<String>,
+            Post,
+            ConnectionAdditionalFields,
+            EdgeAdditionalFields,
+            DefaultConnectionName,
+            DefaultEdgeName,
+        >,
+    ),
+    UserNotFoundError(error::UserNotFoundError),
+    FirstOrLastParamsError(error::FirstOrLastParamsError),
+    ServerError(error::ServerError),
+    UserSessionExpiredError(error::UserSessionExpiredError),
+}
+
+/// Relay-compliant connection parameters to page results by cursor/page size
+#[derive(Debug, InputObject)]
+pub struct Params {
+    after: Option<String>,
+    before: Option<String>,
+    first: Option<i32>,
+    last: Option<i32>,
 }
 
 #[ComplexObject]
 impl User {
-    async fn posts_connection2(
-        &self,
-        ctx: &Context<'_>,
-        after: Option<String>,
-        before: Option<String>,
-        first: Option<i32>,
-        last: Option<i32>,
-    ) -> PostsConnectionResult {
-        todo!()
-    }
     // #[graphql(guard = "RoleGuard::new(Role::User).or(AuthGuard)")]
     async fn posts_connection(
         &self,
@@ -199,64 +216,100 @@ impl User {
         before: Option<String>,
         first: Option<i32>,
         last: Option<i32>,
-        // characters: &[&'a StarWarsChar],
         // map_to: F,
-    ) -> Result<
-        Connection<
-            i32,
-            Post,
-            EmptyFields,
-            AdditionalFields,
-            DefaultConnectionName,
-            DefaultEdgeName,
-        >,
-    > {
-        let post = Post {
-            poster_id: uuid::Uuid::new_v4(),
-            id: Some(uuid::Uuid::new_v4()),
-            title: "".to_string(),
-            content: "".to_string(),
-        };
-        let add_fields = AdditionalFields {
-            lowo: true,
-            happy: true,
-        };
+    ) -> PostsConnectionResult {
+        use super::statements::Logicals::*;
+        use super::statements::Ordering::*;
+        use super::statements::*;
         // ctx.look_ahead().field("xx").field("yy").field("zz");
-        // Edge::new(1, post).node.poster_id;
+        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        let session = session_from_ctx!(ctx);
+        let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
+        let db = ctx.data_unchecked::<Surreal<Db>>();
         let q = query(
             after,
             before,
             first,
             last,
-            |after, before, first, last| async move {
-                let mut connection = Connection::new(true, true);
-                connection
-                    .edges
-                    .extend([Edge::with_additional_fields(1, post, add_fields)]);
+            |after: Option<connection::OpaqueCursor<String>>,
+             before: Option<connection::OpaqueCursor<String>>,
+             first: Option<usize>,
+             last: Option<usize>| async move {
+                let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
+
+                let edge_additional_fields = EdgeAdditionalFields {
+                    relationship_to_next_node: Relation::Brother,
+                };
+                let limit = match (first, last) {
+                    (Some(first), None) => first,
+                    (None, Some(last)) => last,
+                    _ => 10,
+                };
+
+                let after = after.as_ref().map(|a| a.as_str());
+                let before = before.as_ref().map(|b| b.as_str());
+
+                let order_by = match (after, before) {
+                    (Some(_), Some(_)) => ASC,
+                    (Some(_), None) => ASC,
+                    (None, Some(_)) => DESC,
+                    (None, None) => ASC,
+                };
+
+                let PostFields { id, .. } = Post::get_fields_serialized();
+
+                let where_clause = match (after, before) {
+                    (Some(after), Some(before)) => {
+                        format!("{WHERE} {id} > {after} {AND} {id} < {before}")
+                    }
+                    (Some(after), None) => format!("{WHERE} {id} > {after}"),
+                    (None, Some(before)) => format!("{WHERE} {id} < {before}"),
+                    (None, None) => "".into(),
+                };
+
+                let kk: Vec<Post> = db
+                    .query(format!(
+                        r#"{SELECT} * {FROM} user:$user_id ->writes->(posts {where_clause} 
+                            {order_by} {LIMIT} {limit}) {TIMEOUT} 30s
+                        "#
+                    ))
+                    .bind("key", "value")
+                    .await
+                    .unwrap()
+                    .get(0, ..)
+                    .unwrap();
+
+                let post = Post {
+                    poster_id: uuid::Uuid::new_v4(),
+                    id: Some(uuid::Uuid::new_v4()),
+                    title: "".to_string(),
+                    content: "".to_string(),
+                };
+
+                let mut connection =
+                    Connection::with_additional_fields(true, true, connection_additional_fields);
+
+                connection.edges.extend([Edge::with_additional_fields(
+                    connection::OpaqueCursor("lowowowowo".to_string()),
+                    post,
+                    edge_additional_fields, // EmptyFields,
+                )]);
                 Ok::<_, async_graphql::Error>(connection)
             },
         )
         .await;
-        q
-    }
 
-    async fn post_count(&self, ctx: &Context<'_>) -> Result<usize> {
-        // self.posts(ctx).await.map(|p|
-        //     match p {
-        //         PostsResult::Post(x) => {
-        //             x
-        //         },
-        //         PostsResult::UserNotFoundError(c)=>{
-
-        //         }
-        //     }
-        //     p
-
-        //     .len()).map_err(|_| {
-        //     ApiHttpStatus::UnprocessableEntity("Problem occured while getting posts".into())
-        //         .extend()
-        // })
-        todo!()
+        match q {
+            Ok(con) => con.into(),
+            Err(e) => {
+                log::error!("The error: {e:?}");
+                error::UserNotFoundError {
+                    message: "nod here buddy".into(),
+                    solution: "Go find him".into(),
+                }
+                .into()
+            }
+        }
     }
 }
 
@@ -294,7 +347,7 @@ pub enum UserGetResult {
     // UserRegisterInvalidInputError(error::UserRegisterInvalidInputError),
     UserNotFoundError(error::UserNotFoundError),
     ServerError(error::ServerError),
-    // UserBaseError(UserBaseError)
+    UserSessionExpiredError(error::UserSessionExpiredError), // UserBaseError(UserBaseError)
 }
 
 impl User {

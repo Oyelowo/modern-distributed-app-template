@@ -115,7 +115,7 @@ export const ReturnTypes: Record<string,any> = {
 		"...on UserNotFoundError":"UserNotFoundError"
 	},
 	Query:{
-		me:"User",
+		me:"UserGetResult",
 		user:"UserGetResult",
 		getUser:"UserGetResult",
 		users:"User",
@@ -128,8 +128,7 @@ export const ReturnTypes: Record<string,any> = {
 		solution:"String"
 	},
 	Session:{
-		userId:"UuidSurrealdb",
-		expiresAt:"DateTime"
+		userId:"UuidSurrealdb"
 	},
 	SessionResult:{
 		"...on Session":"Session",
@@ -183,7 +182,8 @@ export const ReturnTypes: Record<string,any> = {
 	UserGetResult:{
 		"...on User":"User",
 		"...on UserNotFoundError":"UserNotFoundError",
-		"...on ServerError":"ServerError"
+		"...on ServerError":"ServerError",
+		"...on UserSessionExpiredError":"UserSessionExpiredError"
 	},
 	UserHaveNoAccessError:{
 		message:"String",

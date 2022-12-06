@@ -46,6 +46,7 @@ graphqlApi
 				},
 				"...on UserNotFoundError": basicErrorShape,
 				"...on ServerError": basicErrorShape,
+				"...on UserSessionExpiredError": basicErrorShape,
 			},
 		],
 	})
@@ -64,7 +65,13 @@ graphqlApi
 					.exhaustive();
 			})
 			.with(
-				{ __typename: P.union("UserNotFoundError", "ServerError") },
+				{
+					__typename: P.union(
+						"UserNotFoundError",
+						"ServerError",
+						"UserSessionExpiredError",
+					),
+				},
 				(d) => d.message,
 			)
 			.exhaustive();
@@ -181,8 +188,11 @@ export function useAuth() {
 		async () =>
 			await graphqlApi.query({
 				session: {
-					expiresAt: true,
-					userId: true,
+					"...on Session": {
+						userId: true,
+					},
+					"...on ServerError": basicErrorShape,
+					"...on UserSessionExpiredError": basicErrorShape,
 				},
 			}),
 	);

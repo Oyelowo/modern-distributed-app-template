@@ -23,6 +23,7 @@ generate_basic_error_struct!(UserNotFoundError);
 generate_basic_error_struct!(UserSessionExpiredError);
 generate_basic_error_struct!(UserHaveNoAccessError);
 generate_basic_error_struct!(UserGenericError);
+generate_basic_error_struct!(FirstOrLastParamsError);
 
 // Write more specific error messages here with more fields
 

@@ -228,11 +228,28 @@ impl UserMutationRoot {
             .password(Some(password_hash.into()))
             .build();
 
+        dbg!(&user);
+
+        // let kk = db
+        //     .query("CREATE user SET username = $username, socialMedia = $socialMedia, password = $password, createdAt = $createdAt, updatedAt = $updatedAt, deletedAt = $deletedAt, emailVerified = $emailVerified")
+        //     .bind("username", user.username)
+        //     .bind("socialMedia", user.social_media)
+        //     .bind("password", user.password)
+        //     .bind("emailVerified", true)
+        //     .bind("createdAt", Utc::now().timestamp())
+        //     .bind("deletedAt", Utc::now().timestamp())
+        //     .bind("updatedAt", Utc::now().timestamp()).await.unwrap();
+
+        // let user: User = kk.get(0, 0).unwrap();
+
         let user: User = db
             .create(("user", uuid.to_string()))
             .content(user)
             .await
             .unwrap();
+   
+        dbg!("after user");
+        dbg!(&user);
 
         session.insert_user_id(&user.id);
         user.into()
