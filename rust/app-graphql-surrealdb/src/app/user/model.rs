@@ -13,6 +13,8 @@ use lib_common::oauth::account;
 use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
+use surreal_simple_querybuilder::model;
+use surreal_simple_querybuilder::prelude::Foreign;
 use surrealdb::Datastore;
 use surrealdb_rs::embedded::Db;
 use surrealdb_rs::Surreal;
@@ -118,6 +120,19 @@ pub struct User {
     pub accounts: Vec<model_oauth::AccountOauth>,
     // #[graphql(skip_input)]
     // pub posts: Vec<Post>
+}
+
+mod user {
+    //   use super::account::schema::Account;
+    //   use super::release::schema::Release;
+    use surreal_simple_querybuilder::prelude::*;
+
+    model!(User {
+      pub namre,
+
+      // pub ->has->Release as releases,
+      // pub <-manage<-Account as authors
+    });
 }
 
 #[derive(SimpleObject)]
@@ -236,15 +251,11 @@ impl User {
              first: Option<usize>,
              last: Option<usize>| async move {
                 let connection_additional_fields = ConnectionAdditionalFields { totalCount: 43 };
-
-                let edge_additional_fields = EdgeAdditionalFields {
-                    relationship_to_next_node: Relation::Brother,
-                };
                 let limit = match (first, last) {
                     (Some(first), None) => first,
                     (None, Some(last)) => last,
                     _ => 10,
-                };
+                } + 1;
 
                 let after = after.as_ref().map(|a| a.as_str());
                 let before = before.as_ref().map(|b| b.as_str());
@@ -267,9 +278,9 @@ impl User {
                     (None, None) => "".into(),
                 };
 
-                let kk: Vec<Post> = db
+                let posts: Vec<Post> = db
                     .query(format!(
-                        r#"{SELECT} * {FROM} user:$user_id ->writes->(posts {where_clause} 
+                        r#"{SELECT} * {FROM} user:$user_id ->writes->(post {where_clause} 
                             {order_by} {LIMIT} {limit}) {TIMEOUT} 30s
                         "#
                     ))
@@ -279,21 +290,51 @@ impl User {
                     .get(0, ..)
                     .unwrap();
 
-                let post = Post {
-                    poster_id: uuid::Uuid::new_v4(),
-                    id: Some(uuid::Uuid::new_v4()),
-                    title: "".to_string(),
-                    content: "".to_string(),
+                let has_next_page = match (first, last) {
+                    (Some(first), Some(_)) => posts.len() > first,
+                    (Some(first), None) => posts.len() > first,
+                    (None, Some(last)) => posts.len() > last,
+                    (None, None) => posts.len() > limit,
                 };
 
-                let mut connection =
-                    Connection::with_additional_fields(true, true, connection_additional_fields);
+                let operator_for_has_previous = match (first, last) {
+                    (Some(first), Some(_)) => Operator::LESS_THAN,
+                    (Some(first), None) => Operator::LESS_THAN,
+                    (None, Some(last)) => Operator::GREATER_THAN,
+                    (None, None) => Operator::LESS_THAN,
+                };
 
-                connection.edges.extend([Edge::with_additional_fields(
-                    connection::OpaqueCursor("lowowowowo".to_string()),
-                    post,
-                    edge_additional_fields, // EmptyFields,
-                )]);
+                let start_cursor = posts.first();
+                let end_cursor = posts.last();
+                // > SELECT * FROM users where id < users:5dg1crif052igikvr83u
+                let post_before_cursor: Option<Post> = db
+                    .query(format!(
+                        "{SELECT} * {FROM} users {WHERE} {id} {operator_for_has_previous} $user_id"
+                    ))
+                    .bind("user_id", start_cursor)
+                    .await
+                    .unwrap()
+                    .get(0, 0)
+                    .unwrap();
+
+                let has_previous_page = post_before_cursor.is_some();
+
+                let mut connection = Connection::with_additional_fields(
+                    has_previous_page,
+                    has_next_page,
+                    connection_additional_fields,
+                );
+
+                let res_posts = &posts[0..posts.len() - 1];
+                connection.edges.extend(posts.into_iter().map(|p| {
+                    Edge::with_additional_fields(
+                        (connection::OpaqueCursor(format!("{:?}", p.id))),
+                        p,
+                        EdgeAdditionalFields {
+                            relationship_to_next_node: Relation::Brother,
+                        },
+                    )
+                }));
                 Ok::<_, async_graphql::Error>(connection)
             },
         )

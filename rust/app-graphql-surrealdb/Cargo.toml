@@ -14,6 +14,7 @@ lib-my-macros = { workspace = true }
 quote = { workspace = true }
 surrealdb = { workspace = true }
 surrealdb-rs = { workspace = true }
+surreal-simple-querybuilder = { workspace = true }
 poem = { workspace = true }
 poem-openapi = { workspace = true }
 

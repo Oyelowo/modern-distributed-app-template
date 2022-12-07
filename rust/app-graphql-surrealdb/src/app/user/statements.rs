@@ -29,6 +29,41 @@ pub enum Logicals {
     OR,
 }
 
+pub enum Operator {
+    GREATER_THAN,
+    LESS_THAN,
+    EQUAL_TO,
+}
+
+impl Operator {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::GREATER_THAN => write!(f, ">"),
+            Self::LESS_THAN => write!(f, "<"),
+            Self::EQUAL_TO => write!(f, "="),
+        }
+    }
+}
+
+impl std::fmt::Debug for Operator {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Operator::fmt(self, f)
+    }
+}
+
+impl std::fmt::Display for Operator {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        /*
+         let sign = match self {
+            Self::GREATER_THAN => ">",
+            Self::LESS_THAN => "<",
+        };
+        f.write_str(sign)
+         */
+        Operator::fmt(self, f)
+    }
+}
+
 macro_rules! concat {
     ($($arg:tt)*) => {
         [$(stringify!($arg)),*].join("")
@@ -40,7 +75,6 @@ macro_rules! my_format {
         format!("{}", concat!($($arg)*))
     }
 }
-
 
 fn lowo() {
     let foo = 1;
