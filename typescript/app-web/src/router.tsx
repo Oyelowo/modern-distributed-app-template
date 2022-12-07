@@ -1,5 +1,4 @@
-import { createReactRouter } from "@tanstack/react-router";
-import { createRouteConfig } from "@tanstack/router-core";
+import { createReactRouter, createRouteConfig } from "@tanstack/react-router";
 
 import { indexRoute } from "./routes/index.js";
 import { dashboardRoute } from "./routes/dashboard/index.js";

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useMatch } from "@tanstack/react-router";
 
 export const invoiceRoute = invoicesRoute.createRoute({
-	path: ":invoiceId",
+	path: "$invoiceId",
 	parseParams: (params) => ({
 		invoiceId: z.number().int().parse(Number(params.invoiceId)),
 	}),

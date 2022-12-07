@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "husky": "^8.0.2",
-    "rome": "10.0.1-nightly.00f5dfe"
+    "rome": "^11.0.0"
   },
   "pnpm": {
     "patchedDependencies": {

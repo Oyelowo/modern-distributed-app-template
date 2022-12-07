@@ -5,7 +5,7 @@ install:
 	pnpm install
 
 upgrade:
-	pnpm update
+	pnpm --filter "*" update
 
 sync:
 	make install
