@@ -6,6 +6,7 @@ import { Avatar, Grid, MantineProvider } from "@mantine/core";
 import { atom, useAtom } from "jotai";
 import { DoubleNavbar } from "./NavbarMain/Nav.js";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 if (!window.Temporal) {
 	await import("@js-temporal/polyfill").then((polyfill) => {
 		Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
