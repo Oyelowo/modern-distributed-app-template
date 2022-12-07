@@ -10,10 +10,10 @@ importers:
   .:
     specifiers:
       husky: ^8.0.2
-      rome: 10.0.1-nightly.00f5dfe
+      rome: ^11.0.0
     devDependencies:
       husky: 8.0.2
-      rome: 10.0.1-nightly.00f5dfe
+      rome: 11.0.0
 
   app-web:
     specifiers:
@@ -1484,48 +1484,48 @@ packages:
       zustand: 3.7.2_react@18.2.0
     dev: false
 
-  /@rometools/cli-darwin-arm64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-qlWih4bs7ffoH1o3nCXfwFZiqqpkgFYOspUxrOzkloxXzBUtviYC4KaxMYdnT2ZE4o0sasJRko8vp7BewMDVEg==}
+  /@rometools/cli-darwin-arm64/11.0.0:
+    resolution: {integrity: sha512-F3vkdY+s3FLIEnAjSbyHTuIPB88cLpccimW4ecid5I7S6GzGG3iUJI4xT00JhH73K4P/qW20/9r+kH1T9Du8Xg==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@rometools/cli-darwin-x64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-awgeumfdKW+y8xU2cGFF7zzQYh2pWmBfT+KjvzOBG4rY9PdQ9OspfVEa3Hw0Yj3g//LaCvnLi823lKost/Akdg==}
+  /@rometools/cli-darwin-x64/11.0.0:
+    resolution: {integrity: sha512-X6jhtS6Iml4GOzgNtnLwIp/KXXhSdqeVyfv69m/AHnIzx3gQAjPZ7BPnJLvTCbhe4SKHL+uTZYFSCJpkUUKE6w==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@rometools/cli-linux-arm64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-gOkvfljKZn7pwIX8teQJ8pUX9ElII20iQKsgf/zLYRWSKhWxwgVTeXE4w72Ofm95cRrrkOQmNSdkARHBrTPW+A==}
+  /@rometools/cli-linux-arm64/11.0.0:
+    resolution: {integrity: sha512-dktTJJlTpmycBZ2TwhJBcAO8ztK8DdevdyZnFFxdYRvtmJgTjIsC2UFayf/SbKew8B8q1IhI0it+D6ihAeIpeg==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@rometools/cli-linux-x64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-36UsImnusueDGpmq7RfdadIU6XST2g2IS0JZQK7mmuRVIBw8lyZH7/qnTY9swCj3ITYUKqUqFSsCpnEVwhrcng==}
+  /@rometools/cli-linux-x64/11.0.0:
+    resolution: {integrity: sha512-WVcnXPNdWGUWo0p4NU8YzuthjYR7q+b4vRcjdxtP1DlpphZmSsoC/RSE85nEqRAz8hChcKUansVzOPM8BSsuGA==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@rometools/cli-win32-arm64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-KSLvvfEnCm2SkEabzqS/NaR6HkIGzScPiG/CfJOqkD8v6F0dsU9Owa68JZPMP6rBGXG/d/dcQgt1sMRVS+8w3Q==}
+  /@rometools/cli-win32-arm64/11.0.0:
+    resolution: {integrity: sha512-tPj6RThQzS7Q45jqQll7NlTYvNcsg/BEP3LYiiazqSh9FAFnMkrV6ewUcMPKWyAfiyLs7jlz4rRvdNRUSygzfQ==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: true
     optional: true
 
-  /@rometools/cli-win32-x64/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-9/teyrT7C/EYVsQGd5c0YFqO9XH+UgTvxaJIFdKlqH1V47TgH3j64Gs8dyCA4+fvuei+fJM4BsaGzVQbYniIDg==}
+  /@rometools/cli-win32-x64/11.0.0:
+    resolution: {integrity: sha512-bmBai8WHxYjsGk1+je7ZTfCUCWq30WJI3pQM8pzTA674lfGTZ9ymJoZwTaIMSO4rL5V9mlO6uLunsBKso9VqOg==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -5430,18 +5430,18 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /rome/10.0.1-nightly.00f5dfe:
-    resolution: {integrity: sha512-VtHdE89Ol4YVSCQmCtlL/m6uw78Z1MNGThMVNBN7ph3rydpW2oX6T7v9AkXo3R0rTo/9djyC7SLIXg+V/HnSSw==}
+  /rome/11.0.0:
+    resolution: {integrity: sha512-rRo6JOwpMLc3OkeTDRXkrmrDqnxDvZ75GS4f0jLDBNmRgDXWbu0F8eVnJoRn+VbK2AE7vWvhVOMBjnWowcopkQ==}
     engines: {node: '>=14.*'}
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@rometools/cli-darwin-arm64': 10.0.1-nightly.00f5dfe
-      '@rometools/cli-darwin-x64': 10.0.1-nightly.00f5dfe
-      '@rometools/cli-linux-arm64': 10.0.1-nightly.00f5dfe
-      '@rometools/cli-linux-x64': 10.0.1-nightly.00f5dfe
-      '@rometools/cli-win32-arm64': 10.0.1-nightly.00f5dfe
-      '@rometools/cli-win32-x64': 10.0.1-nightly.00f5dfe
+      '@rometools/cli-darwin-arm64': 11.0.0
+      '@rometools/cli-darwin-x64': 11.0.0
+      '@rometools/cli-linux-arm64': 11.0.0
+      '@rometools/cli-linux-x64': 11.0.0
+      '@rometools/cli-win32-arm64': 11.0.0
+      '@rometools/cli-win32-x64': 11.0.0
     dev: true
 
   /rtl-css-js/1.16.0:
