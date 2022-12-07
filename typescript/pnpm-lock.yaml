@@ -40,16 +40,16 @@ importers:
       '@react-spring/core': 9.5.5
       '@react-spring/three': 9.5.5
       '@react-spring/web': 9.5.5
-      '@react-three/drei': 9.45.1
+      '@react-three/drei': 9.46.3
       '@react-three/fiber': 8.9.1
       '@tabler/icons': ^1.116.0
       '@tanstack/match-sorter-utils': ^8.7.0
       '@tanstack/react-query': ^4.19.1
       '@tanstack/react-query-devtools': ^4.19.1
-      '@tanstack/react-router': 0.0.1-beta.28
-      '@tanstack/react-router-devtools': 0.0.1-beta.19
+      '@tanstack/react-router': 0.0.1-beta.32
+      '@tanstack/react-router-devtools': 0.0.1-beta.30
       '@tanstack/react-table': ^8.7.0
-      '@tanstack/router-core': 0.0.1-beta.26
+      '@tanstack/router-core': 0.0.1-beta.31
       '@tanstack/table-core': 8.7.0
       '@testing-library/cypress': ^8.0.7
       '@testing-library/jest-dom': ^5.16.5
@@ -84,7 +84,7 @@ importers:
       immer: ^9.0.16
       jest-environment-jsdom: ^29.3.1
       jotai: ^1.11.1
-      lib-graphql: workspace:1.0.0
+      lib-graphql: workspace:*
       msw: ^0.49.1
       prism-react-renderer: ^1.3.5
       react: ^18.2.0
@@ -121,15 +121,15 @@ importers:
       '@react-spring/core': 9.5.5_react@18.2.0
       '@react-spring/three': 9.5.5_o4ncf7vogsnpzi45kzkuk4tvj4
       '@react-spring/web': 9.5.5_biqbaboplfbrettd7655fr4n2y
-      '@react-three/drei': 9.45.1_y4tjvd7p3bryef7m5zx7hlx3au
+      '@react-three/drei': 9.46.3_y4tjvd7p3bryef7m5zx7hlx3au
       '@react-three/fiber': 8.9.1_biqbaboplfbrettd7655fr4n2y
       '@tabler/icons': 1.116.0_biqbaboplfbrettd7655fr4n2y
       '@tanstack/match-sorter-utils': 8.7.0
       '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-router': 0.0.1-beta.28_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-router-devtools': 0.0.1-beta.19_cbsapmmh4lqs4wy2rc7fdyg57q
+      '@tanstack/react-router': 0.0.1-beta.32_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-router-devtools': 0.0.1-beta.30_a4hw6p5l2n73yicx2j6mdxjcd4
       '@tanstack/react-table': 8.7.0_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/router-core': 0.0.1-beta.26_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/router-core': 0.0.1-beta.31_biqbaboplfbrettd7655fr4n2y
       '@tanstack/table-core': 8.7.0
       '@use-gesture/react': 10.2.22_react@18.2.0
       axios: 1.2.1
@@ -1416,8 +1416,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@react-three/drei/9.45.1_y4tjvd7p3bryef7m5zx7hlx3au:
-    resolution: {integrity: sha512-/OVJZbxOywLp7I01P5wTsllTzZxHZ3IRhW3NMyTsImn8M2NjqC5WxmsndbUIYZGJy4tminqmnvYSDkfR1ExdoQ==}
+  /@react-three/drei/9.46.3_y4tjvd7p3bryef7m5zx7hlx3au:
+    resolution: {integrity: sha512-POUrahuah3apUpM8LnQTkf0F/nn9sj3XRQrwiiZWqibE0Y9bGzZi4LzoSCgD7ykqWZ14HIj72QdLVTOZxlfIaA==}
     peerDependencies:
       '@react-three/fiber': '>=8.0'
       react: '>=18.0'
@@ -1604,30 +1604,30 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
 
-  /@tanstack/react-router-devtools/0.0.1-beta.19_cbsapmmh4lqs4wy2rc7fdyg57q:
-    resolution: {integrity: sha512-heJ2wQAIwDvrCg042IqfJLhuJgWGUG17TasciOcb8OYz0uyyF1lsw1FWd+zlpliH2cLzANwXiCuT15RODyaakA==}
+  /@tanstack/react-router-devtools/0.0.1-beta.30_a4hw6p5l2n73yicx2j6mdxjcd4:
+    resolution: {integrity: sha512-VDW1nChupVvB0MQuQOyCjT9mf6LCAvCd65NceruxlEehxTewCOMLpFCNpOi94BKV+mkex5CvJ+/uypqbunBQ9w==}
     engines: {node: '>=12'}
     peerDependencies:
-      '@tanstack/react-router': 0.0.1-beta.19
+      '@tanstack/react-router': 0.0.1-beta.30
       react: '>=16'
       react-dom: '>=16'
     dependencies:
       '@babel/runtime': 7.20.6
-      '@tanstack/react-router': 0.0.1-beta.28_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-router': 0.0.1-beta.32_biqbaboplfbrettd7655fr4n2y
       date-fns: 2.29.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/react-router/0.0.1-beta.28_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-csaOSKWKHWdE4b/zTefE4dgskQZLoLvkAMaVU1XHki+o5brZyaAx4m5W7DPgxyXS7+wW9GWd/o7anWtD/H1IDQ==}
+  /@tanstack/react-router/0.0.1-beta.32_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-tCxvxSyutnUEcfnMPhFssIrkTUeq/0ueN8icCj/Ed5yi3nEXkheiAUC0543mEvDRs/WC1bd1eRaYx/e7/tPUCA==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
       '@babel/runtime': 7.20.6
-      '@tanstack/router-core': 0.0.1-beta.26_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/router-core': 0.0.1-beta.31_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -1645,8 +1645,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/router-core/0.0.1-beta.26_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-hVU/qmBtbYChG0kJyjG25aQnnihl5bATYPHs05pWTo8KuvSqK4WerooMBthVTGltg9koGX8dz6a7QNG1kwSJnw==}
+  /@tanstack/router-core/0.0.1-beta.31_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-KzgPcOCqWHf9PFuVcf/nv8HWxpMY8jiubp+FPE49D270iaAVWBAZXyy8mw1W5Q6nKzOQyDE51pvOqJHFnGpxhg==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
