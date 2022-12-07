@@ -34,6 +34,7 @@ export const AllTypesProps: Record<string,any> = {
 			id:"UUID"
 		}
 	},
+	Relation: "enum" as const,
 	Role: "enum" as const,
 	SignInCredentials:{
 
@@ -41,9 +42,6 @@ export const AllTypesProps: Record<string,any> = {
 	TokenType: "enum" as const,
 	UUID: `scalar.UUID` as const,
 	User:{
-		postsConnection2:{
-
-		},
 		postsConnection:{
 
 		}
@@ -79,6 +77,10 @@ export const ReturnTypes: Record<string,any> = {
 		oauthTokenSecret:"String"
 	},
 	DateTime: `scalar.DateTime` as const,
+	FirstOrLastParamsError:{
+		message:"String",
+		solution:"String"
+	},
 	Mutation:{
 		createUser:"User",
 		signIn:"UserSignInResult",
@@ -102,17 +104,20 @@ export const ReturnTypes: Record<string,any> = {
 	PostConnection:{
 		pageInfo:"PageInfo",
 		edges:"PostEdge",
-		nodes:"Post"
+		nodes:"Post",
+		totalCount:"Int"
 	},
 	PostEdge:{
 		cursor:"String",
 		node:"Post",
-		lowo:"Boolean",
-		happy:"Boolean"
+		relationshipToNextNode:"Relation"
 	},
 	PostsConnectionResult:{
 		"...on PostConnection":"PostConnection",
-		"...on UserNotFoundError":"UserNotFoundError"
+		"...on UserNotFoundError":"UserNotFoundError",
+		"...on FirstOrLastParamsError":"FirstOrLastParamsError",
+		"...on ServerError":"ServerError",
+		"...on UserSessionExpiredError":"UserSessionExpiredError"
 	},
 	Query:{
 		me:"UserGetResult",
@@ -156,9 +161,7 @@ export const ReturnTypes: Record<string,any> = {
 		socialMedia:"String",
 		roles:"Role",
 		accounts:"AccountOauth",
-		postsConnection2:"PostsConnectionResult",
-		postsConnection:"PostConnection",
-		postCount:"Int"
+		postsConnection:"PostsConnectionResult"
 	},
 	UserBaseError:{
 		"...on ServerError": "ServerError",

@@ -859,6 +859,11 @@ export type ValueTypes = {
 
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
+	["FirstOrLastParamsError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Mutation"]: AliasType<{
 createUser?: [{	userInput: ValueTypes["UserInput"] | Variable<any, string>},ValueTypes["User"]],
 signIn?: [{	signInCredentials: ValueTypes["SignInCredentials"] | Variable<any, string>},ValueTypes["UserSignInResult"]],
@@ -895,6 +900,7 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	edges?:ValueTypes["PostEdge"],
 	/** A list of nodes. */
 	nodes?:ValueTypes["Post"],
+	totalCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** An edge in a connection. */
@@ -903,8 +909,7 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	cursor?:boolean | `@${string}`,
 	/** The item at the end of the edge */
 	node?:ValueTypes["Post"],
-	lowo?:boolean | `@${string}`,
-	happy?:boolean | `@${string}`,
+	relationshipToNextNode?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["PostInput"]: {
@@ -912,7 +917,10 @@ createPost?: [{	post: ValueTypes["PostInput"] | Variable<any, string>},ValueType
 	content: string | Variable<any, string>
 };
 	["PostsConnectionResult"]: AliasType<{		["...on PostConnection"] : ValueTypes["PostConnection"],
-		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"]
+		["...on UserNotFoundError"] : ValueTypes["UserNotFoundError"],
+		["...on FirstOrLastParamsError"] : ValueTypes["FirstOrLastParamsError"],
+		["...on ServerError"] : ValueTypes["ServerError"],
+		["...on UserSessionExpiredError"] : ValueTypes["UserSessionExpiredError"]
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
@@ -925,6 +933,7 @@ post?: [{	id: ValueTypes["UUID"] | Variable<any, string>},ValueTypes["Post"]],
 	posts?:ValueTypes["Post"],
 		__typename?: boolean | `@${string}`
 }>;
+	["Relation"]:Relation;
 	["Role"]:Role;
 	["ServerError"]: AliasType<{
 	message?:boolean | `@${string}`,
@@ -976,9 +985,7 @@ entities without requiring a central allocating authority.
 	socialMedia?:boolean | `@${string}`,
 	roles?:boolean | `@${string}`,
 	accounts?:ValueTypes["AccountOauth"],
-postsConnection2?: [{	after?: string | undefined | null | Variable<any, string>,	before?: string | undefined | null | Variable<any, string>,	first?: number | undefined | null | Variable<any, string>,	last?: number | undefined | null | Variable<any, string>},ValueTypes["PostsConnectionResult"]],
-postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	before?: string | undefined | null | Variable<any, string>,	first?: number | undefined | null | Variable<any, string>,	last?: number | undefined | null | Variable<any, string>},ValueTypes["PostConnection"]],
-	postCount?:boolean | `@${string}`,
+postsConnection?: [{	after?: string | undefined | null | Variable<any, string>,	before?: string | undefined | null | Variable<any, string>,	first?: number | undefined | null | Variable<any, string>,	last?: number | undefined | null | Variable<any, string>},ValueTypes["PostsConnectionResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBaseError"]:AliasType<{
@@ -1098,6 +1105,11 @@ export type ResolverInputTypes = {
 
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:unknown;
+	["FirstOrLastParamsError"]: AliasType<{
+	message?:boolean | `@${string}`,
+	solution?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Mutation"]: AliasType<{
 createUser?: [{	userInput: ResolverInputTypes["UserInput"]},ResolverInputTypes["User"]],
 signIn?: [{	signInCredentials: ResolverInputTypes["SignInCredentials"]},ResolverInputTypes["UserSignInResult"]],
@@ -1134,6 +1146,7 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	edges?:ResolverInputTypes["PostEdge"],
 	/** A list of nodes. */
 	nodes?:ResolverInputTypes["Post"],
+	totalCount?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	/** An edge in a connection. */
@@ -1142,8 +1155,7 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	cursor?:boolean | `@${string}`,
 	/** The item at the end of the edge */
 	node?:ResolverInputTypes["Post"],
-	lowo?:boolean | `@${string}`,
-	happy?:boolean | `@${string}`,
+	relationshipToNextNode?:boolean | `@${string}`,
 		__typename?: boolean | `@${string}`
 }>;
 	["PostInput"]: {
@@ -1153,6 +1165,9 @@ createPost?: [{	post: ResolverInputTypes["PostInput"]},ResolverInputTypes["Post"
 	["PostsConnectionResult"]: AliasType<{
 	PostConnection?:ResolverInputTypes["PostConnection"],
 	UserNotFoundError?:ResolverInputTypes["UserNotFoundError"],
+	FirstOrLastParamsError?:ResolverInputTypes["FirstOrLastParamsError"],
+	ServerError?:ResolverInputTypes["ServerError"],
+	UserSessionExpiredError?:ResolverInputTypes["UserSessionExpiredError"],
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
@@ -1165,6 +1180,7 @@ post?: [{	id: ResolverInputTypes["UUID"]},ResolverInputTypes["Post"]],
 	posts?:ResolverInputTypes["Post"],
 		__typename?: boolean | `@${string}`
 }>;
+	["Relation"]:Relation;
 	["Role"]:Role;
 	["ServerError"]: AliasType<{
 	message?:boolean | `@${string}`,
@@ -1217,9 +1233,7 @@ entities without requiring a central allocating authority.
 	socialMedia?:boolean | `@${string}`,
 	roles?:boolean | `@${string}`,
 	accounts?:ResolverInputTypes["AccountOauth"],
-postsConnection2?: [{	after?: string | undefined | null,	before?: string | undefined | null,	first?: number | undefined | null,	last?: number | undefined | null},ResolverInputTypes["PostsConnectionResult"]],
-postsConnection?: [{	after?: string | undefined | null,	before?: string | undefined | null,	first?: number | undefined | null,	last?: number | undefined | null},ResolverInputTypes["PostConnection"]],
-	postCount?:boolean | `@${string}`,
+postsConnection?: [{	after?: string | undefined | null,	before?: string | undefined | null,	first?: number | undefined | null,	last?: number | undefined | null},ResolverInputTypes["PostsConnectionResult"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["UserBaseError"]:AliasType<{
@@ -1342,6 +1356,10 @@ export type ModelTypes = {
 
 The input/output is a string in RFC3339 format. */
 ["DateTime"]:any;
+	["FirstOrLastParamsError"]: {
+		message: string,
+	solution: string
+};
 	["Mutation"]: {
 		createUser: ModelTypes["User"],
 	signIn: ModelTypes["UserSignInResult"],
@@ -1376,7 +1394,8 @@ Currently like this because of future developments */
 	/** A list of edges. */
 	edges: Array<ModelTypes["PostEdge"]>,
 	/** A list of nodes. */
-	nodes: Array<ModelTypes["Post"]>
+	nodes: Array<ModelTypes["Post"]>,
+	totalCount: number
 };
 	/** An edge in a connection. */
 ["PostEdge"]: {
@@ -1384,14 +1403,13 @@ Currently like this because of future developments */
 	cursor: string,
 	/** The item at the end of the edge */
 	node: ModelTypes["Post"],
-	lowo: boolean,
-	happy: boolean
+	relationshipToNextNode: ModelTypes["Relation"]
 };
 	["PostInput"]: {
 	title: string,
 	content: string
 };
-	["PostsConnectionResult"]:ModelTypes["PostConnection"] | ModelTypes["UserNotFoundError"];
+	["PostsConnectionResult"]:ModelTypes["PostConnection"] | ModelTypes["UserNotFoundError"] | ModelTypes["FirstOrLastParamsError"] | ModelTypes["ServerError"] | ModelTypes["UserSessionExpiredError"];
 	["Query"]: {
 		me: ModelTypes["UserGetResult"],
 	user: ModelTypes["UserGetResult"],
@@ -1401,6 +1419,7 @@ Currently like this because of future developments */
 	post: ModelTypes["Post"],
 	posts: Array<ModelTypes["Post"]>
 };
+	["Relation"]:Relation;
 	["Role"]:Role;
 	["ServerError"]: {
 		message: string,
@@ -1444,9 +1463,7 @@ entities without requiring a central allocating authority.
 	socialMedia: Array<string>,
 	roles: Array<ModelTypes["Role"]>,
 	accounts: Array<ModelTypes["AccountOauth"]>,
-	postsConnection2: ModelTypes["PostsConnectionResult"],
-	postsConnection: ModelTypes["PostConnection"],
-	postCount: number
+	postsConnection: ModelTypes["PostsConnectionResult"]
 };
 	["UserBaseError"]: ModelTypes["ServerError"] | ModelTypes["UserGenericError"] | ModelTypes["UserHaveNoAccessError"] | ModelTypes["UserNotFoundError"] | ModelTypes["UserSessionExpiredError"];
 	["UserBy"]: {
@@ -1531,6 +1548,11 @@ export type GraphQLTypes = {
 
 The input/output is a string in RFC3339 format. */
 ["DateTime"]: "scalar" & { name: "DateTime" };
+	["FirstOrLastParamsError"]: {
+	__typename: "FirstOrLastParamsError",
+	message: string,
+	solution: string
+};
 	["Mutation"]: {
 	__typename: "Mutation",
 	createUser: GraphQLTypes["User"],
@@ -1569,7 +1591,8 @@ Currently like this because of future developments */
 	/** A list of edges. */
 	edges: Array<GraphQLTypes["PostEdge"]>,
 	/** A list of nodes. */
-	nodes: Array<GraphQLTypes["Post"]>
+	nodes: Array<GraphQLTypes["Post"]>,
+	totalCount: number
 };
 	/** An edge in a connection. */
 ["PostEdge"]: {
@@ -1578,17 +1601,19 @@ Currently like this because of future developments */
 	cursor: string,
 	/** The item at the end of the edge */
 	node: GraphQLTypes["Post"],
-	lowo: boolean,
-	happy: boolean
+	relationshipToNextNode: GraphQLTypes["Relation"]
 };
 	["PostInput"]: {
 		title: string,
 	content: string
 };
 	["PostsConnectionResult"]:{
-        	__typename:"PostConnection" | "UserNotFoundError"
+        	__typename:"PostConnection" | "UserNotFoundError" | "FirstOrLastParamsError" | "ServerError" | "UserSessionExpiredError"
         	['...on PostConnection']: '__union' & GraphQLTypes["PostConnection"];
 	['...on UserNotFoundError']: '__union' & GraphQLTypes["UserNotFoundError"];
+	['...on FirstOrLastParamsError']: '__union' & GraphQLTypes["FirstOrLastParamsError"];
+	['...on ServerError']: '__union' & GraphQLTypes["ServerError"];
+	['...on UserSessionExpiredError']: '__union' & GraphQLTypes["UserSessionExpiredError"];
 };
 	["Query"]: {
 	__typename: "Query",
@@ -1600,6 +1625,7 @@ Currently like this because of future developments */
 	post: GraphQLTypes["Post"],
 	posts: Array<GraphQLTypes["Post"]>
 };
+	["Relation"]: Relation;
 	["Role"]: Role;
 	["ServerError"]: {
 	__typename: "ServerError",
@@ -1653,9 +1679,7 @@ entities without requiring a central allocating authority.
 	socialMedia: Array<string>,
 	roles: Array<GraphQLTypes["Role"]>,
 	accounts: Array<GraphQLTypes["AccountOauth"]>,
-	postsConnection2: GraphQLTypes["PostsConnectionResult"],
-	postsConnection: GraphQLTypes["PostConnection"],
-	postCount: number
+	postsConnection: GraphQLTypes["PostsConnectionResult"]
 };
 	["UserBaseError"]: {
 	__typename:"ServerError" | "UserGenericError" | "UserHaveNoAccessError" | "UserNotFoundError" | "UserSessionExpiredError",
@@ -1751,6 +1775,13 @@ export const enum OauthProvider {
 	GITHUB = "GITHUB",
 	GOOGLE = "GOOGLE"
 }
+export const enum Relation {
+	BROTHER = "BROTHER",
+	SISTER = "SISTER",
+	NIECE = "NIECE",
+	DAUGHTER = "DAUGHTER",
+	SON = "SON"
+}
 export const enum Role {
 	ADMIN = "ADMIN",
 	USER = "USER"
@@ -1764,6 +1795,7 @@ type ZEUS_VARIABLES = {
 	["DateTime"]: ValueTypes["DateTime"];
 	["OauthProvider"]: ValueTypes["OauthProvider"];
 	["PostInput"]: ValueTypes["PostInput"];
+	["Relation"]: ValueTypes["Relation"];
 	["Role"]: ValueTypes["Role"];
 	["SignInCredentials"]: ValueTypes["SignInCredentials"];
 	["TokenType"]: ValueTypes["TokenType"];
