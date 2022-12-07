@@ -122,7 +122,7 @@ importers:
       '@react-spring/web': 9.5.5_biqbaboplfbrettd7655fr4n2y
       '@react-three/drei': 9.46.3_y4tjvd7p3bryef7m5zx7hlx3au
       '@react-three/fiber': 8.9.1_biqbaboplfbrettd7655fr4n2y
-      '@tabler/icons': 1.116.0_biqbaboplfbrettd7655fr4n2y
+      '@tabler/icons': 1.116.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/match-sorter-utils': 8.7.0
       '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/react-router': 0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y
@@ -1048,7 +1048,7 @@ packages:
     dependencies:
       '@mantine/core': 5.9.2_kwa64wp3o255f3haoqdqgn5mma
       '@mantine/hooks': 5.9.2_react@18.2.0
-      '@tabler/icons': 1.116.0_biqbaboplfbrettd7655fr4n2y
+      '@tabler/icons': 1.116.1_biqbaboplfbrettd7655fr4n2y
       quill-mention: 3.1.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -1546,8 +1546,8 @@ packages:
       '@sinonjs/commons': 1.8.6
     dev: true
 
-  /@tabler/icons/1.116.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-uVGBj0ZBklXfzvdUq2yYmLpzsXxe0s5pgbkLGZJNLnoBoDHGaXk96uITF3yRJn9fyJu3HnOEQ14ZPP6GrUPtSg==}
+  /@tabler/icons/1.116.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Ge/UZLhkuvr6G9wJNuFBf9WX0gt8v/3nZxBOz+Od6Yj5vE7fF6ViNBcPEPBw0Y+mzuy/g+h78nwpPLVPv4yGGg==}
     peerDependencies:
       react: ^16.x || 17.x || 18.x
       react-dom: ^16.x || 17.x || 18.x
