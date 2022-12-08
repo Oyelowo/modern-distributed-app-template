@@ -46,7 +46,7 @@ importers:
       '@tanstack/match-sorter-utils': ^8.7.0
       '@tanstack/react-query': ^4.19.1
       '@tanstack/react-query-devtools': ^4.19.1
-      '@tanstack/react-router': 0.0.1-beta.33
+      '@tanstack/react-router': 0.0.1-beta.35
       '@tanstack/react-router-devtools': 0.0.1-beta.30
       '@tanstack/react-table': ^8.7.0
       '@tanstack/table-core': 8.7.0
@@ -87,9 +87,9 @@ importers:
       react-spring: ^9.5.5
       react-use: ^17.4.0
       tabler-icons-react: ^1.56.0
-      three-stdlib: ^2.20.3
+      three-stdlib: ^2.20.4
       ts-pattern: ^4.0.6
-      typescript: ^4.9.3
+      typescript: ^4.9.4
       vite: ^3.2.5
       vitest: ^0.25.5
       zod: ^3.19.1
@@ -120,8 +120,8 @@ importers:
       '@tabler/icons': 1.116.1_biqbaboplfbrettd7655fr4n2y
       '@tanstack/match-sorter-utils': 8.7.0
       '@tanstack/react-query': 4.19.1_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-router': 0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y
-      '@tanstack/react-router-devtools': 0.0.1-beta.30_hbxwtcqb22pieon73t2hfr6hui
+      '@tanstack/react-router': 0.0.1-beta.35_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-router-devtools': 0.0.1-beta.30_6ctzzcynbtn5hmb36qvldzu74e
       '@tanstack/react-table': 8.7.0_biqbaboplfbrettd7655fr4n2y
       '@tanstack/table-core': 8.7.0
       '@tiptap/extension-link': 2.0.0-beta.205
@@ -151,7 +151,7 @@ importers:
       react-spring: 9.5.5_y4tjvd7p3bryef7m5zx7hlx3au
       react-use: 17.4.0_biqbaboplfbrettd7655fr4n2y
       tabler-icons-react: 1.56.0_react@18.2.0
-      three-stdlib: 2.20.3
+      three-stdlib: 2.20.4
       ts-pattern: 4.0.6_au62iz7e2v2hwepkyqir25awvy
       zod: 3.19.1
     devDependencies:
@@ -168,7 +168,7 @@ importers:
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react': 2.2.0_vite@3.2.5
-      typescript: 4.9.3
+      typescript: 4.9.4
       vite: 3.2.5_@types+node@18.11.11
       vitest: 0.25.5
 
@@ -179,7 +179,7 @@ importers:
       graphql-tag: ^2.12.6
       graphql-zeus: ^5.2.0
       ts-pattern: ^4.0.6
-      typescript: ^4.9.3
+      typescript: ^4.9.4
       vitest: ^0.25.5
     dependencies:
       '@js-temporal/polyfill': 0.4.3
@@ -188,7 +188,7 @@ importers:
       '@graphql-typed-document-node/core': 3.1.1
       graphql-tag: 2.12.6
       graphql-zeus: 5.2.0
-      typescript: 4.9.3
+      typescript: 4.9.4
       vitest: 0.25.5
 
   lib-ui:
@@ -1268,7 +1268,7 @@ packages:
       stats.js: 0.17.0
       suspend-react: 0.0.8_react@18.2.0
       three-mesh-bvh: 0.5.19
-      three-stdlib: 2.20.3
+      three-stdlib: 2.20.4
       troika-three-text: 0.46.4
       utility-types: 3.10.0
       zustand: 3.7.2_react@18.2.0
@@ -1412,7 +1412,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
 
-  /@tanstack/react-router-devtools/0.0.1-beta.30_hbxwtcqb22pieon73t2hfr6hui:
+  /@tanstack/react-router-devtools/0.0.1-beta.30_6ctzzcynbtn5hmb36qvldzu74e:
     resolution: {integrity: sha512-VDW1nChupVvB0MQuQOyCjT9mf6LCAvCd65NceruxlEehxTewCOMLpFCNpOi94BKV+mkex5CvJ+/uypqbunBQ9w==}
     engines: {node: '>=12'}
     peerDependencies:
@@ -1421,21 +1421,21 @@ packages:
       react-dom: '>=16'
     dependencies:
       '@babel/runtime': 7.20.6
-      '@tanstack/react-router': 0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-router': 0.0.1-beta.35_biqbaboplfbrettd7655fr4n2y
       date-fns: 2.29.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/react-router/0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-mj7X5N4HwFK84Fz1LKlUg59aPU/OnM2icwpoEEwqC9j7gH0QsFcKNB+kb/ZPpDUSiR4geDWMPXmlgpDjbCKIhA==}
+  /@tanstack/react-router/0.0.1-beta.35_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-QCZORzGW6/HraJ4iN6OJV9cIw1Hq/fEwTDbD1f8aNGm+fsI+pXq6MRowVf1sISNk5oZTTxW6RAtmkY9kDUfFcw==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
       '@babel/runtime': 7.20.6
-      '@tanstack/router-core': 0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/router-core': 0.0.1-beta.35_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -1453,8 +1453,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/router-core/0.0.1-beta.33_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-TWb+3bTAMwpXAXdfe9huaLHV+jXDkrAMBlA5LLRs3CxzicCArw3el79DEmNgQOm9bmP4gOTtZVhkm3QQ8DjdRA==}
+  /@tanstack/router-core/0.0.1-beta.35_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-1QoKk8gKOn7e6BCWxp0rGAvjzD8EqHxvHuxvxxSGJoJwpJ2iKEqi/hOyh44a+eDYqGjNbvPB72ty0U6ksf0DLg==}
     engines: {node: '>=12'}
     peerDependencies:
       react: '>=16'
@@ -3989,8 +3989,8 @@ packages:
       three: '>= 0.123.0'
     dev: false
 
-  /three-stdlib/2.20.3:
-    resolution: {integrity: sha512-XYZaXesGBkTQCnBp4N5WySDMNi+5AJC25DRL/XWFtmsS1uCGPLHVMGTNdbGdJlOn3RgOrjzoLQYhW+UMorHXWg==}
+  /three-stdlib/2.20.4:
+    resolution: {integrity: sha512-Ksy7h//nnH5dhohbmE6mT/gM54dtmcAjaC9Srx7AJ7xpmCEX3IASkZyUkVqNXv3NZFqx79Swq3sSSVqL4pF79Q==}
     peerDependencies:
       three: '>=0.122.0'
     dependencies:
@@ -4098,8 +4098,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /typescript/4.9.3:
-    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
+  /typescript/4.9.4:
+    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
