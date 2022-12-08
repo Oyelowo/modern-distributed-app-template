@@ -1,0 +1,31 @@
+{
+  "UIQBVc": [
+    {
+      "type": 0,
+      "value": "Anotherx ddfay in me is "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "myMessage": [
+    {
+      "type": 0,
+      "value": "Today is "
+    },
+    {
+      "style": {
+        "parsedOptions": {
+          "day": "2-digit",
+          "month": "2-digit",
+          "year": "numeric"
+        },
+        "pattern": "yyyyMMdd",
+        "type": 1
+      },
+      "type": 3,
+      "value": "ts"
+    }
+  ]
+}
