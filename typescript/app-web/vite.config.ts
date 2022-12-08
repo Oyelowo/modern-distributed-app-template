@@ -9,8 +9,8 @@ export default defineConfig({
 		react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
 		// react(),
 	],
-	test: {
-		testTimeout: 60_000,
-		hookTimeout: 60_000,
-	},
+	// test: {
+	// 	testTimeout: 60_000,
+	// 	hookTimeout: 60_000,
+	// },
 });

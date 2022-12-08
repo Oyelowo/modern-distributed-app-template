@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vite build && vitest",
     "test:ui": "vite build && vitest --ui",
-    "e2e": "pnpm playwright test --project=chromium",
-    "e2e:run": "pnpm playwright test --project=chromium",
+    "e2e": "pnpm run dev ese:run",
+    "e2e:run": "  pnpm dlx playwright test --project=chromium",
     " //e2e:run:many": "runs test for multiple browaers: chrome, webkit and firefox",
     "e2e:run:many": "pnpm playwright test",
     "e2e:open": "pnpm playwright test --project=chromium"
@@ -81,6 +81,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "@playwright/experimental-ct-react": "^1.28.1",
     "@playwright/test": "^1.28.1",
     "@tanstack/react-query-devtools": "^4.19.1",
     "@types/d3": "^7.4.0",
@@ -93,6 +94,8 @@
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@vitejs/plugin-react": "^2.2.0",
+    "concurrently": "^7.6.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.9.4",
     "vite": "^3.2.5",
     "vitest": "^0.25.5"
