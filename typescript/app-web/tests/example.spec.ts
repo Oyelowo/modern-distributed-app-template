@@ -30,7 +30,10 @@ test("vita", async ({ page }) => {
 	// const getStarted = page.getByRole("link", { name: "Get started" });
 
 	// // Expect an attribute "to be strictly equal" to the value.
-	await expect(getStarted).toHaveAttribute("href", "/dashboard/invoices$invoiceId");
+	await expect(getStarted).toHaveAttribute(
+		"href",
+		"/dashboard/invoices$invoiceId",
+	);
 
 	// // Click the get started link.
 	await getStarted.click();
