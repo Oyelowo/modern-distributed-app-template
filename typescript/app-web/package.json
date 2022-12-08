@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "start": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vite build && vitest",
+    "test": "playwright test --project=chromium",
     "test:ui": "vite build && vitest --ui",
     "e2e": "pnpm run dev ese:run",
     "e2e:run": "  pnpm dlx playwright test --project=chromium",

@@ -6,11 +6,8 @@ import jotaiReactRefresh from "jotai/babel/plugin-react-refresh";
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
-		react({ babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] } }),
-		// react(),
+		(react as any)({
+			babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
+		}),
 	],
-	// test: {
-	// 	testTimeout: 60_000,
-	// 	hookTimeout: 60_000,
-	// },
 });

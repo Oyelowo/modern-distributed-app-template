@@ -27,8 +27,7 @@ const config: PlaywrightTestConfig = {
 			// url: '',
 			port: 5173,
 			timeout: 120 * 1000,
-			reuseExistingServer: true,
-			// reuseExistingServer: !processEnv.CI
+			reuseExistingServer: !processEnv.CI,
 		},
 	],
 	use: {
