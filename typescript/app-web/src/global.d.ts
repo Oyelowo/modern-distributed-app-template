@@ -20,4 +20,13 @@ declare global {
 		toTemporalInstant: typeof toTemporalInstant;
 	}
 	const Temporal: typeof TemporalType;
+
+	namespace FormatjsIntl {
+		interface Message {
+			// ids: keyof typeof messages
+		}
+		interface IntlConfig {
+			locale: "en" | "fr";
+		}
+	}
 }
