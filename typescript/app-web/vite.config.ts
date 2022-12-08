@@ -10,4 +10,7 @@ export default defineConfig({
 			babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
 		}),
 	],
+	build: {
+		minify: false,
+	},
 });

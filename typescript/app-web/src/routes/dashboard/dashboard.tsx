@@ -4,6 +4,7 @@ import { useState } from "react";
 import { tradingChartOption } from "../../charts/tradingChartsOptions.js";
 import { useChart } from "../../charts/useChart.js";
 import { useMatch } from "@tanstack/react-router";
+
 export const dashboardIndexRoute = dashboardRoute.createRoute({
 	path: "/",
 	component: DashboardHome,

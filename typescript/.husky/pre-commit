@@ -2,4 +2,4 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # (cd rust && make check)
-(cd typescript && make sync && make format)
+# (cd typescript && make sync && make format)
