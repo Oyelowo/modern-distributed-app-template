@@ -10,12 +10,9 @@
     "start": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "playwright test --project=chromium",
-    "test:ui": "vite build && vitest --ui",
-    "e2e": "pnpm run dev ese:run",
-    "e2e:run": "  pnpm dlx playwright test --project=chromium",
-    " //e2e:run:many": "runs test for multiple browaers: chrome, webkit and firefox",
-    "e2e:run:many": "pnpm playwright test",
-    "e2e:open": "pnpm playwright test --project=chromium"
+    " //e2e:run": "runs test for multiple browaers: chrome, webkit and firefox",
+    "e2e": "playwright test",
+    "e2e:debug": "pnpm playwright test --project=chromium --debug"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
