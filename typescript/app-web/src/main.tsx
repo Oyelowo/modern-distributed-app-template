@@ -89,6 +89,11 @@ function App() {
 		deferred until the first <Outlet /> is found. */}
 							{Temporal.Now.zonedDateTimeISO().toString()}
 							<Root />
+							<FormattedMessage
+								// id="df"
+								defaultMessage="Anotherx ddfay in me is {name}"
+								values={{ name: "lowo" }}
+							/>
 						</LocaleProv>
 						{/* </IntlProvider> */}
 					</QueryClientProvider>
@@ -100,15 +105,13 @@ function App() {
 	);
 }
 
-function useIt() {
-	const { formatMessage } = useIntl();
+function useTranslation() {
+	const intl = useIntl();
 
 	return {
-		t: (defaultMessage: string, values: Record<string, string>) => {
-			const message = defineMessage({
-				defaultMessage, // Message should be a string literal
-			});
-			return formatMessage(message, values);
+		...intl,
+		$t: (...params: Parameters<typeof intl.formatMessage>) => {
+			return intl.formatMessage(...params);
 		},
 	};
 }
@@ -118,7 +121,7 @@ function LocaleProv({ children }: { children: any }) {
 	const { data: localeData } = useQuery(["xx"], () => loadLocaleData("fr"));
 
 	return (
-		<IntlProvider messages={localeData} locale="fr" defaultLocale="en">
+		<IntlProvider messages={localeData as any} locale="fr" defaultLocale="en">
 			{children}
 		</IntlProvider>
 	);
@@ -126,11 +129,8 @@ function LocaleProv({ children }: { children: any }) {
 
 function Root() {
 	const routerState = router.useState();
-	const { t } = useIt();
+	const { $t } = useTranslation();
 
-	// function formatMessage(a:any, b:any) {
-
-	// }
 	return (
 		<Grid>
 			<Grid.Col span={1}>
@@ -142,19 +142,25 @@ function Root() {
 				})} */}
 				<h1>Testing</h1>
 				<p>
+					{$t({ defaultMessage: "xxnawao {xawa}" }, {})}
+					{$t(
+						{ defaultMessage: "Today is {ts, date, ::yyyyMMdd}" },
+						{ ts: Date.now() },
+					)}
 					<FormattedMessage
-						id="myMessage"
 						defaultMessage="Today is {ts, date, ::yyyyMMdd}"
 						values={{ ts: Date.now() }}
 					/>
 					<br />
+					{$t({ defaultMessage: "a" }, { name: "lowo" })}
+					<FormattedMessage
+						// id="df"
+						defaultMessage="a"
+						values={{ name: "lowo" }}
+					/>
 					<FormattedNumber value={19} style="currency" currency="EUR" />
 				</p>
-				<FormattedMessage
-					// id="df"
-					defaultMessage="Anotherx ddfay in me is {name}"
-					values={{ name: "lowo" }}
-				/>
+
 				{/* Render our first route match */}
 				<Outlet />
 			</Grid.Col>

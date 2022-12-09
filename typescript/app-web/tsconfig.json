@@ -3,7 +3,7 @@
     "jsx": "react-jsx",
     "lib": ["esnext.intl",
       "es2017.intl",
-      "es2018.intl"],
+      "es2018.intl", "DOM"],
     "target": "es2022",
     "moduleResolution": "NodeNext",
     "module": "NodeNext",
