@@ -3,10 +3,6 @@ import { it, expect } from "vitest";
 import { LocaleObject, updateRightLocale } from "./syncLocales.js";
 
 it("SYNC new locale object/JSON with new values from primary locales and remove stale locales in the new locale", () => {
-	// expect(0).toBe(0);
-	// expect(1).toBe(1);
-	// expect(1 + 2 + 3).toBe(6);
-
 	const left: LocaleObject = {
 		GKi1lp: {
 			defaultMessage: "xxnawao {xawa}",
