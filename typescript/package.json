@@ -11,6 +11,8 @@
   "author": "oyelowo",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-plugin-formatjs": "^4.3.8",
     "husky": "^8.0.2",
     "rome": "^11.0.0"
   },

@@ -50,9 +50,9 @@ const queryClient = new QueryClient();
 async function loadLocaleData(locale: string) {
 	switch (locale) {
 		case "fr":
-			return import("../compiled-lang/fr.json");
+			return import("../compiled-lang/en.json");
 		default:
-			return import("../compiled-lang/fr.json");
+			return import("../compiled-lang/en.json");
 	}
 }
 
@@ -76,44 +76,27 @@ function App() {
 					OO
 				</Avatar>
 
-				<RouterProvider router={router}>
-					<QueryClientProvider client={queryClient}>
-						{/* <IntlProvider
+				<QueryClientProvider client={queryClient}>
+					{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
 					defaultLocale="en"
 				> */}
-						<LocaleProv>
-							{/* Normally <Router /> acts as it's own outlet,
+					<LocaleProv>
+						{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
 		deferred until the first <Outlet /> is found. */}
-							{Temporal.Now.zonedDateTimeISO().toString()}
-							<Root />
-							<FormattedMessage
-								// id="df"
-								defaultMessage="Anotherx ddfay in me is {name}"
-								values={{ name: "lowo" }}
-							/>
-						</LocaleProv>
-						{/* </IntlProvider> */}
-					</QueryClientProvider>
-				</RouterProvider>
+						{Temporal.Now.zonedDateTimeISO().toString()}
+						<RouterProvider router={router} />
+						<Root />
+					</LocaleProv>
+					{/* </IntlProvider> */}
+				</QueryClientProvider>
 
 				<TanStackRouterDevtools router={router} position="bottom-right" />
 			</MantineProvider>
 		</>
 	);
-}
-
-function useTranslation() {
-	const intl = useIntl();
-
-	return {
-		...intl,
-		$t: (...params: Parameters<typeof intl.formatMessage>) => {
-			return intl.formatMessage(...params);
-		},
-	};
 }
 
 function LocaleProv({ children }: { children: any }) {
@@ -129,7 +112,8 @@ function LocaleProv({ children }: { children: any }) {
 
 function Root() {
 	const routerState = router.useState();
-	const { $t } = useTranslation();
+	const { formatMessage } = useIntl();
+	const intl = useIntl();
 
 	return (
 		<Grid>
@@ -137,27 +121,13 @@ function Root() {
 				<DoubleNavbar />
 			</Grid.Col>
 			<Grid.Col span={11}>
-				{/* 		{t({defaultMessage:"Another day in me is {name}"}, {
-					name: "lowo"
-				})} */}
 				<h1>Testing</h1>
 				<p>
-					{$t({ defaultMessage: "xxnawao {xawa}" }, {})}
-					{$t(
-						{ defaultMessage: "Today is {ts, date, ::yyyyMMdd}" },
-						{ ts: Date.now() },
+					{formatMessage({ defaultMessage: "My name is {name}" })}
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "xx" },
 					)}
-					<FormattedMessage
-						defaultMessage="Today is {ts, date, ::yyyyMMdd}"
-						values={{ ts: Date.now() }}
-					/>
-					<br />
-					{$t({ defaultMessage: "a" }, { name: "lowo" })}
-					<FormattedMessage
-						// id="df"
-						defaultMessage="a"
-						values={{ name: "lowo" }}
-					/>
 					<FormattedNumber value={19} style="currency" currency="EUR" />
 				</p>
 
@@ -169,8 +139,8 @@ function Root() {
 }
 
 if (document) {
-	const rootElement = document.getElementById("app")!;
-	if (!rootElement.innerHTML) {
+	const rootElement = document.getElementById("app");
+	if (rootElement && !rootElement?.innerHTML) {
 		const root = createRoot(rootElement);
 		root.render(<App />);
 	}
