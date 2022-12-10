@@ -12,11 +12,11 @@ import {
 } from "@tanstack/react-query";
 import { lazy } from "react";
 import {
-	IntlProvider,
+	defineMessage,
 	FormattedMessage,
 	FormattedNumber,
+	IntlProvider,
 	useIntl,
-	defineMessage,
 } from "react-intl";
 
 // Translated messages in French with matching IDs to what you declared
@@ -49,10 +49,10 @@ const queryClient = new QueryClient();
 
 async function loadLocaleData(locale: string) {
 	switch (locale) {
-		case "fr":
-			return import("../compiled-lang/en.json");
+		case "en":
+			return import("../locales/compiled-lang/en.json");
 		default:
-			return import("../compiled-lang/en.json");
+			return import("../locales/compiled-lang/en.json");
 	}
 }
 
@@ -130,6 +130,18 @@ function Root() {
 					{formatMessage(
 						{ defaultMessage: "My name is {name}" },
 						{ name: "xx" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Let's go to space {space}" },
+						{ space: "xx" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Another thing to check from {place}" },
+						{ place: "Ohio" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Tangering on the mountain {nation}" },
+						{ nation: "Ohio" },
 					)}
 					<FormattedNumber value={19} style="currency" currency="EUR" />
 				</p>

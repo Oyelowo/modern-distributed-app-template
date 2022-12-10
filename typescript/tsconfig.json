@@ -8,5 +8,10 @@
       "./node_modules/@types"
     ]
   },
-  "exclude": ["node_modules", "**/node_modules", "**/node_modules/**", "node_modules/.pnpm"]
+  "exclude": [
+    "node_modules",
+    "**/node_modules",
+    "**/node_modules/**",
+    "node_modules/.pnpm"
+  ]
 }

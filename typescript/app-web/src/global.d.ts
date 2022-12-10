@@ -1,7 +1,7 @@
 import {
+	Intl,
 	Temporal as TemporalType,
 	toTemporalInstant,
-	Intl,
 } from "@js-temporal/polyfill";
 
 export {};
