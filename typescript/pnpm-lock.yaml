@@ -24,6 +24,15 @@ importers:
       '@emotion/react': ^11.10.5
       '@faker-js/faker': ^7.6.0
       '@formatjs/cli': ^5.1.7
+      '@formatjs/intl-datetimeformat': ^6.4.3
+      '@formatjs/intl-displaynames': ^6.2.3
+      '@formatjs/intl-getcanonicallocales': ^2.0.5
+      '@formatjs/intl-listformat': ^7.1.7
+      '@formatjs/intl-locale': ^3.0.11
+      '@formatjs/intl-localematcher': ^0.2.32
+      '@formatjs/intl-numberformat': ^8.3.3
+      '@formatjs/intl-pluralrules': ^5.1.8
+      '@formatjs/intl-relativetimeformat': ^11.1.8
       '@heroicons/react': ^2.0.13
       '@js-temporal/polyfill': ^0.4.3
       '@mantine/carousel': ^5.9.2
@@ -110,6 +119,15 @@ importers:
       zod: ^3.19.1
     dependencies:
       '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
+      '@formatjs/intl-datetimeformat': 6.4.3
+      '@formatjs/intl-displaynames': 6.2.3
+      '@formatjs/intl-getcanonicallocales': 2.0.5
+      '@formatjs/intl-listformat': 7.1.7
+      '@formatjs/intl-locale': 3.0.11
+      '@formatjs/intl-localematcher': 0.2.32
+      '@formatjs/intl-numberformat': 8.3.3
+      '@formatjs/intl-pluralrules': 5.1.8
+      '@formatjs/intl-relativetimeformat': 11.1.8
       '@heroicons/react': 2.0.13_react@18.2.0
       '@js-temporal/polyfill': 0.4.3
       '@mantine/carousel': 5.9.2_pspq64nplymuxfu4arukbpkuxm
@@ -1155,11 +1173,25 @@ packages:
       '@formatjs/ecma402-abstract': 1.14.3
       tslib: 2.4.1
 
+  /@formatjs/intl-datetimeformat/6.4.3:
+    resolution: {integrity: sha512-+fLPuBHTZZqJJzjfK4cqamW00j8yCtcQekkAVvfSn/2xibJaQvhqrpDs++4/qM847lZtnDU3q33lelM3H5JMbQ==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.14.3
+      '@formatjs/intl-localematcher': 0.2.32
+      tslib: 2.4.1
+    dev: false
+
   /@formatjs/intl-displaynames/6.2.3:
     resolution: {integrity: sha512-teB0L68MDGM8jEKQg55w7nvFjzeLHE6e3eK/04s+iuEVYYmvjjiHJKHrthKENzcJ0F6mHf/AwXrbX+1mKxT6AQ==}
     dependencies:
       '@formatjs/ecma402-abstract': 1.14.3
       '@formatjs/intl-localematcher': 0.2.32
+      tslib: 2.4.1
+    dev: false
+
+  /@formatjs/intl-getcanonicallocales/2.0.5:
+    resolution: {integrity: sha512-YOk+Fa5gpPq5bdpm8JDAY5bkfCkR+NENZKQbLHeqhm8JchHcclPwZ9FU48gYGg3CW6Wi/cTCOvmOrzsIhlkr0w==}
+    dependencies:
       tslib: 2.4.1
     dev: false
 
@@ -1171,10 +1203,42 @@ packages:
       tslib: 2.4.1
     dev: false
 
+  /@formatjs/intl-locale/3.0.11:
+    resolution: {integrity: sha512-gLEX9kzebBjIVCkXMMN+VFMUV2aj0vhmrP+nke2muxUSJ3fLs/DJjlkv+s59rAL3nNaGdvphqKLhQsul0mmhAw==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.14.3
+      '@formatjs/intl-getcanonicallocales': 2.0.5
+      tslib: 2.4.1
+    dev: false
+
   /@formatjs/intl-localematcher/0.2.32:
     resolution: {integrity: sha512-k/MEBstff4sttohyEpXxCmC3MqbUn9VvHGlZ8fauLzkbwXmVrEeyzS+4uhrvAk9DWU9/7otYWxyDox4nT/KVLQ==}
     dependencies:
       tslib: 2.4.1
+
+  /@formatjs/intl-numberformat/8.3.3:
+    resolution: {integrity: sha512-11mSFZb5RsCVZMVaHbRcDYNxQ+tsstReL62AJcTCBZdvAZMqECOEsDkJODZ90nf/ClKqp0/KxwVlshxprn22Nw==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.14.3
+      '@formatjs/intl-localematcher': 0.2.32
+      tslib: 2.4.1
+    dev: false
+
+  /@formatjs/intl-pluralrules/5.1.8:
+    resolution: {integrity: sha512-uevO916EWoeuueqeNzHjnUzpfWZzXFJibC/sEvPR/ZiZH5btWuOLeJLdb1To4nMH8ZJQlmAf8SDpFf+eWvz5lQ==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.14.3
+      '@formatjs/intl-localematcher': 0.2.32
+      tslib: 2.4.1
+    dev: false
+
+  /@formatjs/intl-relativetimeformat/11.1.8:
+    resolution: {integrity: sha512-5evaQTfSiSNLXt6GxfPEq2YGtPCH2UKNEoPB0Rg9+3IPSPp5o39Oks91bDZE8SCk5rK2ABlmrc8ZnMILfZhl/Q==}
+    dependencies:
+      '@formatjs/ecma402-abstract': 1.14.3
+      '@formatjs/intl-localematcher': 0.2.32
+      tslib: 2.4.1
+    dev: false
 
   /@formatjs/intl/2.6.3_typescript@4.9.4:
     resolution: {integrity: sha512-JaVZk14U/GypVfCZPevQ0KdruFkq16FXx7g398/Dm+YEx/W7sRiftbZeDy4wQ7WGryb45e763XycxD9o/vm9BA==}
@@ -1542,7 +1606,7 @@ packages:
       '@motionone/types': 10.15.1
       '@motionone/utils': 10.15.1
       hey-listen: 1.0.8
-      tslib: 2.4.0
+      tslib: 2.4.1
     dev: false
 
   /@motionone/easing/10.15.1:

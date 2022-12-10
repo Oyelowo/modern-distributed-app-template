@@ -5,7 +5,7 @@ import { z } from "zod";
 import * as R from "ramda";
 import { Locale, LOCALES } from "../src/config/Locale.js";
 
-const outDir = path.resolve("./locales");
+const outDir = path.resolve("./src/locales");
 const LOCALE_JSON_SCHEMA = z.record(
 	z.string(),
 	z.object({
@@ -70,7 +70,8 @@ function compileLocale({
 	// your app bigger. So may be less optimal for CSR. Consider removing the ast flag if it becomes a problem
 
 	sh.exec(
-		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${asAst && "--ast"
+		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${
+			asAst && "--ast"
 		} \
      --out-file ${outDir}/compiled-lang/${locale}.json`,
 	);
