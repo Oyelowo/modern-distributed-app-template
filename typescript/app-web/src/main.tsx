@@ -49,9 +49,9 @@ const TanStackRouterDevtools =
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 const queryClient = new QueryClient();
 
-async function importMessages(locale: Locale) {
-	return import("./locales/compiled-lang/en.json");
-}
+// async function importMessages(locale: Locale) {
+// 	return import("./locales/compiled-lang/en.json");
+// }
 
 function App() {
 	const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
@@ -73,8 +73,9 @@ function App() {
 					OO
 				</Avatar>
 
-				<QueryClientProvider client={queryClient}>
-					<LocaleProv>
+				<RouterProvider router={router}>
+					<QueryClientProvider client={queryClient}>
+						{/* <LocaleProv> */}
 						{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
@@ -83,19 +84,19 @@ function App() {
 						{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
 		deferred until the first <Outlet /> is found. */}
-						{/* {Temporal.Now.zonedDateTimeISO().toString()} */}
+						{Temporal.Now.zonedDateTimeISO().toString()}
 						<Root />
-					</LocaleProv>
-					{/* </IntlProvider> */}
-					<RouterProvider router={router} />
-				</QueryClientProvider>
+						{/* </LocaleProv> */}
+						{/* </IntlProvider> */}
+					</QueryClientProvider>
+				</RouterProvider>
 
 				<TanStackRouterDevtools router={router} position="bottom-right" />
 			</MantineProvider>
 		</>
 	);
 }
-
+/* 
 function LocaleProv({ children }: { children: React.ReactElement }) {
 	const locale = "en";
 	type LocaleMessages = any;
@@ -121,11 +122,11 @@ function LocaleProv({ children }: { children: React.ReactElement }) {
 		</IntlProvider>
 	);
 }
-
+ */
 function Root() {
 	const routerState = router.useState();
-	const { formatMessage } = useIntl();
-	const intl = useIntl();
+	// const { formatMessage } = useIntl();
+	// const intl = useIntl();
 
 	return (
 		<Grid>
@@ -135,7 +136,7 @@ function Root() {
 			<Grid.Col span={11}>
 				<h1>Testing</h1>
 				<p>
-					{formatMessage(
+					{/* 			{formatMessage(
 						{ defaultMessage: "My name is {name}" },
 						{ name: "lowo" },
 					)}
@@ -158,8 +159,9 @@ function Root() {
 					{formatMessage(
 						{ defaultMessage: "Tangering on the mountain {nation}" },
 						{ nation: "Ohio" },
-					)}
-					<FormattedNumber value={19} style="currency" currency="EUR" />
+						)}
+						<FormattedNumber value={19} style="currency" currency="EUR" />
+					 */}
 				</p>
 
 				{/* Render our first route match */}
