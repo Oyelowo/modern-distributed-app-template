@@ -66,13 +66,15 @@ function extractLocaleMessagesFromCodebase(): LocaleObject {
 	return JSON.parse(sh.exec(extract).stdout);
 }
 
-function compileLocale(
-	{ localeMessagePath, locale, asAst: asAst }: {
-		localeMessagePath: string;
-		locale: Locale;
-		asAst: boolean;
-	},
-) {
+function compileLocale({
+	localeMessagePath,
+	locale,
+	asAst: asAst,
+}: {
+	localeMessagePath: string;
+	locale: Locale;
+	asAst: boolean;
+}) {
 	//  This compiles directly to AST using the `--ast` flag rather than the intermediate simple key/value pair.
 	// so that we dont have to do this at runtime which it would have to do if it were
 	// merely simple key-value translation. Reference: https://formatjs.io/docs/guides/advanced-usage/#pre-compiling-messages
@@ -81,7 +83,8 @@ function compileLocale(
 	// your app bigger. So may be less optimal for CSR. Consider removing the ast flag if it becomes a problem
 
 	sh.exec(
-		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${asAst && "--ast"
+		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${
+			asAst && "--ast"
 		} \
      --out-file ${outDir}/compiled-lang/${locale}.json`,
 	);
