@@ -3,21 +3,8 @@ import path from "node:path";
 import fs from "node:fs";
 import { z } from "zod";
 import * as R from "ramda";
+import { Locale, LOCALES } from "../src/config/Locale.js";
 
-const LOCALE_DEFAULT = "en";
-const LOCALES = [
-	LOCALE_DEFAULT, // English
-	"zh-CN", // Mandarin (Chinese)
-	"es", // Spanish
-	"hi", // Hindi
-	"ar", // Arabic
-	"bn", // Bengali
-	"pt", // Portuguese
-	"ru", // Russian
-	"ja", // Japanese
-	"de", // German
-] as const;
-export type Locale = typeof LOCALES[number];
 const outDir = path.resolve("./locales");
 const LOCALE_JSON_SCHEMA = z.record(
 	z.string(),
@@ -83,8 +70,7 @@ function compileLocale({
 	// your app bigger. So may be less optimal for CSR. Consider removing the ast flag if it becomes a problem
 
 	sh.exec(
-		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${
-			asAst && "--ast"
+		`pnpm formatjs compile '${localeMessagePath}' --out-file ${outDir}/lang/${locale}.json ${asAst && "--ast"
 		} \
      --out-file ${outDir}/compiled-lang/${locale}.json`,
 	);
