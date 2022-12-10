@@ -123,7 +123,10 @@ function Root() {
 			<Grid.Col span={11}>
 				<h1>Testing</h1>
 				<p>
-					{formatMessage({ defaultMessage: "My name is {name}" })}
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "lowo" },
+					)}
 					{formatMessage(
 						{ defaultMessage: "My name is {name}" },
 						{ name: "xx" },
