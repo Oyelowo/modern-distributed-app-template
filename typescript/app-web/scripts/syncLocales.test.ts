@@ -1,5 +1,5 @@
 // in-source test suites
-import { it, expect } from "vitest";
+import { expect, it } from "vitest";
 import { LocaleObject, updateRightLocale } from "./syncLocales.js";
 
 it("SYNC new locale object/JSON with new values from primary locales and remove stale locales in the new locale", () => {
