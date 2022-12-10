@@ -10,14 +10,16 @@ import {
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
-import { lazy } from "react";
+import React, { lazy, useEffect } from "react";
 import {
-	IntlProvider,
+	defineMessage,
 	FormattedMessage,
 	FormattedNumber,
+	IntlProvider,
 	useIntl,
-	defineMessage,
 } from "react-intl";
+import { Locale } from "./config/Locale.js";
+import { match } from "ts-pattern";
 
 // Translated messages in French with matching IDs to what you declared
 const messagesInFrench = {
@@ -47,13 +49,8 @@ const TanStackRouterDevtools =
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 const queryClient = new QueryClient();
 
-async function loadLocaleData(locale: string) {
-	switch (locale) {
-		case "fr":
-			return import("../compiled-lang/fr.json");
-		default:
-			return import("../compiled-lang/fr.json");
-	}
+async function importMessages(locale: Locale) {
+	return import("./locales/compiled-lang/en.json");
 }
 
 function App() {
@@ -76,23 +73,22 @@ function App() {
 					OO
 				</Avatar>
 
-				<RouterProvider router={router}>
-					<QueryClientProvider client={queryClient}>
+				<QueryClientProvider client={queryClient}>
+					<LocaleProv>
 						{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
 					defaultLocale="en"
 				> */}
-						<LocaleProv>
-							{/* Normally <Router /> acts as it's own outlet,
+						{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
 		deferred until the first <Outlet /> is found. */}
-							{Temporal.Now.zonedDateTimeISO().toString()}
-							<Root />
-						</LocaleProv>
-						{/* </IntlProvider> */}
-					</QueryClientProvider>
-				</RouterProvider>
+						{/* {Temporal.Now.zonedDateTimeISO().toString()} */}
+						<Root />
+					</LocaleProv>
+					{/* </IntlProvider> */}
+					<RouterProvider router={router} />
+				</QueryClientProvider>
 
 				<TanStackRouterDevtools router={router} position="bottom-right" />
 			</MantineProvider>
@@ -100,25 +96,27 @@ function App() {
 	);
 }
 
-function useIt() {
-	const { formatMessage } = useIntl();
+function LocaleProv({ children }: { children: React.ReactElement }) {
+	const locale = "en";
+	type LocaleMessages = any;
+	const [messages, setMessages] = React.useState<LocaleMessages | null>(null);
+	useEffect(() => {
+		importMessages(locale).then((locale) => {
+			console.log("mppmp", locale);
+			setMessages(locale);
+		});
+	}, []);
 
-	return {
-		t: (defaultMessage: string, values: Record<string, string>) => {
-			const message = defineMessage({
-				defaultMessage, // Message should be a string literal
-			});
-			return formatMessage(message, values);
-		},
-	};
-}
+	// 	const locale: Locale = "fr";
+	// 	const { data: localeData } = useQuery(["locale", locale], () =>
+	// 		loadLocaleData(locale),
+	// 	);
 
-function LocaleProv({ children }: { children: any }) {
-	// const localeData = loadLocaleData('fr');
-	const { data: localeData } = useQuery(["xx"], () => loadLocaleData("fr"));
-
+	// 	const messagesInFrench = {
+	//   myMessage: "Aujourd'hui, c'est le {ts, date, ::yyyyMMdd}",
+	// };
 	return (
-		<IntlProvider messages={localeData} locale="fr" defaultLocale="en">
+		<IntlProvider messages={messages} key="en" locale="en" defaultLocale="en">
 			{children}
 		</IntlProvider>
 	);
@@ -126,35 +124,44 @@ function LocaleProv({ children }: { children: any }) {
 
 function Root() {
 	const routerState = router.useState();
-	const { t } = useIt();
+	const { formatMessage } = useIntl();
+	const intl = useIntl();
 
-	// function formatMessage(a:any, b:any) {
-
-	// }
 	return (
 		<Grid>
 			<Grid.Col span={1}>
 				<DoubleNavbar />
 			</Grid.Col>
 			<Grid.Col span={11}>
-				{/* 		{t({defaultMessage:"Another day in me is {name}"}, {
-					name: "lowo"
-				})} */}
 				<h1>Testing</h1>
 				<p>
-					<FormattedMessage
-						id="myMessage"
-						defaultMessage="Today is {ts, date, ::yyyyMMdd}"
-						values={{ ts: Date.now() }}
-					/>
-					<br />
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "lowo" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "lowo" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "xx" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Let's go to space {space}" },
+						{ space: "xx" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Another thing to check from {place}" },
+						{ place: "Ohio" },
+					)}
+					{formatMessage(
+						{ defaultMessage: "Tangering on the mountain {nation}" },
+						{ nation: "Ohio" },
+					)}
 					<FormattedNumber value={19} style="currency" currency="EUR" />
 				</p>
-				<FormattedMessage
-					// id="df"
-					defaultMessage="Anotherx ddfay in me is {name}"
-					values={{ name: "lowo" }}
-				/>
+
 				{/* Render our first route match */}
 				<Outlet />
 			</Grid.Col>
@@ -163,9 +170,14 @@ function Root() {
 }
 
 if (document) {
-	const rootElement = document.getElementById("app")!;
-	if (!rootElement.innerHTML) {
+	const rootElement = document.getElementById("app");
+	if (rootElement && !rootElement?.innerHTML) {
 		const root = createRoot(rootElement);
 		root.render(<App />);
 	}
 }
+
+// export async function bootstrapApplication(locale: Locale) {
+//   const messages = await loadLocaleData(locale)
+//   return <App locale={locale} messages={messages.default} />
+// }
