@@ -10,7 +10,7 @@ import {
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
-import React, { lazy, useEffect } from "react";
+import React, { FC, lazy, useEffect } from "react";
 import {
 	defineMessage,
 	FormattedMessage,
@@ -49,10 +49,6 @@ const TanStackRouterDevtools =
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 const queryClient = new QueryClient();
 
-// async function importMessages(locale: Locale) {
-// 	return import("./locales/compiled-lang/en.json");
-// }
-
 function App() {
 	const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
 
@@ -75,18 +71,20 @@ function App() {
 
 				<RouterProvider router={router}>
 					<QueryClientProvider client={queryClient}>
-						{/* <LocaleProv> */}
-						{/* <IntlProvider
+						<LocaleProv>
+							<>
+								{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
 					defaultLocale="en"
 				> */}
-						{/* Normally <Router /> acts as it's own outlet,
+								{/* Normally <Router /> acts as it's own outlet,
             but if we pass it children, route matching is
 		deferred until the first <Outlet /> is found. */}
-						{Temporal.Now.zonedDateTimeISO().toString()}
-						<Root />
-						{/* </LocaleProv> */}
+								{Temporal.Now.zonedDateTimeISO().toString()}
+								<Root />
+							</>
+						</LocaleProv>
 						{/* </IntlProvider> */}
 					</QueryClientProvider>
 				</RouterProvider>
@@ -96,8 +94,11 @@ function App() {
 		</>
 	);
 }
-/* 
-function LocaleProv({ children }: { children: React.ReactElement }) {
+
+async function importMessages(locale: Locale) {
+	return import("./locales/compiled-lang/en.json");
+}
+const LocaleProv: FC<{ children: React.ReactElement }> = ({ children }) => {
 	const locale = "en";
 	type LocaleMessages = any;
 	const [messages, setMessages] = React.useState<LocaleMessages | null>(null);
@@ -121,11 +122,11 @@ function LocaleProv({ children }: { children: React.ReactElement }) {
 			{children}
 		</IntlProvider>
 	);
-}
- */
+};
+
 function Root() {
 	const routerState = router.useState();
-	// const { formatMessage } = useIntl();
+	const { formatMessage } = useIntl();
 	// const intl = useIntl();
 
 	return (
@@ -136,7 +137,12 @@ function Root() {
 			<Grid.Col span={11}>
 				<h1>Testing</h1>
 				<p>
-					{/* 			{formatMessage(
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "lowo" },
+					)}
+					{/* 			
+					{formatMessage(
 						{ defaultMessage: "My name is {name}" },
 						{ name: "lowo" },
 					)}
@@ -165,7 +171,7 @@ function Root() {
 				</p>
 
 				{/* Render our first route match */}
-				<Outlet />
+				{/* <Outlet /> */}
 			</Grid.Col>
 		</Grid>
 	);
