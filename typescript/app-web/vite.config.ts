@@ -1,7 +1,8 @@
 import { defineConfig, mergeConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import react from "@vitejs/plugin-react-swc";
+// import react from "@vitejs/plugin-react";
 import jotaiDebugLabel from "jotai/babel/plugin-debug-label";
-import jotaiReactRefresh from "jotai/babel/plugin-react-refresh";
+// import jotaiReactRefresh from "jotai/babel/plugin-react-refresh";
 import { defineConfig as defineConfigForTest } from "vitest/config";
 // import viteConfig from './vite.config'
 
@@ -9,7 +10,7 @@ import { defineConfig as defineConfigForTest } from "vitest/config";
 const viteConfig = defineConfig({
 	plugins: [
 		(react as any)({
-			babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
+			// babel: { plugins: [jotaiDebugLabel, jotaiReactRefresh] },
 		}),
 	],
 });
