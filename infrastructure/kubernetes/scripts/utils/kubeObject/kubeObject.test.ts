@@ -1,6 +1,14 @@
 import sh from "shelljs";
 import { KubeObject } from "./kubeObject.js";
-import { expect, jest, test, describe } from "@jest/globals";
+import {
+	expect,
+	test,
+	describe,
+	afterAll,
+	beforeAll,
+	beforeEach,
+	vi,
+} from "vitest";
 import { info } from "node:console";
 import { MockSTDIN, stdin } from "mock-stdin";
 
@@ -15,12 +23,10 @@ const keys = {
 // helper function for timing
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-jest
-	.spyOn(KubeObject.prototype, "sealSecretValue")
-	.mockImplementation(
-		({ name, namespace, secretValue }) =>
-			`lowo-test${name}${namespace}${"*".repeat(secretValue.length)}`,
-	);
+vi.spyOn(KubeObject.prototype, "sealSecretValue").mockImplementation(
+	({ name, namespace, secretValue }) =>
+		`lowo-test${name}${namespace}${"*".repeat(secretValue.length)}`,
+);
 
 function deleteSealedSecrets() {
 	new KubeObject("test").getOfAKind("SealedSecret").forEach((ss) => {
@@ -30,7 +36,7 @@ function deleteSealedSecrets() {
 
 describe("KubeObject", () => {
 	// Mock stdin so we can send messages to the CLI
-	let io: MockSTDIN | undefined;
+	let io: MockSTDIN;
 	afterAll(() => {
 		io.restore();
 		deleteSealedSecrets();
@@ -161,9 +167,9 @@ describe("KubeObject", () => {
 
 	test("Can update sealed secrets after initial", async () => {
 		const kubeInstance = new KubeObject("test");
-		jest
-			.spyOn(kubeInstance, "sealSecretValue")
-			.mockImplementation(() => "inital-secrets");
+		vi.spyOn(kubeInstance, "sealSecretValue").mockImplementation(
+			() => "inital-secrets",
+		);
 		kubeInstance.syncSealedSecrets();
 
 		const sealedSecrets = kubeInstance.getOfAKind("SealedSecret");
@@ -178,7 +184,7 @@ describe("KubeObject", () => {
 		expect(
 			Object.values(
 				sealedSecrets.filter((ss) =>
-					Object.values(ss.spec.encryptedData).includes("inital-secrets"),
+					Object.values(ss.spec.encryptedData ?? {}).includes("inital-secrets"),
 				),
 			).length,
 		).toMatchSnapshot();
@@ -228,7 +234,7 @@ describe("KubeObject", () => {
 
 			// Subselection for Selection 3
 			/* Note: MAke sure space is odd number in case there is only one secret
-             if the selection is even number, then the secret will be deselected the 2nd time */
+			 if the selection is even number, then the secret will be deselected the 2nd time */
 			io.send(keys.down);
 			io.send(keys.space); // 1
 			io.send(keys.down);
@@ -252,9 +258,9 @@ describe("KubeObject", () => {
 		setTimeout(() => sendKeystrokes().then(), 5);
 
 		// ASSERT
-		jest
-			.spyOn(kubeInstance, "sealSecretValue")
-			.mockImplementation(() => "updated-secrets");
+		vi.spyOn(kubeInstance, "sealSecretValue").mockImplementation(
+			() => "updated-secrets",
+		);
 		// Prompt user for selection of secrets to update
 		await kubeInstance.syncSealedSecretsWithPrompt();
 		const sealedSecretsSomeUpdated = kubeInstance.getOfAKind("SealedSecret");
@@ -267,7 +273,9 @@ describe("KubeObject", () => {
 		expect(
 			Object.values(
 				sealedSecretsSomeUpdated.filter((ss) =>
-					Object.values(ss.spec.encryptedData).includes("updated-secrets"),
+					Object.values(ss.spec.encryptedData ?? {}).includes(
+						"updated-secrets",
+					),
 				),
 			),
 		).toHaveLength(5);

@@ -1,0 +1,28 @@
+{
+  "linter": {
+    "enabled": true,
+    "ignore": [
+      "kubernetes/build",
+      "kubernetes/coverage",
+      "kubernetes/node_modules",
+      "kubernetes/generatedCrdsTs",
+      "kubernetes/generatedManifests"
+    ],
+    "rules": {
+      "correctness": {},
+      "recommended": true,
+      "style": {
+        "noImplicitBoolean": "off"
+      }
+    }
+  },
+  "formatter": {
+    "ignore": [
+            "kubernetes/build",
+      "kubernetes/coverage",
+      "kubernetes/node_modules",
+      "kubernetes/generatedCrdsTs",
+      "kubernetes/generatedManifests"
+    ]
+  }
+}
