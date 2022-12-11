@@ -10,12 +10,17 @@ const viteConfig = defineConfig({
 	plugins: [
 		(react as any)({
 			babel: {
-				plugins: [jotaiDebugLabel, jotaiReactRefresh,
-					["formatjs", {
-						"idInterpolationPattern": "[sha512:contenthash:base64:6]",
-						"ast": true
-					}]
-				]
+				plugins: [
+					jotaiDebugLabel,
+					jotaiReactRefresh,
+					[
+						"formatjs",
+						{
+							idInterpolationPattern: "[sha512:contenthash:base64:6]",
+							ast: true,
+						},
+					],
+				],
 			},
 		}),
 	],

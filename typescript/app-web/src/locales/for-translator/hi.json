@@ -1,14 +1,11 @@
 {
-  "2PCmQN": {
-    "defaultMessage": "Another thing to check from {place}"
-  },
-  "8XVYgQ": {
-    "defaultMessage": "Tangering on the mountain {nation}"
-  },
   "KUtWGF": {
     "defaultMessage": "My name is {name}"
   },
-  "PGuI37": {
-    "defaultMessage": "Let's go to space {space}"
+  "RqVYuF": {
+    "defaultMessage": "Something from this country {country}"
+  },
+  "xIKAMp": {
+    "defaultMessage": "They know the place another {place}"
   }
 }

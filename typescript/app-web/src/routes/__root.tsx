@@ -1,7 +1,7 @@
-import { Grid } from "@mantine/core";
+import { Divider, Grid } from "@mantine/core";
 import { createRouteConfig, Outlet } from "@tanstack/react-router";
 import { lazy } from "react";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { DoubleNavbar } from "../NavbarMain/Nav.js";
 import { router } from "../router.js";
 
@@ -24,7 +24,6 @@ export const rootRoute = createRouteConfig({
 function Root() {
 	const routerState = router.useState();
 	const { formatMessage } = useIntl();
-	const intl = useIntl();
 
 	return (
 		<>
@@ -35,39 +34,29 @@ function Root() {
 				<Grid.Col span={11}>
 					<h1>Testing</h1>
 					{Temporal.Now.zonedDateTimeISO().toString()}
-					<p>
-						{/* {formatMessage(
-                            { defaultMessage: "My name is {name}" },
-                            { name: "lowo" },
-                        )} */}
-						{/*
-                            {formatMessage(
-                                { defaultMessage: "My name is {name}" },
-                                { name: "lowo" },
-                                )}
-                                {formatMessage(
-                                    { defaultMessage: "My name is {name}" },
-                                    { name: "lowo" },
-                                    )}
-                                    {formatMessage(
-                                        { defaultMessage: "My name is {name}" },
-                                        { name: "xx" },
-                                        )}
-                                        {formatMessage(
-                                            { defaultMessage: "Let's go to space {space}" },
-                                            { space: "xx" },
-                                            )}
-                                            {formatMessage(
-                                                { defaultMessage: "Another thing to check from {place}" },
-                                                { place: "Ohio" },
-                                                )}
-                                                {formatMessage(
-                                                    { defaultMessage: "Tangering on the mountain {nation}" },
-                                                    { nation: "Ohio" },
-                                                    )}
-                                                    <FormattedNumber value={19} style="currency" currency="EUR" />
-                                                    */}
-					</p>
+					<Divider />
+
+					{formatMessage(
+						{ defaultMessage: "My name is {name}" },
+						{ name: "lowo" },
+					)}
+					<Divider />
+					{formatMessage(
+						{ defaultMessage: "They know the place another {place}" },
+						{ place: "lowo" },
+					)}
+					<Divider />
+					{formatMessage(
+						{ defaultMessage: "Something from this country {country}" },
+						{ country: "Canada" },
+					)}
+					<Divider />
+
+					<FormattedMessage
+						defaultMessage="They know the place another {place}"
+						values={{ place: "lowo" }}
+					/>
+					<Divider />
 
 					{/* Render our first route match */}
 					<Outlet />
