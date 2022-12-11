@@ -32,6 +32,13 @@ import {
 	useLocaleMessages,
 } from "./hooks/locales/useLocale.js";
 import { Container } from "tabler-icons-react";
+// import 'mapbox-gl/dist/mapbox-gl.css';
+// import { Map } from "react-map-gl";
+// import maplibregl from "maplibre-gl";
+
+// function Appe() {
+// 	return <Map mapLib={maplibregl} />;
+// }
 
 if (!window.Temporal) {
 	await import("@js-temporal/polyfill").then((polyfill) => {
