@@ -3,7 +3,7 @@ import path from "node:path";
 import fs from "node:fs";
 import { z } from "zod";
 import * as R from "ramda";
-import { Locale, LOCALES } from "../src/config/Locale.js";
+import { Locale, LOCALES } from "../src/hooks/locales/languages.js";
 
 const outDir = path.resolve("./src/locales");
 const LOCALE_JSON_SCHEMA = z.record(

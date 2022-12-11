@@ -14,7 +14,7 @@ module.exports = {
 		"formatjs/enforce-placeholders": [
 			"error",
 			{
-				ignoreList: ["foo"],
+				// ignoreList: ["foo"],
 			},
 		],
 		"formatjs/enforce-plural-rules": [
@@ -25,7 +25,13 @@ module.exports = {
 				zero: false,
 			},
 		],
-		// "formatjs/no-id": ["error"],
+		"formatjs/no-id": ["error"],
+		// "formatjs/enforce-id": [
+		//   "error",
+		//   {
+		//     "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+		//   },
+		// ],
 		// TODO: Uncomment so that strings are always translated.
 		// "formatjs/no-literal-string-in-jsx": [
 		//   2,

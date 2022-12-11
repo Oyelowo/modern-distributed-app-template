@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 const LOCALE_DEFAULT = "en";
 export const LOCALES = [
 	LOCALE_DEFAULT,
@@ -12,4 +14,5 @@ export const LOCALES = [
 	"ja",
 	"de", // German
 ] as const;
+
 export type Locale = typeof LOCALES[number];
