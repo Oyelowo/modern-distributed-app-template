@@ -1,4 +1,5 @@
 import { defineConfig, mergeConfig } from "vite";
+// import react from "@vitejs/plugin-react-swc";
 import react from "@vitejs/plugin-react";
 import jotaiDebugLabel from "jotai/babel/plugin-debug-label";
 import jotaiReactRefresh from "jotai/babel/plugin-react-refresh";

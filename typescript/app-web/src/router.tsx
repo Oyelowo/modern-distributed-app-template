@@ -20,8 +20,9 @@ import { layoutRouteB } from "./routes/layout/layout-b.js";
 import { bookingsRoute } from "./routes/bookings/index.js";
 import { bookingsIndexRoute } from "./routes/bookings/bookings.js";
 import { landingRoute } from "./routes/bookings/landing/index.js";
+import { rootRoute } from "./routes/__root.js";
 
-const routeConfig = createRouteConfig().addChildren([
+const routeConfig = rootRoute.addChildren([
 	indexRoute,
 	dashboardRoute.addChildren([
 		dashboardIndexRoute,

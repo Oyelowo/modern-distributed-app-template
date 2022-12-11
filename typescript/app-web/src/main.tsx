@@ -10,7 +10,7 @@ import {
 	QueryClientProvider,
 	useQuery,
 } from "@tanstack/react-query";
-import React, { lazy, useEffect } from "react";
+import React, { FC, lazy, useEffect } from "react";
 import {
 	defineMessage,
 	FormattedMessage,
@@ -34,24 +34,8 @@ if (!window.Temporal) {
 	});
 }
 
-const TanStackRouterDevtools =
-	process.env.NODE_ENV === "production"
-		? () => null // Render nothing in production
-		: lazy(() =>
-				// Lazy load in development
-				import("@tanstack/react-router-devtools").then((res) => ({
-					default: res.TanStackRouterDevtools,
-					// For Embedded Mode
-					// default: res.TanStackRouterDevtoolsPanel
-				})),
-		  );
-
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 const queryClient = new QueryClient();
-
-async function importMessages(locale: Locale) {
-	return import("./locales/compiled-lang/en.json");
-}
 
 function App() {
 	const [colorScheme, setColorScheme] = useAtom(colorSchemeAtom);
@@ -73,30 +57,28 @@ function App() {
 					OO
 				</Avatar>
 
+				<RouterProvider router={router} defaultPreload="intent" />
 				<QueryClientProvider client={queryClient}>
-					<LocaleProv>
+					{/* <LocaleProv> */}
+					<>
 						{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
 					defaultLocale="en"
 				> */}
-						{/* Normally <Router /> acts as it's own outlet,
-            but if we pass it children, route matching is
-		deferred until the first <Outlet /> is found. */}
-						{/* {Temporal.Now.zonedDateTimeISO().toString()} */}
-						<Root />
-					</LocaleProv>
+					</>
+					{/* </LocaleProv> */}
 					{/* </IntlProvider> */}
-					<RouterProvider router={router} />
 				</QueryClientProvider>
-
-				<TanStackRouterDevtools router={router} position="bottom-right" />
 			</MantineProvider>
 		</>
 	);
 }
 
-function LocaleProv({ children }: { children: React.ReactElement }) {
+async function importMessages(locale: Locale) {
+	return import("./locales/compiled-lang/en.json");
+}
+const LocaleProv: FC<{ children: React.ReactElement }> = ({ children }) => {
 	const locale = "en";
 	type LocaleMessages = any;
 	const [messages, setMessages] = React.useState<LocaleMessages | null>(null);
@@ -120,61 +102,13 @@ function LocaleProv({ children }: { children: React.ReactElement }) {
 			{children}
 		</IntlProvider>
 	);
-}
+};
 
-function Root() {
-	const routerState = router.useState();
-	const { formatMessage } = useIntl();
-	const intl = useIntl();
+const rootElement = document.getElementById("app");
 
-	return (
-		<Grid>
-			<Grid.Col span={1}>
-				<DoubleNavbar />
-			</Grid.Col>
-			<Grid.Col span={11}>
-				<h1>Testing</h1>
-				<p>
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "lowo" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "lowo" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "xx" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Let's go to space {space}" },
-						{ space: "xx" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Another thing to check from {place}" },
-						{ place: "Ohio" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Tangering on the mountain {nation}" },
-						{ nation: "Ohio" },
-					)}
-					<FormattedNumber value={19} style="currency" currency="EUR" />
-				</p>
-
-				{/* Render our first route match */}
-				<Outlet />
-			</Grid.Col>
-		</Grid>
-	);
-}
-
-if (document) {
-	const rootElement = document.getElementById("app");
-	if (rootElement && !rootElement?.innerHTML) {
-		const root = createRoot(rootElement);
-		root.render(<App />);
-	}
+if (!rootElement?.innerHTML) {
+	const root = createRoot(rootElement!);
+	root.render(<App />);
 }
 
 // export async function bootstrapApplication(locale: Locale) {
