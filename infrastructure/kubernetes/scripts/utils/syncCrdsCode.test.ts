@@ -1,10 +1,10 @@
-import { test, describe, expect } from 'vitest';
+import { test, describe, expect } from "vitest";
 import { sanitizePulumiTypeDefinitions } from "./syncCrdsCode";
 
 describe("syncCrdsCode", () => {
-    test("Can sanitize badly formatted Pulumi typescript definition", () => {
-        // Removes hyphen from interface and fielf type identifiers and puts keys with hyphen in quote
-        const data = `export interface TidbClu-sterStatusArgs {
+	test("Can sanitize badly formatted Pulumi typescript definition", () => {
+		// Removes hyphen from interface and fielf type identifiers and puts keys with hyphen in quote
+		const data = `export interface TidbClu-sterStatusArgs {
             auto-scaler?: pulumi.Input<inputs.pingcap.v1alpha1.TidbClusterStatusAuto-ScalerArgs>;
             cluste?: pulumi.Input<string>;
             co-ndi-ti-ons-?: pulumi.Input<pulumi.Input<inputs.pingcap.v1alpha1.TidbCluster-Status-ConditionsArgs>[]>;
@@ -20,9 +20,9 @@ describe("syncCrdsCode", () => {
             name: pulumi.Input<string>;
             namespace: pulumi.Input<string>;
         }`;
-        const sanitized = sanitizePulumiTypeDefinitions({ data });
+		const sanitized = sanitizePulumiTypeDefinitions({ data });
 
-        expect(sanitized).toBe(`export interface TidbClusterStatusArgs {
+		expect(sanitized).toBe(`export interface TidbClusterStatusArgs {
             "auto-scaler"?: pulumi.Input<inputs.pingcap.v1alpha1.TidbClusterStatusAutoScalerArgs>;
             cluste?: pulumi.Input<string>;
             "co-ndi-ti-ons-"?: pulumi.Input<pulumi.Input<inputs.pingcap.v1alpha1.TidbClusterStatusConditionsArgs>[]>;
@@ -38,5 +38,5 @@ describe("syncCrdsCode", () => {
             name: pulumi.Input<string>;
             namespace: pulumi.Input<string>;
         }`);
-    });
+	});
 });

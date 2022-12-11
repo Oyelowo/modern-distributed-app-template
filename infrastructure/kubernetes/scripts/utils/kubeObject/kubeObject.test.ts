@@ -1,6 +1,14 @@
 import sh from "shelljs";
 import { KubeObject } from "./kubeObject.js";
-import { expect, test, describe, afterAll, beforeAll, beforeEach, vi } from "vitest";
+import {
+	expect,
+	test,
+	describe,
+	afterAll,
+	beforeAll,
+	beforeEach,
+	vi,
+} from "vitest";
 import { info } from "node:console";
 import { MockSTDIN, stdin } from "mock-stdin";
 
@@ -15,12 +23,10 @@ const keys = {
 // helper function for timing
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-vi
-	.spyOn(KubeObject.prototype, "sealSecretValue")
-	.mockImplementation(
-		({ name, namespace, secretValue }) =>
-			`lowo-test${name}${namespace}${"*".repeat(secretValue.length)}`,
-	);
+vi.spyOn(KubeObject.prototype, "sealSecretValue").mockImplementation(
+	({ name, namespace, secretValue }) =>
+		`lowo-test${name}${namespace}${"*".repeat(secretValue.length)}`,
+);
 
 function deleteSealedSecrets() {
 	new KubeObject("test").getOfAKind("SealedSecret").forEach((ss) => {
@@ -161,9 +167,9 @@ describe("KubeObject", () => {
 
 	test("Can update sealed secrets after initial", async () => {
 		const kubeInstance = new KubeObject("test");
-		vi
-			.spyOn(kubeInstance, "sealSecretValue")
-			.mockImplementation(() => "inital-secrets");
+		vi.spyOn(kubeInstance, "sealSecretValue").mockImplementation(
+			() => "inital-secrets",
+		);
 		kubeInstance.syncSealedSecrets();
 
 		const sealedSecrets = kubeInstance.getOfAKind("SealedSecret");
@@ -252,9 +258,9 @@ describe("KubeObject", () => {
 		setTimeout(() => sendKeystrokes().then(), 5);
 
 		// ASSERT
-		vi
-			.spyOn(kubeInstance, "sealSecretValue")
-			.mockImplementation(() => "updated-secrets");
+		vi.spyOn(kubeInstance, "sealSecretValue").mockImplementation(
+			() => "updated-secrets",
+		);
 		// Prompt user for selection of secrets to update
 		await kubeInstance.syncSealedSecretsWithPrompt();
 		const sealedSecretsSomeUpdated = kubeInstance.getOfAKind("SealedSecret");
@@ -267,7 +273,9 @@ describe("KubeObject", () => {
 		expect(
 			Object.values(
 				sealedSecretsSomeUpdated.filter((ss) =>
-					Object.values(ss.spec.encryptedData ?? {}).includes("updated-secrets"),
+					Object.values(ss.spec.encryptedData ?? {}).includes(
+						"updated-secrets",
+					),
 				),
 			),
 		).toHaveLength(5);
