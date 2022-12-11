@@ -34,18 +34,6 @@ if (!window.Temporal) {
 	});
 }
 
-const TanStackRouterDevtools =
-	process.env.NODE_ENV === "production"
-		? () => null // Render nothing in production
-		: lazy(() =>
-				// Lazy load in development
-				import("@tanstack/react-router-devtools").then((res) => ({
-					default: res.TanStackRouterDevtools,
-					// For Embedded Mode
-					// default: res.TanStackRouterDevtoolsPanel
-				})),
-		  );
-
 const colorSchemeAtom = atom<"light" | "dark">("dark");
 const queryClient = new QueryClient();
 
@@ -69,27 +57,19 @@ function App() {
 					OO
 				</Avatar>
 
-				<RouterProvider router={router}>
-					<QueryClientProvider client={queryClient}>
-						<LocaleProv>
-							<>
-								{/* <IntlProvider
+				<RouterProvider router={router} defaultPreload="intent" />
+				<QueryClientProvider client={queryClient}>
+					{/* <LocaleProv> */}
+					<>
+						{/* <IntlProvider
 					messages={localeData}
 					locale="fr"
 					defaultLocale="en"
 				> */}
-								{/* Normally <Router /> acts as it's own outlet,
-            but if we pass it children, route matching is
-		deferred until the first <Outlet /> is found. */}
-								{Temporal.Now.zonedDateTimeISO().toString()}
-								<Root />
-							</>
-						</LocaleProv>
-						{/* </IntlProvider> */}
-					</QueryClientProvider>
-				</RouterProvider>
-
-				<TanStackRouterDevtools router={router} position="bottom-right" />
+					</>
+					{/* </LocaleProv> */}
+					{/* </IntlProvider> */}
+				</QueryClientProvider>
 			</MantineProvider>
 		</>
 	);
@@ -124,65 +104,11 @@ const LocaleProv: FC<{ children: React.ReactElement }> = ({ children }) => {
 	);
 };
 
-function Root() {
-	const routerState = router.useState();
-	const { formatMessage } = useIntl();
-	// const intl = useIntl();
+const rootElement = document.getElementById("app");
 
-	return (
-		<Grid>
-			<Grid.Col span={1}>
-				<DoubleNavbar />
-			</Grid.Col>
-			<Grid.Col span={11}>
-				<h1>Testing</h1>
-				<p>
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "lowo" },
-					)}
-					{/* 			
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "lowo" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "lowo" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "My name is {name}" },
-						{ name: "xx" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Let's go to space {space}" },
-						{ space: "xx" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Another thing to check from {place}" },
-						{ place: "Ohio" },
-					)}
-					{formatMessage(
-						{ defaultMessage: "Tangering on the mountain {nation}" },
-						{ nation: "Ohio" },
-						)}
-						<FormattedNumber value={19} style="currency" currency="EUR" />
-					 */}
-				</p>
-
-				{/* Render our first route match */}
-				{/* <Outlet /> */}
-			</Grid.Col>
-		</Grid>
-	);
-}
-
-if (document) {
-	const rootElement = document.getElementById("app");
-	if (rootElement && !rootElement?.innerHTML) {
-		const root = createRoot(rootElement);
-		root.render(<App />);
-	}
+if (!rootElement?.innerHTML) {
+	const root = createRoot(rootElement!);
+	root.render(<App />);
 }
 
 // export async function bootstrapApplication(locale: Locale) {
