@@ -4,9 +4,18 @@
     "lib": ["esnext.intl", "es2017.intl", "es2018.intl", "DOM"],
     "target": "es2022",
     "moduleResolution": "NodeNext",
-    "module": "NodeNext",
+    "module": "ESNext",
     "strict": true,
     "resolveJsonModule": true,
     "outDir": "./build"
-  }
+  },
+  "plugins": [
+    {
+      "transform": "@formatjs/ts-transformer",
+      "import": "transform",
+      "type": "config",
+      "overrideIdFn": "[sha512:contenthash:base64:6]",
+      "ast": true
+    }
+  ]
 }

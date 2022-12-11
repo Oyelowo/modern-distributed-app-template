@@ -30,7 +30,7 @@ if (!window.Temporal) {
 	await import("@js-temporal/polyfill").then((polyfill) => {
 		Date.prototype.toTemporalInstant = polyfill.toTemporalInstant;
 		window.Temporal = polyfill.Temporal;
-		(window as any).Intl = polyfill.Intl;
+		// (window as any).Intl = polyfill.Intl;
 	});
 }
 
@@ -42,6 +42,7 @@ function App() {
 
 	return (
 		<>
+<LocaleProv>
 			<MantineProvider
 				withGlobalStyles
 				withNormalizeCSS
@@ -56,10 +57,11 @@ function App() {
 				>
 					OO
 				</Avatar>
+				<FormattedMessage defaultMessage="My name is {name}"values={{name: "lowo"}}/>
+				<FormattedMessage defaultMessage="They know the place another {place}" values={{place: "lowo"}}/>
 
 				<RouterProvider router={router} defaultPreload="intent" />
 				<QueryClientProvider client={queryClient}>
-					{/* <LocaleProv> */}
 					<>
 						{/* <IntlProvider
 					messages={localeData}
@@ -67,27 +69,27 @@ function App() {
 					defaultLocale="en"
 				> */}
 					</>
-					{/* </LocaleProv> */}
 					{/* </IntlProvider> */}
 				</QueryClientProvider>
 			</MantineProvider>
+					</LocaleProv>
 		</>
 	);
 }
 
 async function importMessages(locale: Locale) {
-	return import("./locales/compiled-lang/en.json");
+	return import(`./locales/compiled-lang/${locale}.json`);
 }
 const LocaleProv: FC<{ children: React.ReactElement }> = ({ children }) => {
-	const locale = "en";
+	const locale = "fr";
 	type LocaleMessages = any;
 	const [messages, setMessages] = React.useState<LocaleMessages | null>(null);
 	useEffect(() => {
 		importMessages(locale).then((locale) => {
-			console.log("mppmp", locale);
-			setMessages(locale);
+			console.log("mppmp", locale.default);
+			setMessages(locale.default);
 		});
-	}, []);
+	}, [locale]);
 
 	// 	const locale: Locale = "fr";
 	// 	const { data: localeData } = useQuery(["locale", locale], () =>
@@ -98,7 +100,7 @@ const LocaleProv: FC<{ children: React.ReactElement }> = ({ children }) => {
 	//   myMessage: "Aujourd'hui, c'est le {ts, date, ::yyyyMMdd}",
 	// };
 	return (
-		<IntlProvider messages={messages} key="en" locale="en" defaultLocale="en">
+		<IntlProvider messages={messages} locale={locale} defaultLocale="en">
 			{children}
 		</IntlProvider>
 	);

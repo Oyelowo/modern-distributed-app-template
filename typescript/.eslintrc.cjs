@@ -25,7 +25,7 @@ module.exports = {
 				zero: false,
 			},
 		],
-		"formatjs/no-id": ["error"],
+		// "formatjs/no-id": ["error"],
 		// TODO: Uncomment so that strings are always translated.
 		// "formatjs/no-literal-string-in-jsx": [
 		//   2,

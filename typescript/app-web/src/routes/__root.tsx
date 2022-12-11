@@ -23,8 +23,8 @@ export const rootRoute = createRouteConfig({
 
 function Root() {
 	const routerState = router.useState();
-	// const { formatMessage } = useIntl();
-	// const intl = useIntl();
+	const { formatMessage } = useIntl();
+	const intl = useIntl();
 
 	return (
 		<>
