@@ -1,5 +1,5 @@
 import sh from "shelljs";
-import { helmChartsInfo } from "../../src/shared/helmChartInfo.js";
+import { chartInfoSchema, helmChartsInfo } from "../../src/shared/helmChartInfo.js";
 import { getGeneratedCrdsCodeDir } from "../../src/shared/directoriesManager.js";
 import chalk from "chalk";
 import yaml from "yaml";
@@ -23,7 +23,8 @@ export async function syncCrdsCode() {
 		sh.exec(`helm repo update ${repoName}`, { silent: true });
 
 		Object.values(charts).forEach(
-			({ chart, version, externalCrds, skipCrdRender }) => {
+			(chartInfo) => {
+				const { chart, version, externalCrds, skipCrdRender } = chartInfoSchema.parse(chartInfo);
 				if (skipCrdRender === true) {
 					return;
 				}

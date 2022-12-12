@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 type Repo =
 	| "oyelowo"
 	| "nats"
@@ -14,13 +16,13 @@ type Repo =
 	| "gitea"
 	| "vmwareTanzu";
 
-type ChartInfo = {
-	chart: string;
-	version: string;
-	externalCrds: string[];
-	skipCrdRender: boolean;
-};
-
+export const chartInfoSchema = z.object({
+	chart: z.string(),
+	version: z.string(),
+	externalCrds: z.array(z.string()),
+	skipCrdRender: z.boolean(),
+});
+type ChartInfo = z.infer<typeof chartInfoSchema>;
 type ChartsInfo = Record<
 	Repo,
 	{
@@ -252,7 +254,9 @@ export const helmChartsInfo = {
 			argoEvent: {
 				chart: "argo-events",
 				version: "2.0.6",
-				externalCrds: [] satisfies string[],
+				externalCrds: [
+					"https://raw.githubusercontent.com/argoproj/argo-events/master/api/jsonschema/schema.json",
+				] satisfies string[],
 				skipCrdRender: false,
 			},
 			argoRollout: {

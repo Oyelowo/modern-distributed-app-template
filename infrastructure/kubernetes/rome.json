@@ -1,0 +1,28 @@
+{
+  "linter": {
+    "enabled": true,
+    "ignore": [
+      "build",
+      "coverage",
+      "node_modules",
+      "generatedCrdsTs",
+      "generatedManifests"
+    ],
+    "rules": {
+      "correctness": {},
+      "recommended": true,
+      "style": {
+        "noImplicitBoolean": "off"
+      }
+    }
+  },
+  "formatter": {
+    "ignore": [
+            "build",
+      "coverage",
+      "node_modules",
+      "generatedCrdsTs",
+      "generatedManifests"
+    ]
+  }
+}
