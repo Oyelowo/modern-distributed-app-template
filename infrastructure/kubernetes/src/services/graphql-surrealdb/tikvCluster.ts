@@ -1,6 +1,6 @@
 import pc from "../../../generatedCrdsTs/index.js";
 import { graphqlSurrealdb } from "./app.js";
-import { surrealdbSettings } from "./surrealdb.js";
+import { graphqlSurrealdbSettings } from "./settings.js";
 
 // TiKV acts as the persistent layer for surrealdb. Surrealdb also supports in-memory, file-based,
 // foundationdb, rocksdb etc
@@ -8,8 +8,8 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 	"surrealdb-tikv-cluster",
 	{
 		metadata: {
-			name: surrealdbSettings.envVars.TIKV_NAME,
-			namespace: surrealdbSettings.metadata.namespace,
+			name: graphqlSurrealdbSettings.envVars.TIKV_NAME,
+			namespace: graphqlSurrealdbSettings.metadata.namespace,
 			// clusterName: "",
 		},
 		spec: {
@@ -21,7 +21,7 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 			pd: {
 				baseImage: "pingcap/pd",
 				service: {
-					port: Number(surrealdbSettings.envVars.TIKV_PORT),
+					port: Number(graphqlSurrealdbSettings.envVars.TIKV_PORT),
 				},
 				maxFailoverCount: 0,
 				replicas: 3,

@@ -1,5 +1,6 @@
-import type { Namespace } from "../infrastructure/namespaces/util.js";
+
 import type { bitnami } from "../../generatedCrdsTs/index.js";
+import { Namespace } from "./ownTypes.js";
 
 type SealedSecretArguments = NonNullable<bitnami.v1alpha1.SealedSecretArgs>;
 export type SealedSecretTemplate = SealedSecretArguments & {

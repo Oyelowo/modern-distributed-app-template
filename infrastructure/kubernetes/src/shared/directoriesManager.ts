@@ -22,13 +22,16 @@ export const getMainBaseDir = () => {
 	return process.cwd();
 };
 
+export const getGeneratedCodeBaseDir = () => {
+	return path.join(getMainBaseDir(), "generatedCode");
+};
+
 export const getPlainSecretsConfigFilesBaseDir = () => {
 	return path.join(getMainBaseDir(), ".secrets");
 };
 
 export const getGeneratedCrdsCodeDir = () => {
-	const baseDir = getMainBaseDir();
-	return path.join(baseDir, "generatedCrdsTs");
+	return path.join(getGeneratedCodeBaseDir(), "crdsTs");
 };
 
 /** Some helm charts may not provide good APIJSON schema typing within their CRDS.
@@ -37,8 +40,7 @@ export const getGeneratedCrdsCodeDir = () => {
  *  (e.g. EventBus, EventSource, and Sensor for argo-events).
  */
 export const getGeneratedMissingCrdSchemasDir = () => {
-	const baseDir = getMainBaseDir();
-	return path.join(baseDir, "generatedMissingCrdSchemas");
+	return path.join(getGeneratedCodeBaseDir(), "missingCrdSchemas");
 };
 
 type ResourcePaths =

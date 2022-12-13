@@ -4,6 +4,7 @@ import {
 	OauthEnvVars,
 	RedisDbEnvVars,
 	SurrealDbEnvVars,
+	TikVDbEnvVars,
 } from "../../types/ownTypes.js";
 import { getIngressUrl } from "../../infrastructure/ingress/hosts.js";
 import { PlainSecretsManager } from "../../../scripts/utils/plainSecretsManager.js";
@@ -22,7 +23,9 @@ const secrets = new PlainSecretsManager(
 export type GraphqlSurrealDbEnvVars = AppEnvVars &
 	OauthEnvVars &
 	SurrealDbEnvVars<"applications"> &
+	TikVDbEnvVars<"applications"> &
 	RedisDbEnvVars<"applications">;
+
 export const graphqlSurrealdbSettings: AppConfigs<
 	"graphql-surrealdb",
 	"applications",
@@ -54,6 +57,12 @@ export const graphqlSurrealdbSettings: AppConfigs<
 		SURREALDB_PORT: "8000",
 		SURREALDB_ROOT_USERNAME: secrets.SURREALDB_ROOT_USERNAME,
 		SURREALDB_ROOT_PASSWORD: secrets.SURREALDB_ROOT_PASSWORD,
+		TIKV_NAME: 'tikv',
+		TIKV_SERVICE_NAME: 'tikv',
+		TIKV_HOST: 'tikv-pd.applications',
+		TIKV_PORT: '2379',
+		// TODO: change
+		TIKV_STORAGE_CLASS: 'linode-block-storage-retain',
 		REDIS_USERNAME: secrets.REDIS_USERNAME,
 		REDIS_PASSWORD: secrets.REDIS_PASSWORD,
 		REDIS_HOST: "redis-master.applications",
