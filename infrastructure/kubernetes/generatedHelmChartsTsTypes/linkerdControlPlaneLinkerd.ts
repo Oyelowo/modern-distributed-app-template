@@ -37,6 +37,22 @@ export interface ILinkerdControlPlaneLinkerd {
 	profileValidator: ProfileValidator;
 	policyValidator: ProfileValidator;
 	nodeSelector: NodeSelector;
+	podMonitor: PodMonitor;
+}
+interface PodMonitor {
+	enabled: boolean;
+	scrapeInterval: string;
+	scrapeTimeout: string;
+	controller: Controller;
+	serviceMirror: ServiceMirror;
+	proxy: ServiceMirror;
+}
+interface ServiceMirror {
+	enabled: boolean;
+}
+interface Controller {
+	enabled: boolean;
+	namespaceSelector: string;
 }
 interface NodeSelector {
 	"kubernetes.io/os": string;
@@ -97,12 +113,14 @@ interface ProxyInit {
 	iptablesMode: string;
 	ignoreInboundPorts: string;
 	ignoreOutboundPorts: string;
+	kubeAPIServerPorts: string;
 	skipSubnets: string;
 	logLevel: string;
 	logFormat: string;
 	image: Image;
 	resources: Resources;
 	closeWaitTimeoutSecs: number;
+	privileged: boolean;
 	runAsRoot: boolean;
 	runAsUser: number;
 	xtMountPath: XtMountPath;
