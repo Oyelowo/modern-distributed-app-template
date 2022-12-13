@@ -1,5 +1,5 @@
 // import { IArgocdargo } from '../../../types/helm-charts/argoCdArgo.js';
-import { IArgoCdArgo } from "../../../generatedHelmChartsTsTypes/argoCdArgo.js";
+import { IArgoCdArgo } from "../../../generatedCode/helmChartsValuesTypeDefs/argoCdArgo.js";
 import { annotations } from "../ingress/ingressRules.js";
 import * as k8s from "@pulumi/kubernetes";
 

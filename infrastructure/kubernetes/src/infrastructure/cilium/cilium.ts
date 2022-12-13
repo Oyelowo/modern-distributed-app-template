@@ -1,4 +1,4 @@
-import { ICiliumCilium } from "../../../generatedHelmChartsTsTypes/ciliumCilium.js";
+import { ICiliumCilium } from "../../../generatedCode/helmChartsValuesTypeDefs/ciliumCilium.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

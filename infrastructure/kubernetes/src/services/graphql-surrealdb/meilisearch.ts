@@ -1,4 +1,4 @@
-import { IMeilisearchMeilisearch } from "../../../generatedHelmChartsTsTypes/meilisearchMeilisearch.js";
+import { IMeilisearchMeilisearch } from "../../../generatedCode/helmChartsValuesTypeDefs/meilisearchMeilisearch.js";
 import * as k8s from "@pulumi/kubernetes";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
@@ -10,13 +10,13 @@ const { envVars } = graphqlSurrealdbSettings;
 const meilisearchValues: DeepPartial<IMeilisearchMeilisearch> = {
 	auth: {
 		/* 
-        For production deployment, the environment.MEILI_MASTER_KEY is required. 
-        If MEILI_ENV is set to "production" without setting environment.MEILI_MASTER_KEY, 
-        then this chart will automatically create a secure environment.MEILI_MASTER_KEY as a secret. 
-        To get the value of this secret, you can read it with this command: kubectl get secret meilisearch-master-key 
-        --template={{.data.MEILI_MASTER_KEY}} | base64 --decode. You can also use auth.existingMasterKeySecret 
-        to use an existing secret that has the key MEILI_MASTER_KEY
-        */
+		For production deployment, the environment.MEILI_MASTER_KEY is required. 
+		If MEILI_ENV is set to "production" without setting environment.MEILI_MASTER_KEY, 
+		then this chart will automatically create a secure environment.MEILI_MASTER_KEY as a secret. 
+		To get the value of this secret, you can read it with this command: kubectl get secret meilisearch-master-key 
+		--template={{.data.MEILI_MASTER_KEY}} | base64 --decode. You can also use auth.existingMasterKeySecret 
+		to use an existing secret that has the key MEILI_MASTER_KEY
+		*/
 		// existingMasterKeySecret: ``,
 	},
 	replicaCount: 1,

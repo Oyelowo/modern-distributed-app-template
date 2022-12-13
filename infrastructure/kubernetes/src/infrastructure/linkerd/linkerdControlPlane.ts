@@ -1,4 +1,4 @@
-import { ILinkerdControlPlaneLinkerd } from "../../../generatedHelmChartsTsTypes/linkerdControlPlaneLinkerd.js";
+import { ILinkerdControlPlaneLinkerd } from "../../../generatedCode/helmChartsValuesTypeDefs/linkerdControlPlaneLinkerd.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { DeepPartial } from "../../types/ownTypes.js";

@@ -1,4 +1,4 @@
-import { ITidbOperatorPingcap } from "../../../generatedHelmChartsTsTypes/tidbOperatorPingcap.js";
+import { ITidbOperatorPingcap } from "../../../generatedCode/helmChartsValuesTypeDefs/tidbOperatorPingcap.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

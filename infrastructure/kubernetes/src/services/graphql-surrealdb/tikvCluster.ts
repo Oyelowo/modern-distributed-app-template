@@ -1,6 +1,6 @@
-import pc from "../../../generatedCrdsTs/index.js";
+import pc from "../../../generatedCode/crds/index.js";
 import { graphqlSurrealdb } from "./app.js";
-import { surrealdbSettings } from "./surrealdb.js";
+import { graphqlSurrealdbSettings } from "./settings.js";
 
 // TiKV acts as the persistent layer for surrealdb. Surrealdb also supports in-memory, file-based,
 // foundationdb, rocksdb etc
@@ -8,8 +8,8 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 	"surrealdb-tikv-cluster",
 	{
 		metadata: {
-			name: surrealdbSettings.envVars.TIKV_NAME,
-			namespace: surrealdbSettings.metadata.namespace,
+			name: graphqlSurrealdbSettings.envVars.TIKV_NAME,
+			namespace: graphqlSurrealdbSettings.metadata.namespace,
 			// clusterName: "",
 		},
 		spec: {
@@ -21,7 +21,7 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 			pd: {
 				baseImage: "pingcap/pd",
 				service: {
-					port: Number(surrealdbSettings.envVars.TIKV_PORT),
+					port: Number(graphqlSurrealdbSettings.envVars.TIKV_PORT),
 				},
 				maxFailoverCount: 0,
 				replicas: 3,
@@ -50,36 +50,36 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 );
 
 /* const tidbClusterAutoScaler = new pc.pingcap.v1alpha1.TidbClusterAutoScaler('er', {
-    apiVersion: 'pingcap.com/v1alpha1',
-    kind: "TidbClusterAutoScaler",
-    metadata: {
-        name: "",
-        namespace: "",
-        clusterName: "",
-        deletionGracePeriodSeconds: 120,
-    },
-    spec: {
-        cluster: {
-            clusterDomain: "",
-            name: "",
-            namespace: ""
-        },
-        tikv: {
-            external: {
-                maxReplicas: 5,
-                endpoint: {
-                    host: "",
-                    path: "",
-                    port: 2000
-                },
+	apiVersion: 'pingcap.com/v1alpha1',
+	kind: "TidbClusterAutoScaler",
+	metadata: {
+		name: "",
+		namespace: "",
+		clusterName: "",
+		deletionGracePeriodSeconds: 120,
+	},
+	spec: {
+		cluster: {
+			clusterDomain: "",
+			name: "",
+			namespace: ""
+		},
+		tikv: {
+			external: {
+				maxReplicas: 5,
+				endpoint: {
+					host: "",
+					path: "",
+					port: 2000
+				},
 
-            },
-            scaleOutIntervalSeconds: 4,
-            scaleInIntervalSeconds: 5,
-        },
-        // tidb: {}
+			},
+			scaleOutIntervalSeconds: 4,
+			scaleInIntervalSeconds: 5,
+		},
+		// tidb: {}
 
-    },
+	},
 
 });
  */

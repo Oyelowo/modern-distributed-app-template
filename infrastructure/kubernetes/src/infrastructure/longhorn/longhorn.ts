@@ -1,4 +1,4 @@
-import { ILonghornLonghorn } from "../../../generatedHelmChartsTsTypes/longhornLonghorn.js";
+import { ILonghornLonghorn } from "../../../generatedCode/helmChartsValuesTypeDefs/longhornLonghorn.js";
 import * as k8s from "@pulumi/kubernetes";
 
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

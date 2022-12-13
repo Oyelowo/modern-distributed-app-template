@@ -1,7 +1,7 @@
 import * as k8s from "@pulumi/kubernetes";
 import * as kx from "@pulumi/kubernetesx";
 import * as pulumi from "@pulumi/pulumi";
-import crds from "../../generatedCrdsTs/index.js";
+import crds from "../../generatedCode/crds/index.js";
 import { DOCKER_REGISTRY_KEY } from "../infrastructure/argocd/docker.js";
 import { createArgocdApplication } from "../infrastructure/argocd/createArgoApplication.js";
 import { getResourceAbsolutePath } from "./directoriesManager.js";
@@ -90,15 +90,15 @@ export class ServiceDeployment<
  Maps custom secret object to what kx can understand to produce secretRef automagically
  * @example
  {
-    SURREALDB_USERNAME: "xxxx",
-    SURREALDB_PASSWORD: "xxxx",
+	SURREALDB_USERNAME: "xxxx",
+	SURREALDB_PASSWORD: "xxxx",
  }
  
  to
  {
-    SURREALDB_USERNAME:
-        secretRef:
-          ...
+	SURREALDB_USERNAME:
+		secretRef:
+		  ...
   ...
  }
 */

@@ -6,7 +6,7 @@ import {
 } from "../../types/ownTypes.js";
 import * as kx from "@pulumi/kubernetesx";
 import { Resource } from "@pulumi/pulumi";
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 import {
 	ResourceOutputDirProps,
 	getResourceProvider,

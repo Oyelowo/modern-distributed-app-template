@@ -1,4 +1,4 @@
-import { ISealedSecretsBitnami } from "../../../generatedHelmChartsTsTypes/sealedSecretsBitnami.js";
+import { ISealedSecretsBitnami } from "../../../generatedCode/helmChartsValuesTypeDefs/sealedSecretsBitnami.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

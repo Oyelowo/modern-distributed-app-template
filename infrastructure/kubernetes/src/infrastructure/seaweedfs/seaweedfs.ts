@@ -1,4 +1,4 @@
-import { ISeaweedfsOyelowo } from "../../../generatedHelmChartsTsTypes/seaweedfsOyelowo.js";
+import { ISeaweedfsOyelowo } from "../../../generatedCode/helmChartsValuesTypeDefs/seaweedfsOyelowo.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
@@ -23,11 +23,11 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		// if enabled will use global.replicationPlacment and override master & filer defaultReplicaPlacement config
 		enableReplication: false,
 		/* 
-    #  replication type is XYZ:
-    # X number of replica in other data centers
-    # Y number of replica in other racks in the same data center
-    # Z number of replica in other servers in the same rack
-        */
+	#  replication type is XYZ:
+	# X number of replica in other data centers
+	# Y number of replica in other racks in the same data center
+	# Z number of replica in other servers in the same rack
+		*/
 		replicationPlacment: "001",
 		extraEnvironmentVars: {
 			WEED_CLUSTER_DEFAULT: "sw",
@@ -61,11 +61,11 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		// Prometheus push interval in seconds, default 15
 		metricsIntervalSec: 15,
 		/* 
-            #  replication type is XYZ:
-    # X number of replica in other data centers
-    # Y number of replica in other racks in the same data center
-    # Z number of replica in other servers in the same rack
-        */
+			#  replication type is XYZ:
+	# X number of replica in other data centers
+	# Y number of replica in other racks in the same data center
+	# Z number of replica in other servers in the same rack
+		*/
 		defaultReplication: "000",
 		// Disable http request, only gRpc operations are allowed
 		disableHttp: false,
@@ -88,24 +88,24 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		extraVolumes: "",
 		extraVolumeMounts: "",
 		/* 
-            # Resource requests, limits, etc. for the master cluster placement. This
-    # should map directly to the value of the resources field for a PodSpec,
-    # formatted as a multi-line string. By default no direct resource request
-    # is made.
-        */
+			# Resource requests, limits, etc. for the master cluster placement. This
+	# should map directly to the value of the resources field for a PodSpec,
+	# formatted as a multi-line string. By default no direct resource request
+	# is made.
+		*/
 		// resources: `
 		//     requests: '',
 		//     limits: ''`,
 		/* 
-        updatePartition is used to control a careful rolling update of SeaweedFS
-         masters.
-        */
+		updatePartition is used to control a careful rolling update of SeaweedFS
+		 masters.
+		*/
 		updatePartition: 0,
 		/* 
-            # Affinity Settings
-    # Commenting out or setting as empty the affinity variable, will allow
-    # deployment to single node services such as Minikube
-        */
+			# Affinity Settings
+	# Commenting out or setting as empty the affinity variable, will allow
+	# deployment to single node services such as Minikube
+		*/
 		// affinity: `
 		//     /*
 		//            podAntiAffinity:
@@ -136,22 +136,22 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		// } as any,
 
 		/*
-            # Toleration Settings for master pods
-    # This should be a multi-line string matching the Toleration array
-    # in a PodSpec.
-        */
+			# Toleration Settings for master pods
+	# This should be a multi-line string matching the Toleration array
+	# in a PodSpec.
+		*/
 		tolerations: "",
 		/* 
-            # nodeSelector labels for master pod assignment, formatted as a muli-line string.
-    # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-    # Example:
-        */
+			# nodeSelector labels for master pod assignment, formatted as a muli-line string.
+	# ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+	# Example:
+		*/
 		// nodeSelector: 'beta.kubernetes.io/arch: amd64'
 		nodeSelector: 'sw-backend: "true"',
 		/* 
-            # used to assign priority to master pods
-    # ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
-        */
+			# used to assign priority to master pods
+	# ref: https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/
+		*/
 		priorityClassName: "",
 		ingress: {
 			enabled: false,
@@ -203,11 +203,11 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		grpcPort: 18_888,
 		metricsPort: 9327,
 		/* 
-            #  replication type is XYZ:
-    # X number of replica in other data centers
-    # Y number of replica in other racks in the same data center
-    # Z number of replica in other servers in the same rack
-        */
+			#  replication type is XYZ:
+	# X number of replica in other data centers
+	# Y number of replica in other racks in the same data center
+	# Z number of replica in other servers in the same rack
+		*/
 		defaultReplicaPlacement: "000",
 		//   split files larger than the limit, default 32
 		maxMB: undefined,
@@ -240,22 +240,22 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 		ingress: {
 			annotations: {
 				/* 
-                            nginx.ingress.kubernetes.io/auth-type: 'basic'
-            nginx.ingress.kubernetes.io/auth-secret: 'default/ingress-basic-auth-secret'
-            nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - SW-Filer'
-            nginx.ingress.kubernetes.io/service-upstream: 'true'
-            nginx.ingress.kubernetes.io/rewrite-target: /$1
-            nginx.ingress.kubernetes.io/use-regex: 'true'
-            nginx.ingress.kubernetes.io/enable-rewrite-log: 'true'
-            nginx.ingress.kubernetes.io/ssl-redirect: 'false'
-            nginx.ingress.kubernetes.io/force-ssl-redirect: 'false'
-            nginx.ingress.kubernetes.io/configuration-snippet: |
-                sub_filter '<head>' '<head> <base href="/sw-filer/">'; #add base url
-                sub_filter '="/' '="./';                               #make absolute paths to relative
-                sub_filter '=/' '=./';
-                sub_filter '/seaweedfsstatic' './seaweedfsstatic';
-                sub_filter_once off;
-                */
+							nginx.ingress.kubernetes.io/auth-type: 'basic'
+			nginx.ingress.kubernetes.io/auth-secret: 'default/ingress-basic-auth-secret'
+			nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - SW-Filer'
+			nginx.ingress.kubernetes.io/service-upstream: 'true'
+			nginx.ingress.kubernetes.io/rewrite-target: /$1
+			nginx.ingress.kubernetes.io/use-regex: 'true'
+			nginx.ingress.kubernetes.io/enable-rewrite-log: 'true'
+			nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+			nginx.ingress.kubernetes.io/force-ssl-redirect: 'false'
+			nginx.ingress.kubernetes.io/configuration-snippet: |
+				sub_filter '<head>' '<head> <base href="/sw-filer/">'; #add base url
+				sub_filter '="/' '="./';                               #make absolute paths to relative
+				sub_filter '=/' '=./';
+				sub_filter '/seaweedfsstatic' './seaweedfsstatic';
+				sub_filter_once off;
+				*/
 			},
 		},
 		extraEnvironmentVars: {
@@ -264,7 +264,7 @@ const seaweedFsValues: DeepPartial<ISeaweedfsOyelowo> = {
 			WEED_MYSQL_ENABLED: "false",
 			WEED_LEVELDB2_ENABLED: "false",
 			/* with http DELETE, by default the filer would check whether a folder is empty.
-         recursive_delete will delete all sub folders and files, similar to "rm -Rf" */
+		 recursive_delete will delete all sub folders and files, similar to "rm -Rf" */
 			WEED_FILER_OPTIONS_RECURSIVE_DELETE: "false",
 			//   # directories under this folder will be automatically creating a separate bucket
 			WEED_FILER_BUCKETS_FOLDER: "/buckets",

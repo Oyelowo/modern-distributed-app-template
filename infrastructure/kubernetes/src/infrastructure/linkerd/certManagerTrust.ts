@@ -1,4 +1,4 @@
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 
 import { certManagerProvider } from "../cert-manager/settings.js";
 import { LINKERD_IDENTITY_TRUST_ROOTS_SECRET_NAME } from "./certManagerCaIssuer.js";

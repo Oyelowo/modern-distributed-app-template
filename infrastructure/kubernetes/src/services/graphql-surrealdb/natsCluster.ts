@@ -1,4 +1,4 @@
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 import { graphqlSurrealdbSettings } from "./settings.js";
 
 // For example purpose only

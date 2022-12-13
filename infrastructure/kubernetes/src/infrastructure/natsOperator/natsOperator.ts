@@ -1,4 +1,4 @@
-import { INatsOperatorNats } from "../../../generatedHelmChartsTsTypes/natsOperatorNats.js";
+import { INatsOperatorNats } from "../../../generatedCode/helmChartsValuesTypeDefs/natsOperatorNats.js";
 import * as k8s from "@pulumi/kubernetes";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";

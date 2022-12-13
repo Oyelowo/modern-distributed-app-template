@@ -1,4 +1,4 @@
-import { IArgoRolloutsArgo } from "../../../generatedHelmChartsTsTypes/argoRolloutsArgo.js";
+import { IArgoRolloutsArgo } from "../../../generatedCode/helmChartsValuesTypeDefs/argoRolloutsArgo.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { argoRolloutProvider } from "./settings.js";

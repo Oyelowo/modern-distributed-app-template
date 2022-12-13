@@ -1,4 +1,4 @@
-import { IArgoCdBitnami } from "../../../generatedHelmChartsTsTypes/argoCdBitnami.js";
+import { IArgoCdBitnami } from "../../../generatedCode/helmChartsValuesTypeDefs/argoCdBitnami.js";
 import { annotations } from "../ingress/ingressRules.js";
 import * as k8s from "@pulumi/kubernetes";
 import {

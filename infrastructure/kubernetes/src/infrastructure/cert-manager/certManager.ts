@@ -1,4 +1,4 @@
-import { ICertManagerBitnami } from "../../../generatedHelmChartsTsTypes/certManagerBitnami.js";
+import { ICertManagerBitnami } from "../../../generatedCode/helmChartsValuesTypeDefs/certManagerBitnami.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
