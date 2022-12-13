@@ -34,6 +34,11 @@ export const getGeneratedCrdsCodeDir = () => {
 	return path.join(getGeneratedCodeBaseDir(), "crdsTs");
 };
 
+export const getHelmChartTypesDir = () => {
+	const BASE_DIR = getMainBaseDir();
+	return path.join(getGeneratedCodeBaseDir(), "helmChartsTsTypes");
+};
+
 /** Some helm charts may not provide good APIJSON schema typing within their CRDS.
  * In such cases, we can generate the missing schemas and store them in the directory returned by this function.
  * These schemas can then be used to type check declarations for the relevant CRDs

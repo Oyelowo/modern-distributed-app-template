@@ -1,4 +1,3 @@
-
 import type { bitnami } from "../../generatedCrdsTs/index.js";
 import { Namespace } from "./ownTypes.js";
 

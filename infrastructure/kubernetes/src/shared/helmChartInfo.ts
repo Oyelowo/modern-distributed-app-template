@@ -21,13 +21,13 @@ export const chartInfoSchema = z.object({
 	version: z.string(),
 	/** Sometimes, CRDS are not provided as part of the chart
 	 */
-	externalCrds: z.array(z.string()).optional(),
+	externalCrdsLinks: z.array(z.string()).optional(),
 	/**
 	 * // On rare occasions, a chart's CRD may not include a properly typed OpenAPI schema
 	 *  In such cases, this property can be used to store the json schema itself, which can be obtained from elsewhere
 	 * e.g: https://github.com/argoproj/argo-events/blob/master/manifests/base/crds/argoproj.io_eventbus.yaml
 	 */
-	missingCrdSchemas: z.array(z.string()).optional(),
+	missingCrdJsonSchemasLinks: z.array(z.string()).optional(),
 	/**
 	 * On rare occasions, rendering the CRD may be problematic, so this option allows skipping it.
 	 */
@@ -64,7 +64,7 @@ export const helmChartsInfo = {
 			nack: {
 				chart: "nack",
 				version: "0.17.4",
-				externalCrds: [
+				externalCrdsLinks: [
 					"https://raw.githubusercontent.com/nats-io/nack/v0.6.0/deploy/crds.yml",
 				],
 			},
@@ -92,7 +92,7 @@ export const helmChartsInfo = {
 			tikvOperator: {
 				chart: "tidb-operator",
 				version: "v1.3.8",
-				externalCrds: [
+				externalCrdsLinks: [
 					"https://raw.githubusercontent.com/pingcap/tidb-operator/v1.3.8/manifests/crd.yaml",
 				],
 			},
@@ -203,7 +203,7 @@ export const helmChartsInfo = {
 			argoWorkflows: {
 				chart: "argo-workflows",
 				version: "0.20.1",
-				externalCrds: [
+				externalCrdsLinks: [
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_workflows.yaml",
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_clusterworkflowtemplates.yaml",
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_cronworkflows.yaml",
@@ -217,7 +217,7 @@ export const helmChartsInfo = {
 			argoEvent: {
 				chart: "argo-events",
 				version: "2.0.6",
-				missingCrdSchemas: [
+				missingCrdJsonSchemasLinks: [
 					"https://raw.githubusercontent.com/argoproj/argo-events/master/api/jsonschema/schema.json",
 				],
 			},
