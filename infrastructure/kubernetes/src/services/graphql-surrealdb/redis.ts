@@ -1,4 +1,4 @@
-import { IRedisBitnami } from "../../../generatedHelmChartsTsTypes/redisBitnami.js";
+import { IRedisBitnami } from "../../../generatedCode/helmChartsValues/redisBitnami.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

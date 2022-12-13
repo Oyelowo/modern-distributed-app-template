@@ -1,4 +1,4 @@
-import { IThanosBitnami } from "../../../generatedHelmChartsTsTypes/thanosBitnami.js";
+import { IThanosBitnami } from "../../../generatedCode/helmChartsValues/thanosBitnami.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { monitoringProvider } from "./settings.js";

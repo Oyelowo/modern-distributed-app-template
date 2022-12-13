@@ -1,4 +1,4 @@
-import { ICertManagerTrustJetstack } from "../../../generatedHelmChartsTsTypes/certManagerTrustJetstack.js";
+import { ICertManagerTrustJetstack } from "../../../generatedCode/helmChartsValues/certManagerTrustJetstack.js";
 import { certManagerProvider } from "./settings.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import * as k8s from "@pulumi/kubernetes";

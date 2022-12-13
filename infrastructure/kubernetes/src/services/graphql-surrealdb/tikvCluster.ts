@@ -1,4 +1,4 @@
-import pc from "../../../generatedCrdsTs/index.js";
+import pc from "../../../generatedCode/crds/index.js";
 import { graphqlSurrealdb } from "./app.js";
 import { graphqlSurrealdbSettings } from "./settings.js";
 
@@ -50,36 +50,36 @@ export const surrealDBTikvCluster = new pc.pingcap.v1alpha1.TidbCluster(
 );
 
 /* const tidbClusterAutoScaler = new pc.pingcap.v1alpha1.TidbClusterAutoScaler('er', {
-    apiVersion: 'pingcap.com/v1alpha1',
-    kind: "TidbClusterAutoScaler",
-    metadata: {
-        name: "",
-        namespace: "",
-        clusterName: "",
-        deletionGracePeriodSeconds: 120,
-    },
-    spec: {
-        cluster: {
-            clusterDomain: "",
-            name: "",
-            namespace: ""
-        },
-        tikv: {
-            external: {
-                maxReplicas: 5,
-                endpoint: {
-                    host: "",
-                    path: "",
-                    port: 2000
-                },
+	apiVersion: 'pingcap.com/v1alpha1',
+	kind: "TidbClusterAutoScaler",
+	metadata: {
+		name: "",
+		namespace: "",
+		clusterName: "",
+		deletionGracePeriodSeconds: 120,
+	},
+	spec: {
+		cluster: {
+			clusterDomain: "",
+			name: "",
+			namespace: ""
+		},
+		tikv: {
+			external: {
+				maxReplicas: 5,
+				endpoint: {
+					host: "",
+					path: "",
+					port: 2000
+				},
 
-            },
-            scaleOutIntervalSeconds: 4,
-            scaleInIntervalSeconds: 5,
-        },
-        // tidb: {}
+			},
+			scaleOutIntervalSeconds: 4,
+			scaleInIntervalSeconds: 5,
+		},
+		// tidb: {}
 
-    },
+	},
 
 });
  */

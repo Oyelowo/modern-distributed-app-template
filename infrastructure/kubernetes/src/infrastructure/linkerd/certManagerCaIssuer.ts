@@ -1,4 +1,4 @@
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 import { namespaces } from "../../types/ownTypes.js";
 import { certManagerProvider } from "../cert-manager/settings.js";
 

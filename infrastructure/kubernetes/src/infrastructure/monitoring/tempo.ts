@@ -1,4 +1,4 @@
-import { ITempoDistributedGrafana } from "../../../generatedHelmChartsTsTypes/tempoDistributedGrafana.js";
+import { ITempoDistributedGrafana } from "../../../generatedCode/helmChartsValues/tempoDistributedGrafana.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { monitoringProvider } from "./settings.js";

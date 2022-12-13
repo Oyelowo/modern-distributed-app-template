@@ -1,4 +1,4 @@
-import { IVeleroVmwareTanzu } from "../../../generatedHelmChartsTsTypes/veleroVmwareTanzu.js";
+import { IVeleroVmwareTanzu } from "../../../generatedCode/helmChartsValues/veleroVmwareTanzu.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { veleroProvider } from "./settings.js";

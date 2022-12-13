@@ -3,7 +3,7 @@ automatically handled in the cert-manager cluster issuer.
 This is left as a reference in case you want to create
 arbitrary certificate for any other object using cert-manager
 */
-// import crds from '../../../../generatedCrdsTs/index.js';
+// import crds from '../../../../generatedCode/crds/index.js';
 // import { CLUSTER_ISSUER_NAME } from '../cert-manager/clusterIssuer.js';
 // import { namespaces } from '../namespaces/index.js';
 // import { nginxIngressProvider } from './settings.js';

@@ -1,4 +1,4 @@
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 import { getEnvVarsForKubeManifests } from "../../shared/environmentVariablesForManifests.js";
 import { INGRESS_CLASSNAME_NGINX } from "../../types/nginxConfigurations.js";
 

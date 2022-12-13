@@ -1,4 +1,4 @@
-import { IGiteaGitea } from "../../../generatedHelmChartsTsTypes/giteaGitea.js";
+import { IGiteaGitea } from "../../../generatedCode/helmChartsValues/giteaGitea.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { argoEventProvider } from "./settings.js";

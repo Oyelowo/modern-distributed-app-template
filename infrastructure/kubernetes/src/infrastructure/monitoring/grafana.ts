@@ -1,4 +1,4 @@
-import { IGrafanaGrafana } from "../../../generatedHelmChartsTsTypes/grafanaGrafana.js";
+import { IGrafanaGrafana } from "../../../generatedCode/helmChartsValues/grafanaGrafana.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { monitoringProvider } from "./settings.js";

@@ -1,4 +1,4 @@
-import type { bitnami } from "../../generatedCrdsTs/index.js";
+import type { bitnami } from "../../generatedCode/crds/index.js";
 import { Namespace } from "./ownTypes.js";
 
 type SealedSecretArguments = NonNullable<bitnami.v1alpha1.SealedSecretArgs>;

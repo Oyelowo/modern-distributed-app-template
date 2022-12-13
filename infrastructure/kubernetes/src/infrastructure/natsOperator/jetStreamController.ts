@@ -1,4 +1,4 @@
-import { INackNats } from "../../../generatedHelmChartsTsTypes/nackNats.js";
+import { INackNats } from "../../../generatedCode/helmChartsValues/nackNats.js";
 import * as k8s from "@pulumi/kubernetes";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";

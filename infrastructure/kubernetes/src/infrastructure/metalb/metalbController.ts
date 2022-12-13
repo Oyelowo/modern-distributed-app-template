@@ -1,4 +1,4 @@
-import { IMetallbBitnami } from "../../../generatedHelmChartsTsTypes/metallbBitnami.js";
+import { IMetallbBitnami } from "../../../generatedCode/helmChartsValues/metallbBitnami.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

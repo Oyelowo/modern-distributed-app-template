@@ -1,4 +1,4 @@
-import crds from "../../../generatedCrdsTs/index.js";
+import crds from "../../../generatedCode/crds/index.js";
 import { namespaces } from "../../types/ownTypes.js";
 import { LINKERD_TRUST_ANCHOR_CERTIFICATE_NAME } from "./certManagerCaIssuer.js";
 import { linkerdProvider } from "./settings.js";
