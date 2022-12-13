@@ -20,31 +20,17 @@ export const chartInfoSchema = z.object({
 	chart: z.string(),
 	version: z.string(),
 	/** Sometimes, CRDS are not provided as part of the chart
-	*/
-	externalCrds: z.array(z.string()).optional(),
-	/**  
-	 * Oyelowo 13 December, 2022
-	 * On very rare occasions e.g for argo-events, some chart crds may
-	 * not include a properly typed OPenAPI Schema in their CRD.
-	 * e.g: https://github.com/argoproj/argo-events/blob/master/manifests/base/crds/argoproj.io_eventbus.yaml
-	 * Whereas, the type for the CRDs arguments are defined separately here:
-	 * https://github.com/argoproj/argo-events/blob/master/api/jsonschema/schema.json
-	 * This manually adds it to a folder where it can be used to typecheck
-	 * declarations. I have only had this with Argo-Events Custom Resources such as
-	 * EventBus, EventSource and Sensor
 	 */
-	crdJsonSchemas: z.array(z.string()).optional(),
+	externalCrds: z.array(z.string()).optional(),
 	/**
-	* Oyelowo: 13th December, 2022: On rare occasions, you don;t want to render CRD because it's problematic.
-	* The only place I have encountered this issue is with linkerd-control-plane
-	* where I got the below error and we don't want to really provide the identity issuer
-	* certificaate since that has being automated to be created at runtime with cert-manager.
-	* However, we don't need to render the CRD there since that is already done by the linkerd-crds chart.
-	* Problem rendering helm chart to kubernetes resources. 
-	* Check that the chart name, repo and version are correct. Error: , 
-	* Error: execution error at (linkerd-control-plane/templates/identity.yaml:19:21): 
-	* Please provide the identity issuer certificate
-	*/
+	 * // On rare occasions, a chart's CRD may not include a properly typed OpenAPI schema
+	 *  In such cases, this property can be used to store the json schema itself, which can be obtained from elsewhere
+	 * e.g: https://github.com/argoproj/argo-events/blob/master/manifests/base/crds/argoproj.io_eventbus.yaml
+	 */
+	missingCrdSchemas: z.array(z.string()).optional(),
+	/**
+	 * On rare occasions, rendering the CRD may be problematic, so this option allows skipping it.
+	 */
 	skipCrdRender: z.boolean().optional(),
 });
 
@@ -231,8 +217,8 @@ export const helmChartsInfo = {
 			argoEvent: {
 				chart: "argo-events",
 				version: "2.0.6",
-				crdJsonSchemas: [
-					"https://github.com/argoproj/argo-events/blob/master/api/jsonschema/schema.json",
+				missingCrdSchemas: [
+					"https://raw.githubusercontent.com/argoproj/argo-events/master/api/jsonschema/schema.json",
 				],
 			},
 			argoRollout: {

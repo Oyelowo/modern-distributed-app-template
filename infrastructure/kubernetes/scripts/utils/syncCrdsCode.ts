@@ -3,7 +3,10 @@ import {
 	chartInfoSchema,
 	helmChartsInfo,
 } from "../../src/shared/helmChartInfo.js";
-import { getGeneratedCrdsCodeDir } from "../../src/shared/directoriesManager.js";
+import {
+	getGeneratedMissingCrdSchemasDir,
+	getGeneratedCrdsCodeDir,
+} from "../../src/shared/directoriesManager.js";
 import chalk from "chalk";
 import yaml from "yaml";
 import fs from "node:fs";
@@ -12,6 +15,7 @@ import waitOn from "wait-on";
 
 export async function syncCrdsCode() {
 	const outDir = getGeneratedCrdsCodeDir();
+	const missingCrdSchemasDir = getGeneratedMissingCrdSchemasDir();
 	sh.rm("-rf", outDir);
 	const crdPathName = "@oyelowo-crds";
 	const tempCrdDir = path.join(outDir, crdPathName);
@@ -21,6 +25,7 @@ export async function syncCrdsCode() {
 
 	const crdFilesPaths: string[] = [];
 
+	// Generate CRDS typescript code from helm chart info
 	Object.entries(helmChartsInfo).forEach(([repoName, { repo, charts }]) => {
 		sh.exec(`helm repo add ${repoName} ${repo}`, { silent: true });
 		sh.exec(`helm repo update ${repoName}`, { silent: true });
@@ -31,18 +36,24 @@ export async function syncCrdsCode() {
 				version,
 				externalCrds = [],
 				skipCrdRender,
-				crdJsonSchemas= []
+				missingCrdSchemas: fallbackJsonSchemas = [],
 			} = chartInfoSchema.parse(chartInfo);
+
 			if (skipCrdRender === true) {
 				return;
 			}
+
+			fallbackJsonSchemas.forEach((schema) => {
+				const outPath = path.join(missingCrdSchemasDir, `${chart}.ts`);
+				sh.exec(`curl  ${schema} | pnpm json2ts  -o ${outPath} --format=false`);
+			});
 
 			sh.echo(
 				chalk.blueBright(
 					`Syncing Crds from helm chart ${repoName}/${chart} version=${version} from ${repo}`,
 				),
 			);
-			const cmdRenderTemplateResources = `helm template ${chart}  --include-crds ${repoName}/${chart} --version ${version} --set installCRDs=true --set externalCA=true`;
+			const cmdRenderTemplateResources = `helm template ${chart}  --include-crds ${repoName}/${chart} --version ${version} --set installCRDs=true`;
 			const renderedTemlate = sh.exec(cmdRenderTemplateResources, {
 				silent: true,
 			});

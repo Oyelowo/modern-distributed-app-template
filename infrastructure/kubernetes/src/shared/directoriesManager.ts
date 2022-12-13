@@ -31,6 +31,16 @@ export const getGeneratedCrdsCodeDir = () => {
 	return path.join(baseDir, "generatedCrdsTs");
 };
 
+/** Some helm charts may not provide good APIJSON schema typing within their CRDS.
+ * In such cases, we can generate the missing schemas and store them in the directory returned by this function.
+ * These schemas can then be used to type check declarations for the relevant CRDs
+ *  (e.g. EventBus, EventSource, and Sensor for argo-events).
+ */
+export const getGeneratedMissingCrdSchemasDir = () => {
+	const baseDir = getMainBaseDir();
+	return path.join(baseDir, "generatedMissingCrdSchemas");
+};
+
 type ResourcePaths =
 	| `${TInfrastructure}/${InfrastructureName}`
 	| `${TServices}/${ServiceName}`;
