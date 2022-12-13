@@ -213,6 +213,9 @@ export const helmChartsInfo = {
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_workflowtasksets.yaml",
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_workflowtemplates.yaml",
 				],
+				missingCrdJsonSchemasLinks: [
+					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
+				],
 			},
 			argoEvent: {
 				chart: "argo-events",

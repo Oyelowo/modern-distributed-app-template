@@ -3,8 +3,9 @@
 import {
 	Sensor,
 	Workflow,
+	WorkflowTemplate,
 } from "../../../generatedCode/crds/argoproj/v1alpha1/index.js";
-import { WorkflowTemplate } from "../../../generatedCode/crds/argoproj/v1alpha1/workflowTemplate.js";
+// import { WorkflowTemplate } from "../../../generatedCode/crds/argoproj/v1alpha1/workflowTemplate.js";
 
 new WorkflowTemplate("ere", { apiVersion: "argoproj.io/v1alpha1", spec: {} });
 new Sensor("", {
@@ -19,13 +20,10 @@ new Workflow("", {
 		templates: [
 			{
 				dag: {
-					tasks: [
-						{
-							hooks: [],
-							// hooks: [{ expression: "" }]
-						},
-					],
+					// tasks: [{// hooks},],
+					tasks: [],
 				},
+				steps: [],
 			},
 		],
 	},

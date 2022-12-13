@@ -201,10 +201,9 @@ function syncHelmChartTypeDefs({
 	);
 	const valuesJson = yaml.parse(valuesYaml, { strict: false }) ?? {};
 
-	const tsDec = (JsonToTS as any)
-		.default(valuesJson, {
-			rootName: `I${_.upperFirst(typeFileName)}`,
-		})
+	const tsDec = JsonToTS.default(valuesJson, {
+		rootName: `I${_.upperFirst(typeFileName)}`,
+	})
 		.map((typeInterface, i) =>
 			i === 0 ? `export ${typeInterface}` : typeInterface,
 		)
