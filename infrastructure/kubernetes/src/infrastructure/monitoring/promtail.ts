@@ -1,4 +1,4 @@
-import { IPromtailGrafana } from "../../../generatedCode/helmChartsValues/promtailGrafana.js";
+import { IPromtailGrafana } from "../../../generatedCode/helmChartsValuesTypeDefs/promtailGrafana.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { monitoringProvider } from "./settings.js";

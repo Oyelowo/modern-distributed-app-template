@@ -1,4 +1,4 @@
-import { ILinkerdCrdsLinkerd } from "../../../generatedCode/helmChartsValues/linkerdCrdsLinkerd.js";
+import { ILinkerdCrdsLinkerd } from "../../../generatedCode/helmChartsValuesTypeDefs/linkerdCrdsLinkerd.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { DeepPartial } from "../../types/ownTypes.js";

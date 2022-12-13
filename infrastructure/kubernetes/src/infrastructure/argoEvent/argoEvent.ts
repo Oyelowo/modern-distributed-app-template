@@ -1,4 +1,4 @@
-import { IArgoEventsArgo } from "../../../generatedCode/helmChartsValues/argoEventsArgo.js";
+import { IArgoEventsArgo } from "../../../generatedCode/helmChartsValuesTypeDefs/argoEventsArgo.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { argoEventProvider } from "./settings.js";

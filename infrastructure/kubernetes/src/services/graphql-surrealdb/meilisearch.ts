@@ -1,4 +1,4 @@
-import { IMeilisearchMeilisearch } from "../../../generatedCode/helmChartsValues/meilisearchMeilisearch.js";
+import { IMeilisearchMeilisearch } from "../../../generatedCode/helmChartsValuesTypeDefs/meilisearchMeilisearch.js";
 import * as k8s from "@pulumi/kubernetes";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";

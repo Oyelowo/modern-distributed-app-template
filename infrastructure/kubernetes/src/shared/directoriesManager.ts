@@ -36,7 +36,7 @@ export const getGeneratedCrdsCodeDir = () => {
 
 export const getHelmChartTypesDir = () => {
 	const BASE_DIR = getMainBaseDir();
-	return path.join(getGeneratedCodeBaseDir(), "helmChartsValues");
+	return path.join(getGeneratedCodeBaseDir(), "helmChartsValuesTypeDefs");
 };
 
 /** Some helm charts may not provide good APIJSON schema typing within their CRDS.

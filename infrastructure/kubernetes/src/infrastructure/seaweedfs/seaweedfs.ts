@@ -1,4 +1,4 @@
-import { ISeaweedfsOyelowo } from "../../../generatedCode/helmChartsValues/seaweedfsOyelowo.js";
+import { ISeaweedfsOyelowo } from "../../../generatedCode/helmChartsValuesTypeDefs/seaweedfsOyelowo.js";
 import * as k8s from "@pulumi/kubernetes";
 import { namespaces } from "../../types/ownTypes.js";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";

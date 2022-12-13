@@ -1,4 +1,4 @@
-import { IHarborHarbor } from "../../../generatedCode/helmChartsValues/harborHarbor.js";
+import { IHarborHarbor } from "../../../generatedCode/helmChartsValuesTypeDefs/harborHarbor.js";
 import * as k8s from "@pulumi/kubernetes";
 import { DeepPartial, namespaces } from "../../types/ownTypes.js";
 import { harborProvider } from "./settings.js";

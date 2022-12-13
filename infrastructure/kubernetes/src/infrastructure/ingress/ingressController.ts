@@ -1,6 +1,6 @@
 import { DeepPartial } from "../../types/ownTypes.js";
 import { ingressControllerPorts } from "./hosts.js";
-import { INginxIngressControllerBitnami } from "../../../generatedCode/helmChartsValues/nginxIngressControllerBitnami.js";
+import { INginxIngressControllerBitnami } from "../../../generatedCode/helmChartsValuesTypeDefs/nginxIngressControllerBitnami.js";
 import * as k8s from "@pulumi/kubernetes";
 import { helmChartsInfo } from "../../shared/helmChartInfo.js";
 import { nginxIngressProvider } from "./settings.js";
