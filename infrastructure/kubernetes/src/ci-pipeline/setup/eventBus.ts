@@ -1,12 +1,12 @@
 import {
 	EventBus,
-} from "../../generatedCode/crds/argoproj/v1alpha1/eventBus.js";
-import { IoArgoprojEventbusV1Alpha1 } from "../../generatedCode/crdsMissingSchemas/argo-events.js";
-import { CPU, Memory, namespaces } from "../types/ownTypes.js";
+} from "../../../generatedCode/crds/argoproj/v1alpha1/eventBus.js";
+import { IoArgoprojEventbusV1Alpha1 } from "../../../generatedCode/crdsMissingSchemas/argo-events.js";
+import { CPU, Memory, namespaces } from "../../types/ownTypes.js";
 
 // Necessary for events to work
 export const eventBustCiPipeline = new EventBus("ci-pipeline", {
-    apiVersion: 'argoproj.io/v1alpha1',
+	apiVersion: 'argoproj.io/v1alpha1',
 	metadata: {
 		name: "default",
 		// TODO: Check if this should be moved to argo event folder or

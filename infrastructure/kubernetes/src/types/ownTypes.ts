@@ -98,6 +98,7 @@ export const namespaceSchema = z.union([
 	z.literal("applications"),
 	z.literal("argocd"),
 	z.literal("argo-event"),
+	z.literal("ci-pipeline"),
 	z.literal("argo-workflows"),
 	z.literal("argo-rollout"),
 	z.literal("cert-manager"),
@@ -127,6 +128,7 @@ export const namespaces: Record<CamelCase<Namespace>, Namespace> = {
 	argoRollout: "argo-rollout",
 	certManager: "cert-manager",
 	linkerd: "linkerd",
+	ciPipeline: "ci-pipeline",
 	linkerdViz: "linkerd-viz",
 	default: "default",
 	// Default namespace that comes with the deployment
