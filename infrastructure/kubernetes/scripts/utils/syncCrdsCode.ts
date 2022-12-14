@@ -4,7 +4,7 @@ import {
 	helmChartsInfo,
 } from "../../src/shared/helmChartInfo.js";
 import {
-	getGeneratedMissingCrdSchemasDir,
+	getGeneratedCrdsMissingSchemasDir,
 	getGeneratedCrdsCodeDir,
 	getHelmChartTypesDir,
 } from "../../src/shared/directoriesManager.js";
@@ -19,15 +19,19 @@ import _ from "lodash";
 export async function syncCrdsCode() {
 	const helmChartsDir = getHelmChartTypesDir();
 	const crdTsDir = getGeneratedCrdsCodeDir();
-	const missingCrdSchemasDir = getGeneratedMissingCrdSchemasDir();
+	const crdsMissingSchemasDir = getGeneratedCrdsMissingSchemasDir();
 	sh.rm("-rf", crdTsDir);
 	sh.rm("-rf", helmChartsDir);
-	sh.rm("-rf", missingCrdSchemasDir);
+	sh.rm("-rf", crdsMissingSchemasDir);
 	const crdPathName = "@oyelowo-crds";
 	const tempCrdDir = path.join(crdTsDir, crdPathName);
+	// We create a temporary directory to first render the Crds in Yaml format
+	// So, that we can do e.g some sanitization, and the use crd2Pulumi
+	// to point to the rendered yaml to generate typescript code
+	// after which the temporary direcotory is deleted
 	sh.exec(`mkdir -p '${tempCrdDir}'`, { silent: true });
 	sh.exec(`mkdir -p ${helmChartsDir}`);
-	sh.exec(`mkdir -p ${missingCrdSchemasDir}`);
+	sh.exec(`mkdir -p ${crdsMissingSchemasDir}`);
 
 	sh.exec(`echo '${crdPathName}' >> ${path.join(crdTsDir, ".gitignore")}`);
 
@@ -44,7 +48,7 @@ export async function syncCrdsCode() {
 				version,
 				externalCrdsLinks = [],
 				skipCrdRender,
-				missingCrdJsonSchemasLinks = [],
+				crdsMissingSchemasLinks = [],
 			} = chartInfoSchema.parse(chartInfo);
 
 			if (skipCrdRender === true) {
@@ -58,9 +62,9 @@ export async function syncCrdsCode() {
 				helmChartsDir,
 			});
 
-			missingCrdJsonSchemasLinks.forEach((schemaPath) => {
+			crdsMissingSchemasLinks.forEach((schemaPath) => {
 				// Sync missing json schema
-				const outPath = path.join(missingCrdSchemasDir, `${chart}.ts`);
+				const outPath = path.join(crdsMissingSchemasDir, `${chart}.ts`);
 				sh.exec(
 					`curl  ${schemaPath} | pnpm json2ts  -o ${outPath} --format=false`,
 				);

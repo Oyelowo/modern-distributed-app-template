@@ -27,7 +27,7 @@ export const chartInfoSchema = z.object({
 	 *  In such cases, this property can be used to store the json schema itself, which can be obtained from elsewhere
 	 * e.g: https://github.com/argoproj/argo-events/blob/master/manifests/base/crds/argoproj.io_eventbus.yaml
 	 */
-	missingCrdJsonSchemasLinks: z.array(z.string()).optional(),
+	crdsMissingSchemasLinks: z.array(z.string()).optional(),
 	/**
 	 * On rare occasions, rendering the CRD may be problematic, so this option allows skipping it.
 	 */
@@ -213,14 +213,14 @@ export const helmChartsInfo = {
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_workflowtasksets.yaml",
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/manifests/base/crds/full/argoproj.io_workflowtemplates.yaml",
 				],
-				missingCrdJsonSchemasLinks: [
+				crdsMissingSchemasLinks: [
 					"https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json",
 				],
 			},
 			argoEvent: {
 				chart: "argo-events",
 				version: "2.0.6",
-				missingCrdJsonSchemasLinks: [
+				crdsMissingSchemasLinks: [
 					"https://raw.githubusercontent.com/argoproj/argo-events/master/api/jsonschema/schema.json",
 				],
 			},

@@ -22,19 +22,19 @@ export const getMainBaseDir = () => {
 	return process.cwd();
 };
 
-export const getGeneratedCodeBaseDir = () => {
+export const getGeneratedCodeBaseDir = (): string => {
 	return path.join(getMainBaseDir(), "generatedCode");
 };
 
-export const getPlainSecretsConfigFilesBaseDir = () => {
+export const getPlainSecretsConfigFilesBaseDir = (): string => {
 	return path.join(getMainBaseDir(), ".secrets");
 };
 
-export const getGeneratedCrdsCodeDir = () => {
+export const getGeneratedCrdsCodeDir = (): string => {
 	return path.join(getGeneratedCodeBaseDir(), "crds");
 };
 
-export const getHelmChartTypesDir = () => {
+export const getHelmChartTypesDir = (): string => {
 	const BASE_DIR = getMainBaseDir();
 	return path.join(getGeneratedCodeBaseDir(), "helmChartsValuesTypeDefs");
 };
@@ -44,8 +44,8 @@ export const getHelmChartTypesDir = () => {
  * These schemas can then be used to type check declarations for the relevant CRDs
  *  (e.g. EventBus, EventSource, and Sensor for argo-events).
  */
-export const getGeneratedMissingCrdSchemasDir = () => {
-	return path.join(getGeneratedCodeBaseDir(), "missingCrdSchemas");
+export const getGeneratedCrdsMissingSchemasDir = (): string => {
+	return path.join(getGeneratedCodeBaseDir(), "crdsMissingSchemas");
 };
 
 type ResourcePaths =
