@@ -5,26 +5,25 @@ import { IoArgoprojWorkflowV1Alpha1 } from "../../../generatedCode/crdsMissingSc
 import { namespaces } from "../../types/ownTypes.js";
 import { ciPipelineServiceAccount } from "./accessControl.js";
 
-
 const ciPipelineGithubSensor = new Sensor("github", {
-    metadata: {
-        name: "github",
-        namespace: namespaces.ciPipeline,
-
-    },
-    spec: {
-        eventBusName: 'default',
-        template: {
-            // TODO: Check if using .get method works
-            serviceAccountName: ciPipelineServiceAccount.metadata.name.get(),
-        },
-        dependencies: [{
-            name: 'test-dep',
-            eventSourceName: 'github',
-            eventName: 'modern-app',
-            transform: {
-                //   This is a luascript. You use double hyphen(--) to comment in lua
-                script: `
+	metadata: {
+		name: "github",
+		namespace: namespaces.ciPipeline,
+	},
+	spec: {
+		eventBusName: "default",
+		template: {
+			// TODO: Check if using .get method works
+			serviceAccountName: ciPipelineServiceAccount.metadata.name.get(),
+		},
+		dependencies: [
+			{
+				name: "test-dep",
+				eventSourceName: "github",
+				eventName: "modern-app",
+				transform: {
+					//   This is a luascript. You use double hyphen(--) to comment in lua
+					script: `
                     function printf(...) print(string.format(...)) end
 
                     local function array_contains_value (tab, val)
@@ -112,87 +111,87 @@ const ciPipelineGithubSensor = new Sensor("github", {
                     printf("Mapped info Ending=======")
 
                     return event
-                `
-            },
-            filters: {
-                //   This is a luascript. You use double hyphen(--) to comment in lua
-                script: `
+                `,
+				},
+				filters: {
+					//   This is a luascript. You use double hyphen(--) to comment in lua
+					script: `
                     print("Filtering!!!")
                     
                     return event.body_custom.should_trigger_workflow
-                `
-            }
-        }],
-        triggers: [
-            {
-                template: {
-                    name: 'argo-workflow-trigger',
-                    argoWorkflow: {
-                        operation: 'submit',
-                        args: [
-                            // '--node-field-selector',
-                            // 'phase=abc'
-                        ],
-                        source: {
-                            resource: {
-                                apiVersion: 'argoproj.io/v1alpha1',
-                                kind: 'Workflow',
-                                metadata: {
-                                    generateName: 'github-ci-pipe-',
-                                    namespace: namespaces.ciPipeline
-                                },
-                                spec: {
-                                    serviceAccountName: "sa-typescript-ci-workflow",
-                                    arguments: {
-                                        parameters: [
-                                            {
-                                                name: 'pr-title'
-                                            },
-                                            {
-                                                name: 'pr-number'
-                                            },
-                                            {
-                                                name: 'short-sha'
-                                            },
-                                        ]
-                                    },
-                                    workflowTemplateRef: {
-                                        // TODO: update accordingly. There should also be for rust, kubernetes etc.
-                                        name: 'typescript-ci'
-                                    }
-                                }
-
-                            } satisfies WorkflowArgs,
-                        },
-                        parameters: [
-                            {
-                                src: {
-                                    dependencyName: 'test-dep',
-                                    dataKey: 'body_custom.clone_url',
-                                },
-                                dest: 'spec.arguments.parameters.0.value'
-                            },
-                            {
-                                src: {
-                                    dependencyName: 'test-dep',
-                                    dataKey: 'body_custom.branch',
-                                },
-                                dest: 'spec.arguments.parameters.1.value'
-                            },
-                            {
-                                src: {
-                                    dependencyName: 'test-dep',
-                                    dataKey: "{{ .Input.body_custom.commit_sha | substr 0 7 }}",
-                                },
-                                dest: 'spec.arguments.parameters.2.value'
-                            },
-                        ],
-                    },
-                },
-                retryStrategy: {
-                    steps: 3
-                }
-            }
-        ],
-    },
-} satisfies IoArgoprojSensorV1Alpha1)
+                `,
+				},
+			},
+		],
+		triggers: [
+			{
+				template: {
+					name: "argo-workflow-trigger",
+					argoWorkflow: {
+						operation: "submit",
+						args: [
+							// '--node-field-selector',
+							// 'phase=abc'
+						],
+						source: {
+							resource: {
+								apiVersion: "argoproj.io/v1alpha1",
+								kind: "Workflow",
+								metadata: {
+									generateName: "github-ci-pipe-",
+									namespace: namespaces.ciPipeline,
+								},
+								spec: {
+									serviceAccountName: "sa-typescript-ci-workflow",
+									arguments: {
+										parameters: [
+											{
+												name: "pr-title",
+											},
+											{
+												name: "pr-number",
+											},
+											{
+												name: "short-sha",
+											},
+										],
+									},
+									workflowTemplateRef: {
+										// TODO: update accordingly. There should also be for rust, kubernetes etc.
+										name: "typescript-ci",
+									},
+								},
+							} satisfies WorkflowArgs,
+						},
+						parameters: [
+							{
+								src: {
+									dependencyName: "test-dep",
+									dataKey: "body_custom.clone_url",
+								},
+								dest: "spec.arguments.parameters.0.value",
+							},
+							{
+								src: {
+									dependencyName: "test-dep",
+									dataKey: "body_custom.branch",
+								},
+								dest: "spec.arguments.parameters.1.value",
+							},
+							{
+								src: {
+									dependencyName: "test-dep",
+									dataKey: "{{ .Input.body_custom.commit_sha | substr 0 7 }}",
+								},
+								dest: "spec.arguments.parameters.2.value",
+							},
+						],
+					},
+				},
+				retryStrategy: {
+					steps: 3,
+				},
+			},
+		],
+	},
+} satisfies IoArgoprojSensorV1Alpha1);

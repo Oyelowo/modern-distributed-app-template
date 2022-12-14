@@ -333,54 +333,6 @@ spec:
                      
                 workflowTemplateRef:        
                     name: typescript-ci
-  # triggers:
-  #   - template:
-  #       name: github-workflow-trigger
-  #       k8s:
-  #         operation: create
-  #         source:
-  #           resource:
-  #             apiVersion: argoproj.io/v1alpha1
-  #             kind: Workflow
-  #             metadata:
-  #               # name: github-
-  #               generateName: github-ci-pipe-
-  #               # namespace: argo-events
-  #               namespace: ci
-  #             spec:
-  #               serviceAccountName: sa-typescript-ci-workflow
-  #               workflowTemplateRef:        
-                    # name: typescript-ci
-
-                # entrypoint: whalesay
-                # arguments:
-                #   parameters:
-                #     - name: pr-title
-                #     - name: pr-number
-                #     - name: short-sha
-                # templates:
-                #   - name: whalesay
-                #     inputs:
-                #       parameters:
-                #         - name: pr-title
-                #         - name: pr-number
-                #         - name: short-sha
-                #     container:
-                #       # image: docker/whalesay:latest
-                #       # command: [cowsay]
-                #       image: node:19.0.0
-                #       # workingDir: /app/src/typescript
-                #       command: [sh, -euxc]
-                #       # args: ["{{inputs.parameters.pr-title}}"]
-                #       args:
-                #           - |
-                #             echo "TITLE starts"
-                #             echo "{{inputs.parameters.pr-title}}"
-                #             echo "TITLE ends"
-
-                      # args:
-                      #   |
-                      #   echo
           parameters:
             - src:
                 dependencyName: test-dep
