@@ -5,7 +5,7 @@ import { IoArgoprojWorkflowV1Alpha1 } from "../../../generatedCode/crdsMissingSc
 import { namespaces } from "../../types/ownTypes.js";
 import { ciPipelineServiceAccount } from "./accessControl.js";
 
-const ciPipelineGithubSensor = new Sensor("github", {
+export const ciPipelineGithubSensor = new Sensor("github", {
 	metadata: {
 		name: "github",
 		namespace: namespaces.ciPipeline,
