@@ -8,6 +8,18 @@ const argoEventValues: DeepPartial<IArgoEventsArgo> = {
 	crds: {
 		install: true,
 	},
+	global: {
+		image: {
+			// repository: ""
+			// tag: ""
+		},
+		securityContext: {
+			// runAsNonRoot: true,
+			// runAsUser: 9731,
+			// runAsGroup: 9731,
+			// fsGroup: 9731,
+		},
+	},
 };
 
 const {
