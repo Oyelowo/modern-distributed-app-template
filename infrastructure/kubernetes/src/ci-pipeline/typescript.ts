@@ -128,10 +128,6 @@ const typescriptCiWorkflowTemplate = new WorkflowTemplate("", {
 								//     name: ''
 								// }
 							},
-
-							s3: {
-								key: "github.com/{{workflow.parameters.branch}}/typescript/TURBO_CACHE.tgz",
-							},
 						},
 					],
 				},
