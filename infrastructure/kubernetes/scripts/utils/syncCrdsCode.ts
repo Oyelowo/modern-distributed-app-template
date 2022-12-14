@@ -201,6 +201,7 @@ function syncHelmChartTypeDefs({
 	);
 	const valuesJson = yaml.parse(valuesYaml, { strict: false }) ?? {};
 
+	// @ts-ignore
 	const tsDec = JsonToTS.default(valuesJson, {
 		rootName: `I${_.upperFirst(typeFileName)}`,
 	})
