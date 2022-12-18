@@ -37,17 +37,17 @@ pub(crate) fn get_struct_types_and_fields(
 }
 
 pub(crate) fn create_fields_types_and_values(
-    f: &MyFieldReceiver,
+    field_receiver: &MyFieldReceiver,
     struct_level_casing: Option<CaseString>,
-    i: usize,
+    index: usize,
     store: &mut FieldStore,
 ) {
     let field_case = struct_level_casing.unwrap_or(CaseString::None);
-    let field_ident = get_field_identifier(f, i);
+    let field_ident = get_field_identifier(field_receiver, index);
     let field_identifier_string = ::std::string::ToString::to_string(&field_ident);
 
     let FieldFormat { serialized, ident } =
-        get_field_str_and_ident(&field_case, &field_identifier_string, f);
+        get_field_str_and_ident(&field_case, &field_identifier_string, field_receiver);
 
     // struct type used to type the function
     store
