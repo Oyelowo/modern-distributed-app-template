@@ -15,7 +15,7 @@ impl PasswordPlain {
     pub fn new(pass: impl Into<String>) -> Self {
         Self(Secret::new(pass.into()))
     }
-    
+
     pub fn to_bytes(&self) -> &[u8] {
         self.0.expose_secret().as_bytes()
     }
