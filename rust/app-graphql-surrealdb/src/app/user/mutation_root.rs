@@ -247,7 +247,7 @@ impl UserMutationRoot {
             .content(user)
             .await
             .unwrap();
-   
+
         dbg!("after user");
         dbg!(&user);
 

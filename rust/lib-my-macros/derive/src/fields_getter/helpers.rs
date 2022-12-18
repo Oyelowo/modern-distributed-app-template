@@ -19,43 +19,26 @@ pub(crate) fn get_struct_types_and_fields(
     fields: Vec<&MyFieldReceiver>,
     struct_level_casing: Option<CaseString>,
 ) -> FieldStore {
-    let mut field_store = FieldStore::default();
+    fields.into_iter().enumerate().fold(
+        FieldStore::default(),
+        |mut store, (index, field_receiver)| {
+            let field_case = struct_level_casing.unwrap_or(CaseString::None);
+            let field_ident = get_field_identifier(field_receiver, index);
+            let field_identifier_string = ::std::string::ToString::to_string(&field_ident);
 
-    fields
-        .into_iter()
-        .enumerate()
-        .for_each(|(index, field_receiver)| {
-            create_fields_types_and_values(
-                field_receiver,
-                struct_level_casing,
-                index,
-                &mut field_store,
-            );
-        });
+            let FieldFormat { serialized, ident } =
+                get_field_str_and_ident(&field_case, &field_identifier_string, field_receiver);
 
-    field_store
-}
+            // struct type used to type the function
+            store
+                .struct_ty_fields
+                .push(quote!(pub #ident: &'static str));
 
-pub(crate) fn create_fields_types_and_values(
-    f: &MyFieldReceiver,
-    struct_level_casing: Option<CaseString>,
-    i: usize,
-    store: &mut FieldStore,
-) {
-    let field_case = struct_level_casing.unwrap_or(CaseString::None);
-    let field_ident = get_field_identifier(f, i);
-    let field_identifier_string = ::std::string::ToString::to_string(&field_ident);
-
-    let FieldFormat { serialized, ident } =
-        get_field_str_and_ident(&field_case, &field_identifier_string, f);
-
-    // struct type used to type the function
-    store
-        .struct_ty_fields
-        .push(quote!(pub #ident: &'static str));
-
-    // struct values themselves
-    store.struct_values_fields.push(quote!(#ident: #serialized));
+            // struct values themselves
+            store.struct_values_fields.push(quote!(#ident: #serialized));
+            store
+        },
+    )
 }
 
 pub(crate) struct FieldFormat {

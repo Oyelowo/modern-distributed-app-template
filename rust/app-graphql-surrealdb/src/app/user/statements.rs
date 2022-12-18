@@ -80,5 +80,5 @@ fn lowo() {
     let foo = 1;
     let bar = 2;
     let s = my_format!(foo $foo bar $bar);
-    println!("{}", s); // prints "foo 1 bar 2"
+    println!("{s}"); // prints "foo 1 bar 2"
 }

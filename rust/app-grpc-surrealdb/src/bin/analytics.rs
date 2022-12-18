@@ -22,7 +22,7 @@ async fn main() -> Result<()> {
         .await?
         .into_inner();
 
-    println!("\n CREATE NEW USER EVENT={:?}", response_create);
+    println!("\n CREATE NEW USER EVENT={response_create:?}");
 
     //////////////////////////////////////////////////////////////
 
@@ -33,7 +33,7 @@ async fn main() -> Result<()> {
         .await?
         .into_inner();
 
-    println!("\nRESPONSE ALL USER APP EVENT={:?}", response_get_all);
+    println!("\nRESPONSE ALL USER APP EVENT={response_get_all:?}");
 
     ////////////////////////////////////////////////////////////
 

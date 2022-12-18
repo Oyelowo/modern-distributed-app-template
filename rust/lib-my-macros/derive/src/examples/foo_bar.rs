@@ -82,7 +82,7 @@ impl ToTokens for MyInputReceiver {
         //     }
         // };
 
-        let kk = format!("My level is: {:?}", level);
+        let kk = format!("My level is: {level:?}");
 
         tokens.extend(quote! {
             impl MyTrait for #my_struct {
