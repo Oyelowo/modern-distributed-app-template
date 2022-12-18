@@ -1,10 +1,10 @@
 use std::{collections::BTreeMap, time::Duration};
 
 use chrono::{DateTime, Utc};
-use poem::{error::InternalServerError, session::SessionStorage, web::Json, Result};
+use poem::{error::InternalServerError, session::SessionStorage, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use surrealdb_rs::{embedded, embedded::Db, Surreal};
+use surrealdb_rs::{embedded::Db, Surreal};
 
 /// A configuration for database.
 pub struct DatabaseConfig {

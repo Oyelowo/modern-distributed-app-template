@@ -1,6 +1,6 @@
 use chrono::{DateTime, Duration, Utc};
 use poem::{
-    session::{CookieConfig, RedisStorage, ServerSession, Session},
+    session::{CookieConfig, RedisStorage, ServerSession},
     web::cookie::{CookieKey, SameSite},
 };
 use redis::aio::ConnectionManager;
@@ -69,12 +69,12 @@ pub mod session_helpers {
         //         .repeat(256)
         //         .as_bytes(),
         // );
-        let cookie_config = CookieConfig::private(cookie_key)
+        
+        CookieConfig::private(cookie_key)
             .name("oyelowo-session")
             .secure(matches!(environment, Production | Staging | Development))
             .same_site(SameSite::Lax)
-            .max_age(Some(get_session_duration_std()));
-        cookie_config
+            .max_age(Some(get_session_duration_std()))
     }
 
     pub fn get_session_duration() -> Duration {

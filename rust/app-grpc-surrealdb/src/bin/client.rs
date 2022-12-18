@@ -14,7 +14,7 @@ async fn main() -> Result<()> {
         name: "Tonic".into(),
     });
 
-    let response = client.say_hello(request).await?;
+    let _response = client.say_hello(request).await?;
 
     Ok(())
 }

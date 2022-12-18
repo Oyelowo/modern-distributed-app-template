@@ -9,7 +9,7 @@ fn main() -> Result<()> {
         .build_client(true)
         // .out_dir("./grpc_generated_proto")
         .compile(files, dirs)
-        .unwrap_or_else(|e| panic!("protobuf compilation failed: {}", e));
+        .unwrap_or_else(|e| panic!("protobuf compilation failed: {e}"));
 
     Ok(())
 }

@@ -18,7 +18,7 @@ impl Fan for MyMusicLovers {
         &self,
         request: Request<CreateMusicLoverRequest>,
     ) -> Result<Response<MusicLoverReply>, Status> {
-        println!("create_music_lover: {:?}", request);
+        println!("create_music_lover: {request:?}");
         let all_music_lovers = get_fake_music_lovers();
         let CreateMusicLoverRequest {
             name,
@@ -37,7 +37,7 @@ impl Fan for MyMusicLovers {
         &self,
         request: Request<GetMusicLoverRequest>,
     ) -> Result<Response<MusicLoverReply>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got a request: {request:?}");
 
         let all_music_lovers = get_fake_music_lovers();
         let fallback_music_lover = MusicLoverReply {
@@ -59,7 +59,7 @@ impl Fan for MyMusicLovers {
         &self,
         request: Request<Empty>,
     ) -> Result<Response<GetAllMusicLoversReply>, Status> {
-        println!("Got a request: {:?}", request);
+        println!("Got a request: {request:?}");
         let all_music_lovers = get_fake_music_lovers();
 
         let reply = GetAllMusicLoversReply {

@@ -13,14 +13,14 @@ async fn main() -> Result<()> {
 
     let response = client.get_music_lover(request).await?;
 
-    println!("RESPONSE MUSIC LOVER={:?}", response);
+    println!("RESPONSE MUSIC LOVER={response:?}");
 
     //////////////////////////////////////////////////////////////
     let request = tonic::Request::new(Empty {});
 
     let response = client.get_all_music_lovers(request).await?;
 
-    println!("\nRESPONSE ALL MUSIC LOVER={:?}", response);
+    println!("\nRESPONSE ALL MUSIC LOVER={response:?}");
 
     //////////////////////////////////////////////////////////////
 
@@ -31,7 +31,7 @@ async fn main() -> Result<()> {
 
     let response = client.create_music_lover(request).await?;
 
-    println!("\n CREATE NEW MUSIC LOVER={:?}", response);
+    println!("\n CREATE NEW MUSIC LOVER={response:?}");
 
     Ok(())
 }
