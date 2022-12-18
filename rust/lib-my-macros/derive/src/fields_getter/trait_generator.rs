@@ -105,12 +105,12 @@ impl ToTokens for FieldsGetterOpts {
             struct_values_fields,
         } = get_struct_types_and_fields(fields, struct_level_casing);
 
-        let struct_name = syn::Ident::new(
+        let fields_getter_struct_name = syn::Ident::new(
             format!("{my_struct}Fields").as_str(),
             ::proc_macro2::Span::call_site(),
         );
 
-        let struct_type = quote!(pub struct #struct_name {
+        let struct_type = quote!(pub struct #fields_getter_struct_name {
            #( #struct_ty_fields), *
         });
 
@@ -118,9 +118,9 @@ impl ToTokens for FieldsGetterOpts {
         tokens.extend(quote! {
             #struct_type
             impl #crate_name::FieldsGetter for #my_struct {
-                type Fields = #struct_name;
+                type Fields = #fields_getter_struct_name;
                 fn get_fields_serialized() -> Self::Fields {
-                    #struct_name {
+                    #fields_getter_struct_name {
                         #( #struct_values_fields), *
                     }
                 }
