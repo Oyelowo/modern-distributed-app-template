@@ -1,26 +1,37 @@
 #![allow(dead_code)]
 
 use darling::{ast, util};
-use proc_macro2::{Span, TokenStream, TokenTree};
-use proc_macro_crate::{crate_name, FoundCrate};
+use proc_macro2::TokenStream;
 use quote::quote;
 
-use syn::{self, Ident};
+use syn;
 
 use super::{trait_generator::MyFieldReceiver, types::CaseString};
 
+/// A struct that contains the serialized and identifier versions of a field.
 pub(crate) struct FieldIdentifier {
+    /// The serialized version of the field name.
     serialized: ::std::string::String,
+    /// The identifier version of the field name.
     ident: syn::Ident,
 }
 
+/// A struct that contains the `struct_ty_fields` and `struct_values_fields` vectors.
 #[derive(Debug, Default)]
 pub(crate) struct FieldsNames {
+    /// A vector of token streams representing the struct type fields.
     pub struct_ty_fields: Vec<TokenStream>,
+    /// A vector of token streams representing the struct value fields.
     pub struct_values_fields: Vec<TokenStream>,
 }
 
 impl FieldsNames {
+    /// Constructs a `FieldsNames` struct from the given `data` and `struct_level_casing`.
+    ///
+    /// # Arguments
+    ///
+    /// * `data` - An `ast::Data` struct containing field receivers.
+    /// * `struct_level_casing` - An optional `CaseString` representing the casing to be applied to the fields.
     pub(crate) fn from_receiver_data(
         data: &ast::Data<util::Ignored, MyFieldReceiver>,
         struct_level_casing: Option<CaseString>,
@@ -33,7 +44,7 @@ impl FieldsNames {
 
         fields.into_iter().enumerate().fold(
             Self::default(),
-            |mut store, (index, field_receiver)| {
+            |mut field_names_accumulator, (index, field_receiver)| {
                 let field_case = struct_level_casing.unwrap_or(CaseString::None);
                 let field_ident = Self::get_field_identifier(field_receiver, index);
                 let field_identifier_string = ::std::string::ToString::to_string(&field_ident);
@@ -43,38 +54,42 @@ impl FieldsNames {
                         .get_field_ident(&field_receiver);
 
                 // struct type used to type the function
-                store
+                field_names_accumulator
                     .struct_ty_fields
                     .push(quote!(pub #ident: &'static str));
 
                 // struct values themselves
-                store.struct_values_fields.push(quote!(#ident: #serialized));
-                store
+                field_names_accumulator
+                    .struct_values_fields
+                    .push(quote!(#ident: #serialized));
+                field_names_accumulator
             },
         )
     }
 
+    /// Returns a `TokenStream` representing the field identifier for the given `field_receiver` and `index`.
+    ///
+    /// If the `field_receiver` has a named field, it returns a `TokenStream` representing that name.
+    /// Otherwise, it returns a `TokenStream` representing the `index`.
+    ///
+    /// This function works with both named and indexed fields.
+    ///
+    /// # Arguments
+    ///
+    /// * `field_receiver` - A field receiver containing field information.
+    /// * `index` - The index of the field.
     fn get_field_identifier(field_receiver: &MyFieldReceiver, index: usize) -> TokenStream {
         // This works with named or indexed fields, so we'll fall back to the index so we can
         // write the output as a key-value pair.
-        // the index is really not necessary since our models will nevel be tuple struct
-        // but leaving it as is anyways
+        // The index is rarely necessary since our models are usually not tuple struct
+        // but leaving it as is anyways.
         field_receiver.ident.as_ref().map_or_else(
             || {
-                let i = syn::Index::from(index);
-                quote!(#i)
+                let index_ident = ::syn::Index::from(index);
+                quote!(#index_ident)
             },
-            |v| quote!(#v),
+            |name_ident| quote!(#name_ident),
         )
-    }
-
-    fn get_fields(data: &ast::Data<util::Ignored, MyFieldReceiver>) -> Vec<&MyFieldReceiver> {
-        let fields = data
-            .as_ref()
-            .take_struct()
-            .expect("Should never be enum")
-            .fields;
-        fields
     }
 }
 
@@ -92,26 +107,29 @@ impl FieldCaseMapper {
         }
     }
 
+    /// Converts the field identifier string to the specified case.
+    /// Also, if rename_all attribute is not specified to change the casing,
+    /// it defaults to exactly how the fields are written out.
+    /// However, Field rename attribute overrides this.
     pub(crate) fn to_case_string(&self) -> ::std::string::String {
-        let convert = |case: convert_case::Case| {
+        let convert_field_identifier = |case: convert_case::Case| {
             convert_case::Converter::new()
                 .to_case(case)
                 .convert(&self.field_identifier_string)
         };
 
         match self.field_case {
-            // Also, if rename_all attribute is not specified to change the casing,
-            // it defaults to exactly how the fields are written out.
-            // However, Field rename attribute overrides this
             CaseString::None => self.field_identifier_string.to_string(),
-            CaseString::Camel => convert(convert_case::Case::Camel),
-            CaseString::Snake => convert(convert_case::Case::Snake),
-            CaseString::Pascal => convert(convert_case::Case::Pascal),
-            CaseString::Lower => convert(convert_case::Case::Lower),
-            CaseString::Upper => convert(convert_case::Case::Upper),
-            CaseString::ScreamingSnake => convert(convert_case::Case::ScreamingSnake),
-            CaseString::Kebab => convert(convert_case::Case::Kebab),
-            CaseString::ScreamingKebab => convert(convert_case::Case::UpperKebab),
+            CaseString::Camel => convert_field_identifier(convert_case::Case::Camel),
+            CaseString::Snake => convert_field_identifier(convert_case::Case::Snake),
+            CaseString::Pascal => convert_field_identifier(convert_case::Case::Pascal),
+            CaseString::Lower => convert_field_identifier(convert_case::Case::Lower),
+            CaseString::Upper => convert_field_identifier(convert_case::Case::Upper),
+            CaseString::ScreamingSnake => {
+                convert_field_identifier(convert_case::Case::ScreamingSnake)
+            }
+            CaseString::Kebab => convert_field_identifier(convert_case::Case::Kebab),
+            CaseString::ScreamingKebab => convert_field_identifier(convert_case::Case::UpperKebab),
         }
     }
 
