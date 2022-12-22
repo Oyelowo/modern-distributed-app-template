@@ -1,9 +1,6 @@
 #![allow(dead_code)]
 
-use super::{
-    helpers::{get_crate_name, get_fields, get_struct_types_and_fields, FieldStore},
-    types::CaseString,
-};
+use super::{get_crate_name, parser::FieldsNames, types::CaseString};
 use darling::{ast, util, FromDeriveInput, FromField, FromMeta, ToTokens};
 use proc_macro2::TokenStream;
 use quote::quote;
@@ -98,12 +95,10 @@ impl ToTokens for FieldsGetterOpts {
             CaseString::from_str(case.serialize.as_str()).expect("Invalid casing, The options are")
         });
 
-        let fields = get_fields(data);
-
-        let FieldStore {
+        let FieldsNames {
             struct_ty_fields,
             struct_values_fields,
-        } = get_struct_types_and_fields(fields, struct_level_casing);
+        } = FieldsNames::from_receiver_data(data, struct_level_casing);
 
         let fields_getter_struct_name = syn::Ident::new(
             format!("{my_struct}Fields").as_str(),
