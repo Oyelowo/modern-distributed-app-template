@@ -1,3 +1,6 @@
+#![allow(incomplete_features)]
+#![feature(generic_const_exprs)]
+
 use super::error;
 use super::guards::{AuthGuard, RoleGuard};
 use super::model_oauth;
@@ -14,7 +17,7 @@ use lib_common::{authentication::TypedSession, error_handling::ApiHttpStatus};
 use lib_my_macros::FieldsGetter;
 use serde::{Deserialize, Serialize};
 use surreal_simple_querybuilder::model;
-use surreal_simple_querybuilder::prelude::Foreign;
+use surreal_simple_querybuilder::prelude::*;
 use surrealdb::Datastore;
 use surrealdb_rs::embedded::Db;
 use surrealdb_rs::Surreal;
@@ -33,6 +36,77 @@ scalar!(
     "A UUID type provided by the SurrealDB database"
 );
 
+// #[derive(Debug, SimpleObject, Serialize, Deserialize)]
+// struct Account {
+//   id: Option<String>,
+//   handle: String,
+//   password: String,
+//   email: String,
+
+//   projects: ForeignVec<Project>,
+// }
+// mod accountr {
+//   use super::project::schema::Project;
+//   use surreal_simple_querybuilder::prelude::*;
+
+//   model!(Account {
+//     pub handle,
+//     pub password,
+//     pub email,
+//     friend<Account>,
+
+//     ->manage->Project as managed_projects,
+//   });
+// }
+
+
+#[derive(Debug, Serialize, Deserialize, Default)]
+struct Project {
+  id: Option<String>,
+  name: String,
+
+//   releases: ForeignVec<Release>,
+}
+
+// mod project {
+// //   use super::accountr::schema::Account;
+// //   use super::release::schema::Release;
+//   use surreal_simple_querybuilder::prelude::*;
+
+//   model!(Project {
+//     pub name,
+
+//     // pub ->has->Release as releases,
+//     pub <-manage<-Account as authors
+//   });
+// }
+// impl IntoKey<String> for Project {
+//   fn into_key<E>(&self) -> Result<String, E>
+//   where
+//     E: serde::ser::Error,
+//   {
+//     self
+//       .id
+//       .as_ref()
+//       .map(String::clone)
+//       .ok_or(serde::ser::Error::custom("The project has no ID"))
+//   }
+// }
+
+
+
+// impl IntoKey<String> for Account {
+//   fn into_key<E>(&self) -> Result<String, E>
+//   where
+//     E: serde::ser::Error,
+//   {
+//     self
+//       .id
+//       .as_ref()
+//       .map(String::clone)
+//       .ok_or(serde::ser::Error::custom("The account has no ID"))
+//   }
+// }
 #[derive(
     SimpleObject,
     InputObject,

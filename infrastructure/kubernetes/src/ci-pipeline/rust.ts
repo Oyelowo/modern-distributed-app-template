@@ -28,6 +28,7 @@ const rustCiWorkflowTemplate = new WorkflowTemplate("", {
 		},
 		entrypoint: "main",
 		onExit: "cache-store",
+		hooks:{},
 		volumeClaimTemplates: [
 			{
 				metadata: {

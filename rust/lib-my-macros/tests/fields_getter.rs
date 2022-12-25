@@ -135,18 +135,24 @@ fn can_properly_handle_kebab_case_and_respect_field_attribute() {
 
         #[field_getter(rename = "anotherName")]
         pub first_name: u8,
+
+        #[field_getter(rename(serialize = "lastNameRenamed"))]
+        pub last_name: u8,
     }
 
     let ConsumerFields {
         name_of_me,
         ageCount,
         anotherName,
+        lastNameRenamed,
     } = Consumer::get_fields_serialized();
 
     assert_eq!(name_of_me, "name-of-me");
     assert_eq!(ageCount, "age-count");
     assert_eq!(anotherName, "anotherName");
+    assert_eq!(lastNameRenamed, "lastNameRenamed");
 }
+
 
 #[test]
 fn handles_nested_field_getter_rename_attributes_mixed_with_serde_field_attributes() {

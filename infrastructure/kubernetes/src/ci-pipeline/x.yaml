@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: github-pull-request-update-
+spec:
+  entrypoint: github-pull-request-update
+  templates:
+  - name: github-pull-request-update
+    steps:
+    - - name: check-out-code
+        template: check-out-code
+      - name: build
+        template: build
+        when: "{{steps.check-out-code.outputs.success}}"
+      - name: test
+        template: test
+        when: "{{steps.build.outputs.success}}"
+      - name: deploy
+        template: deploy
+        when: "{{steps.test.outputs.success}}"
+  - name: check-out-code
+    script:
+      image: alpine/git
+      command: [git, clone, "{{workflow.parameters.repository_url}}"]
+      env:
+        - name: GIT_COMMIT
+          value: "{{workflow.parameters.commit}}"
+    outputs:
+      success: "{{steps.check-out-code.exit_code}} == 0"
+  - name: build
+    script:
+      image: alpine/gcc
+      command: [gcc, "main.c"]
+    outputs:
+      success: "{{steps.build.exit_code}} == 0"
+  - name: test
+    script:
+      image: alpine/python
+      command: [python, "-m", "unittest"]
+    outputs:
+      success: "{{steps.test.exit_code}} ==
