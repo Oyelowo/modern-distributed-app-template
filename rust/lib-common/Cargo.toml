@@ -1,4 +1,4 @@
-[project]
+[package]
 name = "lib-common"
 version = { workspace = true }
 edition = { workspace = true }
