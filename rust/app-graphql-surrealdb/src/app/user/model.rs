@@ -59,13 +59,11 @@ scalar!(
 //   });
 // }
 
-
 #[derive(Debug, Serialize, Deserialize, Default)]
 struct Project {
-  id: Option<String>,
-  name: String,
-
-//   releases: ForeignVec<Release>,
+    id: Option<String>,
+    name: String,
+    //   releases: ForeignVec<Release>,
 }
 
 // mod project {
@@ -92,8 +90,6 @@ struct Project {
 //       .ok_or(serde::ser::Error::custom("The project has no ID"))
 //   }
 // }
-
-
 
 // impl IntoKey<String> for Account {
 //   fn into_key<E>(&self) -> Result<String, E>
@@ -372,10 +368,10 @@ impl User {
                 };
 
                 let operator_for_has_previous = match (first, last) {
-                    (Some(first), Some(_)) => Operator::LESS_THAN,
-                    (Some(first), None) => Operator::LESS_THAN,
-                    (None, Some(last)) => Operator::GREATER_THAN,
-                    (None, None) => Operator::LESS_THAN,
+                    (Some(first), Some(_)) => Operator::LessThan,
+                    (Some(first), None) => Operator::LessThan,
+                    (None, Some(last)) => Operator::GreaterThan,
+                    (None, None) => Operator::LessThan,
                 };
 
                 let start_cursor = posts.first();

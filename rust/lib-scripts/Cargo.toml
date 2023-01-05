@@ -1,4 +1,4 @@
-[project]
+[package]
 name = "lib-scripts"
 version = { workspace = true }
 edition = { workspace = true }

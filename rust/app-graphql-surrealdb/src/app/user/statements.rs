@@ -30,17 +30,17 @@ pub enum Logicals {
 }
 
 pub enum Operator {
-    GREATER_THAN,
-    LESS_THAN,
-    EQUAL_TO,
+    GreaterThan,
+    LessThan,
+    EqualTo,
 }
 
 impl Operator {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Self::GREATER_THAN => write!(f, ">"),
-            Self::LESS_THAN => write!(f, "<"),
-            Self::EQUAL_TO => write!(f, "="),
+            Self::GreaterThan => write!(f, ">"),
+            Self::LessThan => write!(f, "<"),
+            Self::EqualTo => write!(f, "="),
         }
     }
 }
