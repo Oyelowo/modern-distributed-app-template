@@ -1,18 +1,12 @@
-
-
 use anyhow::Context;
 use backoff::ExponentialBackoff;
 
 use lib_common::middleware;
 
-use lib_common::{
-    configurations::{
-        application::{Environment},
-    },
-};
+use lib_common::configurations::application::Environment;
 
-use app_graphql_surrealdb::{
-    utils::graphql::{graphql_handler, graphql_handler_ws, graphql_playground, setup_graphql},
+use app_graphql_surrealdb::utils::graphql::{
+    graphql_handler, graphql_handler_ws, graphql_playground, setup_graphql,
 };
 use backoff::future::retry;
 
