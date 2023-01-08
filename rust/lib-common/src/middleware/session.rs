@@ -69,7 +69,7 @@ pub mod session_helpers {
         //         .repeat(256)
         //         .as_bytes(),
         // );
-        
+
         CookieConfig::private(cookie_key)
             .name("oyelowo-session")
             .secure(matches!(environment, Production | Staging | Development))

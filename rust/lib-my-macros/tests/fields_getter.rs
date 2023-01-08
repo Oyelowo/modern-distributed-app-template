@@ -153,7 +153,6 @@ fn can_properly_handle_kebab_case_and_respect_field_attribute() {
     assert_eq!(lastNameRenamed, "lastNameRenamed");
 }
 
-
 #[test]
 fn handles_nested_field_getter_rename_attributes_mixed_with_serde_field_attributes() {
     #[derive(FieldsGetter, Serialize, Deserialize)]
