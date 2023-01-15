@@ -13,7 +13,6 @@ documentation = { workspace = true }
 lib-common = { workspace = true }
 lib-my-macros = { workspace = true }
 surrealdb = { workspace = true }
-surrealdb-rs = { workspace = true }
 tonic = { workspace = true }
 # tonic = { workspace = true }
 log = { workspace = true }
