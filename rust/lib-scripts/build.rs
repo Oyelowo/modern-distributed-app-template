@@ -9,7 +9,7 @@ fn main() {
     let ts_path = "../../typescript/lib-graphql/generated/schema.graphql";
     std::fs::remove_file(ts_path).expect("Problem removing file");
     println!("cargo:rerun-if-changed={ts_path}");
-    generate_schema(ts_path.to_strin());
+    generate_schema(ts_path);
 }
 
 pub fn generate_schema(path: impl AsRef<Path>) {
