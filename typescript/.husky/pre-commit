@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# #!/usr/bin/env sh
+# . "$(dirname -- "$0")/_/husky.sh"
 
-# (cd rust && make check)
-(cd typescript && make sync && make format)
+# # (cd rust && make check)
+# (cd typescript && make sync && make format)
