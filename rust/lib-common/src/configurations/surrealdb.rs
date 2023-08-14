@@ -5,7 +5,7 @@ use surrealdb::Datastore;
 
 #[derive(Deserialize, Debug, Clone)]
 #[serde(rename_all = "lowercase")]
-pub struct SurrealdbConfigs {
+pub struct SurrealConfigs {
     pub namespace: String,
     pub database: String,
     pub username: String,
@@ -23,13 +23,13 @@ fn default_require_ssl() -> Option<bool> {
     Some(false)
 }
 
-impl Default for SurrealdbConfigs {
+impl Default for SurrealConfigs {
     fn default() -> Self {
         get_env_vars_by_prefix("SURREALDB_")
     }
 }
 
-impl SurrealdbConfigs {
+impl SurrealConfigs {
     pub fn get_database(self) -> anyhow::Result<Datastore> {
         // let ds = Datastore::new("tikv://127.0.0.1:8000").await?;
         todo!()

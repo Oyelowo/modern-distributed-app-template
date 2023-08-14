@@ -8,7 +8,7 @@ use poem::{
     EndpointExt, Route, Server,
 };
 use rand::{thread_rng, Rng};
-use surrealdb_rs::{embedded::Db, storage::Mem, Surreal};
+use surreal_rs::{embedded::Db, storage::Mem, Surreal};
 // pub mod app;
 
 #[handler]
@@ -20,8 +20,8 @@ async fn count(session: &Session) -> String {
     let random_number: i32 = rng.gen();
     let count =
         session
-            .get::<app::user::UuidSurrealdb>("count")
-            .unwrap_or(app::user::UuidSurrealdb(
+            .get::<app::user::UuidSurreal>("count")
+            .unwrap_or(app::user::UuidSurreal(
                 format!("lowox rand::random().to_string(), {}", rng.gen::<i32>()),
             ));
     session.set("count",  format!("lowox rand::random().to_string(), {}", rng.gen::<i32>()));
@@ -41,7 +41,7 @@ async fn main() -> Result<(), std::io::Error> {
     let db = Surreal::connect::<Mem>(()).await.unwrap();
     db.use_ns("namespace").use_db("database").await.unwrap();
 
-    let session = middleware::get_session_surrealdb(db, &environment)
+    let session = middleware::get_session_surreal_orm(db, &environment)
         .await
         .unwrap();
     if std::env::var_os("RUST_LOG").is_none() {

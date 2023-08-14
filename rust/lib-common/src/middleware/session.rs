@@ -5,10 +5,10 @@ use poem::{
 };
 use redis::aio::ConnectionManager;
 use std::process;
-use surrealdb_rs::{embedded::Db, Surreal};
+use surreal_rs::{embedded::Db, Surreal};
 
 use crate::{
-    authentication::surrealdb_session::{DatabaseConfig, SurrealDbSessionStorage},
+    authentication::surreal_session::{DatabaseConfig, SurrealDbSessionStorage},
     configurations::{
         application::Environment,
         redis::{RedisConfigError, RedisConfigs},
@@ -21,7 +21,7 @@ pub enum SessionSurrealDbError {
     DbConnectionFailure(String),
 }
 
-pub async fn get_session_surrealdb(
+pub async fn get_session_surreal_orm(
     db: Surreal<Db>,
     environment: &Environment,
 ) -> Result<ServerSession<SurrealDbSessionStorage>, SessionSurrealDbError> {

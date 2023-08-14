@@ -11,8 +11,8 @@ use app_graphql_surrealdb::utils::graphql::{
 use backoff::future::retry;
 
 use poem::{get, listener::TcpListener, middleware::Tracing, EndpointExt, Route, Server};
-use surrealdb_rs::storage::Mem;
-use surrealdb_rs::Surreal;
+use surreal_rs::storage::Mem;
+use surreal_rs::Surreal;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -51,7 +51,7 @@ async fn run_app() -> anyhow::Result<()> {
     //     .context("Problem getting redis")?;
 
     // let oauth_client = get_oauth_client(redis.clone());
-    // let database = SurrealdbConfigs::default()
+    // let database = SurrealConfigs::default()
     //     .get_database()
     //     .context("Problem getting database")?;
 
@@ -61,7 +61,7 @@ async fn run_app() -> anyhow::Result<()> {
     // let database = Arc::new(database);
     let schema = setup_graphql(db.clone(), &environment);
 
-    let session = middleware::get_session_surrealdb(db.clone(), &environment)
+    let session = middleware::get_session_surreal_orm(db.clone(), &environment)
         .await
         .context("Problem getting session")?;
 

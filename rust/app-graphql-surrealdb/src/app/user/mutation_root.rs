@@ -91,7 +91,7 @@ impl UserMutationRoot {
         #[graphql(desc = "user data")] user_input: User,
     ) -> Result<User> {
         // ) -> Result<UserCreateResult> {
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let result = user_input.validate();
         let db = ctx.data_unchecked::<Surreal<Db>>();
 
@@ -126,7 +126,7 @@ impl UserMutationRoot {
         ctx: &async_graphql::Context<'_>,
         #[graphql(desc = "sign in credentials")] sign_in_credentials: SignInCredentials,
     ) -> UserSignInResult {
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let db = ctx.data_unchecked::<Surreal<Db>>();
         let session = session_from_ctx!(ctx);
         let maybe_user_id = session.get_current_user_id::<uuid::Uuid>().ok();
@@ -198,7 +198,7 @@ impl UserMutationRoot {
         ctx: &async_graphql::Context<'_>,
         #[graphql(desc = "Sign Up credentials")] user: User,
     ) -> UserSignUpResult {
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let result = user.validate();
         let db = ctx.data_unchecked::<Surreal<Db>>();
         let session = session_from_ctx!(ctx);
