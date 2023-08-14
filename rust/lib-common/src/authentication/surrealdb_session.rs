@@ -4,7 +4,7 @@ use chrono::{DateTime, Utc};
 use poem::{error::InternalServerError, session::SessionStorage, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
-use surrealdb_rs::{embedded::Db, Surreal};
+use surreal_rs::{embedded::Db, Surreal};
 
 /// A configuration for database.
 pub struct DatabaseConfig {
@@ -33,7 +33,7 @@ impl DatabaseConfig {
     }
 }
 
-/// Session storage using Surrealdb.
+/// Session storage using Surreal.
 #[derive(Clone)]
 pub struct SurrealDbSessionStorage {
     db: Surreal<Db>,
@@ -53,7 +53,7 @@ impl SurrealDbSessionStorage {
     }
 
     /// Cleanup expired session fors, session_id.
-    pub async fn cleanup(&self) -> surrealdb_rs::Result<()> {
+    pub async fn cleanup(&self) -> surreal_rs::Result<()> {
         self.db
             .query("DELETE FROM poem WHERE expires_at < time::now()")
             .await?;
@@ -138,7 +138,7 @@ mod tests {
 
     #[tokio::test]
     async fn test() {
-        let db = Surreal::connect::<surrealdb_rs::storage::Mem>(())
+        let db = Surreal::connect::<surreal_rs::storage::Mem>(())
             .await
             .unwrap();
 

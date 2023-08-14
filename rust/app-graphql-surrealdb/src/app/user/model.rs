@@ -19,20 +19,20 @@ use serde::{Deserialize, Serialize};
 use surreal_simple_querybuilder::model;
 use surreal_simple_querybuilder::prelude::*;
 use surrealdb::Datastore;
-use surrealdb_rs::embedded::Db;
-use surrealdb_rs::Surreal;
+use surreal_rs::embedded::Db;
+use surreal_rs::Surreal;
 use typed_builder::TypedBuilder;
 use validator::Validate;
 
 #[derive(Serialize, Deserialize, Debug, Default, Clone)]
-pub struct UuidSurrealdb(pub String);
-// pub struct UuidSurrealdb(pub surrealdb::sql::Uuid);
+pub struct UuidSurreal(pub String);
+// pub struct UuidSurreal(pub surrealdb::sql::Uuid);
 
 // scalar!(Uuid);
 
 scalar!(
-    UuidSurrealdb,
-    "UuidSurrealdb",
+    UuidSurreal,
+    "UuidSurreal",
     "A UUID type provided by the SurrealDB database"
 );
 
@@ -121,7 +121,7 @@ pub struct User {
     // #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default)]
     #[graphql(skip_input)]
-    pub id: UuidSurrealdb,
+    pub id: UuidSurreal,
     // pub id: String,
     // pub id: surrealdb::sql::Uuid,
     // pub id: Option<uuid::Uuid>,
@@ -307,9 +307,9 @@ impl User {
         use super::statements::Ordering::*;
         use super::statements::*;
         // ctx.look_ahead().field("xx").field("yy").field("zz");
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let session = session_from_ctx!(ctx);
-        let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
+        let user_id: UuidSurreal = get_current_user_id_unchecked!(session);
         let db = ctx.data_unchecked::<Surreal<Db>>();
         let q = query(
             after,

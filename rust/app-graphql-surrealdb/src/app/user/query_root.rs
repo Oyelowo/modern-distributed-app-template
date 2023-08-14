@@ -2,7 +2,7 @@ use std::any::Any;
 
 use crate::{get_current_user_id_unchecked, session_from_ctx};
 
-use super::{error, guards::AuthGuard, model::User, UserBy, UserGetResult, UuidSurrealdb};
+use super::{error, guards::AuthGuard, model::User, UserBy, UserGetResult, UuidSurreal};
 
 use async_graphql::*;
 use chrono::{DateTime, Utc};
@@ -31,9 +31,9 @@ impl UserQueryRoot {
     async fn me(&self, ctx: &Context<'_>) -> UserGetResult {
         use surreal_simple_querybuilder::prelude::*;
         use surreal_simple_querybuilder::querybuilder::QueryBuilder;
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let session = session_from_ctx!(ctx);
-        let user_id: UuidSurrealdb = get_current_user_id_unchecked!(session);
+        let user_id: UuidSurreal = get_current_user_id_unchecked!(session);
         let db = ctx.data_unchecked::<Surreal<Db>>();
         dbg!(user_id.clone(), user_id.0.clone());
 
@@ -59,7 +59,7 @@ impl UserQueryRoot {
         //     .filter(user.username.equals("value"))
         //     // .filter("")
         //     .build();
-        let user: surrealdb_rs::Result<User> = db
+        let user: surreal_rs::Result<User> = db
             .query("SELECT * FROM user WHERE id = $user_id")
             .bind("user_id", user_id)
             .await
@@ -92,11 +92,11 @@ impl UserQueryRoot {
     }
 
     // #[graphql(guard = "AuthGuard")]
-    async fn users(&self, ctx: &Context<'_>) -> surrealdb_rs::Result<Vec<User>> {
+    async fn users(&self, ctx: &Context<'_>) -> surreal_rs::Result<Vec<User>> {
         // User::get_current_user(ctx)
         //     .await
         //     .map_err(|_e| ApiHttpStatus::NotFound("User not found".into()).extend())
-        use surrealdb_rs::{embedded, embedded::Db, Surreal};
+        use surreal_rs::{embedded, embedded::Db, Surreal};
         let db = ctx.data_unchecked::<Surreal<Db>>();
 
         // let users= db.select("user").await?;
@@ -124,5 +124,5 @@ impl UserQueryRoot {
 
 #[derive(SimpleObject, InputObject, Serialize, Deserialize)]
 struct Session {
-    user_id: UuidSurrealdb,
+    user_id: UuidSurreal,
 }

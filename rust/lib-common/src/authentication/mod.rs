@@ -1,6 +1,6 @@
 mod password;
 mod session_state;
-pub mod surrealdb_session;
+pub mod surreal_session;
 
 pub use self::{
     password::{
